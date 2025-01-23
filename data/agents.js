@@ -16,7 +16,7 @@ module.exports = [
       { icon: "fa-dribbble", liveLink: "https://www.dribbble.com/" },
     ],
     name: `Jennifer Barton`,
-    type: "Broker",
+    type: "Broker",   
     ratings: 4.5,
     noOfListings: "2",
     office: "134 456 3210",
