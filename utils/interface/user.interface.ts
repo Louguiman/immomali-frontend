@@ -3,7 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  role: "admin" | "property_manager" | "tenant";
+  role: "admin" | "agent" | "tenant";
 }
 
 export interface LoginPayload {
