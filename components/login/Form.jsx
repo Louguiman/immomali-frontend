@@ -1,8 +1,32 @@
+import { useLoginMutation } from "@/features/api/auth.api";
 import Link from "next/link";
 
 const Form = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const [login] = useLoginMutation();
+
+    try {
+      const { accessToken, user } = await login({ email, password }).unwrap();
+      localStorage.setItem("token", accessToken);
+      // Navigate based on user role
+      if (user.role === "admin") {
+        router.push("/my-dashboard");
+      } else if (user.role === "property_manager") {
+        router.push("/manager/properties");
+      } else {
+        router.push("/tenant/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  };
+
   return (
-    <form action="#">
+    <form onSubmit={handleSubmit}>
       <div className="heading text-center">
         <h3>Login to your account</h3>
         <p className="text-center">
