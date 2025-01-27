@@ -2,10 +2,9 @@ import dynamic from "next/dynamic";
 import HomeMain from "@/components/home-9";
 
 export const metadata = {
-  title: 'Home-9 || FindHouse - Real Estate React Template',
-  description:
-    'FindHouse - Real Estate React Template',
-}
+  title: "Home-9 || FindHouse - Real Estate React Template",
+  description: "FindHouse - Real Estate React Template",
+};
 
 const index = () => {
   return (
@@ -15,4 +14,4 @@ const index = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(index), { ssr: false });
+export default dynamic(() => Promise.resolve(index));

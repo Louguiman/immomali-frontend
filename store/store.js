@@ -1,16 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 import agentSlice from "../features/agent/agentSlice";
-import { api } from "../features/api/api";
 import filterSlice from "../features/filter/filterSlice";
 import propertiesSlice from "../features/properties/propertiesSlice";
+import { apiSlice } from "@/features/api/api";
 
 export const store = configureStore({
-    reducer: {
-        [api.reducerPath]: api.reducer,
-        properties: propertiesSlice,
-        filter: filterSlice,
-        agent: agentSlice,
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(api.middleware),
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    properties: propertiesSlice,
+    filter: filterSlice,
+    agent: agentSlice,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
+
+// Typescript
+// export type RootState = ReturnType<typeof store.getState>;
+// export type AppDisp  atch = typeof store.dispatch;

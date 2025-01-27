@@ -1,3 +1,4 @@
+"use client";
 import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
@@ -5,8 +6,11 @@ import TableData from "./TableData";
 import Filtering from "./Filtering";
 import Pagination from "./Pagination";
 import SearchBox from "./SearchBox";
+import { useFetchPropertyByUserIdQuery } from "@/features/api/properties.api";
 
 const index = () => {
+  const { data: properties, isLoading } = useFetchPropertyByUserIdQuery(1);
+
   return (
     <>
       {/* <!-- Main Header Nav --> */}
@@ -79,17 +83,25 @@ const index = () => {
 
                 <div className="col-lg-12">
                   <div className="my_dashboard_review mb40">
-                    <div className="property_table">
-                      <div className="table-responsive mt0">
-                        <TableData />
+                    {isLoading ? (
+                      <div className="property_table">
+                        En cours de chargement
                       </div>
-                      {/* End .table-responsive */}
+                    ) : properties ? (
+                      <div className="property_table">
+                        <div className="table-responsive mt0">
+                          <TableData data={properties} />
+                        </div>
+                        {/* End .table-responsive */}
 
-                      <div className="mbp_pagination">
-                        <Pagination />
+                        <div className="mbp_pagination">
+                          <Pagination />
+                        </div>
+                        {/* End .mbp_pagination */}
                       </div>
-                      {/* End .mbp_pagination */}
-                    </div>
+                    ) : (
+                      <div className="property_table">Aucune donneée</div>
+                    )}
                     {/* End .property_table */}
                   </div>
                 </div>

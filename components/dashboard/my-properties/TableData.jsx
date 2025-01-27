@@ -1,15 +1,9 @@
 import Image from "next/image";
 import properties from "../../../data/properties";
 
-const TableData = () => {
-  let theadConent = [
-    "Listing Title",
-    "Date published",
-    "Status",
-    "View",
-    "Action",
-  ];
-  let tbodyContent = properties?.slice(0, 4)?.map((item) => (
+const TableData = ({ data }) => {
+  let theadConent = ["Nom", "Date de publication", "Statut", "Vues", "Action"];
+  let tbodyContent = properties?.map((item) => (
     <tr key={item.id}>
       <td scope="row">
         <div className="feat_property list favorite_page style2">
@@ -65,7 +59,7 @@ const TableData = () => {
             data-placement="top"
             title="Edit"
           >
-            <a href="#">
+            <a>
               <span className="flaticon-edit"></span>
             </a>
           </li>
@@ -77,7 +71,7 @@ const TableData = () => {
             data-placement="top"
             title="Delete"
           >
-            <a href="#">
+            <a>
               <span className="flaticon-garbage"></span>
             </a>
           </li>
