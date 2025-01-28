@@ -1,25 +1,34 @@
+"use client";
 import { useLoginMutation } from "@/features/api/auth.api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Form = () => {
+  const [login] = useLoginMutation();
+  const router = useRouter();
+
   const handleSubmit = async (e) => {
+    console.log("submit:");
+
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
     const password = formData.get("password");
-    const [login] = useLoginMutation();
+    console.log("submit:", email, password);
 
     try {
-      const { accessToken, user } = await login({ email, password }).unwrap();
-      localStorage.setItem("token", accessToken);
+      const data = await login({ email, password }).unwrap();
+      // localStorage.setItem("token", accessToken);
+      // console.log("log in: ", data);
+
       // Navigate based on user role
-      if (user.role === "admin") {
-        router.push("/my-dashboard");
-      } else if (user.role === "property_manager") {
-        router.push("/manager/properties");
-      } else {
-        router.push("/tenant/dashboard");
-      }
+      // if (user.role === "admin") {
+      //   router.push("/my-dashboard");
+      // } else if (user.role === "property_manager") {
+      //   router.push("/manager/properties");
+      // } else {
+      //   router.push("/tenant/dashboard");
+      // }
     } catch (error) {
       console.error("Login failed", error);
     }
@@ -40,6 +49,7 @@ const Form = () => {
 
       <div className="input-group mb-2 mr-sm-2">
         <input
+          name="email"
           type="text"
           className="form-control"
           required
@@ -55,6 +65,7 @@ const Form = () => {
 
       <div className="input-group form-group">
         <input
+          name="password"
           type="password"
           className="form-control"
           required

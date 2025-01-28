@@ -1,8 +1,3 @@
 {
-  "/(admin)/my-package/page": "app/(admin)/my-package/page.js",
-  "/(admin)/my-profile/page": "app/(admin)/my-profile/page.js",
-  "/(admin)/my-dashboard/page": "app/(admin)/my-dashboard/page.js",
-  "/(admin)/create-listing/page": "app/(admin)/create-listing/page.js",
-  "/(admin)/my-properties/page": "app/(admin)/my-properties/page.js",
-  "/(admin)/my-message/page": "app/(admin)/my-message/page.js"
+  "/(others)/login/page": "app/(others)/login/page.js"
 }
