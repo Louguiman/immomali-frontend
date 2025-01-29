@@ -168,6 +168,36 @@ p {
   color: #484848;
   font-weight: 400;
 }
+.role-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.role-option input[type='radio'] {
+  margin-right: 0.5rem;
+}
+
+.role-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.role-text strong {
+  font-size: 1.1rem;
+}
+
+.role-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
 
 ul,
 ol {
