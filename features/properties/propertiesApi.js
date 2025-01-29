@@ -1,14 +1,18 @@
-import { api } from "../api/api";
+import { apiSlice } from "../api/api";
 
-export const propertiesApi = api.injectEndpoints({
-    endpoints: (builder) => ({
-        getProperties: builder.query({
-            query: () => ({
-                url: "/properties",
-                method: "GET",
-            }),
-        }),
+export const propertiesApi = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getProperties: builder.query({
+      query: ({ page = 1, limit = 10, filters = {} }) => {
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          ...filters,
+        }).toString();
+        return `/properties?${queryParams}`;
+      },
+      keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
+  }),
 });
-
 export const { useGetPropertiesQuery } = propertiesApi;

@@ -1,14 +1,30 @@
-
-'use client'
+"use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
+// import properties from "../../../data/properties";
 import Image from "next/image";
+import { useGetPropertiesQuery } from "@/features/properties/propertiesApi";
 
-const FeaturedItem = () => {
+const FeaturedItem = ({ initialData }) => {
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({});
+  const limit = 10;
+
+  // RTK Query Fetching
+  const { data, isLoading } = useGetPropertiesQuery(
+    { page, limit, filters },
+    { skip: page === 1 }
+  );
+
+  const properties = data || initialData;
+  console.log("properties: ", properties);
+
+  const handleNextPage = () => setPage((prev) => prev + 1);
+  const handlePreviousPage = () => setPage((prev) => (prev > 1 ? prev - 1 : 1));
+
   const {
     keyword,
     location,
