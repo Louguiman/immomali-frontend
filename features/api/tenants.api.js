@@ -1,29 +1,52 @@
 import { User } from "@/utils/interface/user.interface";
 import { apiSlice } from "./api";
 
-export const extendedApiSlice = apiSlice.injectEndpoints({
+export const tenantApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    fetchTenants: builder.query<User[], void>({
-      query: () => "/tenants",
+    /** 🔹 Get All Tenants */
+    getTenants: builder.query({
+      query: ({ search = "" }) => `tenants?search=${search}`,
     }),
-    fetchTenantById: builder.query<User, number>({
-      query: (id) => `/tenants/${id}`,
+
+    /** 🔹 Get Single Tenant Profile */
+    getTenantById: builder.query({
+      query: (tenantId) => `tenants/${tenantId}`,
     }),
-    updateTenantBalance: builder.mutation<
-      void,
-      { tenantId: number; amount: number }
-    >({
-      query: ({ tenantId, amount }) => ({
-        url: `/tenants/${tenantId}/outstanding`,
+
+    /** 🔹 View Tenant's Active Leases */
+    getTenantLeases: builder.query({
+      query: (tenantId) => `tenants/${tenantId}/leases`,
+    }),
+
+    /** 🔹 Extend or Terminate Lease */
+    updateLeaseStatus: builder.mutation({
+      query: ({ leaseId, status }) => ({
+        url: `leases/${leaseId}/status`,
         method: "PATCH",
-        body: { amount },
+        body: { status },
+      }),
+    }),
+
+    /** 🔹 View Payment History */
+    getTenantPayments: builder.query({
+      query: (tenantId) => `tenants/${tenantId}/payments`,
+    }),
+
+    /** 🔹 Send Overdue Payment Reminder */
+    sendPaymentReminder: builder.mutation({
+      query: (tenantId) => ({
+        url: `tenants/${tenantId}/reminders`,
+        method: "POST",
       }),
     }),
   }),
 });
 
 export const {
-  useFetchTenantByIdQuery,
-  useFetchTenantsQuery,
-  useUpdateTenantBalanceMutation,
-} = extendedApiSlice;
+  useGetTenantsQuery,
+  useGetTenantByIdQuery,
+  useGetTenantLeasesQuery,
+  useUpdateLeaseStatusMutation,
+  useGetTenantPaymentsQuery,
+  useSendPaymentReminderMutation,
+} = tenantApi;

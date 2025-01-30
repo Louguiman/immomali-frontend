@@ -10,6 +10,7 @@ import { useFetchPropertyByUserIdQuery } from "@/features/api/properties.api";
 
 const index = () => {
   const { data: properties, isLoading } = useFetchPropertyByUserIdQuery(1);
+  console.log("fetched properties my: ", properties);
 
   return (
     <>

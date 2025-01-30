@@ -2,8 +2,10 @@ import Image from "next/image";
 import properties from "../../../data/properties";
 
 const TableData = ({ data }) => {
+  console.log("table data: ", data);
+
   let theadConent = ["Nom", "Date de publication", "Statut", "Vues", "Action"];
-  let tbodyContent = properties?.map((item) => (
+  let tbodyContent = data?.map((item) => (
     <tr key={item.id}>
       <td scope="row">
         <div className="feat_property list favorite_page style2">

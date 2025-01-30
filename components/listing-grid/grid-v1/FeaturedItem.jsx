@@ -135,20 +135,19 @@ const FeaturedItem = ({ initialData }) => {
 
   // status handler
   let content = properties
-    ?.slice(0, 10)
-    ?.filter(keywordHandler)
-    ?.filter(locationHandler)
-    ?.filter(statusHandler)
-    ?.filter(propertiesHandler)
-    ?.filter(priceHandler)
-    ?.filter(bathroomHandler)
-    ?.filter(bedroomHandler)
-    ?.filter(garagesHandler)
-    ?.filter(builtYearsHandler)
-    ?.filter(areaHandler)
-    ?.filter(advanceHandler)
-    ?.sort(statusTypeHandler)
-    ?.filter(featuredHandler)
+    // ?.filter(keywordHandler)
+    // ?.filter(locationHandler)
+    // ?.filter(statusHandler)
+    // ?.filter(propertiesHandler)
+    // ?.filter(priceHandler)
+    // ?.filter(bathroomHandler)
+    // ?.filter(bedroomHandler)
+    // ?.filter(garagesHandler)
+    // ?.filter(builtYearsHandler)
+    // ?.filter(areaHandler)
+    // ?.filter(advanceHandler)
+    // ?.sort(statusTypeHandler)
+    // ?.filter(featuredHandler)
     .map((item) => (
       <div
         className={`${
@@ -166,7 +165,7 @@ const FeaturedItem = ({ initialData }) => {
               width={342}
               height={220}
               className="img-whp w-100 h-100 cover"
-              src={item.img}
+              src={"/assets/images/property/2.jpg"}
               alt="fp1.jpg"
             />
             <div className="thmb_cntnt">
@@ -216,13 +215,13 @@ const FeaturedItem = ({ initialData }) => {
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val, i) => (
+                {/* {item.itemDetails.map((val, i) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">
                       {val.name}: {val.number}
                     </a>
                   </li>
-                ))}
+                ))} */}
               </ul>
             </div>
             {/* End .tc_content */}
@@ -240,7 +239,7 @@ const FeaturedItem = ({ initialData }) => {
                   </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link href="/agent-v2">{item.posterName}</Link>
+                  <Link href="/agent-v2">{item?.owner?.name || "Inconnu"}</Link>
                 </li>
               </ul>
               <div className="fp_pdate float-end">{item.postedYear}</div>
