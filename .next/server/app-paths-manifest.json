@@ -1,5 +1,0 @@
-{
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js",
-  "/(admin)/tenants/page": "app/(admin)/tenants/page.js"
-}
