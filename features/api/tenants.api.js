@@ -13,7 +13,33 @@ export const tenantApi = apiSlice.injectEndpoints({
       query: (tenantId) => `tenants/${tenantId}`,
     }),
 
-    /** 🔹 View Tenant's Active Leases */
+    /** 🔹 Create a New Tenant */
+    createTenant: builder.mutation({
+      query: (data) => ({
+        url: "tenants",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    /** 🔹 Update Tenant Information */
+    updateTenant: builder.mutation({
+      query: ({ tenantId, data }) => ({
+        url: `tenants/${tenantId}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+
+    /** 🔹 Delete Tenant */
+    deleteTenant: builder.mutation({
+      query: (tenantId) => ({
+        url: `tenants/${tenantId}`,
+        method: "DELETE",
+      }),
+    }),
+
+    /** 🔹 Get Tenant's Active Leases */
     getTenantLeases: builder.query({
       query: (tenantId) => `tenants/${tenantId}/leases`,
     }),
@@ -27,7 +53,7 @@ export const tenantApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    /** 🔹 View Payment History */
+    /** 🔹 Get Tenant's Payment History */
     getTenantPayments: builder.query({
       query: (tenantId) => `tenants/${tenantId}/payments`,
     }),
@@ -45,6 +71,9 @@ export const tenantApi = apiSlice.injectEndpoints({
 export const {
   useGetTenantsQuery,
   useGetTenantByIdQuery,
+  useCreateTenantMutation,
+  useUpdateTenantMutation,
+  useDeleteTenantMutation,
   useGetTenantLeasesQuery,
   useUpdateLeaseStatusMutation,
   useGetTenantPaymentsQuery,

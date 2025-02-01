@@ -4,11 +4,15 @@ import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import {
+  useCreateTenantMutation,
+  useDeleteTenantMutation,
   useGetTenantLeasesQuery,
   useGetTenantPaymentsQuery,
   useGetTenantsQuery,
   useSendPaymentReminderMutation,
+  useUpdateTenantMutation,
 } from "@/features/api/tenants.api";
+import TenantModal from "./TenantModal";
 
 // import TableData from "./TableData";
 // import Filtering from "./Filtering";
@@ -19,13 +23,6 @@ const index = () => {
   const [search, setSearch] = useState("");
   const { data: tenants, isLoading } = useGetTenantsQuery({ search });
   const [selectedTenant, setSelectedTenant] = useState(null);
-  const { data: leases } = useGetTenantLeasesQuery(selectedTenant?.id, {
-    skip: !selectedTenant,
-  });
-  const { data: payments } = useGetTenantPaymentsQuery(selectedTenant?.id, {
-    skip: !selectedTenant,
-  });
-  const [sendReminder] = useSendPaymentReminderMutation();
 
   if (isLoading)
     return (
@@ -80,7 +77,7 @@ const index = () => {
                 <div className="col-lg-4 col-xl-4 mb10">
                   <div className="breadcrumb_content style2 mb30-991">
                     <h2 className="breadcrumb_title">Tenant Management</h2>
-                    <p>Here, you can create, edit or delete users!</p>
+                    <p>Here, you can manage the tenants in your properties!</p>
                   </div>
                 </div>
                 {/* End .col */}
@@ -108,8 +105,8 @@ const index = () => {
                 {/* //TODO ADd USER table here */}
               </div>
               {/* End .row */}
-              <div className="container mt-0">
-                {/* Search */}
+              <div className="container">
+                {/* Search & Add Tenant */}
                 <div className="d-flex justify-content-between mb-3">
                   <input
                     type="text"
@@ -118,6 +115,12 @@ const index = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                   />
+                  <button
+                    className="btn btn-success"
+                    onClick={() => setSelectedTenant({})}
+                  >
+                    <i className="bi bi-plus-circle"></i> Add Tenant
+                  </button>
                 </div>
 
                 {/* Tenant Table */}
@@ -126,9 +129,11 @@ const index = () => {
                     <thead className="table-dark">
                       <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
+                        <th>User ID</th>
+                        <th>Property ID</th>
+                        <th>Lease Start</th>
+                        <th>Lease End</th>
+                        <th>Rent</th>
                         <th className="text-center">Actions</th>
                       </tr>
                     </thead>
@@ -136,29 +141,20 @@ const index = () => {
                       {tenants?.map((tenant) => (
                         <tr key={tenant.id}>
                           <td>{tenant.id}</td>
-                          <td>{tenant.name}</td>
-                          <td>{tenant.email}</td>
-                          <td>
-                            <span
-                              className={`badge ${
-                                tenant.isActive ? "bg-success" : "bg-danger"
-                              }`}
-                            >
-                              {tenant.isActive ? "Active" : "Inactive"}
-                            </span>
-                          </td>
+                          <td>{tenant.userId}</td>
+                          <td>{tenant.propertyId}</td>
+                          <td>{tenant.leaseStartDate}</td>
+                          <td>{tenant.leaseEndDate}</td>
+                          <td>{tenant.monthlyRent} FCFA</td>
                           <td className="text-center">
                             <button
                               className="btn btn-sm btn-info me-2"
                               onClick={() => setSelectedTenant(tenant)}
                             >
-                              <i className="bi bi-eye"></i> View
+                              <i className="bi bi-pencil-square"></i> Edit
                             </button>
-                            <button
-                              className="btn btn-sm btn-warning"
-                              onClick={() => sendReminder(tenant.id)}
-                            >
-                              <i className="bi bi-bell"></i> Send Reminder
+                            <button className="btn btn-sm btn-danger">
+                              <i className="bi bi-trash"></i> Delete
                             </button>
                           </td>
                         </tr>
@@ -167,71 +163,12 @@ const index = () => {
                   </table>
                 </div>
 
-                {/* Tenant Details Modal */}
-                {selectedTenant && (
-                  <div className="modal fade show d-block" tabIndex="-1">
-                    <div className="modal-dialog modal-lg">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title">
-                            Tenant Details - {selectedTenant.name}
-                          </h5>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            onClick={() => setSelectedTenant(null)}
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          {/* Lease Details */}
-                          <h5>Leases</h5>
-                          <ul className="list-group mb-3">
-                            {leases?.map((lease) => (
-                              <li
-                                key={lease.id}
-                                className="list-group-item d-flex justify-content-between"
-                              >
-                                {lease.property.title} - {lease.status}
-                                <span className="badge bg-secondary">
-                                  {lease.endDate}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          {/* Payment History */}
-                          <h5>Payment History</h5>
-                          <ul className="list-group">
-                            {payments?.map((payment) => (
-                              <li
-                                key={payment.id}
-                                className="list-group-item d-flex justify-content-between"
-                              >
-                                {payment.amount} FCFA - {payment.status}
-                                <span
-                                  className={`badge bg-${
-                                    payment.status === "completed"
-                                      ? "success"
-                                      : "danger"
-                                  }`}
-                                >
-                                  {payment.status}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            className="btn btn-secondary"
-                            onClick={() => setSelectedTenant(null)}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                {/* Open Tenant Modal */}
+                {selectedTenant !== null && (
+                  <TenantModal
+                    tenant={selectedTenant}
+                    onClose={() => setSelectedTenant(null)}
+                  />
                 )}
               </div>
 
