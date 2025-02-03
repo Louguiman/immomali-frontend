@@ -27,6 +27,30 @@ import { apiSlice } from "./api";
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    uploadImages: builder.mutation({
+      query: ({ propertyId, images }) => {
+        const formData = new FormData();
+        images.forEach((image) => formData.append("images", image));
+        return {
+          url: `/property/${propertyId}/images`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+    uploadAttachments: builder.mutation({
+      query: ({ propertyId, attachments }) => {
+        const formData = new FormData();
+        attachments.forEach((attachment) =>
+          formData.append("attachments", attachment)
+        );
+        return {
+          url: `/property/${propertyId}/attachments`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
     fetchProperties: builder.query({
       query: (params) => ({
         url: "/properties",
@@ -46,6 +70,17 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         body: property,
       }),
     }),
+    searchProperties: builder.query({
+      query: ({ page = 1, limit = 10, filters = {} }) => {
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          ...filters,
+        }).toString();
+        return `/properties/search?${queryParams}`;
+      },
+      keepUnusedDataFor: 60, // Cache for 60 seconds
+    }),
   }),
 });
 
@@ -54,4 +89,7 @@ export const {
   useCreatePropertyMutation,
   useFetchPropertyByIdQuery,
   useFetchPropertyByUserIdQuery,
+  useSearchPropertiesQuery,
+  useUploadAttachmentsMutation,
+  useUploadImagesMutation,
 } = extendedApiSlice;

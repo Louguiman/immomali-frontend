@@ -2,6 +2,7 @@
 
 import ScrollToTop from "@/components/common/ScrollTop";
 import "../public/assets/scss/index.scss";
+import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
 
 if (typeof window !== "undefined") {

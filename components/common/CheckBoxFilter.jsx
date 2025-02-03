@@ -1,4 +1,20 @@
+"use client";
+
+import { toggleAmenity } from "@/features/properties/propertiesSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 const CheckBoxFilter = () => {
+  const dispatch = useDispatch();
+  const amenities = useSelector(
+    (state) => state.properties.createListing.amenities
+  );
+
+  const handleCheckboxChange = (e) => {
+    const { id, checked } = e.target;
+    dispatch(toggleAmenity({ amenity: id, value: checked }));
+  };
+
   return (
     <>
       <div className="col-xxs-6 col-sm col-lg col-xl">
@@ -8,7 +24,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck1"
+                id="airConditioning"
+                checked={amenities.airConditioning}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck1">
                 Air Conditioning
@@ -22,7 +40,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck2"
+                id="lawn"
+                checked={amenities.lawn}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck2">
                 Lawn
@@ -36,7 +56,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck3"
+                id="swimmingPool"
+                checked={amenities.swimmingPool}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck3">
                 Swimming Pool
@@ -55,7 +77,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck4"
+                id="barbeque"
+                checked={amenities.barbeque}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck4">
                 Barbeque
@@ -69,7 +93,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck5"
+                id="microwave"
+                checked={amenities.microwave}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck5">
                 Microwave
@@ -83,7 +109,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck6"
+                id="tvCable"
+                checked={amenities.tvCable}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck6">
                 TV Cable
@@ -102,7 +130,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck7"
+                id="dryer"
+                checked={amenities.dryer}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck7">
                 Dryer
@@ -116,7 +146,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck8"
+                id="outdoorShower"
+                checked={amenities.outdoorShower}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck8">
                 Outdoor Shower
@@ -130,7 +162,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck9"
+                id="washer"
+                checked={amenities.washer}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck9">
                 Washer
@@ -149,7 +183,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck10"
+                id="gym"
+                checked={amenities.gym}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck10">
                 Gym
@@ -163,7 +199,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck11"
+                id="refrigerator"
+                checked={amenities.refrigerator}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck11">
                 Refrigerator
@@ -177,7 +215,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck12"
+                id="wifi"
+                checked={amenities.wifi}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck12">
                 WiFi
@@ -196,7 +236,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck13"
+                id="laundry"
+                checked={amenities.laundry}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck13">
                 Laundry
@@ -210,7 +252,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck14"
+                id="sauna"
+                checked={amenities.sauna}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck14">
                 Sauna
@@ -224,7 +268,9 @@ const CheckBoxFilter = () => {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="customCheck15"
+                id="windowCoverings"
+                checked={amenities.windowCoverings}
+                onChange={handleCheckboxChange}
               />
               <label className="form-check-label" htmlFor="customCheck15">
                 Window Coverings

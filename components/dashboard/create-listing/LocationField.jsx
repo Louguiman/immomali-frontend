@@ -1,10 +1,78 @@
+// LocationField.js
+"use client";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setAddress,
+  setState,
+  setCity,
+  setNeighborhood,
+  setZipCode,
+  setCountry,
+  setLatitude,
+  setLongitude,
+  setStreetView,
+} from "@/features/properties/propertiesSlice";
+
 const LocationField = () => {
+  const dispatch = useDispatch();
+  const property = useSelector((state) => state.properties.createListing);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    switch (id) {
+      case "propertyAddress":
+        dispatch(setAddress(value));
+        break;
+      case "propertyState":
+        dispatch(setState(value));
+        break;
+      case "propertyCity":
+        dispatch(setCity(value));
+        break;
+      case "neighborHood":
+        dispatch(setNeighborhood(value));
+        break;
+      case "zipCode":
+        dispatch(setZipCode(value));
+        break;
+      case "googleMapLat":
+        dispatch(setLatitude(value));
+        break;
+      case "googleMapLong":
+        dispatch(setLongitude(value));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSelectChange = (e) => {
+    const { id, value } = e.target;
+    switch (id) {
+      case "country":
+        dispatch(setCountry(value));
+        break;
+      case "streetView":
+        dispatch(setStreetView(value));
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="col-lg-12">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="propertyAddress">Address</label>
-          <input type="text" className="form-control" id="propertyAddress" />
+          <input
+            type="text"
+            className="form-control"
+            id="propertyAddress"
+            value={property.address}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
@@ -12,7 +80,13 @@ const LocationField = () => {
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="propertyState">County / State</label>
-          <input type="text" className="form-control" id="propertyState" />
+          <input
+            type="text"
+            className="form-control"
+            id="propertyState"
+            value={property.state}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
@@ -20,7 +94,13 @@ const LocationField = () => {
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="propertyCity">City</label>
-          <input type="text" className="form-control" id="propertyCity" />
+          <input
+            type="text"
+            className="form-control"
+            id="propertyCity"
+            value={property.city}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
@@ -28,7 +108,13 @@ const LocationField = () => {
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="neighborHood">Neighborhood</label>
-          <input type="text" className="form-control" id="neighborHood" />
+          <input
+            type="text"
+            className="form-control"
+            id="neighborHood"
+            value={property.neighborhood}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
@@ -36,7 +122,13 @@ const LocationField = () => {
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="zipCode">Zip</label>
-          <input type="text" className="form-control" id="zipCode" />
+          <input
+            type="text"
+            className="form-control"
+            id="zipCode"
+            value={property.zipCode}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
@@ -48,18 +140,22 @@ const LocationField = () => {
             className="selectpicker form-select"
             data-live-search="true"
             data-width="100%"
+            id="country"
+            value={property.country}
+            onChange={handleSelectChange}
           >
-            <option data-tokens="Turkey">Turkey</option>
-            <option data-tokens="Iran">Iran</option>
-            <option data-tokens="Iraq">Iraq</option>
-            <option data-tokens="Spain">Spain</option>
-            <option data-tokens="Greece">Greece</option>
-            <option data-tokens="Portugal">Portugal</option>
+            <option value="Mali">Mali</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Iran">Iran</option>
+            <option value="Iraq">Iraq</option>
+            <option value="Spain">Spain</option>
+            <option value="Greece">Greece</option>
+            <option value="Portugal">Portugal</option>
           </select>
         </div>
       </div>
       {/* End .col */}
-
+      {/* 
       <div className="col-lg-12">
         <div className="my_profile_setting_input form-group">
           <div className="h400 bdrs8" id="map-canvas">
@@ -73,23 +169,32 @@ const LocationField = () => {
           </div>
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="googleMapLat">Latitude (for Google Maps)</label>
-          <input type="text" className="form-control" id="googleMapLat" />
+          <input
+            type="text"
+            className="form-control"
+            id="googleMapLat"
+            value={property.latitude}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="googleMapLong">Longitude (for Google Maps)</label>
-          <input type="text" className="form-control" id="googleMapLong" />
+          <input
+            type="text"
+            className="form-control"
+            id="googleMapLong"
+            value={property.longitude}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
@@ -98,22 +203,29 @@ const LocationField = () => {
             className="selectpicker form-select"
             data-live-search="true"
             data-width="100%"
+            id="streetView"
+            value={property.streetView}
+            onChange={handleSelectChange}
           >
-            <option data-tokens="Turkey">Street View v1</option>
-            <option data-tokens="Iran">Street View v2</option>
-            <option data-tokens="Iraq">Street View v3</option>
-            <option data-tokens="Spain">Street View v4</option>
-            <option data-tokens="Greece">Street View v5</option>
-            <option data-tokens="Portugal">Street View v6</option>
+            <option value="Street View v1">Street View v1</option>
+            <option value="Street View v2">Street View v2</option>
+            <option value="Street View v3">Street View v3</option>
+            <option value="Street View v4">Street View v4</option>
+            <option value="Street View v5">Street View v5</option>
+            <option value="Street View v6">Street View v6</option>
           </select>
         </div>
-      </div>
+      </div> */}
       {/* End .col */}
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">
-          <button className="btn btn1 float-start">Back</button>
-          <button className="btn btn2 float-end">Next</button>
+          <button href="#info" className="btn btn1 float-start">
+            Back
+          </button>
+          <button href="#details" className="btn btn2 float-end">
+            Next
+          </button>
         </div>
       </div>
       {/* End .col */}

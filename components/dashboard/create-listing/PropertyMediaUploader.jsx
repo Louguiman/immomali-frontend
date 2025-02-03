@@ -1,21 +1,36 @@
-'use client'
+"use client";
 
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import selectedFiles from "../../../utils/selectedFiles";
 import Image from "next/image";
+import {
+  addPropertyImage,
+  removePropertyImage,
+  addAttachment,
+  removeAttachment,
+} from "@/features/properties/propertiesSlice";
 
 const PropertyMediaUploader = () => {
-  const [propertySelectedImgs, setPropertySelectedImgs] = useState([]);
+  const dispatch = useDispatch();
+  const propertyImages = useSelector(
+    (state) => state.properties.createListing.propertyImages
+  );
+  const attachments = useSelector(
+    (state) => state.properties.createListing.attachments
+  );
 
   // multiple image select
   const multipleImage = (e) => {
-    // checking is same file matched with old stored array
-    const isExist = propertySelectedImgs?.some((file1) =>
-      selectedFiles(e)?.some((file2) => file1.name === file2.name)
+    const files = selectedFiles(e);
+
+    // Check if any file already exists in the Redux state
+    const isExist = files.some((file1) =>
+      propertyImages.some((file2) => file1.name === file2.name)
     );
 
     if (!isExist) {
-      setPropertySelectedImgs((old) => [...old, ...selectedFiles(e)]);
+      files.forEach((file) => dispatch(addPropertyImage(file)));
     } else {
       alert("You have selected one image already!");
     }
@@ -23,16 +38,26 @@ const PropertyMediaUploader = () => {
 
   // delete image
   const deleteImage = (name) => {
-    const deleted = propertySelectedImgs?.filter((file) => file.name !== name);
-    setPropertySelectedImgs(deleted);
+    dispatch(removePropertyImage(name));
+  };
+
+  // handle attachment upload
+  const handleAttachmentUpload = (e) => {
+    const files = selectedFiles(e);
+    files.forEach((file) => dispatch(addAttachment(file)));
+  };
+
+  // delete attachment
+  const deleteAttachment = (name) => {
+    dispatch(removeAttachment(name));
   };
 
   return (
     <div className="row">
       <div className="col-lg-12">
         <ul className="mb-0">
-          {propertySelectedImgs.length > 0
-            ? propertySelectedImgs?.map((item, index) => (
+          {propertyImages.length > 0
+            ? propertyImages.map((item, index) => (
                 <li key={index} className="list-inline-item">
                   <div className="portfolio_item">
                     <Image
@@ -57,7 +82,6 @@ const PropertyMediaUploader = () => {
                 </li>
               ))
             : undefined}
-
           {/* End li */}
         </ul>
       </div>
@@ -85,18 +109,22 @@ const PropertyMediaUploader = () => {
           <form className="form-inline d-flex flex-wrap wrap">
             <input className="upload-path" />
             <label className="upload">
-              <input type="file" />
+              <input type="file" onChange={handleAttachmentUpload} />
               Select Attachment
             </label>
           </form>
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-xl-12">
-        <div className="my_profile_setting_input">
-          <button className="btn btn1 float-start">Back</button>
-          <button className="btn btn2 float-end">Next</button>
+          {attachments.length > 0 && (
+            <ul>
+              {attachments.map((file, index) => (
+                <li key={index}>
+                  {file.name}{" "}
+                  <button onClick={() => deleteAttachment(file.name)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       {/* End .col */}

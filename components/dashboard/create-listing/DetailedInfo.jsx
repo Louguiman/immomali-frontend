@@ -1,113 +1,135 @@
+"use client";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CheckBoxFilter from "../../common/CheckBoxFilter";
+import {
+  setBeds,
+  setBaths,
+  setGarages,
+  setSqFt,
+  setBuiltYear,
+} from "@/features/properties/propertiesSlice";
 
 const DetailedInfo = () => {
+  const dispatch = useDispatch();
+  const property = useSelector((state) => state.properties.createListing);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    switch (id) {
+      case "beds":
+        dispatch(setBeds(value));
+        break;
+      case "baths":
+        dispatch(setBaths(value));
+        break;
+      case "garages":
+        dispatch(setGarages(value));
+        break;
+      case "sqFt":
+        dispatch(setSqFt(value));
+        break;
+      case "builtYear":
+        dispatch(setBuiltYear(value));
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="row">
+      {/* Bedrooms */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyId">Property ID</label>
-          <input type="text" className="form-control" id="propertyId" />
+          <label htmlFor="beds">Bedrooms</label>
+          <input
+            type="text"
+            className="form-control"
+            id="beds"
+            value={property.beds}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
 
+      {/* Bathrooms */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyASize">Area Size</label>
-          <input type="text" className="form-control" id="propertyASize" />
+          <label htmlFor="baths">Bathrooms</label>
+          <input
+            type="text"
+            className="form-control"
+            id="baths"
+            value={property.baths}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
 
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="sizePrefix">Size Prefix</label>
-          <input type="text" className="form-control" id="sizePrefix" />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="landArea">Land Area</label>
-          <input type="text" className="form-control" id="landArea" />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="LASPostfix">Land Area Size Postfix</label>
-          <input type="text" className="form-control" id="LASPostfix" />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="bedRooms">Bedrooms</label>
-          <input type="text" className="form-control" id="bedRooms" />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="bathRooms">Bathrooms</label>
-          <input type="text" className="form-control" id="bathRooms" />
-        </div>
-      </div>
-      {/* End .col */}
-
+      {/* Garages */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
           <label htmlFor="garages">Garages</label>
-          <input type="text" className="form-control" id="garages" />
+          <input
+            type="text"
+            className="form-control"
+            id="garages"
+            value={property.garages}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
 
+      {/* Square Footage */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="garagesSize">Garages Size</label>
-          <input type="text" className="form-control" id="garagesSize" />
+          <label htmlFor="sqFt">Square Footage</label>
+          <input
+            type="text"
+            className="form-control"
+            id="sqFt"
+            value={property.sqFt}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
 
+      {/* Year Built */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="yearBuild">Year Built</label>
-          <input type="text" className="form-control" id="yearBuild" />
+          <label htmlFor="builtYear">Year Built</label>
+          <input
+            type="text"
+            className="form-control"
+            id="builtYear"
+            value={property.builtYear}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
       {/* End .col */}
 
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="videoUrl">Video URL</label>
-          <input type="text" className="form-control" id="videoUrl" />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-6 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="virtualTour">360° Virtual Tour</label>
-          <input type="text" className="form-control" id="virtualTour" />
-        </div>
-      </div>
-
+      {/* Amenities Section */}
       <div className="col-xl-12">
         <h4 className="mb10">Amenities</h4>
       </div>
 
       <CheckBoxFilter />
 
+      {/* Navigation Buttons */}
       <div className="col-xl-12">
         <div className="my_profile_setting_input overflow-hidden mt20">
-          <button className="btn btn1 float-start">Back</button>
-          <button className="btn btn2 float-end">Next</button>
+          <button href="#location" className="btn btn1 float-start">
+            Back
+          </button>
+          <button href="#media" className="btn btn2 float-end">
+            Next
+          </button>
         </div>
       </div>
       {/* End .col */}

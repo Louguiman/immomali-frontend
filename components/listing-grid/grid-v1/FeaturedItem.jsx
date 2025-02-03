@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
 // import properties from "../../../data/properties";
 import Image from "next/image";
-import { useGetPropertiesQuery } from "@/features/properties/propertiesApi";
+import { useFetchPropertiesQuery } from "@/features/api/properties.api";
 
 const FeaturedItem = ({ initialData }) => {
   const [page, setPage] = useState(1);
@@ -14,7 +14,7 @@ const FeaturedItem = ({ initialData }) => {
   const limit = 10;
 
   // RTK Query Fetching
-  const { data, isLoading } = useGetPropertiesQuery(
+  const { data, isLoading } = useFetchPropertiesQuery(
     { page, limit, filters },
     { skip: page === 1 }
   );
