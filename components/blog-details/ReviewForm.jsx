@@ -9,7 +9,7 @@ const ReviewForm = ({ propertyId }) => {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(5);
   const user = useSelector((state) => state.auth?.user);
-  const [createReview, { is }] = useCreateReviewMutation();
+  const [createReview, { isLoading }] = useCreateReviewMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ const ReviewForm = ({ propertyId }) => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-thm">
+        <button type="submit" disabled={isLoading} className="btn btn-thm">
           Submit Review
         </button>
       </form>

@@ -1,10 +1,13 @@
-'use client'
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { useSelector } from "react-redux";
+import LogoutButton from "../user-credentials/LogoutButton";
 
 const HeaderMenuContent = ({ float = "" }) => {
   const pathname = usePathname();
+  const user = useSelector((state) => state.auth?.user);
+  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
 
   const home = [
     {
@@ -248,7 +251,10 @@ const HeaderMenuContent = ({ float = "" }) => {
         <a
           href="#"
           className={
-            home.some((page) => page.routerPath?.split('/')[1] === pathname?.split('/')[1])
+            home.some(
+              (page) =>
+                page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+            )
               ? "ui-active"
               : undefined
           }
@@ -264,7 +270,9 @@ const HeaderMenuContent = ({ float = "" }) => {
               <Link
                 href={item.routerPath}
                 className={
-                  pathname?.split('/')[1] === item.routerPath?.split('/')[1] ? "ui-active" : undefined
+                  pathname?.split("/")[1] === item.routerPath?.split("/")[1]
+                    ? "ui-active"
+                    : undefined
                 }
               >
                 {item.name}
@@ -281,7 +289,8 @@ const HeaderMenuContent = ({ float = "" }) => {
           className={
             listing.some((parent) => {
               return parent.items.some(
-                (page) => page.routerPath?.split('/')[1] === pathname?.split('/')[1]
+                (page) =>
+                  page.routerPath?.split("/")[1] === pathname?.split("/")[1]
               );
             })
               ? "ui-active"
@@ -298,7 +307,10 @@ const HeaderMenuContent = ({ float = "" }) => {
               <a
                 href="#"
                 className={
-                  item.items.some((page) => page.routerPath?.split('/')[1] === pathname?.split('/')[1])
+                  item.items.some(
+                    (page) =>
+                      page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+                  )
                     ? "ui-active"
                     : undefined
                 }
@@ -312,7 +324,8 @@ const HeaderMenuContent = ({ float = "" }) => {
                     <Link
                       href={val.routerPath}
                       className={
-                        pathname?.split('/')[1] === val.routerPath?.split('/')[1]
+                        pathname?.split("/")[1] ===
+                        val.routerPath?.split("/")[1]
                           ? "ui-active"
                           : undefined
                       }
@@ -335,8 +348,8 @@ const HeaderMenuContent = ({ float = "" }) => {
             property.some((parent) => {
               return parent.items.some(
                 (page) =>
-                  page.routerPath?.split('/')[1] === pathname?.split('/')[1] 
-                  // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
+                  page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+                // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
               );
             })
               ? "ui-active"
@@ -354,8 +367,8 @@ const HeaderMenuContent = ({ float = "" }) => {
                 className={
                   item.items.some(
                     (page) =>
-                      page.routerPath?.split('/')[1] === pathname?.split('/')[1] 
-                      // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
+                      page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+                    // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
                   )
                     ? "ui-active"
                     : undefined
@@ -370,9 +383,10 @@ const HeaderMenuContent = ({ float = "" }) => {
                     <Link
                       href={val.routerPath}
                       className={
-                        pathname?.split('/')[1] === val.routerPath?.split('/')[1] 
-                        // val.routerPath + "/[id]" === pathname?.split('/')[1]
-                          ? "ui-active"
+                        pathname?.split("/")[1] ===
+                        val.routerPath?.split("/")[1]
+                          ? // val.routerPath + "/[id]" === pathname?.split('/')[1]
+                            "ui-active"
                           : undefined
                       }
                     >
@@ -391,7 +405,10 @@ const HeaderMenuContent = ({ float = "" }) => {
         <a
           href="#"
           className={
-            pages.some((page) => page.routerPath?.split('/')[1] === pathname?.split('/')[1])
+            pages.some(
+              (page) =>
+                page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+            )
               ? "ui-active"
               : undefined
           }
@@ -405,7 +422,9 @@ const HeaderMenuContent = ({ float = "" }) => {
               <Link
                 href={item.routerPath}
                 className={
-                  pathname?.split('/')[1] === item.routerPath?.split('/')[1] ? "ui-active" : undefined
+                  pathname?.split("/")[1] === item.routerPath?.split("/")[1]
+                    ? "ui-active"
+                    : undefined
                 }
               >
                 {item.name}
@@ -422,8 +441,8 @@ const HeaderMenuContent = ({ float = "" }) => {
           className={
             blog.some(
               (page) =>
-                page.routerPath?.split('/')[1] === pathname?.split('/')[1] 
-                // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
+                page.routerPath?.split("/")[1] === pathname?.split("/")[1]
+              // page.routerPath?.split('/')[1] + "/[id]" === pathname?.split('/')[1]
             )
               ? "ui-active"
               : undefined
@@ -438,9 +457,9 @@ const HeaderMenuContent = ({ float = "" }) => {
               <Link
                 href={item.routerPath}
                 className={
-                  pathname?.split('/')[1] === item.routerPath?.split('/')[1]
-                  // item.routerPath + "/[id]" === pathname?.split('/')[1]
-                    ? "ui-active"
+                  pathname?.split("/")[1] === item.routerPath?.split("/")[1]
+                    ? // item.routerPath + "/[id]" === pathname?.split('/')[1]
+                      "ui-active"
                     : undefined
                 }
               >
@@ -461,17 +480,27 @@ const HeaderMenuContent = ({ float = "" }) => {
         </Link>
       </li>
       {/* End .dropitem */}
+      {isAuthenticated ? (
+        <>
+          <span className="me-3">Hello, {user?.name || "User"}!</span>
+          <Link href="/profile" className="btn btn-primary me-2">
+            Profile
+          </Link>
+          <LogoutButton />
+        </>
+      ) : (
+        <li className={`list-inline-item list_s ${float}`}>
+          <a
+            href="#"
+            className="btn flaticon-user"
+            data-bs-toggle="modal"
+            data-bs-target=".bd-example-modal-lg"
+          >
+            <span className="dn-lg">Login/Register</span>
+          </a>
+        </li>
+      )}
 
-      <li className={`list-inline-item list_s ${float}`}>
-        <a
-          href="#"
-          className="btn flaticon-user"
-          data-bs-toggle="modal"
-          data-bs-target=".bd-example-modal-lg"
-        >
-          <span className="dn-lg">Login/Register</span>
-        </a>
-      </li>
       {/* End .dropitem */}
 
       <li className={`list-inline-item add_listing ${float}`}>

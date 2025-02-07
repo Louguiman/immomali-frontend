@@ -3,16 +3,16 @@ import agentSlice from "../features/agent/agentSlice";
 import filterSlice from "../features/filter/filterSlice";
 import propertiesSlice from "../features/properties/propertiesSlice";
 import { apiSlice } from "@/features/api/api";
-import { authSlice } from "@/features/auth/authSlice";
+import authReducer from "@/features/auth/authSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       [apiSlice.reducerPath]: apiSlice.reducer,
+      auth: authReducer,
       properties: propertiesSlice,
       filter: filterSlice,
       agent: agentSlice,
-      auth: authSlice,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(apiSlice.middleware),

@@ -1,12 +1,15 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { isSinglePageActive } from "../../../../utils/daynamicNavigation";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const MyAccount = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const user = useSelector((state) => state.auth?.user);
+
   const profileMenuItems = [
     { id: 1, name: "My Profile", ruterPath: "/my-profile" },
     { id: 2, name: " My Message", ruterPath: "/my-message" },
@@ -26,8 +29,8 @@ const MyAccount = () => {
           alt="e1.png"
         />
         <p>
-          Ali Tufan <br />
-          <span className="address">alitufan@gmail.com</span>
+          Hello, {user?.name || "User"}!<br />
+          <span className="address">{user?.email || "User"}</span>
         </p>
       </div>
       {/* End user_set_header */}

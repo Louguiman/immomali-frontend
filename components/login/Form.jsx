@@ -1,12 +1,24 @@
 "use client";
 import { useLoginMutation } from "@/features/api/auth.api";
+import { useAppSelector } from "@/store/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Form = () => {
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user.role === "admin") router.push("/my-dashboard");
+      else if (user.role === "agent") router.push("/my-dashboard");
+      else router.push("/");
+    }
+  }, [isAuthenticated, user, router]);
   const handleSubmit = async (e) => {
     console.log("submit:");
 
@@ -18,19 +30,14 @@ const Form = () => {
 
     try {
       const data = await login({ email, password }).unwrap();
-      // localStorage.setItem("token", accessToken);
-      // console.log("log in: ", data);
+      localStorage.setItem("token", data.accessToken);
+      console.log("log in: ", data);
+      toast.success("Login Succesful!");
 
-      // Navigate based on user role
-      // if (user.role === "admin") {
-      //   router.push("/my-dashboard");
-      // } else if (user.role === "property_manager") {
-      //   router.push("/manager/properties");
-      // } else {
-      //   router.push("/tenant/dashboard");
       // }
     } catch (error) {
-      console.error("Login failed", error);
+      toast.error("Login failed", error);
+      console.log("login error: ", error);
     }
   };
 
@@ -99,8 +106,12 @@ const Form = () => {
       </div>
       {/* End .form-group */}
 
-      <button type="submit" className="btn btn-log w-100 btn-thm">
-        Log In
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="btn btn-log w-100 btn-thm"
+      >
+        {isLoading ? "Logging in..." : "Login"}
       </button>
       {/* login button */}
 

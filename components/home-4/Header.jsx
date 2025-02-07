@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import HeaderMenuContent from "../common/header/HeaderMenuContent";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);
@@ -44,7 +45,7 @@ const Header = () => {
             src="/assets/images/header-logo2.png"
             alt="header-logo2.png"
           />
-          <span>FindHouse</span>
+          <span>IMMOMALI</span>
         </Link>
         {/* site logo brand */}
 

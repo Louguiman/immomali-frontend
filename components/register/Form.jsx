@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRegisterMutation } from "@/features/api/auth.api";
+import { toast } from "react-toastify";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const SignupForm = () => {
     isActive: true,
   });
 
-  const [signup] = useRegisterMutation();
+  const [signup, { isLoading }] = useRegisterMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,9 +27,9 @@ const SignupForm = () => {
 
     try {
       await signup(formData).unwrap();
-      alert("Registration successful!");
+      toast.success("Registration successful!");
     } catch (err) {
-      alert("Registration failed: " + err.data?.message || err.message);
+      toast.error("Registration failed: " + err.data?.message || err.message);
     }
   };
 
@@ -184,7 +185,11 @@ const SignupForm = () => {
       )}
       {/* End .form-group */}
 
-      <button type="submit" className="btn btn-log w-100 btn-thm">
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="btn btn-log w-100 btn-thm"
+      >
         Register
       </button>
       {/* End .form-group */}

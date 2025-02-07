@@ -6,7 +6,7 @@ const Pagination = () => {
           {" "}
           <span className="flaticon-left-arrow"></span>
         </a>
-      </li>
+      </li> 
       <li className="page-item">
         <a className="page-link" href="#">
           1
