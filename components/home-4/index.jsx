@@ -17,24 +17,9 @@ import FilterTopBar from "../common/listing/FilterTopBar";
 import FeaturedItem from "../listing-grid/grid-v1/FeaturedItem";
 import Pagination from "../blog-details/Pagination";
 import SidebarListing3 from "../common/listing/SidebarListing3";
+import { fetchProperties } from "@/features/api/Serverside";
 
-const fetchProperties = async (page = 1, limit = 10, filters = {}) => {
-  const queryParams = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-    ...filters, // Spread filters into query
-  }).toString();
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/properties?${queryParams}`,
-    {
-      cache: "no-store", // Ensure fresh data every request
-    }
-  );
-
-  if (!res.ok) throw new Error("Failed to fetch properties");
-  return res.json();
-};
 
 const index = async ({ searchParams }) => {
   const page = searchParams?.page || 1;
@@ -126,18 +111,17 @@ const index = async ({ searchParams }) => {
               {/* End .row */}
 
               <div className="row">
-                <FeaturedItem initialData={properties} />
+                <FeaturedItem properties={properties} />
               </div>
               {/* End .row */}
 
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-lg-12 mt20">
                   <div className="mbp_pagination">
                     <Pagination />
                   </div>
                 </div>
-                {/* End paginaion .col */}
-              </div>
+              </div> */}
               {/* End .row */}
             </div>
             {/* End  .col */}

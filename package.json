@@ -29,6 +29,7 @@
     "react-toastify": "^11.0.3",
     "sass": "^1.68.0",
     "slick-carousel": "^1.8.1",
+    "use-debounce": "^10.0.4",
     "uuid": "^11.0.5"
   }
 }

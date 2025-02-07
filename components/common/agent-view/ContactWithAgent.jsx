@@ -1,6 +1,49 @@
-const ContactWithAgent = () => {
+"use client";
+
+import { useCreateInquiryMutation } from "@/features/api/inquiries.api";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+const ContactWithAgent = ({ propertyId }) => {
+  const user = useSelector((state) => state.auth?.user); // Get logged-in user
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+    propertyId: propertyId,
+  });
+
+  const [createInquiry, { isLoading }] = useCreateInquiryMutation();
+
+  // Pre-fill user data if logged in
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name || "",
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await createInquiry(formData).unwrap();
+      toast.success("Inquiry sent successfully!");
+      setFormData((prev) => ({ ...prev, message: "" })); // Reset only message field
+    } catch (error) {
+      toast.error("Failed to send inquiry. Please try again.");
+    }
+  };
+
   return (
-    <form action="#">
+    <form onSubmit={handleSubmit}>
       <ul className="sasw_list mb0">
         <li className="search_area">
           <div className="form-group mb-3">
@@ -8,54 +51,56 @@ const ContactWithAgent = () => {
               type="text"
               className="form-control"
               placeholder="Your Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               required
+              disabled={!!user} // Disable for logged-in users
             />
           </div>
         </li>
-        {/* End li */}
-        <li className="search_area">
-          <div className="form-group mb-3">
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Phone"
-              required
-            />
-          </div>
-        </li>{" "}
-        {/* End li */}
+
         <li className="search_area">
           <div className="form-group mb-3">
             <input
               type="email"
               className="form-control"
               placeholder="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
+              disabled={!!user} // Disable for logged-in users
             />
           </div>
-        </li>{" "}
-        {/* End li */}
+        </li>
+
         <li className="search_area">
           <div className="form-group mb-3">
             <textarea
               id="form_message"
-              name="form_message"
-              className="form-control "
+              name="message"
+              className="form-control"
               rows="5"
-              required
               placeholder="Your Message"
+              value={formData.message}
+              onChange={handleChange}
+              required
             ></textarea>
           </div>
-        </li>{" "}
-        {/* End li */}
+        </li>
+
         <li>
           <div className="search_option_button">
-            <button type="submit" className="btn btn-block btn-thm w-100">
-              Search
+            <button
+              type="submit"
+              className="btn btn-block btn-thm w-100"
+              disabled={isLoading}
+            >
+              {isLoading ? "Sending..." : "Send Inquiry"}
             </button>
           </div>
-        </li>{" "}
-        {/* End li */}
+        </li>
       </ul>
     </form>
   );

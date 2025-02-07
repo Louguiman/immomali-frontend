@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiSlice } from "./api";
 
 export const userApi = apiSlice.injectEndpoints({
+  tagTypes: ["Users"],
   endpoints: (builder) => ({
     /** 🔹 Get All Users with Pagination & Search */
     getAllUsers: builder.query({

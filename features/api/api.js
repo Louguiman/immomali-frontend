@@ -11,5 +11,16 @@ export const apiSlice = createApi({
     //   return headers;
     // },
   }),
+  tagTypes: [
+    "Users",
+    "Inquiries",
+    "Properties",
+    "Notifications",
+    "Complaints",
+    "Payments",
+    "Tenants",
+    "Permissions",
+    "Reviews",
+  ],
   endpoints: () => ({}),
 });

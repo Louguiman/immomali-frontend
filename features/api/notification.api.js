@@ -10,6 +10,7 @@ import { apiSlice } from "./api";
 //   }),
 // });
 export const extendedApiSlice = apiSlice.injectEndpoints({
+  tagTypes: ["Notifications"],
   endpoints: (builder) => ({
     fetchNotifications: builder.query({
       query: () => "/notifications",

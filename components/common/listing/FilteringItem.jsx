@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useDebouncedCallback } from "use-debounce";
 import {
   addFeatured,
   addStatusType,
@@ -24,9 +25,13 @@ import {
 } from "../../../features/properties/propertiesSlice";
 import PricingRangeSlider from "../../common/PricingRangeSlider";
 import { v4 as uuidv4 } from "uuid";
-
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const FilteringItem = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const {
     keyword,
     location,
@@ -41,10 +46,12 @@ const FilteringItem = () => {
   } = useSelector((state) => state.properties);
 
   // input state
-  const [getKeyword, setKeyword] = useState(keyword);
-  const [getLocation, setLocation] = useState(location);
+  const [getKeyword, setKeyword] = useState(searchParams.get("keyword"));
+  const [getLocation, setLocation] = useState(searchParams.get("location"));
   const [getStatus, setStatus] = useState(status);
-  const [getPropertiesType, setPropertiesType] = useState(propertyType);
+  const [getPropertiesType, setPropertiesType] = useState(
+    searchParams.get("propertyType") || ""
+  );
   const [getBathroom, setBathroom] = useState(bathrooms);
   const [getBedroom, setBedroom] = useState(bedrooms);
   const [getGarages, setGarages] = useState(garages);
@@ -72,8 +79,6 @@ const FilteringItem = () => {
   ]);
 
   const dispath = useDispatch();
-
-
 
   // keyword
   useEffect(() => {
@@ -173,6 +178,40 @@ const FilteringItem = () => {
 
     setAdvanced(data);
   };
+
+  const handleSearch = useDebouncedCallback(() => {
+    const params = new URLSearchParams();
+
+    if (getKeyword) params.set("keyword", getKeyword);
+    if (getLocation) params.set("location", getLocation);
+    if (getStatus) params.set("status", getStatus);
+    if (getPropertiesType) params.set("propertyType", getPropertiesType);
+    if (getBathroom) params.set("bathrooms", getBathroom);
+    if (getBedroom) params.set("bedrooms", getBedroom);
+    if (getGarages) params.set("garages", getGarages);
+    if (getBuiltYear) params.set("yearBuilt", getBuiltYear);
+    if (getAreaMin) params.set("minArea", getAreaMin);
+    if (getAreaMax) params.set("maxArea", getAreaMax);
+
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
+  // Effect: Update URL when Redux state changes
+  useEffect(() => {
+    handleSearch();
+  }, [
+    keyword,
+    location,
+    status,
+    propertyType,
+    bathrooms,
+    bedrooms,
+    garages,
+    yearBuilt,
+    area,
+    amenities,
+    router,
+  ]);
 
   return (
     <ul className="sasw_list mb0">

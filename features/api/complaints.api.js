@@ -18,6 +18,7 @@ import { apiSlice } from "./api";
 // });
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
+  tagTypes: ["Complaints"],
   endpoints: (builder) => ({
     fetchComplaints: builder.query({
       query: ({ tenantId }) => `/complaints?tenantId=${tenantId}`,

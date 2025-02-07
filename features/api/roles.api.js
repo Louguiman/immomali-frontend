@@ -1,6 +1,7 @@
 import { apiSlice } from "./api";
 
 export const rolesApi = apiSlice.injectEndpoints({
+  tagTypes: ["Roles"],
   endpoints: (builder) => ({
     getRoles: builder.query({ query: () => "/roles" }),
     createRole: builder.mutation({

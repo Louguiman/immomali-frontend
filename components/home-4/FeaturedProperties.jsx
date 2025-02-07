@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import Slider from "react-slick";
@@ -75,7 +75,7 @@ const FeaturedProperties = () => {
                   </ul>
 
                   <Link
-                    href={`/listing-details-v1/${item.id}`}
+                    href={`/listing-details-v2/${item.id}`}
                     className="fp_price"
                   >
                     ${item.price}
@@ -87,7 +87,7 @@ const FeaturedProperties = () => {
                 <div className="tc_content">
                   <p className="text-thm">{item.type}</p>
                   <h4>
-                    <Link href={`/listing-details-v1/${item.id}`}>
+                    <Link href={`/listing-details-v2/${item.id}`}>
                       {item.title}
                     </Link>
                   </h4>

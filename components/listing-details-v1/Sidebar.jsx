@@ -4,17 +4,17 @@ import ListingCreator from "../common/listing/ListingCreator";
 import FeaturedListings from "../common/listing/FeaturedListings";
 import FeatureProperties from "../common/listing/FeatureProperties";
 
-const Sidebar = () => {
+const Sidebar = ({ propertyId, agent }) => {
   return (
     <>
       <div className="sidebar_listing_list">
         <div className="sidebar_advanced_search_widget">
           <div className="sl_creator">
             <h4 className="mb25">Listed By</h4>
-            <ListingCreator />
+            <ListingCreator owner={agent} />
           </div>
           {/* End .sl_creator */}
-          <ContactWithAgent />
+          <ContactWithAgent propertyId={propertyId} />
         </div>
       </div>
       {/* End .sidebar_listing_list */}

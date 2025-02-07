@@ -1,19 +1,27 @@
-'use client'
-
-import {
-  addKeyword,
-  addLocation,
-} from "../../features/properties/propertiesSlice";
-import PricingRangeSlider from "./PricingRangeSlider";
-import CheckBoxFilter from "./CheckBoxFilter";
-import GlobalSelectBox from "./GlobalSelectBox";
+"use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const GlobalFilter = ({ className = "" }) => {
-  const router = useRouter()
-  // submit handler
+  const router = useRouter();
+  const [searchParams, setSearchParams] = useState({
+    keyword: "",
+    location: "",
+    propertyType: "",
+    minPrice: "",
+    maxPrice: "",
+  });
+
+  const handleInputChange = (e) => {
+    setSearchParams((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const submitHandler = () => {
-    router.push("/listing-grid-v1");
+    const queryString = new URLSearchParams(searchParams).toString();
+    router.push(`/properties?${queryString}`);
   };
 
   return (
@@ -23,18 +31,22 @@ const GlobalFilter = ({ className = "" }) => {
           <div className="form-group">
             <input
               type="text"
+              name="keyword"
               className="form-control"
               placeholder="Enter keyword..."
-              onChange={(e) => dispatch(addKeyword(e.target.value))}
+              onChange={handleInputChange}
             />
           </div>
         </li>
-        {/* End li */}
 
         <li className="list-inline-item">
           <div className="search_option_two">
             <div className="candidate_revew_select">
-              <select className="selectpicker w100 form-select show-tick">
+              <select
+                name="propertyType"
+                className="selectpicker w100 form-select show-tick"
+                onChange={handleInputChange}
+              >
                 <option value="">Property Type</option>
                 <option>Apartment</option>
                 <option>Bungalow</option>
@@ -46,82 +58,50 @@ const GlobalFilter = ({ className = "" }) => {
             </div>
           </div>
         </li>
-        {/* End li */}
 
         <li className="list-inline-item">
           <div className="form-group">
             <input
               type="text"
+              name="location"
               className="form-control"
               placeholder="Location"
-              onChange={(e) => dispatch(addLocation(e.target.value))}
+              onChange={handleInputChange}
             />
             <label>
               <span className="flaticon-maps-and-flags"></span>
             </label>
           </div>
         </li>
-        {/* End li */}
 
         <li className="list-inline-item">
           <div className="small_dropdown2">
-            <div
-              id="prncgs"
-              className="btn dd_btn"
-              data-bs-toggle="dropdown"
-              data-bs-auto-close="outside"
-              aria-expanded="false"
-            >
+            <div className="btn dd_btn" data-bs-toggle="dropdown">
               <span>Price</span>
-              <label htmlFor="InputEmail2">
+              <label>
                 <span className="fa fa-angle-down"></span>
               </label>
             </div>
             <div className="dd_content2 dropdown-menu">
               <div className="pricing_acontent">
-                <PricingRangeSlider />
+                <input
+                  type="number"
+                  name="minPrice"
+                  placeholder="Min Price"
+                  className="form-control mb-2"
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="number"
+                  name="maxPrice"
+                  placeholder="Max Price"
+                  className="form-control"
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
           </div>
         </li>
-        {/* End li */}
-
-        <li className="custome_fields_520 list-inline-item">
-          <div className="navbered">
-            <div className="mega-dropdown ">
-              <span
-                className="dropbtn"
-                data-bs-toggle="dropdown"
-                data-bs-auto-close="outside"
-                aria-expanded="false"
-              >
-                Advanced <i className="flaticon-more pl10 flr-520"></i>
-              </span>
-
-              <div className="dropdown-content dropdown-menu ">
-                <div className="row p15">
-                  <div className="col-lg-12">
-                    <h4 className="text-thm3 mb-4">Amenities</h4>
-                  </div>
-
-                  <CheckBoxFilter />
-                </div>
-                {/* End .row */}
-
-                <div className="row p15 pt0-xsd">
-                  <div className="col-lg-12 col-xl-12">
-                    <ul className="apeartment_area_list mb0">
-                      <GlobalSelectBox />
-                    </ul>
-                  </div>
-                </div>
-                {/* End .row */}
-              </div>
-              {/* End .dropdown-menu */}
-            </div>
-          </div>
-        </li>
-        {/* End li */}
 
         <li className="list-inline-item">
           <div className="search_option_button">
@@ -134,7 +114,6 @@ const GlobalFilter = ({ className = "" }) => {
             </button>
           </div>
         </li>
-        {/* End li */}
       </ul>
     </div>
   );

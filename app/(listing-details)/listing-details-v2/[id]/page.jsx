@@ -1,3 +1,4 @@
+"use client";
 
 import "photoswipe/dist/photoswipe.css";
 import CopyrightFooter from "@/components/common/footer/CopyrightFooter";
@@ -9,12 +10,28 @@ import properties from "@/data/properties";
 import DetailsContent from "@/components/listing-details-v1/DetailsContent";
 import Sidebar from "@/components/listing-details-v1/Sidebar";
 import ListingTwo from "@/components/listing-single/ListingTwo";
+import { useParams } from "next/navigation";
+import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 
-const ListingDynamicDetailsV2 = ({params}) => {
+const ListingDynamicDetailsV2 = () => {
+  const { id } = useParams();
+  const { data: property, isLoading, isError } = useFetchPropertyByIdQuery(id);
 
-  const id = params.id;
-  const property = properties?.find((item) => item.id == id) || properties[0]
+  if (isLoading) {
+    return (
+      <div className="container text-center mt-5">
+        <div className="spinner-border text-primary" role="status"></div>
+      </div>
+    );
+  }
 
+  if (isError || !property) {
+    return (
+      <div className="container text-center mt-5">
+        <h2 className="text-danger">Property not found</h2>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -30,7 +47,6 @@ const ListingDynamicDetailsV2 = ({params}) => {
       {/* <!-- Listing Single Property --> */}
 
       <ListingTwo property={property} />
-      
 
       {/* <!-- Agent Single Grid View --> */}
       <section className="our-agent-single bgc-f7 pb30-991">
@@ -46,19 +62,19 @@ const ListingDynamicDetailsV2 = ({params}) => {
                   <div className="price">
                     <h2>
                       ${property.price}
-                      <small>/mo</small>
+                      {property.listingType === "rent" && <small>/mo</small>}
                     </h2>
                   </div>
                 </div>
               </div>
               {/* End .listing_single_description2 */}
 
-              <DetailsContent />
+              <DetailsContent property={property} />
             </div>
             {/* End details content .col-lg-8 */}
 
             <div className="col-lg-4 col-xl-4">
-              <Sidebar />
+              <Sidebar agent={property?.owner} propertyId={property.id} />
             </div>
             {/* End sidebar content .col-lg-4 */}
           </div>

@@ -2,6 +2,7 @@ import { User } from "@/utils/interface/user.interface";
 import { apiSlice } from "./api";
 
 export const tenantApi = apiSlice.injectEndpoints({
+  tagTypes: ["Tenants"],
   endpoints: (builder) => ({
     /** 🔹 Get All Tenants */
     getTenants: builder.query({

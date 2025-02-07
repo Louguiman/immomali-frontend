@@ -26,6 +26,7 @@ import { apiSlice } from "./api";
 // });
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
+  tagTypes: ["Properties"],
   endpoints: (builder) => ({
     uploadImages: builder.mutation({
       query: ({ propertyId, images }) => {
@@ -71,14 +72,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     searchProperties: builder.query({
-      query: ({ page = 1, limit = 10, filters = {} }) => {
-        const queryParams = new URLSearchParams({
-          page: page.toString(),
-          limit: limit.toString(),
-          ...filters,
-        }).toString();
-        return `/properties/search?${queryParams}`;
-      },
+      query: (params) => ({
+        url: `properties/search`,
+        method: "GET",
+        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+      }),
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
   }),

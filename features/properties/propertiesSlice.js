@@ -46,7 +46,7 @@ const initialState = {
       windowCoverings: false,
     },
   },
-  status: "idle", // For loading state tracking
+  status: "", // For loading state tracking
   error: null,
   keyword: "",
   propertyType: "",

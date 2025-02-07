@@ -4,6 +4,7 @@ import ScrollToTop from "@/components/common/ScrollTop";
 import "../public/assets/scss/index.scss";
 import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
+import { ToastContainer } from "react-toastify";
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
@@ -21,7 +22,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <StoreProvider>{children}</StoreProvider>
-
+        <ToastContainer position="top-right" autoClose={3000} />
         <ScrollToTop />
       </body>
     </html>

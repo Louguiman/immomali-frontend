@@ -18,6 +18,7 @@ import { Payment } from "@/utils/interface/payment.interface";
 // });
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
+  tagTypes: ["Payments"],
   endpoints: (builder) => ({
     fetchPayments: builder.query({
       query: ({ tenantId }) => `/payments?tenantId=${tenantId}`,
