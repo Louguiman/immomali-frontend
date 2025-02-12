@@ -1,4 +1,4 @@
-import agents from "@/data/agents";
+"use client";
 import BreadCrumb2 from "@/components/agent-details/BreadCrumb2";
 import SidebarListings from "@/components/agent-details/SidebarListings";
 import TabDetailsContent from "@/components/agent-details/TabDetailsContent";
@@ -9,12 +9,26 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
 
 import Image from "next/image";
+import { use } from "react";
+import { useGetAgentByIdQuery } from "@/features/api/agents.api";
 
-const AgentDetailsDynamic = ({params}) => {
+const AgentDetailsDynamic = ({ params }) => {
+  const { id } = use(params);
+  const { data: agent, isLoading, error } = useGetAgentByIdQuery(id);
 
-  const id = params.id;
-  const agent=agents.find((item) => item.id == id) || agents[0]
+  if (isLoading)
+    return <p className="text-center mt-5">Loading agent details...</p>;
+  if (error)
+    return (
+      <p className="text-center mt-5 text-danger">
+        Error loading agent details.
+      </p>
+    );
 
+  // Redirect if agency is not found
+  if (!agent) {
+    return <p className="text-center mt-5 text-danger">No agent Found@@@.</p>;
+  }
   return (
     <>
       {/* <!-- Main Header Nav --> */}

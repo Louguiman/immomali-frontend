@@ -1,6 +1,9 @@
+import { getSignedUrl } from "@/features/api/Serverside";
+import { cleanUrl } from "@/utils/splitDescription";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import SignedImage from "./common/header/SignedImage";
 
 const PropertyCard = ({ item }) => {
   const { statusType, featured, isGridOrList } = useSelector(
@@ -13,11 +16,11 @@ const PropertyCard = ({ item }) => {
       }`}
     >
       <div className="thumb">
-        <Image
+        <SignedImage
           width={342}
           height={220}
           className="img-whp w-100 h-100 cover"
-          src={"/assets/images/property/2.jpg"}
+          src={cleanUrl(item?.images[0]?.imageUrl)}
           alt="fp1.jpg"
         />
         <div className="thmb_cntnt">

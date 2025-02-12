@@ -6,7 +6,7 @@ import {
   useUploadImagesMutation,
 } from "@/features/api/properties.api";
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import CreateList from "./CreateList";
 import DetailedInfo from "./DetailedInfo";
@@ -40,45 +40,77 @@ const Index = () => {
     },
   ] = useUploadAttachmentsMutation();
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setLoading(true);
     const { propertyImages, attachments, ...propertyData } = propertyDetails;
 
-    try {
-      toast.info("Creating property...", { autoClose: 2000 });
+    toast.info("Creating property...", { autoClose: 2000 });
 
-      // Step 1: Create property
-      const { data: property } = await createProperty(propertyData).unwrap();
+    // Step 1: Create property using fetch
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/properties`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(propertyData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create property");
+        }
+        return response.json(); // parse the response body
+      })
+      .then((property) => {
+        console.log("created property: ", property);
 
-      // Step 2: Upload images
-      if (propertyImages?.length > 0) {
-        await uploadImages({
-          propertyId: property.id,
-          images: propertyImages,
-        }).unwrap();
-        toast.success("Images uploaded successfully!", { autoClose: 2000 });
-      }
+        if (!property || !property.id) {
+          throw new Error("Property creation failed, no valid ID returned");
+        }
 
-      // Step 3: Upload attachments
-      if (attachments?.length > 0) {
-        await uploadAttachments({
-          propertyId: property.id,
-          attachments,
-        }).unwrap();
-        toast.success("Attachments uploaded successfully!", {
+        toast.success("Property created successfully!", { autoClose: 2000 });
+
+        // Step 2: Upload images using Redux Toolkit mutation
+        if (propertyImages?.length > 0) {
+          const uploadImagesPayload = {
+            propertyId: property.id,
+            images: propertyImages,
+          };
+
+          return uploadImages(uploadImagesPayload)
+            .unwrap()
+            .then(() => {
+              toast.success("Images uploaded successfully!", {
+                autoClose: 2000,
+              });
+            });
+        }
+      })
+      .then(() => {
+        // Step 3: Upload attachments using Redux Toolkit mutation
+        if (attachments?.length > 0) {
+          const uploadAttachmentsPayload = {
+            propertyId: property.id,
+            attachments,
+          };
+
+          return uploadAttachments(uploadAttachmentsPayload)
+            .unwrap()
+            .then(() => {
+              toast.success("Attachments uploaded successfully!", {
+                autoClose: 2000,
+              });
+            });
+        }
+      })
+      .catch((err) => {
+        console.error("Error creating property:", err);
+        toast.error("There was an error creating the property", {
           autoClose: 2000,
         });
-      }
-
-      toast.success("Property created successfully!", { autoClose: 2000 });
-    } catch (err) {
-      console.error("Error creating property:", err);
-      toast.error("There was an error creating the property", {
-        autoClose: 2000,
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (

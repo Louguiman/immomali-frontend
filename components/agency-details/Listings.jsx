@@ -1,20 +1,22 @@
 import Link from "next/link";
-import properties from "../../data/properties";
 import Image from "next/image";
+import { cleanUrl } from "@/utils/splitDescription";
+import { getSignedUrl } from "@/features/api/Serverside";
+import SignedImage from "../common/header/SignedImage";
 
-const Listings = () => {
+const Listings = ({ properties }) => {
   return (
     <>
-      {properties.slice(0, 3).map((item) => (
+      {properties?.map((item) => (
         <div className="col-lg-12" key={item.id}>
           <div className="feat_property list style2 hvr-bxshd bdrrn mb10 mt20">
             <div className="thumb">
-              <Image
+              <SignedImage
                 width={275}
                 height={240}
                 className="img-whp w-100 cover"
-                src={item.img}
-                alt={item.img}
+                src={cleanUrl(item?.images[0]?.imageUrl)}
+                alt={cleanUrl(item?.images[0]?.imageUrl)}
               />
               <div className="thmb_cntnt">
                 <ul className="icon mb0">
@@ -54,7 +56,6 @@ const Listings = () => {
                 </div>
                 <p className="text-thm">{item.type}</p>
                 <h4>
-                  {" "}
                   <Link href={`/listing-details-v1/${item.id}`}>
                     {item.title}
                   </Link>
@@ -64,7 +65,7 @@ const Listings = () => {
                   {item.location}
                 </p>
 
-                <ul className="prop_details mb0">
+                {/* <ul className="prop_details mb0">
                   {item.itemDetails.map((val, i) => (
                     <li className="list-inline-item" key={i}>
                       <a href="#">
@@ -72,7 +73,7 @@ const Listings = () => {
                       </a>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
               {/* End .tc_content */}
 
@@ -83,16 +84,16 @@ const Listings = () => {
                       <Image
                         width={40}
                         height={40}
-                        src={item.posterAvatar}
+                        src={item?.owner?.avatarUrl}
                         alt="pposter1.png"
                       />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="#">{item.posterName}</a>
+                    <a href="#">{item?.owner?.name}</a>
                   </li>
                 </ul>
-                <div className="fp_pdate float-end">{item.postedYear}</div>
+                <div className="fp_pdate float-end">{item.yearBuilt}</div>
               </div>
               {/* End . fp_footer */}
             </div>

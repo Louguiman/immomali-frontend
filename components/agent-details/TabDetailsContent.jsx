@@ -1,3 +1,5 @@
+"use client";
+
 import Team from "../agent-view/agent-v2/Team";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
@@ -5,9 +7,19 @@ import ReviewBox from "../blog-details/ReviewBox";
 import DescriptionsText from "./DescriptionsText";
 import Listings from "./Listings";
 
-const TabDetailsContent = () => {
+const TabDetailsContent = ({ agent, isLoading, error }) => {
+  if (isLoading)
+    return <p className="text-center mt-5">Loading agent details...</p>;
+  if (error)
+    return (
+      <p className="text-center mt-5 text-danger">
+        Error loading agent details.
+      </p>
+    );
+
   return (
     <>
+      {/* Tab Navigation */}
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item">
           <a
@@ -21,7 +33,6 @@ const TabDetailsContent = () => {
             Description
           </a>
         </li>
-        {/* End Description tab */}
 
         <li className="nav-item">
           <a
@@ -32,24 +43,22 @@ const TabDetailsContent = () => {
             aria-controls="listing"
             aria-selected="false"
           >
-            Listing
+            Listings
           </a>
         </li>
-        {/* End Listing tab */}
 
         <li className="nav-item">
           <a
             className="nav-link"
             data-bs-toggle="tab"
-            href="#agetns"
+            href="#agents"
             role="tab"
-            aria-controls="listing"
+            aria-controls="agents"
             aria-selected="false"
           >
             Agents
           </a>
         </li>
-        {/* End Listing tab */}
 
         <li className="nav-item">
           <a
@@ -63,11 +72,11 @@ const TabDetailsContent = () => {
             Reviews
           </a>
         </li>
-        {/* End Reviews tab */}
       </ul>
-      {/* End .nav nav-tabs */}
 
+      {/* Tab Content */}
       <div className="tab-content" id="myTabContent2">
+        {/* Description Tab */}
         <div
           className="tab-pane fade show active"
           id="description"
@@ -77,51 +86,50 @@ const TabDetailsContent = () => {
             <div className="mbp_pagination_comments">
               <div className="mbp_first media">
                 <div className="media-body agent-desc">
-                  <DescriptionsText />
+                  <DescriptionsText description={agent?.description} />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* End Description details content*/}
 
+        {/* Listings Tab */}
         <div
           className="tab-pane fade row pl15 pl0-1199 pr15 pr0-1199"
           id="listing"
           role="tabpanel"
         >
-          <Listings />
+          <Listings properties={agent?.properties || []} />
         </div>
-        {/* End Listing details content*/}
 
+        {/* Agents Tab */}
         <div
           className="tab-pane fade row pl15 pl0-1199 pr15 pr0-1199"
-          id="agetns"
+          id="agents"
           role="tabpanel"
         >
-          <div className="row  mt30">
-            <Team />
+          <div className="row mt30">
+            <Team agents={agent?.agents || []} />
           </div>
         </div>
-        {/* End aget team content*/}
 
+        {/* Reviews Tab */}
         <div className="tab-pane fade" id="review" role="tabpanel">
           <div className="product_single_content">
             <div className="mbp_pagination_comments">
               <div className="total_review">
-                <h4>896 Reviews</h4>
+                <h4>{agent?.reviews?.length || 0} Reviews</h4>
                 <ul className="review_star_list mb0 pl10">
-                  <Ratings />
+                  <Ratings rating={agent?.averageRating || 0} />
                 </ul>
                 <a className="tr_outoff pl10" href="#">
-                  ( 4.5 out of 5 )
+                  ( {agent?.averageRating || "0.0"} out of 5 )
                 </a>
                 <a className="write_review float-end fn-xsd" href="#">
                   Write a Review
                 </a>
               </div>
-              {/* End .total_review */}
-              <Comments />
+              <Comments reviews={agent?.reviews || []} />
               <div className="custom_hr"></div>
 
               <div className="mbp_comment_form style2">
@@ -130,7 +138,7 @@ const TabDetailsContent = () => {
                   <li className="list-inline-item">
                     <span className="sspd_review">
                       <ul>
-                        <Ratings />
+                        <Ratings rating={0} />
                       </ul>
                     </span>
                   </li>
@@ -138,14 +146,12 @@ const TabDetailsContent = () => {
                     <p>Your Rating & Review</p>
                   </li>
                 </ul>
-                <ReviewBox />
+                <ReviewBox agentId={agent?.id} />
               </div>
             </div>
           </div>
         </div>
-        {/* End Reviews details content*/}
       </div>
-      {/* End tab-content */}
     </>
   );
 };

@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import Gallery from "@/components/gallery";
 
 export const metadata = {
-  title: "Gallery || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "Gallery || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {

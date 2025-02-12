@@ -17,20 +17,16 @@ import blogs from "@/data/blogs";
 import Image from "next/image";
 
 export const metadata = {
-  title: 'Blog Details || FindHouse - Real Estate React Template',
-  description:
-    'FindHouse - Real Estate React Template',
-}
+  title: "Blog Details || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
+};
 
-const BlogDetailsDynamic = ({params}) => {
-  
+const BlogDetailsDynamic = ({ params }) => {
   const id = params.id;
-  const blog = blogs.find((item) => item.id == id) ||  blogs[0]
-
+  const blog = blogs.find((item) => item.id == id) || blogs[0];
 
   return (
     <>
-
       {/* <!-- Main Header Nav --> */}
       <Header />
 

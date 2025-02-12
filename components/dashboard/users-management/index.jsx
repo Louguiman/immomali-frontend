@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import {
   useCreateUserMutation,
@@ -161,7 +161,9 @@ const index = () => {
                           <td>{user.email}</td>
                           <td>
                             <span className="badge bg-info text-dark">
-                              {user.role}
+                              {user.roles.map((item, i) => (
+                                <p key={i}>{item.name}</p>
+                              ))}
                             </span>
                           </td>
                           <td>

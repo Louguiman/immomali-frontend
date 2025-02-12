@@ -15,7 +15,17 @@ export const makeStore = () => {
       agent: agentSlice,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(apiSlice.middleware),
+      getDefaultMiddleware({
+        serializableCheck: {
+          // Ignore non-serializable values for 'createListing' (which includes Files)
+          ignoredActions: [
+            "properties/setPropertyImages",
+            "properties/addPropertyImage",
+            "properties/removePropertyImage",
+          ],
+          ignoredPaths: ["properties.createListing.propertyImages"],
+        },
+      }).concat(apiSlice.middleware),
   });
 };
 // Typescript

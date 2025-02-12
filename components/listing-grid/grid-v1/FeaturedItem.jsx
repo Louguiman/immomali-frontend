@@ -6,23 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
 // import properties from "../../../data/properties";
 import Image from "next/image";
+import { cleanUrl } from "@/utils/splitDescription";
+import { getSignedUrl } from "@/features/api/Serverside";
+import SignedImage from "@/components/common/header/SignedImage";
 
 const FeaturedItem = ({ properties }) => {
   const dispatch = useDispatch();
-
-  const {
-    keyword,
-    location,
-    status,
-    propertyType,
-    price,
-    bathrooms,
-    bedrooms,
-    garages,
-    yearBuilt,
-    area,
-    amenities,
-  } = useSelector((state) => state.properties);
   const { statusType, featured, isGridOrList } = useSelector(
     (state) => state.filter
   );
@@ -41,11 +30,11 @@ const FeaturedItem = ({ properties }) => {
         }`}
       >
         <div className="thumb">
-          <Image
+          <SignedImage
             width={342}
             height={220}
             className="img-whp w-100 h-100 cover"
-            src={"/assets/images/property/2.jpg"}
+            src={cleanUrl(item?.images[0]?.imageUrl)}
             alt="fp1.jpg"
           />
           <div className="thmb_cntnt">
@@ -108,7 +97,7 @@ const FeaturedItem = ({ properties }) => {
                   <Image
                     width={40}
                     height={40}
-                    src={item.posterAvatar}
+                    src={item?.owner?.avatarUrl}
                     alt="pposter1.png"
                   />
                 </Link>

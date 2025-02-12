@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import MyPackage from "@/components/dashboard/my-package";
 
 export const metadata = {
-  title: "My Package || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "My Package || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {

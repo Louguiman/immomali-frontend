@@ -24,3 +24,15 @@ export const splitDescription = (description, minWordsPerSegment = 150) => {
 
   return result;
 };
+
+export function cleanUrl(url) {
+  if (!url) return "";
+
+  try {
+    // Remove extra slashes but preserve the 'https://' part
+    return url.replace(/([^:]\/)\/+/g, "$1");
+  } catch (error) {
+    console.error("Error cleaning URL:", error);
+    return url; // Return original if error occurs
+  }
+}

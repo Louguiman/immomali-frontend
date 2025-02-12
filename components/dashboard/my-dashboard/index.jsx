@@ -1,9 +1,10 @@
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import Activities from "./Activities";
 import AllStatistics from "./AllStatistics";
 import StatisticsChart from "./StatisticsChart";
+import UserBanner from "./UserBanner";
 
 const index = () => {
   return (
@@ -49,12 +50,8 @@ const index = () => {
                 </div>
                 {/* End Dashboard Navigation */}
 
-                <div className="col-lg-12 mb10">
-                  <div className="breadcrumb_content style2">
-                    <h2 className="breadcrumb_title">Howdy, Hasan</h2>
-                    <p>We are glad to see you again!</p>
-                  </div>
-                </div>
+                {/* userBanner */}
+                <UserBanner />
               </div>
               {/* End .row */}
 

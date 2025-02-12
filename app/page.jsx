@@ -3,7 +3,7 @@ import HomeMain from "./(homes)/home-4/page";
 
 export const metadata = {
   title: "Accueil|| IMMO-MALI - Real Estate ",
-  description: "FindHouse - Real Estate React Template",
+  description: "ImmoMali - Real Estate",
 };
 
 export default function Home() {

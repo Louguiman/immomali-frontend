@@ -33,3 +33,27 @@ export const searchProperties = async (page = 1, limit = 10, filters = {}) => {
   if (!res.ok) throw new Error("Failed to fetch properties");
   return res.json();
 };
+
+// utils/getSignedUrl.js
+export async function getSignedUrl(imageUrl) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/properties/signed-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageUrl }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch signed URL");
+  }
+
+  const data = await response.json();
+  console.log("request sign url: ", data);
+
+  // Assuming your endpoint returns an object like: { signedUrl: "..." }
+  return data;
+}

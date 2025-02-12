@@ -68,7 +68,7 @@ const Team = () => {
                   <a href="#">Office: {item.office}</a>
                 </li>
                 <li>
-                  <a href="#">Mobile: {item.mobile}</a>
+                  <a href="#">Mobile: {item.phoneNumber}</a>
                 </li>
                 <li>
                   <a href="#">Fax: {item.fax}</a>

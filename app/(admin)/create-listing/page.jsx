@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import CreateListing from "@/components/dashboard/create-listing";
 
 export const metadata = {
-  title: "Create Listing || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "Create Listing || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {

@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRegisterMutation } from "@/features/api/auth.api";
 import { toast } from "react-toastify";
+import { useRegisterMutation } from "@/features/api/auth.api";
+import { useCreateAgencyMutation } from "@/features/api/agencies.api";
+import { useCreateAgentMutation } from "@/features/api/agents.api";
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -11,11 +13,18 @@ const SignupForm = () => {
     password: "",
     phoneNumber: "",
     role: "user", // Default role
-    agencyId: null,
+    agencyId: "",
     isActive: true,
+    address: "",
+    description: "",
+    website: "",
   });
 
-  const [signup, { isLoading }] = useRegisterMutation();
+  const [registerUser, { isLoading: isRegistering }] = useRegisterMutation();
+  const [createAgency, { isLoading: isCreatingAgency }] =
+    useCreateAgencyMutation();
+  const [createAgent, { isLoading: isCreatingAgent }] =
+    useCreateAgentMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +35,38 @@ const SignupForm = () => {
     e.preventDefault();
 
     try {
-      await signup(formData).unwrap();
-      toast.success("Registration successful!");
+      if (formData.role === "agency") {
+        // Create an agency
+        await createAgency({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+          address: formData.address,
+          description: formData.description,
+          website: formData.website,
+        }).unwrap();
+        toast.success("Agency registered successfully!");
+      } else if (formData.role === "agent") {
+        // Create an agent
+        await createAgent({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+          agencyId: formData.agencyId ? parseInt(formData.agencyId) : null,
+        }).unwrap();
+        toast.success("Agent registered successfully!");
+      } else {
+        // Register a normal user
+        await registerUser({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+        }).unwrap();
+        toast.success("User registered successfully!");
+      }
     } catch (err) {
       toast.error("Registration failed: " + err.data?.message || err.message);
     }
@@ -36,7 +75,7 @@ const SignupForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="heading text-center">
-        <h3>Register to your account</h3>
+        <h3>Register Your Account</h3>
         <p className="text-center">
           Already have an account?{" "}
           <Link href="/login" className="text-thm">
@@ -44,8 +83,8 @@ const SignupForm = () => {
           </Link>
         </p>
       </div>
-      {/* End .heading */}
 
+      {/* Full Name */}
       <div className="form-group input-group">
         <input
           type="text"
@@ -62,8 +101,8 @@ const SignupForm = () => {
           </div>
         </div>
       </div>
-      {/* End .form-group */}
 
+      {/* Email */}
       <div className="form-group input-group">
         <input
           type="email"
@@ -80,8 +119,8 @@ const SignupForm = () => {
           </div>
         </div>
       </div>
-      {/* End .form-group */}
 
+      {/* Password */}
       <div className="form-group input-group">
         <input
           type="password"
@@ -98,8 +137,8 @@ const SignupForm = () => {
           </div>
         </div>
       </div>
-      {/* End .form-group */}
 
+      {/* Phone Number */}
       <div className="form-group input-group">
         <input
           type="text"
@@ -116,8 +155,8 @@ const SignupForm = () => {
           </div>
         </div>
       </div>
-      {/* End .form-group */}
 
+      {/* Role Selection */}
       <div className="form-group">
         <label className="form-label">Choose Your Role</label>
         <div className="role-selection">
@@ -164,8 +203,8 @@ const SignupForm = () => {
           </label>
         </div>
       </div>
-      {/* End .form-group */}
 
+      {/* Agency ID (For Agents) */}
       {formData.role === "agent" && (
         <div className="form-group input-group">
           <input
@@ -173,7 +212,7 @@ const SignupForm = () => {
             className="form-control"
             name="agencyId"
             value={formData.agencyId || ""}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             placeholder="Agency ID (if applicable)"
           />
           <div className="input-group-prepend">
@@ -183,16 +222,54 @@ const SignupForm = () => {
           </div>
         </div>
       )}
-      {/* End .form-group */}
+
+      {/* Additional Fields for Agencies */}
+      {formData.role === "agency" && (
+        <>
+          <div className="form-group input-group">
+            <input
+              type="text"
+              className="form-control"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Agency Description"
+            />
+          </div>
+
+          <div className="form-group input-group">
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Agency Address"
+            />
+          </div>
+
+          <div className="form-group input-group">
+            <input
+              type="text"
+              className="form-control"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              placeholder="Agency Website (Optional)"
+            />
+          </div>
+        </>
+      )}
 
       <button
         type="submit"
-        disabled={isLoading}
+        disabled={isRegistering || isCreatingAgency || isCreatingAgent}
         className="btn btn-log w-100 btn-thm"
       >
-        Register
+        {isRegistering || isCreatingAgency || isCreatingAgent
+          ? "Registering..."
+          : "Register"}
       </button>
-      {/* End .form-group */}
     </form>
   );
 };

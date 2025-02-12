@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import Compare from "@/components/compare";
 
 export const metadata = {
-  title: "Compare || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "Compare || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {

@@ -28,12 +28,22 @@ import { apiSlice } from "./api";
 export const extendedApiSlice = apiSlice.injectEndpoints({
   tagTypes: ["Properties"],
   endpoints: (builder) => ({
+    getSignedUrl: builder.mutation({
+      query: (imageUrl) => ({
+        url: "properties/signed-url",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: { imageUrl },
+      }),
+    }),
     uploadImages: builder.mutation({
       query: ({ propertyId, images }) => {
         const formData = new FormData();
         images.forEach((image) => formData.append("images", image));
         return {
-          url: `/property/${propertyId}/images`,
+          url: `/properties/${propertyId}/upload-photos`,
           method: "POST",
           body: formData,
         };
@@ -46,7 +56,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           formData.append("attachments", attachment)
         );
         return {
-          url: `/property/${propertyId}/attachments`,
+          url: `/properties/${propertyId}/upload-attachments`,
           method: "POST",
           body: formData,
         };
@@ -83,6 +93,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetSignedUrlMutation,
   useFetchPropertiesQuery,
   useCreatePropertyMutation,
   useFetchPropertyByIdQuery,

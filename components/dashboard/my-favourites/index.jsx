@@ -1,5 +1,5 @@
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../common/header/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import FavouritProducts from "./FavouritProducts";
 import Filtering from "./Filtering";

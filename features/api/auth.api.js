@@ -8,6 +8,7 @@ import {
   loginSuccess,
   logoutSuccess,
   refreshTokenSuccess,
+  setAuthToken,
 } from "../auth/authSlice";
 
 // TS
@@ -45,10 +46,23 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           const accessToken = data.accessToken;
+          dispatch(setAuthToken({ accessToken }));
+
+          // Set the Authorization header for future requests
+          dispatch(
+            authApi.util.updateQueryData("getMe", undefined, (draft) => {
+              draft.headers = {
+                ...draft.headers,
+                Authorization: `Bearer ${accessToken}`,
+              };
+            })
+          );
 
           // Fetch user data using getMe after login
           const userResponse = await dispatch(
-            authApi.endpoints.getMe.initiate(undefined)
+            authApi.endpoints.getMe.initiate(undefined, {
+              forceRefetch: true,
+            })
           ).unwrap();
 
           // Store user and access token in Redux
@@ -69,7 +83,7 @@ export const authApi = apiSlice.injectEndpoints({
           await queryFulfilled;
           dispatch(logoutSuccess());
         } catch (error) {
-          console.error("Logout failed", error);
+          console.log("Logout failed", error);
         }
       },
     }),

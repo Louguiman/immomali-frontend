@@ -2,14 +2,15 @@ import ContactWithAgent from "../../components/common/agent-view/ContactWithAgen
 import Categorie from "../../components/common/listing/Categorie";
 import FeaturedListings from "../../components/common/listing/FeaturedListings";
 import FeatureProperties from "../../components/common/listing/FeatureProperties";
+import ContactWithAgency from "../common/agent-view/ContactWithAgency";
 
-const SidebarListings = () => {
+const SidebarListings = ({ agencyId }) => {
   return (
     <div className="sidebar_listing_grid1">
       <div className="sidebar_listing_list">
         <div className="sidebar_advanced_search_widget">
           <h4 className="mb25">Contact with Agency</h4>
-          <ContactWithAgent />
+          <ContactWithAgency agencyId={agencyId} />
         </div>
       </div>
       {/* End filter and search area */}

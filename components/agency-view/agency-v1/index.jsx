@@ -11,6 +11,7 @@ import Footer from "../../common/footer/Footer";
 import CopyrightFooter from "../../common/footer/CopyrightFooter";
 
 const index = () => {
+
     return (
         <>
             {/* <!-- Main Header Nav --> */}

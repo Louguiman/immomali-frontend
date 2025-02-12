@@ -13,11 +13,13 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      refreshToken()
-        .unwrap()
-        .catch(() => {
-          router.push("/login");
-        });
+      // router.push("/login");
+
+      // refreshToken()
+      //   .unwrap()
+      //   .catch(() => {
+      //     router.push("/login");
+      //   });
     }
   }, [isAuthenticated, refreshToken, router]);
 

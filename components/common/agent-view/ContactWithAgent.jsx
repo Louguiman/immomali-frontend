@@ -5,13 +5,14 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const ContactWithAgent = ({ propertyId }) => {
+const ContactWithAgent = ({ agentId }) => {
   const user = useSelector((state) => state.auth?.user); // Get logged-in user
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phoneNumber: "",
     message: "",
-    propertyId: propertyId,
+    agentId: agentId,
   });
 
   const [createInquiry, { isLoading }] = useCreateInquiryMutation();
@@ -71,6 +72,20 @@ const ContactWithAgent = ({ propertyId }) => {
               onChange={handleChange}
               required
               disabled={!!user} // Disable for logged-in users
+            />
+          </div>
+        </li>
+
+        <li className="search_area">
+          <div className="form-group mb-3">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Phone Number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              // disabled={!!user} // Disable for logged-in users
             />
           </div>
         </li>

@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import BlogV1 from "@/components/blog-list-1";
 
 export const metadata = {
-  title: "Blog List 1 || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "Blog List 1 || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {

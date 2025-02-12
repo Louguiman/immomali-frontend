@@ -1,11 +1,12 @@
-import Team from "../agent-view/agent-v2/Team";
+import agency from "@/data/agency";
+import Team from "./Team";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
 import ReviewBox from "../blog-details/ReviewBox";
 import DescriptionsText from "./DescriptionsText";
 import Listings from "./Listings";
 
-const TabDetailsContent = () => {
+const TabDetailsContent = ({ agency }) => {
   return (
     <>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -77,7 +78,7 @@ const TabDetailsContent = () => {
             <div className="mbp_pagination_comments">
               <div className="mbp_first media">
                 <div className="media-body agent-desc">
-                  <DescriptionsText />
+                  <DescriptionsText description={agency?.description} />
                 </div>
               </div>
             </div>
@@ -90,7 +91,7 @@ const TabDetailsContent = () => {
           id="listing"
           role="tabpanel"
         >
-          <Listings />
+          <Listings properties={agency.properties} />
         </div>
         {/* End Listing details content*/}
 
@@ -100,7 +101,7 @@ const TabDetailsContent = () => {
           role="tabpanel"
         >
           <div className="row  mt30">
-            <Team />
+            <Team agents={agency.agents} />
           </div>
         </div>
         {/* End Listing details content*/}

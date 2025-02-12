@@ -1,9 +1,9 @@
+"use client";
 
-
-import agenceis from "@/data/agency";
+import React, { use } from "react";
 import BreadCrumb2 from "@/components/agent-details/BreadCrumb2";
-import SidebarListings from "@/components/agent-details/SidebarListings";
-import TabDetailsContent from "@/components/agent-details/TabDetailsContent";
+import SidebarListings from "@/components/agency-details/SidebarListings";
+import TabDetailsContent from "@/components/agency-details/TabDetailsContent";
 import CopyrightFooter from "@/components/common/footer/CopyrightFooter";
 import Footer from "@/components/common/footer/Footer";
 import Header from "@/components/common/header/DefaultHeader";
@@ -11,35 +11,46 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useGetAgencyByIdQuery } from "@/features/api/agencies.api";
 
-const AgencyDetailsDynamic = ({params}) => {
- 
-    const id = params.id;
-    const agency = agenceis.find((item) => item.id == id) || agenceis[0]
+const AgencyDetailsDynamic = ({ params }) => {
+  const { id } = use(params);
+  const { data: agency, isLoading, error } = useGetAgencyByIdQuery(id);
+  const router = useRouter();
 
-  
+  if (isLoading)
+    return <p className="text-center mt-5">Loading agency details...</p>;
+  if (error)
+    return (
+      <p className="text-center mt-5 text-danger">
+        Error loading agency details.
+      </p>
+    );
+
+  // Redirect if agency is not found
+  if (!agency) {
+    router.push("/404");
+    return null;
+  }
 
   return (
     <>
-      {/* <!-- Main Header Nav --> */}
+      {/* Header & Mobile Menu */}
       <Header />
-
-      {/* <!--  Mobile Menu --> */}
       <MobileMenu />
-
-      {/* <!-- Modal --> */}
       <PopupSignInUp />
 
-      {/* <!-- Agent Single Grid View --> */}
+      {/* Agency Details Section */}
       <section className="our-agent-single bgc-f7 pb30-991 mt85 md-mt0">
         <div className="container">
           <div className="row">
+            {/* Left Content */}
             <div className="col-md-12 col-lg-8">
               <div className="row">
                 <div className="col-lg-12">
                   <BreadCrumb2 />
                 </div>
-                {/* End .col-12 */}
 
                 <div className="col-lg-12">
                   <div className="feat_property list agency">
@@ -47,48 +58,55 @@ const AgencyDetailsDynamic = ({params}) => {
                       <Image
                         width={265}
                         height={232}
-                        className="img-whp"
-                        src={agency?.img}
-                        alt={agency?.img}
+                        className="img-fluid"
+                        src={
+                          agency?.logoUrl || "/assets/images/default-agency.jpg"
+                        }
+                        alt={agency?.name}
                       />
                       <div className="thmb_cntnt">
                         <ul className="tag mb0">
-                          <li className="list-inline-item dn"></li>
                           <li className="list-inline-item">
-                            <a href="#">{agency?.noOfListings} Listings</a>
+                            <a href="#">
+                              {agency?.properties?.length || 0} Listings
+                            </a>
                           </li>
                         </ul>
                       </div>
                     </div>
-                    {/* End .thumb */}
 
                     <div className="details">
                       <div className="tc_content">
                         <h4>{agency?.name}</h4>
-                        <p className="text-thm">{agency?.type}</p>
+                        <p className="text-thm">
+                          {agency?.description || "No description available"}
+                        </p>
                         <ul className="prop_details mb0">
                           <li>
-                            <a href="#">Office: {agency?.office}</a>
+                            <a href="#">Office: {agency?.office || "N/A"}</a>
                           </li>
                           <li>
-                            <a href="#">Mobile: {agency?.mobile}</a>
+                            <a href="#">
+                              Mobile: {agency?.phoneNumber || "N/A"}
+                            </a>
                           </li>
                           <li>
-                            <a href="#">Fax: {agency?.fax}</a>
+                            <a href="#">Website: {agency?.website || "N/A"}</a>
                           </li>
                           <li>
-                            <a href="#">Email: {agency?.email}</a>
+                            <a href={`mailto:${agency?.email}`}>
+                              Email: {agency?.email || "N/A"}
+                            </a>
                           </li>
                         </ul>
                       </div>
-                      {/* End .tc_content */}
 
                       <div className="fp_footer">
                         <ul className="fp_meta float-start mb0">
-                          {agency?.socialList?.map((social, i) => (
+                          {agency?.socialLinks?.map((social, i) => (
                             <li className="list-inline-item" key={i}>
                               <a
-                                href={social.liveLink}
+                                href={social.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
@@ -98,31 +116,30 @@ const AgencyDetailsDynamic = ({params}) => {
                           ))}
                         </ul>
                       </div>
-                      {/* End .fp_footer */}
                     </div>
                   </div>
-                  {/* End .feat_property */}
 
+                  {/* Tab Content */}
                   <div className="shop_single_tab_content style2 mt30">
-                    <TabDetailsContent />
+                    <TabDetailsContent
+                      agency={agency}
+                      isLoading={isLoading}
+                      error={error}
+                    />
                   </div>
                 </div>
-                {/* End .col-12 */}
               </div>
             </div>
-            {/* End .col-md-12 col-lg-8 content left side */}
 
+            {/* Right Sidebar */}
             <div className="col-lg-4 col-xl-4">
-              <SidebarListings />
+              <SidebarListings agencyId={agency.id} />
             </div>
-            {/* End .col-lg-4 col-xl-4 content left side */}
           </div>
-          {/* End .row */}
         </div>
-        {/* End .container */}
       </section>
 
-      {/* <!-- Our Footer --> */}
+      {/* Footer */}
       <section className="footer_one">
         <div className="container">
           <div className="row">
@@ -131,7 +148,6 @@ const AgencyDetailsDynamic = ({params}) => {
         </div>
       </section>
 
-      {/* <!-- Our Footer Bottom Area --> */}
       <section className="footer_middle_area pt40 pb40">
         <div className="container">
           <CopyrightFooter />

@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import TenantsManagement from "@/components/dashboard/tenants-management";
 
 export const metadata = {
-  title: "Tenants Management || FindHouse - Real Estate React Template",
-  description: "FindHouse - Real Estate React Template",
+  title: "Tenants Management || ImmoMali - Real Estate",
+  description: "ImmoMali - Real Estate",
 };
 
 const index = () => {
