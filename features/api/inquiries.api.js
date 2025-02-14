@@ -91,6 +91,30 @@ export const inquiriesApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Inquiries"],
     }),
+
+    getSentInquiries: builder.query({
+      query: () => "/inquiries/sent",
+      providesTags: ["Inquiries"],
+    }),
+
+    getReceivedInquiries: builder.query({
+      query: () => "/inquiries/received",
+      providesTags: ["Inquiries"],
+    }),
+
+    getInquiryReplies: builder.query({
+      query: (inquiryId) => `/inquiry-replies/${inquiryId}`,
+      providesTags: ["InquiryReplies"],
+    }),
+
+    sendInquiryReply: builder.mutation({
+      query: (reply) => ({
+        url: "/inquiry-replies",
+        method: "POST",
+        body: reply,
+      }),
+      invalidatesTags: ["InquiryReplies"],
+    }),
   }),
 });
 
@@ -100,4 +124,8 @@ export const {
   useGetInquiryByIdQuery,
   useUpdateInquiryMutation,
   useDeleteInquiryMutation,
+  useGetSentInquiriesQuery,
+  useGetReceivedInquiriesQuery,
+  useGetInquiryRepliesQuery,
+  useSendInquiryReplyMutation,
 } = inquiriesApi;

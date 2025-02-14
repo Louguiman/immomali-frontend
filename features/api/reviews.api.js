@@ -39,15 +39,17 @@ import { apiSlice } from "./api";
 export const reviewsApi = apiSlice.injectEndpoints({
   tagTypes: ["Reviews"],
   endpoints: (builder) => ({
+    getAllUserReviews: builder.query({
+      query: (userId) => `/reviews/${userId}`,
+      providesTags: ["Reviews"],
+    }),
+
     // 🔹 Create a Review
     createReview: builder.mutation({
       query: ({ propertyId, ...review }) => ({
         url: `/reviews/${propertyId}`,
         method: "POST",
         body: review,
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("token")}`, // Ensure user is authenticated
-        // },
       }),
       invalidatesTags: ["Reviews"],
     }),
@@ -58,6 +60,30 @@ export const reviewsApi = apiSlice.injectEndpoints({
       providesTags: ["Reviews"],
     }),
 
+    // Update a review
+    updateReview: builder.mutation({
+      query: ({ id, ...updateData }) => ({
+        url: `/reviews/${id}`,
+        method: "PATCH",
+        body: updateData,
+      }),
+      invalidatesTags: ["Reviews"], // Refresh data after update
+    }),
+
+    // Delete a review
+    deleteReview: builder.mutation({
+      query: (id) => ({
+        url: `/reviews/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Reviews"], // Refresh data after deletion
+    }),
+
+    // Fetch reviews received by the logged-in user
+    getReceivedReviews: builder.query({
+      query: () => "/reviews/received",
+      providesTags: ["Reviews"],
+    }),
     // 🔹 Delete a Review
     deleteReview: builder.mutation({
       query: (id) => ({
@@ -69,11 +95,14 @@ export const reviewsApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Reviews"],
     }),
-  }), 
+  }),
 });
 
 export const {
   useCreateReviewMutation,
   useGetReviewsQuery,
+  useGetAllUserReviewsQuery,
+  useUpdateReviewMutation,
   useDeleteReviewMutation,
+  useGetReceivedReviewsQuery,
 } = reviewsApi;

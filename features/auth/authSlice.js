@@ -1,21 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// const initialState = {
+//   user: {
+//     name: "billa",
+//     roles: [
+//       {
+//         id: 4,
+//         name: "user",
+//         permissions: [
+//           {
+//             id: 8,
+//             name: "view_property",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   accessToken: null,
+//   isAuthenticated: false,
+// };
+
 const initialState = {
-  user: {
-    name: "billa",
-    roles: [
-      {
-        id: 4,
-        name: "user",
-        permissions: [
-          {
-            id: 8,
-            name: "view_property",
-          },
-        ],
-      },
-    ],
-  },
+  user: null,
   accessToken: null,
   isAuthenticated: false,
 };

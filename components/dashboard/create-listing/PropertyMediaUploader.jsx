@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import selectedFiles from "../../../utils/selectedFiles";
 import Image from "next/image";

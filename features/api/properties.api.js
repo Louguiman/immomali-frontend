@@ -41,7 +41,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     uploadImages: builder.mutation({
       query: ({ propertyId, images }) => {
         const formData = new FormData();
-        images.forEach((image) => formData.append("images", image));
+        images.forEach((image) => formData.append("photos", image));
         return {
           url: `/properties/${propertyId}/upload-photos`,
           method: "POST",
