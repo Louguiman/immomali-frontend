@@ -1,15 +1,15 @@
 import dynamic from "next/dynamic";
-import UsersManagement from "@/components/dashboard/users-management";
+import MyFavourites from "@/components/dashboard/my-favourites";
 
 export const metadata = {
-  title: "User Management || ImmoMali - Real Estate",
+  title: "My Favourites || ImmoMali - Real Estate",
   description: "ImmoMali - Real Estate",
 };
 
 const index = () => {
   return (
     <>
-      <UsersManagement />
+      <MyFavourites />
     </>
   );
 };

@@ -1,105 +1,117 @@
+import React from "react";
 import Image from "next/image";
-import properties from "../../../data/properties";
 
-const TableData = ({ data }) => {
-  console.log("table data: ", data);
+// Define an interface for a Property (adapt as necessary)
+// interface Property {
+//   id: number;
+//   title: string;
+//   location: string;
+//   price: number;
+//   createdAt: string;
+//   status: string;
+//   views: number;
+//   img: string;
+//   // Additional fields can be added as needed
+// }
 
-  let theadConent = ["Nom", "Date de publication", "Statut", "Vues", "Action"];
-  let tbodyContent = data?.map((item) => (
-    <tr key={item.id}>
-      <td scope="row">
-        <div className="feat_property list favorite_page style2">
-          <div className="thumb">
-            <Image
-              width={150}
-              height={220}
-              className="img-whp cover"
-              src={item.img}
-              alt="fp1.jpg"
-            />
-            <div className="thmb_cntnt">
-              <ul className="tag mb0">
-                <li className="list-inline-item">
-                  <a href="#">For Rent</a>
+// // Define the header interface
+// interface Header {
+//   label: string;
+//   key: string;
+// }
+
+// Define the props interface for TableData
+// interface TableDataProps {
+//   data: Property[];
+//   headers?: Header[];
+//   onEdit: (property: Property) => void;
+//   onDelete: (id: number) => void;
+// }
+
+// Default headers if none are provided
+const defaultHeaders = [
+  { label: "Title", key: "title" },
+  { label: "Published Date", key: "createdAt" },
+  { label: "Status", key: "status" },
+  { label: "Views", key: "views" },
+  { label: "Action", key: "action" },
+];
+
+const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
+  
+  return (
+    <table className="table">
+      <thead className="thead-light">
+        <tr>
+          {headers.map((header, index) => (
+            <th key={index}>{header.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item) => (
+          <tr key={item.id}>
+            {/* Title Column with Image and Location */}
+            <td>
+              <div className="d-flex align-items-center">
+                <Image
+                  width={150}
+                  height={100}
+                  className="img-thumbnail me-2"
+                  src={item.images[0]?.imageUrl}
+                  alt={item.title}
+                />
+                <div>
+                  <h5>{item.title}</h5>
+                  <p className="mb-0">
+                    <small>{item.location}</small>
+                  </p>
+                </div>
+              </div>
+            </td>
+
+            {/* Published Date Column */}
+            <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+
+            {/* Status Column */}
+            <td>
+              <span
+                className={`badge ${
+                  item.status === "active" ? "bg-success" : "bg-warning"
+                }`}
+              >
+                {item.status}
+              </span>
+            </td>
+
+            {/* Views Column */}
+            <td>{item.views}</td>
+
+            {/* Action Column */}
+            <td>
+              <ul className="list-inline mb-0">
+                <li className="list-inline-item" title="Edit">
+                  <button
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={() => onEdit(item.id)}
+                  >
+                    <i className="fa fa-edit"></i>
+                  </button>
+                </li>
+                <li className="list-inline-item" title="Delete">
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => onDelete(item.id)}
+                  >
+                    <i className="fa fa-trash"></i>
+                  </button>
                 </li>
               </ul>
-            </div>
-          </div>
-          <div className="details">
-            <div className="tc_content">
-              <h4>{item.title}</h4>
-              <p>
-                <span className="flaticon-placeholder"></span>
-                {item.location}
-              </p>
-              <a className="fp_price text-thm" href="#">
-                ${item.price}
-                <small>/mo</small>
-              </a>
-            </div>
-          </div>
-        </div>
-      </td>
-      {/* End td */}
-
-      <td>30 December, 2020</td>
-      {/* End td */}
-
-      <td>
-        <span className="status_tag badge">Pending</span>
-      </td>
-      {/* End td */}
-
-      <td>2,345</td>
-      {/* End td */}
-
-      <td>
-        <ul className="view_edit_delete_list mb0">
-          <li
-            className="list-inline-item"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Edit"
-          >
-            <a>
-              <span className="flaticon-edit"></span>
-            </a>
-          </li>
-          {/* End li */}
-
-          <li
-            className="list-inline-item"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Delete"
-          >
-            <a>
-              <span className="flaticon-garbage"></span>
-            </a>
-          </li>
-        </ul>
-      </td>
-      {/* End td */}
-    </tr>
-  ));
-
-  return (
-    <>
-      <table className="table">
-        <thead className="thead-light">
-          <tr>
-            {theadConent.map((value, i) => (
-              <th scope="col" key={i}>
-                {value}
-              </th>
-            ))}
+            </td>
           </tr>
-        </thead>
-        {/* End theaad */}
-
-        <tbody>{tbodyContent}</tbody>
-      </table>
-    </>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

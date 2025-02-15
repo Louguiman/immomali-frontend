@@ -1,4 +1,6 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
@@ -6,39 +8,96 @@ import TableData from "./TableData";
 import Filtering from "./Filtering";
 import Pagination from "./Pagination";
 import SearchBox from "./SearchBox";
-import { useFetchPropertyByUserIdQuery } from "@/features/api/properties.api";
+import {
+  useDeletePropertyMutation,
+  useFetchPropertyByUserIdQuery,
+} from "@/features/api/properties.api";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+const PropertyManagementPage = () => {
+  // Get the logged-in user from Redux
+  const { user } = useSelector((state) => state.auth);
+  // Local state for pagination & filtering
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({});
 
-const index = () => {
-  const { data: properties, isLoading } = useFetchPropertyByUserIdQuery(1);
-  console.log("fetched properties my: ", properties);
+  // Combine filters for the query
+  const queryParams = {
+    userId: user?.id,
+    page,
+    limit,
+    keyword: searchTerm,
+    ...filters,
+  };
+
+  // Fetch properties using our query hook
+  const { data, isLoading, refetch } = useFetchPropertyByUserIdQuery(user?.id, {
+    skip: !user,
+  });
+
+  const router = useRouter();
+  const [deleteProperty] = useDeletePropertyMutation();
+
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure you want to delete this property?")) {
+      try {
+        await deleteProperty(id);
+        alert("Property deleted successfully.");
+      } catch (error) {
+        alert("Failed to delete property.");
+      }
+    }
+  };
+
+  // Handle search updates from SearchBox component
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setPage(1); // Reset to first page on new search
+  };
+
+  // Handle filtering updates from Filtering component
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+  };
+
+  // Handle pagination change from Pagination component
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  // Optionally, useEffect to refetch data when filters or search change
+  useEffect(() => {
+    refetch();
+  }, [searchTerm, filters, page, limit]);
 
   return (
     <>
-      {/* <!-- Main Header Nav --> */}
+      {/* Main Header */}
       <Header />
-
-      {/* <!--  Mobile Menu --> */}
       <MobileMenu />
 
+      {/* Sidebar */}
       <div className="dashboard_sidebar_menu">
         <div
           className="offcanvas offcanvas-dashboard offcanvas-start"
-          tabIndex="-1"
+          tabIndex={-1}
           id="DashboardOffcanvasMenu"
           data-bs-scroll="true"
         >
           <SidebarMenu />
         </div>
       </div>
-      {/* End sidebar_menu */}
 
-      {/* <!-- Our Dashbord --> */}
+      {/* Dashboard Content */}
       <section className="our-dashbord dashbord bgc-f7 pb50">
         <div className="container-fluid ovh">
           <div className="row">
             <div className="col-lg-12 maxw100flex-992">
               <div className="row">
-                {/* Start Dashboard Navigation */}
+                {/* Dashboard Navigation (Mobile responsive) */}
                 <div className="col-lg-12">
                   <div className="dashboard_navigationbar dn db-1024">
                     <div className="dropdown">
@@ -53,62 +112,65 @@ const index = () => {
                     </div>
                   </div>
                 </div>
-                {/* End Dashboard Navigation */}
 
+                {/* Breadcrumb and Greeting */}
                 <div className="col-lg-4 col-xl-4 mb10">
                   <div className="breadcrumb_content style2 mb30-991">
-                    <h2 className="breadcrumb_title">My Favorites</h2>
+                    <h2 className="breadcrumb_title">My Properties</h2>
                     <p>We are glad to see you again!</p>
                   </div>
                 </div>
-                {/* End .col */}
 
+                {/* Search & Filter Controls */}
                 <div className="col-lg-8 col-xl-8">
                   <div className="candidate_revew_select style2 text-end mb30-991">
                     <ul className="mb0">
                       <li className="list-inline-item">
                         <div className="candidate_revew_search_box course fn-520">
-                          <SearchBox />
+                          <SearchBox onSearch={handleSearch} />
                         </div>
                       </li>
-                      {/* End li */}
-
                       <li className="list-inline-item">
-                        <Filtering />
+                        <Filtering onFilterChange={handleFilterChange} />
                       </li>
-                      {/* End li */}
                     </ul>
                   </div>
                 </div>
-                {/* End .col */}
 
+                {/* Table Data and Pagination */}
                 <div className="col-lg-12">
                   <div className="my_dashboard_review mb40">
                     {isLoading ? (
                       <div className="property_table">
-                        En cours de chargement
+                        Loading properties...
                       </div>
-                    ) : properties ? (
+                    ) : data && data && data.length ? (
                       <div className="property_table">
                         <div className="table-responsive mt0">
-                          <TableData data={properties} />
+                          {/* TableData receives property data and dynamic header configuration */}
+                          <TableData
+                            onEdit={(id) =>
+                              router.push(`/dashboard/properties/edit/${id}`)
+                            }
+                            onDelete={handleDelete}
+                            data={data}
+                          />
                         </div>
-                        {/* End .table-responsive */}
-
                         <div className="mbp_pagination">
-                          <Pagination />
+                          <Pagination
+                            currentPage={page}
+                            totalPages={data.totalPage}
+                            onPageChange={handlePageChange}
+                          />
                         </div>
-                        {/* End .mbp_pagination */}
                       </div>
                     ) : (
-                      <div className="property_table">Aucune donneée</div>
+                      <div className="property_table">No properties found</div>
                     )}
-                    {/* End .property_table */}
                   </div>
                 </div>
-                {/* End .col */}
               </div>
-              {/* End .row */}
+              {/* End row */}
 
               <div className="row mt50">
                 <div className="col-lg-12">
@@ -117,9 +179,8 @@ const index = () => {
                   </div>
                 </div>
               </div>
-              {/* End .row */}
+              {/* End footer row */}
             </div>
-            {/* End .col */}
           </div>
         </div>
       </section>
@@ -127,4 +188,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default PropertyManagementPage;

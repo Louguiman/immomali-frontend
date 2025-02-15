@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cleanUrl } from "@/utils/splitDescription";
-import { getSignedUrl } from "@/features/api/Serverside";
-import SignedImage from "../common/header/SignedImage";
 
 const Listings = ({ properties }) => {
   return (
@@ -11,12 +9,12 @@ const Listings = ({ properties }) => {
         <div className="col-lg-12" key={item.id}>
           <div className="feat_property list style2 hvr-bxshd bdrrn mb10 mt20">
             <div className="thumb">
-              <SignedImage
+              <Image
                 width={275}
                 height={240}
                 className="img-whp w-100 cover"
-                src={cleanUrl(item?.images[0]?.imageUrl)}
-                alt={cleanUrl(item?.images[0]?.imageUrl)}
+                src={item?.images[0]?.imageUrl}
+                alt={item?.images[0]?.imageUrl}
               />
               <div className="thmb_cntnt">
                 <ul className="icon mb0">

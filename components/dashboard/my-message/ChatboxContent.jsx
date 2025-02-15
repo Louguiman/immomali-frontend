@@ -1,6 +1,7 @@
-import Image from "next/image";import { useGetInquiryRepliesQuery } from "@/features/api/inquiries.api";
+import Image from "next/image";
+import { useGetInquiryRepliesQuery } from "@/features/api/inquiries.api";
 import SignleChatboxReply from "./SignleChatboxReply";
-import PropertyCard from "@/components/PropertCard";
+import PropertyCard from "@/components/PropertyCard";
 
 const ChatboxContent = ({ inquiry }) => {
   const { data: replies, isLoading } = useGetInquiryRepliesQuery(inquiry?.id);

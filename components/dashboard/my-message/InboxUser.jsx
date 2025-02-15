@@ -15,6 +15,7 @@ const InboxUser = ({ inquiries, onClick }) => {
           <SingleUser
             key={inquiry.id}
             inquiry={inquiry}
+            isSelected={selectedInquiry.idd === inquiry.id}
             onClick={() => onClick(inquiry)}
           />
         ))}

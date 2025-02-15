@@ -89,6 +89,22 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
+    updateProperty: builder.mutation({
+      query: ({ id, ...updateData }) => ({
+        url: `/properties/${id}`,
+        method: "PATCH",
+        body: updateData,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Properties", id }],
+    }),
+
+    deleteProperty: builder.mutation({
+      query: (id) => ({
+        url: `/properties/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Properties"],
+    }),
   }),
 });
 
@@ -101,4 +117,6 @@ export const {
   useSearchPropertiesQuery,
   useUploadAttachmentsMutation,
   useUploadImagesMutation,
+  useUpdatePropertyMutation,
+  useDeletePropertyMutation,
 } = extendedApiSlice;

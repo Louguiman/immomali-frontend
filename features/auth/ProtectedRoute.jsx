@@ -14,12 +14,13 @@ const ProtectedRoute = ({
     if (!isAuthenticated) {
       router.push("/login");
     }
-    // } £
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated]);
 
-  return isAuthenticated && allowedRoles.includes(user?.role) ? (
-    <>{children}</>
-  ) : null;
+  const hasAccess =
+    isAuthenticated &&
+    user?.roles?.some((role) => allowedRoles.includes(role.name));
+
+  return hasAccess ? <>{children}</> : null;
 };
 
 export default ProtectedRoute;

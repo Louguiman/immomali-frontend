@@ -2,9 +2,6 @@
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import Image from "next/image";
-import { cleanUrl } from "@/utils/splitDescription";
-import { getSignedUrl } from "@/features/api/Serverside";
-import SignedImage from "../common/header/SignedImage";
 
 export default function ListingTwo({ property }) {
   return (
@@ -17,12 +14,8 @@ export default function ListingTwo({ property }) {
                 <div className="col-lg-12 ">
                   <div className="spls_style_one pr1 1px position-relative">
                     <Item
-                      original={getSignedUrl(
-                        cleanUrl(property?.images[0]?.imageUrl)
-                      )}
-                      thumbnail={getSignedUrl(
-                        cleanUrl(property?.images[0]?.imageUrl)
-                      )}
+                      original={property?.images[0]?.imageUrl}
+                      thumbnail={property?.images[0]?.imageUrl}
                       width={752}
                       height={450}
                     >
@@ -38,13 +31,13 @@ export default function ListingTwo({ property }) {
                               View Photos
                             </div>
                           </div>
-                          <SignedImage
+                          <Image
                             width={951}
                             height={569}
                             priority
                             className="img-fluid w100 cover lds-2"
-                            src={cleanUrl(property?.images[0]?.imageUrl)}
-                            alt={cleanUrl(property?.images[0]?.imageUrl)}
+                            src={property?.images[0]?.imageUrl}
+                            alt={property?.images[0]?.imageUrl}
                           />
                         </>
                       )}
@@ -61,19 +54,19 @@ export default function ListingTwo({ property }) {
                   <div className="col-6 col-lg-6 " key={i}>
                     <div className="spls_style_one">
                       <Item
-                        original={getSignedUrl(cleanUrl(img.imageUrl))}
-                        thumbnail={getSignedUrl(cleanUrl(img.imageUrl))}
+                        original={img.imageUrl}
+                        thumbnail={img.imageUrl}
                         width={752}
                         height={450}
                       >
                         {({ ref, open }) => (
                           <div role="button" ref={ref} onClick={open}>
-                            <SignedImage
+                            <Image
                               width={476}
                               height={285}
                               className="img-fluid w100 cover"
-                              src={cleanUrl(img.imageUrl)}
-                              alt={cleanUrl(img.imageUrl)}
+                              src={img.imageUrl}
+                              alt={img.imageUrl}
                             />
                           </div>
                         )}

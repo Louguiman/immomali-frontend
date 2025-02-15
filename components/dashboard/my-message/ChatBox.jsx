@@ -11,12 +11,19 @@ import { useState } from "react";
 
 const ChatBox = () => {
   const user = useAppSelector((state) => state.auth?.user);
-  const { data: sentInquiries, isLoading: sentLoading } =
-    useGetSentInquiriesQuery();
-  const { data: receivedInquiries, isLoading: receivedLoading } =
-    useGetReceivedInquiriesQuery();
+  const {
+    data: sentInquiries,
+    isLoading: sentLoading,
+    isError: isErrorSent,
+  } = useGetSentInquiriesQuery();
+  const {
+    data: receivedInquiries,
+    isLoading: receivedLoading,
+    isError: isErrorReceived,
+  } = useGetReceivedInquiriesQuery();
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   if (sentLoading || receivedLoading) return <p>Loading inquiries...</p>;
+  if (isErrorSent || isErrorReceived) return <p>Error loading inquiries...</p>;
 
   const inquiries = user.roles.some((role) => role.name !== "user")
     ? receivedInquiries
@@ -27,7 +34,10 @@ const ChatBox = () => {
       {/* Sidebar - List of Inquiries */}
       <div className="col-lg-5 col-xl-4">
         <div className="message_container">
-          <InboxUser inquiries={inquiries} onSelectInquiry={setSelectedInquiry} />
+          <InboxUser
+            inquiries={inquiries}
+            onSelectInquiry={setSelectedInquiry}
+          />
         </div>
       </div>
 

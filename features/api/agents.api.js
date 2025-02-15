@@ -2,6 +2,11 @@ import { apiSlice } from "./api";
 
 export const agentsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getAgentsByAgency: builder.query({
+      query: (agencyId) => `/users/agency/${agencyId}`,
+      providesTags: ["Agents"],
+    }),
+
     getAllAgents: builder.query({
       query: () => "/agents",
       providesTags: ["Agents"],
@@ -12,7 +17,7 @@ export const agentsApi = apiSlice.injectEndpoints({
     }),
     createAgent: builder.mutation({
       query: (agent) => ({
-        url: "/agents",
+        url: "/agents", //
         method: "POST",
         body: agent,
       }),
@@ -42,4 +47,5 @@ export const {
   useGetAgentByIdQuery,
   useGetAllAgentsQuery,
   useUpdateAgentMutation,
+  useGetAgentsByAgencyQuery,
 } = agentsApi;

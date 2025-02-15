@@ -6,9 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
 // import properties from "../../../data/properties";
 import Image from "next/image";
-import { cleanUrl } from "@/utils/splitDescription";
-import { getSignedUrl } from "@/features/api/Serverside";
-import SignedImage from "@/components/common/header/SignedImage";
 
 const FeaturedItem = ({ properties }) => {
   const dispatch = useDispatch();
@@ -30,11 +27,11 @@ const FeaturedItem = ({ properties }) => {
         }`}
       >
         <div className="thumb">
-          <SignedImage
+          <Image
             width={342}
             height={220}
             className="img-whp w-100 h-100 cover"
-            src={cleanUrl(item?.images[0]?.imageUrl)}
+            src={item?.images[0]?.imageUrl}
             alt="fp1.jpg"
           />
           <div className="thmb_cntnt">

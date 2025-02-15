@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSearchPropertiesQuery } from "@/features/api/properties.api";
-import PropertyCard from "@/components/PropertCard";
+import PropertyCard from "@/components/PropertyCard";
 import GlobalFilter from "@/components/common/GlobalFilter";
 import CopyrightFooter from "@/components/common/footer/CopyrightFooter";
 import Footer from "@/components/common/footer/Footer";

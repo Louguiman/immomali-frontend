@@ -392,6 +392,11 @@ address {
   font-family: FontAwesome !important;
 }
 
+.active-inquiry {
+  background-color: #f1f1f1 !important;
+  border-left: 4px solid #007bff;
+}
+
 .sign_up_modal:before {
   background-color: rgba(0, 0, 0, 0.9);
   bottom: 0;

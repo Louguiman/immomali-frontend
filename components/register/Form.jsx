@@ -42,6 +42,7 @@ const SignupForm = () => {
           email: formData.email,
           password: formData.password,
           phoneNumber: formData.phoneNumber,
+          role: formData.role,
           address: formData.address,
           description: formData.description,
           website: formData.website,
@@ -54,6 +55,7 @@ const SignupForm = () => {
           email: formData.email,
           password: formData.password,
           phoneNumber: formData.phoneNumber,
+          role: formData.role,
           agencyId: formData.agencyId ? parseInt(formData.agencyId) : null,
         }).unwrap();
         toast.success("Agent registered successfully!");
@@ -64,6 +66,7 @@ const SignupForm = () => {
           email: formData.email,
           password: formData.password,
           phoneNumber: formData.phoneNumber,
+          role: formData.role,
         }).unwrap();
         toast.success("User registered successfully!");
       }

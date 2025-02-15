@@ -2,7 +2,10 @@ import Image from "next/image";
 
 const SingleUser = ({ inquiry, onClick }) => {
   return (
-    <li className="contact" onClick={onClick}>
+    <li
+      className={`contact ${isSelected ? "active-inquiry" : ""}`}
+      onClick={onClick}
+    >
       <a href="#">
         <div className="wrap">
           <Image
