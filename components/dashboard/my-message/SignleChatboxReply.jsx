@@ -5,7 +5,7 @@ const SignleChatboxReply = ({ reply }) => {
     <>
       <li
         className={`media ${
-          reply.user?.id === reply.inquiry.user.id ? "sent" : "received"
+          reply.user?.email === reply.inquiry?.email ? "sent" : "received"
         }`}
         key={reply.id}
       >
@@ -14,7 +14,7 @@ const SignleChatboxReply = ({ reply }) => {
           width={57}
           height={57}
           className="img-fluid align-self-start mr-3"
-          src={reply.user?.profilePicture || "/assets/images/default-user.png"}
+          src={reply.user?.img || "/assets/images/default-user.png"}
           alt="User"
         />
         <div className="media-body">

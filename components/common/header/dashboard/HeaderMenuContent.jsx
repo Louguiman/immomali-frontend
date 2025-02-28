@@ -499,7 +499,7 @@ const HeaderMenuContent = ({ float = "" }) => {
                   width={45}
                   height={45}
                   className="rounded-circle"
-                  src="/assets/images/team/e1.png"
+                  src={user?.img || "/assets/images/team/e1.png"}
                   alt="e1.png"
                 />
                 <span className="me-3">Hello, </span>
@@ -513,19 +513,20 @@ const HeaderMenuContent = ({ float = "" }) => {
           <LogoutButton />
         </>
       ) : (
-        <Link href="/login" className="btn btn-success">
+        <Link href="/login" className="btn btn-secondary">
           Login
         </Link>
       )}
 
       {/* End ."user_setting */}
-
-      <li className={`list-inline-item add_listing ${float}`}>
-        <Link href="/create-listing">
-          <span className="flaticon-plus"></span>
-          <span className="dn-lg"> Create Listing</span>
-        </Link>
-      </li>
+      {isAuthenticated && (
+        <li className={`list-inline-item add_listing ${float}`}>
+          <Link href="/create-listing">
+            <span className="flaticon-plus"></span>
+            <span className="dn-lg"> Create Listing</span>
+          </Link>
+        </li>
+      )}
       {/* End .dropitem */}
     </ul>
   );

@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import Slider from "react-slick";
-import properties from "../../data/properties";
 import Image from "next/image";
+import FavoriteButton from "../common/FavoriteBtn";
 
-const FeaturedProperties = () => {
+const FeaturedProperties = ({ properties }) => {
   const settings = {
     dots: true,
     arrows: false,
@@ -48,8 +48,8 @@ const FeaturedProperties = () => {
                 <Image
                   width={343}
                   height={220}
-                  className="img-whp w-100 h-100 cover"
-                  src={item.img}
+                  className="img-whp w-100 max-h-100 cover"
+                  src={item?.images[0]?.imageUrl}
                   alt="fp1.jpg"
                 />
                 <div className="thmb_cntnt">
@@ -68,9 +68,7 @@ const FeaturedProperties = () => {
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <a href="#">
-                        <span className="flaticon-heart"></span>
-                      </a>
+                      <FavoriteButton propertyId={item.id} />
                     </li>
                   </ul>
 
@@ -78,8 +76,8 @@ const FeaturedProperties = () => {
                     href={`/listing-details-v2/${item.id}`}
                     className="fp_price"
                   >
-                    ${item.price}
-                    <small>/mo</small>
+                    {item.price} F CFA
+                    {item?.listingType == "rent" ? <small>/mo</small> : null}
                   </Link>
                 </div>
               </div>
@@ -97,13 +95,15 @@ const FeaturedProperties = () => {
                   </p>
 
                   <ul className="prop_details mb0">
-                    {item.itemDetails.map((val, i) => (
-                      <li className="list-inline-item" key={i}>
-                        <a href="#">
-                          {val.name}: {val.number}
-                        </a>
-                      </li>
-                    ))}
+                    <li className="list-inline-item">
+                      Beds: {item?.beds} &nbsp;
+                    </li>
+                    <li className="list-inline-item">
+                      Baths: {item?.baths} &nbsp;
+                    </li>
+                    <li className="list-inline-item">
+                      SqFt: {item?.sqFt} &nbsp;
+                    </li>
                   </ul>
                 </div>
               </div>

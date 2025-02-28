@@ -1,11 +1,11 @@
 import Link from "next/link";
-import properties from "../../data/properties";
 import Image from "next/image";
+import FavoriteButton from "../common/FavoriteBtn";
 
-const Listings = () => {
+const Listings = ({ properties }) => {
   return (
     <>
-      {properties.slice(0, 3).map((item) => (
+      {properties.map((item) => (
         <div className="col-lg-12" key={item.id}>
           <div className="feat_property list style2 hvr-bxshd bdrrn mb10 mt20">
             <div className="thumb">
@@ -13,8 +13,8 @@ const Listings = () => {
                 width={275}
                 height={240}
                 className="img-whp w-100 cover"
-                src={item.img}
-                alt={item.img}
+                src={item.images[0]?.imgUrl}
+                alt={iitem.images[0]?.imgUrl}
               />
               <div className="thmb_cntnt">
                 <ul className="icon mb0">
@@ -24,9 +24,7 @@ const Listings = () => {
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="#">
-                      <span className="flaticon-heart"></span>
-                    </a>
+                    <FavoriteButton propertyId={item.id} />
                   </li>
                 </ul>
               </div>
@@ -65,13 +63,15 @@ const Listings = () => {
                 </p>
 
                 <ul className="prop_details mb0">
-                  {item.itemDetails.map((val, i) => (
-                    <li className="list-inline-item" key={i}>
-                      <a href="#">
-                        {val.name}: {val.number}
-                      </a>
-                    </li>
-                  ))}
+                  <li className="list-inline-item">
+                    Beds: {item?.beds} &nbsp;
+                  </li>
+                  <li className="list-inline-item">
+                    Baths: {item?.baths} &nbsp;
+                  </li>
+                  <li className="list-inline-item">
+                    SqFt: {item?.sqFt} &nbsp;
+                  </li>
                 </ul>
               </div>
               {/* End .tc_content */}
@@ -89,10 +89,10 @@ const Listings = () => {
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="#">{item.posterName}</a>
+                    <a href="#">{item?.owner?.name}</a>
                   </li>
                 </ul>
-                <div className="fp_pdate float-end">{item.postedYear}</div>
+                <div className="fp_pdate float-end">{item?.yearBuilt}</div>
               </div>
               {/* End . fp_footer */}
             </div>

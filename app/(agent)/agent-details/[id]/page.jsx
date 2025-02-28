@@ -114,7 +114,11 @@ const AgentDetailsDynamic = ({ params }) => {
                   {/* End .feat_property */}
 
                   <div className="shop_single_tab_content style2 mt30">
-                    <TabDetailsContent />
+                    <TabDetailsContent
+                      agent={agent}
+                      isLoading={isLoading}
+                      error={error}
+                    />
                   </div>
                 </div>
                 {/* End .col-12 */}
@@ -123,7 +127,7 @@ const AgentDetailsDynamic = ({ params }) => {
             {/* End .col-md-12 col-lg-8 content left side */}
 
             <div className="col-lg-4 col-xl-4">
-              <SidebarListings />
+              <SidebarListings agentId={agent?.id} />
             </div>
             {/* End .col-lg-4 col-xl-4 content left side */}
           </div>

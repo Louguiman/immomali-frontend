@@ -81,7 +81,7 @@ export const reviewsApi = apiSlice.injectEndpoints({
 
     // Fetch reviews received by the logged-in user
     getReceivedReviews: builder.query({
-      query: () => "/reviews/received",
+      query: (userID) => `/reviews/received/${userID}`,
       providesTags: ["Reviews"],
     }),
     // 🔹 Delete a Review

@@ -68,6 +68,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         params,
       }),
     }),
+    getPropertiesByAgency: builder.query({
+      query: () => `/properties/by-agency`,
+    }),
     fetchPropertyById: builder.query({
       query: (id) => `/properties/${id}`,
     }),
@@ -89,6 +92,22 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
+    getRentalProperties: builder.query({
+      query: (params) => ({
+        url: `/properties/search?page=1&limit=16&listingType=rent`,
+        method: "GET",
+        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+      }),
+      keepUnusedDataFor: 60, // Cache for 60 seconds
+    }),
+    getSaleProperties: builder.query({
+      query: (params) => ({
+        url: `/properties/search?page=1&limit=16&listingType=sale`,
+        method: "GET",
+        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+      }),
+      keepUnusedDataFor: 60, // Cache for 60 seconds
+    }),
     updateProperty: builder.mutation({
       query: ({ id, ...updateData }) => ({
         url: `/properties/${id}`,
@@ -105,6 +124,11 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Properties"],
     }),
+
+    searchAgencyProperties: builder.query({
+      query: ({ query, agencyId }) =>
+        `/properties/search-agency?query=${query} `,
+    }),
   }),
 });
 
@@ -115,8 +139,11 @@ export const {
   useFetchPropertyByIdQuery,
   useFetchPropertyByUserIdQuery,
   useSearchPropertiesQuery,
+  useSearchAgencyPropertiesQuery,
   useUploadAttachmentsMutation,
   useUploadImagesMutation,
   useUpdatePropertyMutation,
   useDeletePropertyMutation,
+  useGetSalePropertiesQuery,
+  useGetRentalPropertiesQuery,
 } = extendedApiSlice;

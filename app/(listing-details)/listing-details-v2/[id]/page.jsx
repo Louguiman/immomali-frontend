@@ -12,10 +12,18 @@ import Sidebar from "@/components/listing-details-v1/Sidebar";
 import ListingTwo from "@/components/listing-single/ListingTwo";
 import { useParams } from "next/navigation";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
+import { useDispatch } from "react-redux";
+import { addToRecentlyViewed } from "@/features/properties/propertiesSlice";
+import { useEffect } from "react";
 
 const ListingDynamicDetailsV2 = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { data: property, isLoading, isError } = useFetchPropertyByIdQuery(id);
+
+  useEffect(() => {
+    if (!isLoading) dispatch(addToRecentlyViewed(id));
+  }, [dispatch, id, , isLoading]);
 
   if (isLoading) {
     return (

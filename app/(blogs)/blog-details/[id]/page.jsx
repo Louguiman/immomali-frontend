@@ -258,6 +258,4 @@ const BlogDetailsDynamic = ({ params }) => {
   );
 };
 
-export default dynamic(() => Promise.resolve(BlogDetailsDynamic), {
-  ssr: false,
-});
+export default dynamic(() => Promise.resolve(BlogDetailsDynamic));

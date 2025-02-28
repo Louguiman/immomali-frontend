@@ -1,10 +1,10 @@
 "use client";
 
+import DescriptionsText from "../agency-details/DescriptionsText";
 import Team from "../agent-view/agent-v2/Team";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
 import ReviewBox from "../blog-details/ReviewBox";
-import DescriptionsText from "./DescriptionsText";
 import Listings from "./Listings";
 
 const TabDetailsContent = ({ agent, isLoading, error }) => {
@@ -51,19 +51,6 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           <a
             className="nav-link"
             data-bs-toggle="tab"
-            href="#agents"
-            role="tab"
-            aria-controls="agents"
-            aria-selected="false"
-          >
-            Agents
-          </a>
-        </li>
-
-        <li className="nav-item">
-          <a
-            className="nav-link"
-            data-bs-toggle="tab"
             href="#review"
             role="tab"
             aria-controls="review"
@@ -99,18 +86,7 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           id="listing"
           role="tabpanel"
         >
-          <Listings properties={agent?.properties || []} />
-        </div>
-
-        {/* Agents Tab */}
-        <div
-          className="tab-pane fade row pl15 pl0-1199 pr15 pr0-1199"
-          id="agents"
-          role="tabpanel"
-        >
-          <div className="row mt30">
-            <Team agents={agent?.agents || []} />
-          </div>
+          <Listings  properties={agent?.properties || []} />
         </div>
 
         {/* Reviews Tab */}

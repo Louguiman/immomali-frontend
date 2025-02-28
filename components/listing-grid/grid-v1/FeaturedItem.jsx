@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
 // import properties from "../../../data/properties";
 import Image from "next/image";
+import FavoriteButton from "@/components/common/FavoriteBtn";
 
 const FeaturedItem = ({ properties }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const FeaturedItem = ({ properties }) => {
               </li>
               <li className="list-inline-item">
                 <a href="#" className="text-capitalize">
-                  {item.featured}
+                  For {item?.listingType}
                 </a>
               </li>
             </ul>
@@ -52,15 +53,13 @@ const FeaturedItem = ({ properties }) => {
                 </a>
               </li>
               <li className="list-inline-item">
-                <a href="#">
-                  <span className="flaticon-heart"></span>
-                </a>
+                <FavoriteButton propertyId={item.id} />
               </li>
             </ul>
 
             <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
-              ${item.price}
-              <small>/mo</small>
+              {item.price} F CFA
+              <small>/mois</small>
             </Link>
           </div>
         </div>
@@ -76,13 +75,9 @@ const FeaturedItem = ({ properties }) => {
             </p>
 
             <ul className="prop_details mb0">
-              {/* {item.itemDetails.map((val, i) => (
-                  <li className="list-inline-item" key={i}>
-                    <a href="#">
-                      {val.name}: {val.number}
-                    </a>
-                  </li>
-                ))} */}
+              <li className="list-inline-item">Beds: {item?.beds} &nbsp;</li>
+              <li className="list-inline-item">Baths: {item?.baths} &nbsp;</li>
+              <li className="list-inline-item">SqFt: {item?.sqFt} &nbsp;</li>
             </ul>
           </div>
           {/* End .tc_content */}
@@ -90,20 +85,24 @@ const FeaturedItem = ({ properties }) => {
           <div className="fp_footer">
             <ul className="fp_meta float-start mb0">
               <li className="list-inline-item">
-                <Link href="/agent-v2">
+                <Link href={`/agent-details/${item?.owner?.id}`}>
                   <Image
                     width={40}
                     height={40}
-                    src={item?.owner?.avatarUrl}
+                    src={item?.owner?.img || "/assets/images/team/e1.png"}
                     alt="pposter1.png"
                   />
                 </Link>
               </li>
               <li className="list-inline-item">
-                <Link href="/agent-v2">{item?.owner?.name || "Inconnu"}</Link>
+                <Link href={`/agent-details/${item?.owner?.id}`}>
+                  {item?.owner?.name || "Inconnu"}
+                </Link>
               </li>
             </ul>
-            <div className="fp_pdate float-end">{item.postedYear}</div>
+            <div className="fp_pdate float-end">
+              {new Date(item.createdAt).toLocaleDateString()}
+            </div>
           </div>
           {/* End .fp_footer */}
         </div>

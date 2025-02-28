@@ -4,6 +4,7 @@ import filterSlice from "../features/filter/filterSlice";
 import propertiesSlice from "../features/properties/propertiesSlice";
 import { apiSlice } from "@/features/api/api";
 import authReducer from "@/features/auth/authSlice";
+import tenantReducer from "@/features/tenant/tenantsSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
       properties: propertiesSlice,
       filter: filterSlice,
       agent: agentSlice,
+      tenants: tenantReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

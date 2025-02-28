@@ -22,8 +22,8 @@ const DetailsContent = ({ property }) => {
         <div className="lsd_list">
           <PropertyItem
             propertyType={property?.type}
-            baths={property.baths}
-            beds={property.beds}
+            baths={property?.baths}
+            beds={property?.beds}
             size={property?.sqFt}
           />
         </div>
@@ -69,7 +69,7 @@ const DetailsContent = ({ property }) => {
           </div>
           {/* End .col */}
 
-          <PropertyFeatures amenities={property.amenities} />
+          <PropertyFeatures amenities={property?.amenities} />
         </div>
       </div>
       {/* End .feature_area */}
@@ -124,7 +124,7 @@ const DetailsContent = ({ property }) => {
           </div>
           {/* End .total_review */}
           {/* <Comments /> */}
-          <ReviewsList propertyId={property.id} />
+          <ReviewsList propertyId={property?.id} />
           <div className="custom_hr"></div>
 
           <div className="mbp_comment_form style2">
@@ -142,7 +142,7 @@ const DetailsContent = ({ property }) => {
               </li>
             </ul>
             {/* <ReviewBox /> */}
-            <ReviewForm propertyId={property.id} />
+            <ReviewForm propertyId={property?.id} />
           </div>
         </div>
       </div>

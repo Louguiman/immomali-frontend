@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  savedSearches: [], // Stores saved search filters
+  favorites: [], // Stores favorited property IDs
+  recentlyViewed: [], // Stores recently viewed property IDs
   createListing: {
-    userId: 1,
+    userId: 0,
     title: "",
     description: "",
     type: "Rent", // Only "Rent" or "Sale"
@@ -71,6 +74,53 @@ export const propertiesSlice = createSlice({
   name: "properties",
   initialState,
   reducers: {
+    // ✅ Saved Search Actions
+    saveSearch: (state, action) => {
+      state.savedSearches.push(action.payload);
+    },
+    removeSavedSearch: (state, action) => {
+      state.savedSearches = state.savedSearches.filter(
+        (search) => search.id !== action.payload
+      );
+    },
+
+    // ✅ Favorites Actions
+    addToFavorites: (state, action) => {
+      if (!state.favorites.includes(action.payload)) {
+        state.favorites.push(action.payload);
+        localStorage.setItem("favorites", JSON.stringify(state.favorites));
+      }
+    },
+    removeFromFavorites: (state, action) => {
+      state.favorites = state.favorites.filter((id) => id !== action.payload);
+      localStorage.setItem("favorites", JSON.stringify(state.favorites));
+    },
+
+    // ✅ Recently Viewed Actions
+    addToRecentlyViewed: (state, action) => {
+      state.recentlyViewed = [
+        action.payload,
+        ...state.recentlyViewed.filter((id) => id !== action.payload),
+      ].slice(0, 10); // Keep only the last 10 viewed
+      localStorage.setItem(
+        "recentlyViewed",
+        JSON.stringify(state.recentlyViewed)
+      );
+    },
+    clearRecentlyViewed: (state) => {
+      state.recentlyViewed = [];
+      localStorage.removeItem("recentlyViewed");
+    },
+
+    // ✅ Load from Local Storage on App Start
+    loadFromStorage: (state) => {
+      const storedFavorites = localStorage.getItem("favorites");
+      const storedRecentlyViewed = localStorage.getItem("recentlyViewed");
+      if (storedFavorites) state.favorites = JSON.parse(storedFavorites);
+      if (storedRecentlyViewed)
+        state.recentlyViewed = JSON.parse(storedRecentlyViewed);
+    },
+
     addKeyword: (state, action) => {
       state.keyword = action.payload;
     },
@@ -286,5 +336,12 @@ export const {
   setAmenities,
   toggleAmenity,
   resetAmenities,
+  saveSearch,
+  removeSavedSearch,
+  addToFavorites,
+  removeFromFavorites,
+  addToRecentlyViewed,
+  clearRecentlyViewed,
+  loadFromStorage,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

@@ -1,229 +1,180 @@
-'use client'
+"use client";
 
-import { useState } from "react";
+import {
+  useUpdateUserProfileMutation,
+  useUploadProfileImageMutation,
+} from "@/features/api/user.api";
+import { useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ProfileInfo = () => {
-    const [profile, setProfile] = useState(null);
+  const { user } = useAppSelector((state) => state.auth);
+  const [updateUserProfile, { isLoading: isUpdating }] =
+    useUpdateUserProfileMutation();
+  const [uploadProfileImage, { isLoading: isUploading }] =
+    useUploadProfileImageMutation();
 
-    // upload profile
-    const uploadProfile = (e) => {
-        setProfile(e.target.files[0]);
-    };
+  // State for Profile Image Upload
+  const [profileImage, setProfileImage] = useState(null);
 
-    return (
-        <div className="row">
-            <div className="col-lg-12">
-                <div className="wrap-custom-file">
-                    <input
-                        type="file"
-                        id="image1"
-                        accept="image/png, image/gif, image/jpeg"
-                        onChange={uploadProfile}
-                    />
-                    <label
-                        style={
-                            profile !== null
-                                ? {
-                                      backgroundImage: `url(${URL.createObjectURL(
-                                          profile
-                                      )})`,
-                                  }
-                                : undefined
-                        }
-                        htmlFor="image1"
-                    >
-                        <span>
-                            <i className="flaticon-download"></i> Upload Photo{" "}
-                        </span>
-                    </label>
-                </div>
-                <p>*minimum 260px x 260px</p>
-            </div>
-            {/* End .col */}
+  // State for Form Fields
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    license: "",
+    taxNumber: "",
+    phone: "",
+    fax: "",
+    mobile: "",
+    language: "",
+    companyName: "",
+    address: "",
+    about: "",
+  });
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput1">Username</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput1"
-                        placeholder="alitfn"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+  // upload profile
+  // Prefill form with user data when fetched
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        userId: user.id,
+        name: user.name || "",
+        email: user.email || "",
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        position: user.position || "",
+        license: user.license || "",
+        taxNumber: user.taxNumber || "",
+        phone: user.phone || "",
+        fax: user.fax || "",
+        mobile: user.mobile || "",
+        language: user.language || "",
+        companyName: user.companyName || "",
+        address: user.address || "",
+        about: user.about || "",
+      });
+    }
+  }, [user]);
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleEmail">Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id="formGroupExampleEmail"
-                        placeholder="creativelayers@gmail.com"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+  // Handle Input Changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput3">First Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput3"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+  // Handle File Selection
+  const handleFileChange = (e) => {
+    if (e.target.files?.length) {
+      setProfileImage(e.target.files[0]);
+    }
+  };
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput4">Last Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput4"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+  // Upload Profile Image
+  const handleUploadImage = async () => {
+    if (!profileImage) {
+      toast.error("Please select an image first.");
+      return;
+    }
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput5">Position</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput5"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+    const formData = new FormData();
+    formData.append("file", profileImage);
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput6">License</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput6"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+    try {
+      const response = await uploadProfileImage(formData).unwrap();
+      toast.success("Profile image updated successfully!");
+      console.log("Uploaded Image URL:", response.imageUrl);
+    } catch (error) {
+      toast.error("Failed to upload profile image.");
+      console.error("Upload Error:", error);
+    }
+  };
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput7">Tax Number</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput7"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
+  // Update Profile Information
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUserProfile(formData).unwrap();
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update profile.");
+      console.error("Profile Update Error:", error);
+    }
+  };
 
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput8">Phone</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput8"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput9">Fax Number</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput9"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput10">Mobile</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput10"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput11">Language</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput11"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-lg-6 col-xl-6">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput12">
-                        Company Name
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput12"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-xl-12">
-                <div className="my_profile_setting_input form-group">
-                    <label htmlFor="formGroupExampleInput13">Address</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="formGroupExampleInput13"
-                    />
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-xl-12">
-                <div className="my_profile_setting_textarea">
-                    <label htmlFor="exampleFormControlTextarea1">
-                        About me
-                    </label>
-                    <textarea
-                        className="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="7"
-                    ></textarea>
-                </div>
-            </div>
-            {/* End .col */}
-
-            <div className="col-xl-12 text-right">
-                <div className="my_profile_setting_input">
-                    <button className="btn btn1">View Public Profile</button>
-                    <button className="btn btn2">Update Profile</button>
-                </div>
-            </div>
-            {/* End .col */}
+  return (
+    <form onSubmit={handleUpdateProfile}>
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="wrap-custom-file">
+            <input
+              type="file"
+              id="image1"
+              accept="image/png, image/gif, image/jpeg"
+              onChange={handleFileChange}
+            />
+            <label
+              style={
+                profileImage
+                  ? {
+                      backgroundImage: `url(${URL.createObjectURL(
+                        profileImage
+                      )})`,
+                    }
+                  : undefined
+              }
+              htmlFor="image1"
+            >
+              <span>
+                <i className="flaticon-download"></i> Upload Photo{" "}
+              </span>
+            </label>
+          </div>
+          <p>*Minimum 260px x 260px</p>
+          {profileImage && (
+            <button
+              type="button"
+              className="btn btn-primary mt-3"
+              onClick={handleUploadImage}
+              disabled={isUploading}
+            >
+              {isUploading ? "Uploading..." : "Save Image"}
+            </button>
+          )}
         </div>
-    );
+        {/* End .col */}
+
+        {/* Dynamic Form Fields */}
+        {Object.keys(formData).map((key) => (
+          <div className="col-lg-6 col-xl-6" key={key}>
+            <div className="my_profile_setting_input form-group">
+              <label htmlFor={key}>
+                {key.replace(/([A-Z])/g, " $1").trim()}
+              </label>
+              <input
+                type={key === "email" ? "email" : "text"}
+                className="form-control"
+                id={key}
+                value={formData[key]}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+        ))}
+
+        <div className="col-xl-12 text-right">
+          <div className="my_profile_setting_input">
+            <button type="submit" className="btn btn2" disabled={isUpdating}>
+              {isUpdating ? "Updating..." : "Update Profile"}
+            </button>
+          </div>
+        </div>
+        {/* End .col */}
+      </div>
+    </form>
+  );
 };
 
 export default ProfileInfo;

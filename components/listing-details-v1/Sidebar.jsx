@@ -14,7 +14,7 @@ const Sidebar = ({ propertyId, agent }) => {
             <ListingCreator owner={agent} />
           </div>
           {/* End .sl_creator */}
-          <ContactWithAgent propertyId={propertyId} />
+          <ContactWithAgent agentId={agent?.id} propertyId={propertyId} />
         </div>
       </div>
       {/* End .sidebar_listing_list */}

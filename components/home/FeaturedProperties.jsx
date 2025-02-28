@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import Slider from "react-slick";
@@ -86,13 +86,9 @@ const FeaturedProperties = () => {
             </p>
 
             <ul className="prop_details mb0">
-              {item.itemDetails.map((val, i) => (
-                <li className="list-inline-item" key={i}>
-                  <a href="#">
-                    {val.name}: {val.number}
-                  </a>
-                </li>
-              ))}
+              <li className="list-inline-item">Beds: {item?.beds} &nbsp;</li>
+              <li className="list-inline-item">Baths: {item?.baths} &nbsp;</li>
+              <li className="list-inline-item">SqFt: {item?.sqFt} &nbsp;</li>
             </ul>
           </div>
           {/* End .tc_content */}

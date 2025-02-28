@@ -1,9 +1,10 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import HeaderMenuContent from "./HeaderMenuContent";
+
 import Image from "next/image";
+import HeaderMenuContent from "./dashboard/HeaderMenuContent";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);
@@ -43,7 +44,7 @@ const Header = () => {
             src="/assets/images/header-logo2.png"
             alt="header-logo2.png"
           />
-          <span>FindHouse</span>
+          <span>ImmoMali</span>
         </Link>
         {/* site logo brand */}
 

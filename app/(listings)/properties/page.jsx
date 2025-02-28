@@ -16,6 +16,7 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import Header from "@/components/home/Header";
 import BreadCrumb2 from "@/components/listing-grid/grid-v1/BreadCrumb2";
 import { getValidParams } from "@/utils/getValidParams";
+import FeaturedItem from "@/components/listing-grid/grid-v1/FeaturedItem";
 
 export default function PropertiesPage() {
   const searchParams = useSearchParams();
@@ -135,11 +136,7 @@ export default function PropertiesPage() {
                     </h2>
                   </div>
                 ) : (
-                  properties.data?.map((property) => (
-                    <div key={property.id} className="col-md-4 mb-4">
-                      <PropertyCard item={property} />
-                    </div>
-                  ))
+                  <FeaturedItem properties={properties.data} />
                 )}
               </div>
               {/* End .row */}

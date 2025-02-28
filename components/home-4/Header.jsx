@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import HeaderMenuContent from "../common/header/HeaderMenuContent";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import HeaderMenuContent from "../common/header/dashboard/HeaderMenuContent";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);

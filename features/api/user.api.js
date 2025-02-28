@@ -28,6 +28,13 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    getUserById: builder.mutation({
+      query: (userId) => ({
+        url: `users/${userId}`,
+        method: "GET",
+      }),
+    }),
+
     /** 🔹 Delete a User */
     deleteUser: builder.mutation({
       query: (userId) => ({
@@ -35,12 +42,38 @@ export const userApi = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+
+    searchUsers: builder.query({
+      query: (query) => `/users/search?query=${query}`,
+    }),
+
+    // Update user profile
+    updateUserProfile: builder.mutation({
+      query: ({ userId, ...profileData }) => ({
+        url: `/users/profile/${userId}`,
+        method: "PATCH",
+        body: profileData,
+      }),
+    }),
+
+    // Upload Profile Image
+    uploadProfileImage: builder.mutation({
+      query: (formData) => ({
+        url: "/users/upload-profile-image",
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetAllUsersQuery,
+  useGetUserByIdQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useUpdateUserProfileMutation,
+  useUploadProfileImageMutation, // ✅ Now available for use
+  useSearchUsersQuery,
 } = userApi;

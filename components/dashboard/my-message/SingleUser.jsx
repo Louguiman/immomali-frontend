@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const SingleUser = ({ inquiry, onClick }) => {
+const SingleUser = ({ isSelected, inquiry, onClick }) => {
   return (
     <li
       className={`contact ${isSelected ? "active-inquiry" : ""}`}
@@ -12,7 +12,7 @@ const SingleUser = ({ inquiry, onClick }) => {
             width={50}
             height={50}
             className="img-fluid"
-            src={inquiry?.user?.profilePicture || "/assets/images/team/s8.jpg"}
+            src={inquiry?.user?.img || "/assets/images/team/s8.jpg"}
             alt="User"
           />
           <div className="meta">

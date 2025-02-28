@@ -15,7 +15,7 @@ const MyAccount = () => {
     { id: 2, name: " My Message", ruterPath: "/my-message" },
     { id: 3, name: " My Favourite", ruterPath: "/my-favourites" },
     { id: 4, name: " My Package", ruterPath: "/my-package" },
-    { id: 5, name: " Log out", ruterPath: "/login" },
+    { id: 5, name: " Log out", ruterPath: "/logout" },
   ];
 
   return (

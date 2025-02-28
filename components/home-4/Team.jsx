@@ -1,17 +1,30 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import Slider from "react-slick";
-import agentsTeam from "../../data/agents";
 import Image from "next/image";
 
-const Team = () => {
+const socialList = [
+  { icon: "fa-facebook", liveLink: "https://www.facebook.com/" },
+  { icon: "fa-twitter", liveLink: "https://www.twitter.com/" },
+  {
+    icon: "fa-instagram",
+    liveLink: "https://www.instagram.com/",
+  },
+  {
+    icon: "fa-pinterest",
+    liveLink: "https://www.pinterest.com/",
+  },
+  { icon: "fa-dribbble", liveLink: "https://www.dribbble.com/" },
+];
+
+const Team = ({ data }) => {
   const settings = {
     dots: false,
     arrows: true,
     slidesToShow: 4,
     slidesToScroll: 3,
-    autoplay: false,
+    autoplay: true,
     speed: 1200,
     responsive: [
       {
@@ -40,7 +53,7 @@ const Team = () => {
 
   return (
     <Slider {...settings} arrows={true}>
-      {agentsTeam.slice(0, 6).map((item) => (
+      {data?.map((item) => (
         <div className="item" key={item.id}>
           <div className="team_member home4">
             <div className="thumb">
@@ -48,12 +61,12 @@ const Team = () => {
                 width={245}
                 height={307}
                 className="img-fluid w100 cover h-100"
-                src={item.img}
+                src={item?.img || "/assets/images/team/6.jpg"}
                 alt="5.jpg"
               />
               <div className="overylay">
                 <ul className="social_icon">
-                  {item.socialList.map((social, i) => (
+                  {socialList?.map((social, i) => (
                     <li className="list-inline-item" key={i}>
                       <a
                         href={social.liveLink}
@@ -73,7 +86,8 @@ const Team = () => {
               <h4>
                 <Link href={`/agent-details/${item.id}`}>{item.name}</Link>
               </h4>
-              <p>{item.type}</p>
+              <p>{item?.phone || item?.email}</p>
+              <p>{(item?.agency && item?.agency.name) || "Free Agent"}</p>
             </div>
             {/* End .details */}
           </div>

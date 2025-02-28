@@ -15,12 +15,12 @@ const ChatBox = () => {
     data: sentInquiries,
     isLoading: sentLoading,
     isError: isErrorSent,
-  } = useGetSentInquiriesQuery();
+  } = useGetSentInquiriesQuery(user.id, { skip: !user?.id });
   const {
     data: receivedInquiries,
     isLoading: receivedLoading,
     isError: isErrorReceived,
-  } = useGetReceivedInquiriesQuery();
+  } = useGetReceivedInquiriesQuery(user.id, { skip: !user?.id });
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   if (sentLoading || receivedLoading) return <p>Loading inquiries...</p>;
   if (isErrorSent || isErrorReceived) return <p>Error loading inquiries...</p>;
@@ -35,8 +35,9 @@ const ChatBox = () => {
       <div className="col-lg-5 col-xl-4">
         <div className="message_container">
           <InboxUser
+            selectedInquiry={selectedInquiry}
             inquiries={inquiries}
-            onSelectInquiry={setSelectedInquiry}
+            onClick={setSelectedInquiry}
           />
         </div>
       </div>

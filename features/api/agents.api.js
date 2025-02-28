@@ -6,6 +6,11 @@ export const agentsApi = apiSlice.injectEndpoints({
       query: (agencyId) => `/users/agency/${agencyId}`,
       providesTags: ["Agents"],
     }),
+    searchAgentsByAgency: builder.query({
+      query: ({ agencyId, query }) =>
+        `/users/agency/${agencyId}?query=${query}`,
+      providesTags: ["Agents"],
+    }),
 
     getAllAgents: builder.query({
       query: () => "/agents",
@@ -48,4 +53,5 @@ export const {
   useGetAllAgentsQuery,
   useUpdateAgentMutation,
   useGetAgentsByAgencyQuery,
+  useSearchAgentsByAgencyQuery,
 } = agentsApi;

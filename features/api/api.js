@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { refreshTokenSuccess } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -27,6 +28,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
     if (refreshResult?.data) {
       const newToken = refreshResult.data.accessToken;
+      console.log("refresh token : ", refreshResult);
 
       // Store the new token
       api.dispatch(refreshTokenSuccess(newToken));
@@ -56,6 +58,7 @@ export const apiSlice = createApi({
     "Reviews",
     "Agencies",
     "Agents",
+    "InquiryReplies",
   ],
   endpoints: () => ({}),
 });

@@ -93,12 +93,12 @@ export const inquiriesApi = apiSlice.injectEndpoints({
     }),
 
     getSentInquiries: builder.query({
-      query: () => "/inquiries/sent",
+      query: (userID) => `/inquiries/sent/${userID}`,
       providesTags: ["Inquiries"],
     }),
 
     getReceivedInquiries: builder.query({
-      query: () => "/inquiries/received",
+      query: (userID) => `/inquiries/received/${userID}`,
       providesTags: ["Inquiries"],
     }),
 
@@ -109,7 +109,7 @@ export const inquiriesApi = apiSlice.injectEndpoints({
 
     sendInquiryReply: builder.mutation({
       query: (reply) => ({
-        url: "/inquiry-replies",
+        url: `/inquiry-replies/${reply.userId}`,
         method: "POST",
         body: reply,
       }),

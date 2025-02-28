@@ -1,16 +1,49 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
-import { useGetInquiryRepliesQuery } from "@/features/api/inquiries.api";
+import {
+  useGetInquiryRepliesQuery,
+  useSendInquiryReplyMutation,
+} from "@/features/api/inquiries.api";
 import SignleChatboxReply from "./SignleChatboxReply";
 import PropertyCard from "@/components/PropertyCard";
+import { useSelector } from "react-redux";
 
 const ChatboxContent = ({ inquiry }) => {
+  const { user } = useSelector((state) => state.auth); // Get logged-in user
   const { data: replies, isLoading } = useGetInquiryRepliesQuery(inquiry?.id);
+  const [createReply, { isLoading: isSending }] = useSendInquiryReplyMutation();
+  const [message, setMessage] = useState("");
 
   if (isLoading) return <p>Loading messages...</p>;
-  if (!replies || replies.length === 0) return <p>No messages yet.</p>;
+
+  // Function to handle reply submission
+  const handleSendReply = async (e) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    try {
+      await createReply({
+        userId: user.id,
+        inquiryId: inquiry.id,
+        message,
+      }).unwrap();
+
+      setMessage(""); // Clear input field after sending
+    } catch (error) {
+      console.error("Error sending reply:", error);
+    }
+  };
 
   return (
     <>
+      <div className="meta">
+        <h5 className="name">{inquiry?.name || "Unknown"}</h5>
+        <h6 className="name">{inquiry?.email || "Unknown"}</h6>
+        <h6 className="name">{inquiry?.phoneNumber || "Unknown"}</h6>
+        <p className="preview">{inquiry.message}</p>
+      </div>
+
       {/* Display PropertyCard if inquiry is about a property */}
       {inquiry.property && (
         <div className="property-preview">
@@ -21,7 +54,7 @@ const ChatboxContent = ({ inquiry }) => {
 
       <div className="inbox_chatting_box">
         <ul className="chatting_content">
-          {replies.map((reply) => (
+          {replies?.map((reply) => (
             <SignleChatboxReply key={reply.id} reply={reply} />
           ))}
         </ul>
@@ -30,7 +63,10 @@ const ChatboxContent = ({ inquiry }) => {
       {/* Message Input */}
       <div className="mi_text">
         <div className="message_input">
-          <form className="form-inline position-relative">
+          <form
+            className="form-inline position-relative"
+            onSubmit={handleSendReply}
+          >
             <textarea
               className="form-control"
               placeholder="Enter text here..."
@@ -38,9 +74,11 @@ const ChatboxContent = ({ inquiry }) => {
               rows="1"
               wrap="hard"
               required
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             />
-            <button className="btn" type="submit">
-              Send Message
+            <button className="btn" type="submit" disabled={isSending}>
+              {isSending ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

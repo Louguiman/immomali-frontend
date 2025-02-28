@@ -1,7 +1,7 @@
 import SearchUser from "./SearchUser";
 import SingleUser from "./SingleUser";
 
-const InboxUser = ({ inquiries, onClick }) => {
+const InboxUser = ({ selectedInquiry, inquiries, onClick }) => {
   return (
     <div className="inbox_user_list">
       <div className="iu_heading">
@@ -11,11 +11,11 @@ const InboxUser = ({ inquiries, onClick }) => {
       </div>
 
       <ul>
-        {inquiries.map((inquiry) => (
+        {inquiries?.map((inquiry) => (
           <SingleUser
             key={inquiry.id}
             inquiry={inquiry}
-            isSelected={selectedInquiry.idd === inquiry.id}
+            isSelected={selectedInquiry?.id === inquiry.id}
             onClick={() => onClick(inquiry)}
           />
         ))}

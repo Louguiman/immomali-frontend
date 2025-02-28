@@ -16,12 +16,14 @@ import PropertyMediaUploader from "./PropertyMediaUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "@/features/auth/ProtectedRoute";
 
 const Index = () => {
   const dispatch = useDispatch();
   const propertyDetails = useSelector(
     (state) => state.properties.createListing
   );
+  const user = useSelector((state) => state.auth.user);
 
   const [loading, setLoading] = useState(false);
 
@@ -52,7 +54,7 @@ const Index = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(propertyData),
+      body: JSON.stringify({ ...propertyData, userId: user?.id }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -114,7 +116,7 @@ const Index = () => {
   };
 
   return (
-    <>
+    <ProtectedRoute >
       {/* Main Header Nav */}
       <Header />
       <MobileMenu />
@@ -223,7 +225,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </>
+    </ProtectedRoute>
   );
 };
 

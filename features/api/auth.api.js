@@ -68,7 +68,7 @@ export const authApi = apiSlice.injectEndpoints({
           // Store user and access token in Redux
           dispatch(loginSuccess({ user: userResponse, accessToken }));
         } catch (error) {
-          console.error("Login failed", error);
+          console.info("Login failed", error);
         }
       },
     }),

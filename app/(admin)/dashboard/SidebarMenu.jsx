@@ -52,6 +52,11 @@ const routes = {
       icon: "flaticon-user-1",
     },
     {
+      name: "My Tenants",
+      route: "/dashboard/agency/tenants",
+      icon: "flaticon-user-2",
+    },
+    {
       name: "My Properties",
       route: "/dashboard/agency/properties",
       icon: "flaticon-home",
@@ -88,6 +93,11 @@ const routes = {
       name: "Profile",
       route: "/dashboard/agent/profile",
       icon: "flaticon-user",
+    },
+    {
+      name: "My Tenants",
+      route: "/dashboard/agent/tenants",
+      icon: "flaticon-user-2",
     },
     {
       name: "My Properties",
@@ -153,7 +163,7 @@ const SidebarMenu = () => {
               src="/assets/images/header-logo2.png"
               alt="Logo"
             />
-            <span>FindHouse</span>
+            <span>ImmoMali</span>
           </Link>
         </li>
 

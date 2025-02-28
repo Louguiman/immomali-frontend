@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import HeaderMenuContent from "../common/header/HeaderMenuContent";
+
+import HeaderMenuContent from "../common/header/dashboard/HeaderMenuContent";
 import Image from "next/image";
 
 const Header = () => {

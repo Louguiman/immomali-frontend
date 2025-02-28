@@ -11,12 +11,13 @@ const Form = () => {
   const [login, { isLoading }] = useLoginMutation();
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
+  const userRoles = user?.roles?.map((role) => role.name) || [];
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (user.role === "admin") router.push("/my-dashboard");
-      else if (user.role === "agent") router.push("/my-dashboard");
-      else router.push("/");
+      if (userRoles.includes("admin")) router.push("/dashboard");
+      else if (userRoles.includes("agent")) router.push("/dashboard");
+      else router.back();
     }
   }, [isAuthenticated, user, router]);
   const handleSubmit = async (e) => {

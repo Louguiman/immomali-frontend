@@ -15,13 +15,15 @@ const PropertyCard = ({ item }) => {
       }`}
     >
       <div className="thumb">
-        <Image
-          width={342}
-          height={220}
-          className="img-whp w-100 h-100 cover"
-          src={item?.images[0]?.imageUrl}
-          alt="fp1.jpg"
-        />
+        {item?.images && (
+          <Image
+            width={342}
+            height={220}
+            className="img-whp w-100 h-100 cover"
+            src={item?.images[0]?.imageUrl}
+            alt="fp1.jpg"
+          />
+        )}
         <div className="thmb_cntnt">
           <ul className="tag mb0">
             <li className="list-inline-item">
@@ -29,7 +31,7 @@ const PropertyCard = ({ item }) => {
             </li>
             <li className="list-inline-item">
               <a href="#" className="text-capitalize">
-                {item.featured}
+                {item?.featured}
               </a>
             </li>
           </ul>
@@ -56,7 +58,7 @@ const PropertyCard = ({ item }) => {
         <div className="tc_content">
           <p className="text-thm">{item.type}</p>
           <h4>
-            <Link href={`/listing-details-v1/${item.id}`}>{item.title}</Link>
+            <Link href={`/listing-details-v2/${item.id}`}>{item.title}</Link>
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
@@ -64,13 +66,9 @@ const PropertyCard = ({ item }) => {
           </p>
 
           <ul className="prop_details mb0">
-            {/* {item.itemDetails.map((val, i) => (
-                  <li className="list-inline-item" key={i}>
-                    <a href="#">
-                      {val.name}: {val.number}
-                    </a>
-                  </li>
-                ))} */}
+            <li className="list-inline-item">Beds: {item?.beds} &nbsp;</li>
+            <li className="list-inline-item">Baths: {item?.baths} &nbsp;</li>
+            <li className="list-inline-item">SqFt: {item?.sqFt} &nbsp;</li>
           </ul>
         </div>
         {/* End .tc_content */}
@@ -78,7 +76,7 @@ const PropertyCard = ({ item }) => {
         <div className="fp_footer">
           <ul className="fp_meta float-start mb0">
             <li className="list-inline-item">
-              <Link href="/agent-v2">
+              <Link href="/agent-v2/">
                 <Image
                   width={40}
                   height={40}

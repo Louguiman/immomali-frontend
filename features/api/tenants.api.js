@@ -7,6 +7,7 @@ export const tenantApi = apiSlice.injectEndpoints({
     /** 🔹 Get All Tenants */
     getTenants: builder.query({
       query: ({ search = "" }) => `tenants?search=${search}`,
+      providesTags: ["Tenants"],
     }),
 
     /** 🔹 Get Single Tenant Profile */
@@ -21,6 +22,7 @@ export const tenantApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Update Tenant Information */
@@ -59,6 +61,19 @@ export const tenantApi = apiSlice.injectEndpoints({
       query: (tenantId) => `tenants/${tenantId}/payments`,
     }),
 
+    uploadLeaseDocuments: builder.mutation({
+      query: ({ leaseId, files }) => {
+        const formData = new FormData();
+        files.forEach((file) => formData.append("files", file));
+
+        return {
+          url: `/files/upload?entityType=lease&entityId=${leaseId}`,
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+
     /** 🔹 Send Overdue Payment Reminder */
     sendPaymentReminder: builder.mutation({
       query: (tenantId) => ({
@@ -74,6 +89,7 @@ export const {
   useGetTenantByIdQuery,
   useCreateTenantMutation,
   useUpdateTenantMutation,
+  useUploadLeaseDocumentsMutation,
   useDeleteTenantMutation,
   useGetTenantLeasesQuery,
   useUpdateLeaseStatusMutation,

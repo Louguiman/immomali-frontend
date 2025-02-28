@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cleanUrl } from "@/utils/splitDescription";
+import FavoriteButton from "../common/FavoriteBtn";
 
 const Listings = ({ properties }) => {
   return (
@@ -24,9 +25,7 @@ const Listings = ({ properties }) => {
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="#">
-                      <span className="flaticon-heart"></span>
-                    </a>
+                    <FavoriteButton propertyId={item.id} />
                   </li>
                 </ul>
               </div>
@@ -63,15 +62,17 @@ const Listings = ({ properties }) => {
                   {item.location}
                 </p>
 
-                {/* <ul className="prop_details mb0">
-                  {item.itemDetails.map((val, i) => (
-                    <li className="list-inline-item" key={i}>
-                      <a href="#">
-                        {val.name}: {val.number}
-                      </a>
-                    </li>
-                  ))}
-                </ul> */}
+                <ul className="prop_details mb0">
+                  <li className="list-inline-item">
+                    Beds: {item?.beds} &nbsp;
+                  </li>
+                  <li className="list-inline-item">
+                    Baths: {item?.baths} &nbsp;
+                  </li>
+                  <li className="list-inline-item">
+                    SqFt: {item?.sqFt} &nbsp;
+                  </li>
+                </ul>
               </div>
               {/* End .tc_content */}
 

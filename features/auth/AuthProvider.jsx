@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useRefreshTokenMutation } from "../api/auth.api";
+import { loadFromStorage } from "../properties/propertiesSlice";
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -12,9 +13,12 @@ export default function AuthProvider({ children }) {
   const [refreshToken] = useRefreshTokenMutation();
 
   useEffect(() => {
+    dispatch(loadFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (!isAuthenticated) {
       // router.push("/login");
-
       // refreshToken()
       //   .unwrap()
       //   .catch(() => {

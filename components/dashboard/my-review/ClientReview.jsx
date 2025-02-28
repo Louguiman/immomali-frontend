@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const ClientReview = () => {
   const user = useAppSelector((state) => state.auth?.user);
-  const { data: reviews, isLoading } = useGetReceivedReviewsQuery(undefined, {
+  const { data: reviews, isLoading } = useGetReceivedReviewsQuery(user.id, {
     skip: !user?.id,
   });
 
