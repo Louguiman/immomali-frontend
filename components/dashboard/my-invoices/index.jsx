@@ -8,9 +8,11 @@ import Header from "@/components/common/header/dashboard/Header";
 import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "@/components/common/header/MobileMenu";
 
-const InvoiceManagement = () => {
+export const InvoiceManagement = () => {
   const user = useSelector((state) => state.auth.user);
-  const { data: invoices, isLoading } = useGetInvoicesByTenantQuery(user?.id);
+  const { data: invoices, isLoading } = useGetInvoicesByTenantQuery(user?.id, {
+    skip: !user,
+  });
 
   return (
     <>

@@ -76,7 +76,7 @@ const PropertyCard = ({ item }) => {
         <div className="fp_footer">
           <ul className="fp_meta float-start mb0">
             <li className="list-inline-item">
-              <Link href="/agent-v2/">
+              <Link href={`/agent-details/${item?.owner?.id}`}>
                 <Image
                   width={40}
                   height={40}
@@ -86,7 +86,9 @@ const PropertyCard = ({ item }) => {
               </Link>
             </li>
             <li className="list-inline-item">
-              <Link href="/agent-v2">{item?.owner?.name || "Inconnu"}</Link>
+              <Link href={`/agent-details/${item?.owner?.id}`}>
+                {item?.owner?.name || "Inconnu"}
+              </Link>
             </li>
           </ul>
           <div className="fp_pdate float-end">{item.postedYear}</div>

@@ -24,8 +24,8 @@ const routes = {
     },
     { name: "Payments", route: "/dashboard/payments", icon: "flaticon-dollar" },
     {
-      name: "Maintenance Requests",
-      route: "/dashboard/maintenance",
+      name: "Requests",
+      route: "/dashboard/requests",
       icon: "flaticon-tools",
     },
     {
@@ -76,14 +76,14 @@ const routes = {
       route: "/dashboard/agency/invoices",
       icon: "flaticon-invoice",
     },
+    // {
+    //   name: "Payments",
+    //   route: "/dashboard/agency/payments",
+    //   icon: "flaticon-dollar",
+    // },
     {
-      name: "Payments",
-      route: "/dashboard/agency/payments",
-      icon: "flaticon-dollar",
-    },
-    {
-      name: "Maintenance Requests",
-      route: "/dashboard/agency/maintenance",
+      name: "Requests",
+      route: "/dashboard/agency/request",
       icon: "flaticon-tools",
     },
   ],
@@ -110,13 +110,38 @@ const routes = {
       icon: "flaticon-envelope",
     },
     {
+      name: "Invoices",
+      route: "/dashboard/agent/invoices",
+      icon: "flaticon-invoice",
+    },
+    {
       name: "Reviews",
       route: "/dashboard/agent/reviews",
       icon: "flaticon-chat",
     },
+    // {
+    //   name: "Payments",
+    //   route: "/dashboard/agent/payments",
+    //   icon: "flaticon-dollar",
+    // },
+    {
+      name: "Requests",
+      route: "/dashboard/agent/request",
+      icon: "flaticon-tools",
+    },
   ],
   user: [
     { name: "Dashboard", route: "/dashboard", icon: "flaticon-layers" },
+    {
+      name: "My Tenancies",
+      route: "/dashboard/my-tenancies",
+      icon: "flaticon-user-2",
+    },
+    {
+      name: "Invoices",
+      route: "/dashboard/agency/invoices",
+      icon: "flaticon-invoice",
+    },
     {
       name: "My Inquiries",
       route: "/dashboard/my-inquiries",
@@ -126,6 +151,16 @@ const routes = {
       name: "My Reviews",
       route: "/dashboard/my-reviews",
       icon: "flaticon-chat",
+    },
+    // {
+    //   name: "Payments",
+    //   route: "/dashboard/agent/payments",
+    //   icon: "flaticon-dollar",
+    // },
+    {
+      name: "Requests",
+      route: "/dashboard/agent/request",
+      icon: "flaticon-tools",
     },
     {
       name: "Favorites",

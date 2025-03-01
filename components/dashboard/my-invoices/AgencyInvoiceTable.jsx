@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-const InvoiceTable = ({ invocies }) => {
+const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
   const router = useRouter();
-  if (!invocies || invocies.length === 0) return <p>No invoices found.</p>;
+  if (!invoices || invoices.length === 0) return <p>No invoices found.</p>;
 
   return (
     <table className="table">
@@ -12,19 +11,22 @@ const InvoiceTable = ({ invocies }) => {
           <th>ID</th>
           <th>Tenant</th>
           <th>Property</th>
-          <th>Amount</th>
+          <th>Type</th>
+          <th>Total Amount</th>
           <th>Due Date</th>
           <th>Status</th>
+          <th>Notes</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {invocies.map((invoice) => (
+        {invoices.map((invoice) => (
           <tr key={invoice.id}>
             <td>{invoice.id}</td>
-            <td>{invoice.tenant.name}</td>
-            <td>{invoice?.property?.title}</td>
-            <td>{invoice.amount} FCFA</td>
+            <td>{invoice?.tenant?.user?.name}</td>
+            <td>{invoice?.tenant?.property?.title}</td>
+            <td>{invoice.type} </td>
+            <td>{invoice.totalAmount} FCFA</td>
             <td>{invoice.dueDate}</td>
             <td>
               <span
@@ -39,12 +41,27 @@ const InvoiceTable = ({ invocies }) => {
                 {invoice.status}
               </span>
             </td>
+            <td>{invoice?.notes}</td>
+
             <td>
               <button
                 onClick={() => router.push(`/invoices/${invoice.id}`)}
                 className="btn btn-sm btn-primary me-2"
               >
                 View
+              </button>
+
+              <button
+                className="btn btn-sm btn-warning me-2"
+                onClick={() => onEdit(invoice)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => onDelete(invoice.id)}
+              >
+                Delete
               </button>
             </td>
           </tr>
@@ -54,4 +71,4 @@ const InvoiceTable = ({ invocies }) => {
   );
 };
 
-export default InvoiceTable;
+export default AgencyInvoiceTable;

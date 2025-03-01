@@ -56,6 +56,15 @@ export const tenantApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    /** 🔹 Extend or Terminate Lease */
+    updateLease: builder.mutation({
+      query: (leaseData) => ({
+        url: `leases/${leaseData.id}`,
+        method: "PATCH",
+        body: leaseData,
+      }),
+    }),
+
     /** 🔹 Get Tenant's Payment History */
     getTenantPayments: builder.query({
       query: (tenantId) => `tenants/${tenantId}/payments`,
@@ -81,6 +90,27 @@ export const tenantApi = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+
+    getUserTenancies: builder.query({
+      query: () => "/users/my-tenancies",
+      providesTags: ["Tenancies"],
+    }),
+
+    requestLeaseTermination: builder.mutation({
+      query: (tenantId) => ({
+        url: `/tenants/${tenantId}/terminate`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Tenancies"],
+    }),
+
+    requestLeaseExtension: builder.mutation({
+      query: (tenantId) => ({
+        url: `/tenants/${tenantId}/extend`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Tenancies"],
+    }),
   }),
 });
 
@@ -93,6 +123,10 @@ export const {
   useDeleteTenantMutation,
   useGetTenantLeasesQuery,
   useUpdateLeaseStatusMutation,
+  useUpdateLeaseMutation,
   useGetTenantPaymentsQuery,
   useSendPaymentReminderMutation,
+  useGetUserTenanciesQuery,
+  useRequestLeaseTerminationMutation,
+  useRequestLeaseExtensionMutation,
 } = tenantApi;

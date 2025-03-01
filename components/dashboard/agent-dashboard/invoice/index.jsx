@@ -2,7 +2,7 @@
 import { useState } from "react";
 import {
   useDeleteInvoiceMutation,
-  useGetInvoicesByAgencyQuery,
+  useGetInvoicesByAgentQuery,
 } from "@/features/api/invoices.api";
 import { useSelector } from "react-redux";
 import InvoiceTable from "../../my-invoices/InvoiceTable";
@@ -13,19 +13,22 @@ import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
 
-export const AgencyInvoicesPage = () => {
-  const { user } = useSelector((state) => state.auth);
+export const AgentInvoicesPage = () => {
+  const user = useSelector((state) => state.auth.user);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
 
-  const { data, isLoading } = useGetInvoicesByAgencyQuery({
-    agencyId: user?.agency?.id,
-    status,
-    page,
-    limit: 10,
-  });
+  const { data, isLoading } = useGetInvoicesByAgentQuery(
+    {
+      agentId: user?.id,
+      status,
+      page,
+      limit: 10,
+    },
+    { skip: !user.id }
+  );
 
   const [deleteInvoice] = useDeleteInvoiceMutation();
 
@@ -79,16 +82,17 @@ export const AgencyInvoicesPage = () => {
                 )}
 
                 {/* Pagination */}
-                {/* <Pagination
-                    currentPage={page}
-                    totalPage={data?.totalPage}
-                    onPageChange={setPage}
-                  /> */}
+                <Pagination
+                  currentPage={page}
+                  totalPage={data?.totalPage}
+                  onPageChange={setPage}
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* Invoice Form Modal */}
       {showModal && (
         <InvoiceFormModal
           invoice={editingInvoice}
@@ -102,4 +106,4 @@ export const AgencyInvoicesPage = () => {
   );
 };
 
-export default AgencyInvoicesPage;
+export default AgentInvoicesPage;

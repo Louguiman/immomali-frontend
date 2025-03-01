@@ -82,4 +82,6 @@ export const {
   useDeleteInvoiceMutation,
   useGetSentInvoicesQuery,
   useGetReceivedInvoicesQuery,
+  useGetInvoicesByAgencyQuery,
+  useGetInvoicesByAgentQuery,
 } = invoicesApi;
