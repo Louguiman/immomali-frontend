@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import Mytenancy from "@/components/dashboard/my-tenancies";
+import Mytenancy from "@/components/dashboard/my-tenancies/my-tenancies";
 
 export const metadata = {
   title: "My Tenancies || ImmoMali - Real Estate",

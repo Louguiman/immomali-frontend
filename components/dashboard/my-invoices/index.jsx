@@ -3,10 +3,10 @@
 import { useGetInvoicesByTenantQuery } from "@/features/api/invoices.api";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import InvoiceTable from "@/components/invoices/InvoiceTable";
 import Header from "@/components/common/header/dashboard/Header";
 import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "@/components/common/header/MobileMenu";
+import InvoiceTable from "./InvoiceTable";
 
 export const InvoiceManagement = () => {
   const user = useSelector((state) => state.auth.user);

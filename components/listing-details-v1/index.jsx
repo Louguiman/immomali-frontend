@@ -59,7 +59,6 @@ const index = () => {
           <CopyrightFooter />
         </div>
       </section>
-    </>
   );
 };
 
