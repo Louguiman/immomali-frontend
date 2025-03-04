@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchAgencyPropertiesQuery } from "@/features/api/properties.api";
 import _ from "lodash"; // Import lodash
+import Image from "next/image";
 
-const SearchablePropertySelect = ({ agencyId, onSelect, placeholder }) => {
+const SearchablePropertySelect = ({ agencyId, placeholder, onSelect }) => {
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
   // Fetch properties only when debouncedQuery is not empty
   const { data: properties, isLoading } = useSearchAgencyPropertiesQuery(
-    { query: query, agencyId },
+    { query: query, agencyId }
     // { skip: !query } // Avoid fetching if query is empty
   );
 
@@ -17,14 +18,19 @@ const SearchablePropertySelect = ({ agencyId, onSelect, placeholder }) => {
   };
 
   const debouncedResults = useMemo(() => {
-    return _.debounce(handleSearch, 500);
+    return _.debounce(handleSearch, 300);
   }, []);
 
   useEffect(() => {
     return () => {
       debouncedResults.cancel();
     };
-  });
+  }, [debouncedResults]);
+
+  const handleSelect = (property) => {
+    onSelect(property);
+    setQuery(""); // Reset input after selection
+  };
   return (
     <div className="searchable-select position-relative">
       <input
@@ -48,19 +54,19 @@ const SearchablePropertySelect = ({ agencyId, onSelect, placeholder }) => {
             <li
               key={property.id}
               className="dropdown-item d-flex align-items-center"
-              onClick={() => onSelect(property)}
+              onMouseDown={() => handleSelect(property)}
               style={{ cursor: "pointer" }}
             >
-              {/* <Image
+              <Image
                 src={
-                  property.images?.[0]?.imageUrl ||
+                  property.images[0]?.imageUrl ||
                   "/assets/images/default-property.jpg"
                 }
                 alt={property.title}
                 width={45}
                 height={45}
                 className="rounded me-2"
-              /> */}
+              />
               <div>
                 <p className="mb-0 fw-bold">{property.title}</p>
                 <small className="text-muted">

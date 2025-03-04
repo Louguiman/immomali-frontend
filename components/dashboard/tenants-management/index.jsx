@@ -12,8 +12,10 @@ import UserCard from "@/components/common/cards/UserCard";
 import Link from "next/link";
 import { useState } from "react";
 import TenantCard from "@/components/TenantCard";
+import { usePathname } from "next/navigation";
 
 const TenantManagement = () => {
+  const pathname = usePathname();
   const { data: tenants, isLoading, isError } = useGetTenantsQuery({});
   const [deleteTenant] = useDeleteTenantMutation();
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,23 +29,22 @@ const TenantManagement = () => {
       tenant.property.title.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = statusFilter
-      ? tenant.lease.leaseStatus === statusFilter
+      ? tenant?.lease?.leaseStatus === statusFilter
       : true;
 
     return matchesSearch && matchesStatus;
   });
-  // console.log("tenants: ", tenants);
 
   return (
-    <section className="our-dashbord dashbord bgc-f7 pb50">
+    <section className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Tenant Management</h2>
-        <Link href="/tenants/create" className="btn btn-primary">
+        <Link href={`${pathname}/create`} className="btn btn-primary">
           + Add Tenant
         </Link>
       </div>
       {/* Filters & Search */}
-      <div className="row mb-3">
+      <div className="row mb-3 ">
         <div className="col-md-6">
           <input
             type="text"
@@ -73,9 +74,11 @@ const TenantManagement = () => {
       {isError && <p className="text-danger">Failed to load tenants.</p>}
 
       {filteredTenants?.length > 0 ? (
-        <div className="col-lg-12">
+        <div className="row  col-lg-12">
           {filteredTenants.map((tenant) => (
-            <TenantCard tenant={tenant} key={tenant.id} />
+            <div key={tenant.id} className="col-md-12">
+              <TenantCard tenant={tenant} />
+            </div>
           ))}
         </div>
       ) : (

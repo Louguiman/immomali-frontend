@@ -24,8 +24,8 @@ const routes = {
     },
     { name: "Payments", route: "/dashboard/payments", icon: "flaticon-dollar" },
     {
-      name: "Requests",
-      route: "/dashboard/requests",
+      name: "Maintenance Requests",
+      route: "/dashboard/agency/maintenance-request",
       icon: "flaticon-tools",
     },
     {
@@ -40,7 +40,7 @@ const routes = {
     },
   ],
   agency: [
-    { name: "Dashboard", route: "/dashboard/agency", icon: "flaticon-layers" },
+    { name: "Dashboard", route: "/dashboard", icon: "flaticon-layers" },
     {
       name: "Profile",
       route: "/dashboard/agency/profile",
@@ -82,13 +82,13 @@ const routes = {
     //   icon: "flaticon-dollar",
     // },
     {
-      name: "Requests",
-      route: "/dashboard/agency/request",
+      name: "Maintenance Requests",
+      route: "/dashboard/agency/maintenance-request",
       icon: "flaticon-tools",
     },
   ],
   agent: [
-    { name: "Dashboard", route: "/dashboard/agent", icon: "flaticon-layers" },
+    { name: "Dashboard", route: "/dashboard", icon: "flaticon-layers" },
     {
       name: "Profile",
       route: "/dashboard/agent/profile",
@@ -126,7 +126,7 @@ const routes = {
     // },
     {
       name: "Requests",
-      route: "/dashboard/agent/request",
+      route: "/dashboard/agent/maintenance-request",
       icon: "flaticon-tools",
     },
   ],
@@ -138,8 +138,8 @@ const routes = {
       icon: "flaticon-user-2",
     },
     {
-      name: "Invoices",
-      route: "/dashboard/agency/invoices",
+      name: "My Invoices",
+      route: "/dashboard/my-invoices",
       icon: "flaticon-invoice",
     },
     {
@@ -158,23 +158,23 @@ const routes = {
     //   icon: "flaticon-dollar",
     // },
     {
-      name: "Requests",
-      route: "/dashboard/agent/request",
+      name: "My Requests",
+      route: "/dashboard/maintenance-request",
       icon: "flaticon-tools",
     },
     {
-      name: "Favorites",
-      route: "/dashboard/my-favorites",
+      name: "My Favourites",
+      route: "/dashboard/my-favourites",
       icon: "flaticon-magnifying-glass",
     },
-    {
-      name: "Saved Search",
-      route: "/dashboard/my-saved-search",
-      icon: "flaticon-magnifying-glass",
-    },
+    // {
+    //   name: "Saved Search",
+    //   route: "/dashboard/my-saved-search",
+    //   icon: "flaticon-magnifying-glass",
+    // },
   ],
   common: [
-    { name: "My Profile", route: "/dashboard/profile", icon: "flaticon-user" },
+    // { name: "My Profile", route: "/dashboard/profile", icon: "flaticon-user" },
     { name: "Logout", route: "/logout", icon: "flaticon-logout" },
   ],
 };

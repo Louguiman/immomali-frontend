@@ -41,7 +41,7 @@ const FeaturedProperties = ({ properties }) => {
   return (
     <>
       <Slider {...settings} arrows={false}>
-        {properties.slice(0, 12).map((item) => (
+        {properties?.slice(0, 12).map((item) => (
           <div className="item" key={item.id}>
             <div className="feat_property home3">
               <div className="thumb">

@@ -1,14 +1,15 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useGetInvoiceByIdQuery } from "@/features/api/invoices.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
 import { use } from "react";
 
 const InvoiceDetailsPage = ({}) => {
-  const params = useParams();
-  const { id } = use(params); // Get the invoice ID from the URL
+  const pathname = usePathname();
+  const { id } = useParams();
+  // Get the invoice ID from the URL
   const router = useRouter();
 
   const { data: invoice, isLoading, isError } = useGetInvoiceByIdQuery(id);
@@ -87,10 +88,7 @@ const InvoiceDetailsPage = ({}) => {
 
           {/* Edit/Delete Actions */}
           <div className="mt-4">
-            <Link
-              href={`/invoices/edit/${invoice.id}`}
-              className="btn btn-primary me-2"
-            >
+            <Link href={`${pathname}/edit`} className="btn btn-primary me-2">
               Edit Invoice
             </Link>
             <button

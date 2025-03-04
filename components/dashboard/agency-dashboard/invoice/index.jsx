@@ -12,8 +12,10 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
+import { usePathname } from "next/navigation";
 
 export const AgencyInvoicesPage = () => {
+  const pathname = usePathname();
   const { user } = useSelector((state) => state.auth);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");

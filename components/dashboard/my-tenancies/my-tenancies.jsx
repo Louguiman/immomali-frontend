@@ -2,83 +2,72 @@
 import Link from "next/link";
 import { useGetUserTenanciesQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import TenantRequestForm from "@/components/maintenance/TenantRequestForm";
+import TenantCard from "@/components/TenantCard";
+import { useState } from "react";
 
 const UserTenanciesPage = () => {
   const { data: tenancies, isLoading, isError } = useGetUserTenanciesQuery();
 
-  if (isLoading) return <LoadingSpinner />;
+  const [maintenanceModal, setMaintenanceModal] = useState({
+    show: false,
+    tenancy: null,
+  });
+
+  // Dummy functions for extension and termination actions.
+  const handleRequestExtension = (tenancyId) => {
+    console.log("Request extension for tenancy", tenancyId);
+    // Integrate extension request logic here
+  };
+
+  const handleRequestTermination = (tenancyId) => {
+    console.log("Request termination for tenancy", tenancyId);
+    // Integrate termination request logic here
+  };
+
+  const handleMaintenanceRequest = (tenancy) => {
+    setMaintenanceModal({ show: true, tenancy });
+  };
   if (isError)
     return <p className="alert alert-danger">Error loading tenancies.</p>;
 
   return (
-    <div className="container mt-4">
-      <h2>My Tenancies</h2>
-      <p>Manage your current and past leases here.</p>
-
+    <>
       <div className="card mt-3">
         <div className="card-body">
-          {tenancies.length === 0 ? (
-            <p className="text-muted">You have no active or past tenancies.</p>
+          {isLoading && <LoadingSpinner />}
+          {tenancies && tenancies.length > 0 ? (
+            <div className="row">
+              {tenancies.map((tenancy) => (
+                <div key={tenancy.id} className="col-md-12">
+                  <TenantCard
+                    isUser={true}
+                    tenant={tenancy}
+                    onRequestMaintenance={handleMaintenanceRequest}
+                    onRequestExtension={handleRequestExtension}
+                    onRequestTermination={handleRequestTermination}
+                  />
+                </div>
+              ))}
+            </div>
           ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Property</th>
-                  <th>Lease Period</th>
-                  <th>Rent</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tenancies.map((tenancy) => (
-                  <tr key={tenancy.id}>
-                    <td>
-                      <Link href={`/listing-details-v2/${tenancy.property.id}`}>
-                        {tenancy.property.title}
-                      </Link>
-                    </td>
-                    <td>
-                      {tenancy.leaseStartDate} → {tenancy.leaseEndDate}
-                    </td>
-                    <td>${tenancy.monthlyRent}/month</td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          tenancy.leaseStatus === "active"
-                            ? "bg-success"
-                            : "bg-warning"
-                        }`}
-                      >
-                        {tenancy.leaseStatus}
-                      </span>
-                    </td>
-                    <td>
-                      {tenancy.leaseStatus === "active" && (
-                        <>
-                          <button
-                            className="btn btn-sm btn-warning me-2"
-                            onClick={() => console.log("Request Extension")}
-                          >
-                            Request Extension
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => console.log("Request Termination")}
-                          >
-                            Request Termination
-                          </button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <p className="text-muted">No tenancies found.</p>
+          )}
+          {isError && (
+            <p className="alert alert-danger">Error loading tenancies.</p>
           )}
         </div>
       </div>
-    </div>
+
+      {/* Maintenance Request Modal */}
+      {maintenanceModal.show && (
+        <TenantRequestForm
+          tenantId={maintenanceModal.tenancy.id}
+          propertyId={maintenanceModal.tenancy.property.id}
+          onClose={() => setMaintenanceModal({ show: false, tenancy: null })}
+        />
+      )}
+    </>
   );
 };
 

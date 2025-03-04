@@ -11,8 +11,13 @@ const InvoiceList = ({ invoices }) => {
           <tr>
             <th>Invoice #</th>
             <th>Amount</th>
+            <th>Amount Paid</th>
+            <th>Remaining Balance </th>
+            <th>Type</th>
             <th>Status</th>
             <th>Due Date</th>
+            <th>Notes</th>
+            <th>issuedBy</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -20,7 +25,10 @@ const InvoiceList = ({ invoices }) => {
           {invoices.map((invoice) => (
             <tr key={invoice.id}>
               <td>{invoice.id}</td>
-              <td>${invoice.totalAmount}</td>
+              <td>{invoice.totalAmount} FCFA</td>
+              <td>{invoice.paidAmount} FCFA</td>
+              <td>{invoice.remainingBalance} FCFA</td>
+              <td>{invoice.type}</td>
               <td>
                 <span
                   className={`badge ${
@@ -30,7 +38,15 @@ const InvoiceList = ({ invoices }) => {
                   {invoice.status}
                 </span>
               </td>
+
               <td>{invoice.dueDate}</td>
+              <td>{invoice.notes}</td>
+              <td className="col">
+                {invoice.issuedBy.name}
+                {invoice.issuedBy.email}
+                {invoice.issuedBy.phone}
+              </td>
+
               <td>
                 <Link
                   href={`/invoices/${invoice.id}`}

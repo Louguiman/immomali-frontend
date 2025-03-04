@@ -1,6 +1,7 @@
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
+  const pathname = usePathname();
   const router = useRouter();
   if (!invoices || invoices.length === 0) return <p>No invoices found.</p>;
 
@@ -45,7 +46,7 @@ const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
 
             <td>
               <button
-                onClick={() => router.push(`/invoices/${invoice.id}`)}
+                onClick={() => router.push(`${pathname}/${invoice.id}`)}
                 className="btn btn-sm btn-primary me-2"
               >
                 View

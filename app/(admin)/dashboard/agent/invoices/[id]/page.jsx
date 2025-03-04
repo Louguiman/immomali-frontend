@@ -7,9 +7,9 @@ import Link from "next/link";
 import { use } from "react";
 
 const InvoiceDetailsPage = ({}) => {
-  const params = useParams();
-  const { id } = use(params); // Get the invoice ID from the URL
-  //   const router = useRouter();
+  const { id } = useParams();
+  // Get the invoice ID from the URL
+  const router = useRouter();
 
   const { data: invoice, isLoading, isError } = useGetInvoiceByIdQuery(id);
 
@@ -23,9 +23,9 @@ const InvoiceDetailsPage = ({}) => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center">
         <h2>Invoice Details</h2>
-        <Link href="/invoices" className="btn btn-secondary">
+        <button onClick={() => router.back()} className="btn btn-secondary">
           Back to Invoices
-        </Link>
+        </button>
       </div>
 
       <div className="card mt-3">

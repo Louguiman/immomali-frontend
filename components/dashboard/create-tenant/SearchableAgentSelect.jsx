@@ -37,9 +37,15 @@ const SearchableAgentSelect = ({
     };
   });
 
+  const handleSelect = (user) => {
+    // setSelectedUser(user);
+    onSelect(user);
+    setQuery(""); // Reset input after selection
+  };
+
   useEffect(() => {
     if (!isAgency) {
-      onSelect(user);
+      handleSelect(user);
     }
 
     return () => {};
@@ -71,7 +77,7 @@ const SearchableAgentSelect = ({
             <li
               key={user.id}
               className="dropdown-item d-flex align-items-center"
-              onClick={() => onSelect(user)}
+              onMouseDown={() => handleSelect(user)}
               style={{ cursor: "pointer" }}
             >
               <Image

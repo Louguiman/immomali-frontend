@@ -2,126 +2,148 @@
 
 import Image from "next/image";
 import Link from "next/link";
-// import { Tenant } from "@/types"; // adjust import to your tenant type
+import { usePathname } from "next/navigation";
 
-// interface TenantCardProps {
-//   tenant: Tenant;
-// }
+const TenantCard = ({
+  tenant,
+  isUser = false,
+  onRequestMaintenance = null,
+  onRequestExtension = null,
+  onRequestTermination = null,
+}) => {
+  const pathname = usePathname();
 
-const TenantCard = ({ tenant }) => {
-  const isGridOrList = false;
-  // Get the property image (fallback if not available)
+  // Get property image (or fallback)
   const propertyImage =
-    tenant.property?.images && tenant.property.images.length > 0
-      ? tenant.property.images[0].imageUrl
-      : "/assets/images/default-property.jpg";
+    tenant.property?.images?.[0]?.imageUrl ||
+    "/assets/images/default-property.jpg";
 
-  // Format lease dates (assuming leaseStartDate and leaseEndDate are strings)
+  // Format lease dates
   const leaseStart = new Date(
     tenant?.lease?.leaseStartDate
   ).toLocaleDateString();
   const leaseEnd = new Date(tenant?.lease?.leaseEndDate).toLocaleDateString();
 
   return (
-    <Link
-      href={`tenants/${tenant?.id}`}
-      className={`feat_property home7 style4 card shadow-sm ${
-        isGridOrList ? "d-flex align-items-center" : undefined
-      }`}
-    >
-      {/* Left Side: Property Image */}
-      <div className="thumb" style={{ minHeight: "220px" }}>
-        <Image
-          src={propertyImage}
-          alt={tenant.property.title}
-          fill
-          className="img-fluid rounded-start object-fit-cover img-whp w-100 h-100 cover"
-        />
-        <div className="thmb_cntnt">
-          <ul className="tag mb0">
-            <li className="list-inline-item">
-              <a href="#">{tenant.property.title}</a>
-            </li>
-            {/* <li className="list-inline-item">
-              <a href="#" className="text-capitalize">
-                {item?.featured}
-              </a>
-            </li> */}
-          </ul>
-          <ul className="icon mb0">
-            <li className="list-inline-item">
-              <a href="#">
-                <span className="flaticon-transfer-1"></span>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a href="#">
-                <span className="flaticon-heart"></span>
-              </a>
-            </li>
-          </ul>
-
-          <Link
-            href={`/listing-details-v2/${tenant.property.id}`}
-            className="fp_price"
-          >
-            {tenant.property.price} FCFA
-            <small>/mo</small>
-          </Link>
-        </div>
-        <div
-          className="position-absolute top-0 start-0 w-100 h-100"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.3)",
-          }}
-        ></div>
-      </div>
-      {/* Right Side: Tenant & Lease Details */}
-      <div className="col-md-7">
-        <div className="card-body">
-          {/* Property Title */}
-          <h5 className="card-title">
-            <Link href={`/properties/${tenant.property.id}`}>
-              {tenant.property.title}
+    <div className="card mb-4 shadow-sm">
+      <div className="row g-0">
+        {/* Left Side: Property Image with Overlay */}
+        <div className="col-md-5 position-relative">
+          <Image
+            src={propertyImage}
+            alt={tenant.property.title}
+            fill
+            className="img-fluid rounded-start object-fit-cover"
+          />
+          <div
+            className="position-absolute top-0 start-0 w-100 h-100"
+            style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+          ></div>
+          <div className="position-absolute bottom-0 start-0 p-2">
+            <Link href={`/listing-details-v2/${tenant.property.id}`}>
+              <button className="btn btn-sm btn-light">
+                {tenant.property.price} FCFA <small>/mo</small>
+              </button>
             </Link>
-          </h5>
-          {/* Tenant Info */}
-          <p className="card-text mb-1">
-            <strong>Tenant:</strong> {tenant.user.name}
-          </p>{" "}
-          <p className="card-text mb-1">
-            <strong>Tenant email:</strong> {tenant.user.email}
-          </p>
-          <p className="card-text mb-1">
-            <strong>Tenant Phone:</strong> {tenant.user.phone}
-          </p>
-          <p className="card-text mb-1">
-            <strong>Lease Period:</strong> {leaseStart} - {leaseEnd}
-          </p>
-          <p className="card-text mb-1">
-            <strong>Monthly Rent:</strong> {tenant?.lease?.monthlyRent} FCFA
-          </p>
-          <p className="card-text mb-1">
-            <strong>Outstanding Balance:</strong> {tenant.outstandingBalance}{" "}
-            FCFA
-          </p>
-          <p className="card-text">
-            <strong>Lease Status:</strong>{" "}
-            <span
-              className={`badge ${
-                tenant?.lease?.leaseStatus === "active"
-                  ? "bg-success"
-                  : tenant?.lease?.leaseStatus === "terminated"
-                  ? "bg-danger"
-                  : "bg-warning"
-              }`}
-            >
-              {tenant?.lease?.leaseStatus.toUpperCase()}
-            </span>
-          </p>
+          </div>
+        </div>
+
+        {/* Right Side: Tenant & Lease Details */}
+        <div className="col-md-7">
+          <div className="card-body">
+            <div className="row">
+              {/* Left Column: Tenant & Property Details */}
+              <div className="col-md-6">
+                <h5 className="card-title">
+                  <Link href={`/properties/${tenant.property.id}`}>
+                    {tenant.property.title}
+                  </Link>
+                </h5>
+                <p className="text-muted">{tenant.property.location}</p>
+                <p>
+                  <strong>Tenant:</strong> {tenant.user.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {tenant.user.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {tenant.user.phone}
+                </p>
+                <p>
+                  <strong>Lease Period:</strong> {leaseStart} - {leaseEnd}
+                </p>
+              </div>
+
+              {/* Right Column: Lease & Financial Details */}
+              <div className="col-md-6">
+                <p>
+                  <strong>Rent:</strong> {tenant?.lease?.monthlyRent} FCFA
+                </p>
+                <p>
+                  <strong>Deposit:</strong> {tenant?.lease?.securityDeposit}{" "}
+                  FCFA
+                </p>
+                <p>
+                  <strong>Auto-Renewal:</strong>{" "}
+                  {tenant?.lease?.autoRenewal ? "Enabled" : "Disabled"}
+                </p>
+                <p>
+                  <strong>Balance:</strong> {tenant.outstandingBalance} FCFA
+                </p>
+                <p>
+                  <strong>Status:</strong>{" "}
+                  <span
+                    className={`badge ${
+                      tenant?.lease?.leaseStatus === "active"
+                        ? "bg-success"
+                        : tenant?.lease?.leaseStatus === "terminated"
+                        ? "bg-danger"
+                        : "bg-warning"
+                    }`}
+                  >
+                    {tenant?.lease?.leaseStatus.toUpperCase()}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="d-flex align-items-end justify-content-between mt-3">
+              <Link
+                href={`${pathname}/${tenant.id}`}
+                className="btn btn-sm btn-primary"
+              >
+                View
+              </Link>
+              {!isUser && (
+                <Link
+                  href={`${pathname}/${tenant.id}/edit`}
+                  className="btn btn-sm btn-warning"
+                >
+                  Edit
+                </Link>
+              )}
+              {!isUser && (
+                <Link
+                  href={`${pathname}/${tenant.id}/manage-lease`}
+                  className="btn btn-sm btn-dark"
+                >
+                  Manage Lease
+                </Link>
+              )}
+              {isUser && (
+                <button
+                  onClick={() => onRequestMaintenance(tenant)}
+                  className="btn btn-sm btn-secondary"
+                >
+                  Send in a Request
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

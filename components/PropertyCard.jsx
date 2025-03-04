@@ -49,7 +49,7 @@ const PropertyCard = ({ item }) => {
           </ul>
 
           <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
-            ${item.price}
+            {item.price} FCFA
             <small>/mo</small>
           </Link>
         </div>

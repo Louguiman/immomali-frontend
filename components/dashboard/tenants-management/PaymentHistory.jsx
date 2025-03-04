@@ -1,35 +1,64 @@
-import { useGetPaymentsByTenantQuery } from "@/features/api/payments.api";
+"use client";
+
+import { useParams } from "next/navigation";
+import { useGetTenantPaymentsQuery } from "@/features/api/payments.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
-const PaymentHistory = ({ tenantId }) => {
-  const { data: payments, isLoading } = useGetPaymentsByTenantQuery(tenantId);
+export const TenantPaymentHistory = () => {
+  const { id } = useParams();
+  const { data: payments, isLoading, isError } = useGetTenantPaymentsQuery(id);
 
   if (isLoading) return <LoadingSpinner />;
-  if (!payments || payments.length === 0) return <p>No payments found.</p>;
+  if (isError)
+    return <p className="alert alert-danger">Error loading payments.</p>;
 
   return (
-    <div className="card shadow-sm p-3 mt-4">
-      <h4>Payment History</h4>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Amount Paid</th>
-            <th>Invoice #</th>
-          </tr>
-        </thead>
-        <tbody>
-          {payments.map((payment) => (
-            <tr key={payment.id}>
-              <td>{payment.paymentDate}</td>
-              <td>${payment.amountPaid}</td>
-              <td>{payment.invoice.id}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container mt-4">
+      <h2>Tenant Payment History</h2>
+      <p>View all rent payments for this tenant.</p>
+
+      <div className="card mt-3">
+        <div className="card-body">
+          {payments.length === 0 ? (
+            <p className="text-muted">No payment records found.</p>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Invoice ID</th>
+                  <th>Amount</th>
+                  <th>Payment Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payments.map((payment) => (
+                  <tr key={payment.id}>
+                    <td>{payment.invoiceId}</td>
+                    <td>{payment.amount} FCFA</td>
+                    <td>{payment.paymentDate || "Pending"}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          payment.status === "paid"
+                            ? "bg-success"
+                            : payment.status === "pending"
+                            ? "bg-warning"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {payment.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default PaymentHistory;
+export default TenantPaymentHistory;

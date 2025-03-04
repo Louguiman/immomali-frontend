@@ -49,10 +49,10 @@ export const tenantApi = apiSlice.injectEndpoints({
 
     /** 🔹 Extend or Terminate Lease */
     updateLeaseStatus: builder.mutation({
-      query: ({ leaseId, status }) => ({
-        url: `leases/${leaseId}/status`,
+      query: ({ id, leaseStatus }) => ({
+        url: `leases/${id}/status`,
         method: "PATCH",
-        body: { status },
+        body: { status: leaseStatus },
       }),
     }),
 

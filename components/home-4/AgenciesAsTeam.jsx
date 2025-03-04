@@ -53,7 +53,7 @@ const AgenciesAsTeam = ({ data }) => {
 
   return (
     <Slider {...settings} arrows={true}>
-      {data.slice(0, 6).map((item) => (
+      {data?.slice(0, 6).map((item) => (
         <div className="item" key={item.id}>
           <div className="team_member home4">
             <div className="thumb">

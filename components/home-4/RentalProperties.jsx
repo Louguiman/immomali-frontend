@@ -36,7 +36,7 @@ function RentalProperties() {
           ) : (
             <div className="col-lg-12">
               <div className="best_property_slider gutter-x15">
-                <FeaturedProperties properties={properties.data} />
+                <FeaturedProperties properties={properties?.data} />
               </div>
             </div>
           )}

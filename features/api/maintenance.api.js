@@ -16,6 +16,11 @@ export const maintenanceApi = apiSlice.injectEndpoints({
         `/maintenance-requests/by-agency?agencyId=${agencyId}`,
       providesTags: ["Maintenance"],
     }),
+    getUserMaintenanceRequests: builder.query({
+      query: (tenantId) =>
+        `/maintenance-requests/by-tenant?tenantId=${tenantId}`,
+      providesTags: ["Maintenance"],
+    }),
     getRequestsByAgent: builder.query({
       query: (agentId) => `/maintenance-requests/by-agent?agentId=${agentId}`,
       providesTags: ["Maintenance"],
@@ -46,4 +51,5 @@ export const {
   useGetRequestsByAgentQuery,
   useCreateRequestMutation,
   useUpdateRequestMutation,
+  useGetUserMaintenanceRequestsQuery,
 } = maintenanceApi;

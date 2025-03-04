@@ -72,8 +72,8 @@ const LeaseDetails = () => {
             value={leaseDetails.leaseType}
             onChange={handleChange}
           >
-            <option value="fixed">Fixed-Term</option>
-            <option value="month-to-month">Month-to-Month</option>
+            <option value="FIXED">Fixed-Term</option>
+            <option value="MONTHLY">Month-to-Month</option>
           </select>
         </div>
       </div>
@@ -90,8 +90,8 @@ const LeaseDetails = () => {
             <option value="">
               Should the lease be renewed at expiration automatically
             </option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
+            <option value={true}>Yes</option>
+            <option value={false}>No</option>
           </select>
         </div>
       </div>

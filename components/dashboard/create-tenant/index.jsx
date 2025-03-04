@@ -16,9 +16,11 @@ import { toast } from "react-toastify";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
 import { useAppDispatch } from "@/store/hooks";
+import { useRouter } from "next/navigation";
 
 const TenantManagement = ({ tenant }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const user = useSelector((state) => state.auth.user);
   const tenantDetails = useSelector((state) => state.tenants.tenantDetails);
   const leaseDetails = useSelector((state) => state.tenants.leaseDetails);
@@ -41,7 +43,7 @@ const TenantManagement = ({ tenant }) => {
   }, [tenant]);
 
   const handleSubmit = async () => {
-    const leaseId = null;
+    let leaseId = null;
     setLoading(true);
     toast.info("Processing tenant details...", { autoClose: 2000 });
 
@@ -63,6 +65,7 @@ const TenantManagement = ({ tenant }) => {
         response = await createTenant(tenantData).unwrap();
         leaseId = response.lease.id;
         toast.success("Tenant created successfully!", { autoClose: 2000 });
+        router.back();
       }
 
       if (tenant?.leaseDocuments?.length > 0) {
@@ -83,76 +86,62 @@ const TenantManagement = ({ tenant }) => {
   };
 
   return (
-    <ProtectedRoute>
-      <Header />
-      <MobileMenu />
-
-      <div className="dashboard_sidebar_menu">
-        <div
-          className="offcanvas offcanvas-dashboard offcanvas-start"
-          tabIndex="-1"
-          id="DashboardOffcanvasMenu"
-          data-bs-scroll="true"
-        >
-          <SidebarMenu />
-        </div>
-      </div>
-
-      {/* Dashboard Content */}
-      <section className="our-dashbord dashbord bgc-f7 pb50">
-        <div className="container-fluid ovh">
+    <div className="container-fluid ovh">
+      <div className="row">
+        <div className="col-lg-12 maxw100flex-992">
           <div className="row">
-            <div className="col-lg-12 maxw100flex-992">
-              <div className="row">
-                <div className="col-lg-12 mb10">
-                  <div className="breadcrumb_content style2">
-                    <h2 className="breadcrumb_title">
-                      {tenant?.id ? "Edit Tenant" : "Add New Tenant"}
-                    </h2>
-                    <p>Manage tenant lease details and rental agreements.</p>
-                  </div>
-                </div>
+            <div className="col-lg-12 mb10">
+              <div className="breadcrumb_content style2">
+                <h2 className="breadcrumb_title">
+                  {tenant?.id ? "Edit Tenant" : "Add New Tenant"}
+                </h2>
+                <p>Manage tenant lease details and rental agreements.</p>
+              </div>
+            </div>
 
-                {/* Tenant Form */}
-                <div id="info" className="col-lg-12">
-                  {/* <h4 className="breadcrumb_title">Tenant Details</h4> */}
-                  <TenantForm />
-                </div>
+            {/* Tenant Form */}
+            <div id="info" className="col-lg-12">
+              {/* <h4 className="breadcrumb_title">Tenant Details</h4> */}
+              <TenantForm />
+            </div>
 
-                {/* Lease Details */}
-                <div id="lease" className="my_dashboard_review mt30">
-                  <h2 className="breadcrumb_title">Lease Details</h2>
-                  <LeaseDetails />
-                </div>
+            {/* Lease Details */}
+            <div id="lease" className="my_dashboard_review mt30">
+              <h2 className="breadcrumb_title">Lease Details</h2>
+              <LeaseDetails />
+            </div>
 
-                {/* Document Upload */}
-                <div id="documents" className="my_dashboard_review mt30">
-                  <DocumentUploader />
-                </div>
+            {/* Document Upload */}
+            <div id="documents" className="my_dashboard_review mt30">
+              <DocumentUploader />
+            </div>
 
-                {/* Submit */}
-                <div id="submit" className="col-xl-12">
-                  <div className="my_profile_setting_input">
-                    <button className="btn btn1 float-start">Back</button>
-                    <button
-                      onClick={handleSubmit}
-                      className="btn btn2 float-end"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <i className="fa fa-spinner fa-spin"></i>
-                      ) : (
-                        "Save Tenant"
-                      )}
-                    </button>
-                  </div>
-                </div>
+            {/* Submit */}
+            <div id="submit" className="col-xl-12">
+              <div className="my_profile_setting_input">
+                <button
+                  className="btn btn1 float-start"
+                  onClick={() => router.back()}
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  className="btn btn2 float-end"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <i className="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Save Tenant"
+                  )}
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </ProtectedRoute>
+      </div>
+    </div>
   );
 };
 

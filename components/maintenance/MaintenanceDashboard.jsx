@@ -1,48 +1,39 @@
 "use client";
-import {
-  useGetRequestsByAgencyQuery,
-  useGetRequestsByAgentQuery,
-} from "@/features/api/maintenance.api";
-import { useSelector } from "react-redux";
+import { useGetUserMaintenanceRequestsQuery } from "@/features/api/maintenance.api"; // You need to implement this RTK Query endpoint
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import MaintenanceRequestCard from "./MaintenanceRequestCard";
+import { useAppSelector } from "@/store/hooks";
 
-const MaintenanceDashboard = () => {
-  const user = useSelector((state) => state.auth.user);
-  const { data: agencyRequests, isLoading: agencyLoading } =
-    useGetRequestsByAgencyQuery(user?.agencyId, { skip: !user?.agencyId });
-  const { data: agentRequests, isLoading: agentLoading } =
-    useGetRequestsByAgentQuery(user?.id);
+const TenantMaintenanceDashboard = () => {
+  const user = useAppSelector((state) => state.auth.user);
+  const {
+    data: requests,
+    isLoading,
+    isError,
+  } = useGetUserMaintenanceRequestsQuery(user.id, { skip: !user.id });
+
+  if (isError)
+    return <p className="alert alert-danger">Error loading requests.</p>;
 
   return (
-    <div>
-      <h2>Maintenance Requests</h2>
-
-      {user?.agencyId && (
-        <>
-          <h3>Agency Requests</h3>
-          {agencyLoading ? (
-            <p>Loading...</p>
-          ) : (
-            agencyRequests?.map((req) => (
-              <p key={req.id}>
-                {req.title} - {req.status}
-              </p>
-            ))
-          )}
-        </>
-      )}
-
-      <h3>Assigned to You</h3>
-      {agentLoading ? (
-        <p>Loading...</p>
+    <section className="our-dashbord dashbord bgc-f7 pb50 mt-4">
+      <h2>My Maintenance Requests</h2>
+      {!isLoading && requests?.length === 0 ? (
+        <p>No maintenance requests found.</p>
       ) : (
-        agentRequests?.map((req) => (
-          <p key={req.id}>
-            {req.title} - {req.status}
-          </p>
-        ))
+        <div className="row">
+          {isLoading && <LoadingSpinner />}
+          {!isLoading && isError
+            ? requests.map((request) => (
+                <div key={request.id} className="col-md-6">
+                  <MaintenanceRequestCard request={request} />
+                </div>
+              ))
+            : null}
+        </div>
       )}
-    </div>
+    </section>
   );
 };
 
-export default MaintenanceDashboard;
+export default TenantMaintenanceDashboard;

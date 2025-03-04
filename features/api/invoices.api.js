@@ -20,6 +20,12 @@ export const invoicesApi = apiSlice.injectEndpoints({
     }),
 
     // 🔹 Get Invoice by ID
+    getInvoicesByTenant: builder.query({
+      query: (id) => `/invoices/tenant/${id}`,
+      providesTags: (result, error, id) => [{ type: "Invoices", id }],
+    }),
+
+    // 🔹 Get Invoice by ID
     getInvoiceById: builder.query({
       query: (id) => `/invoices/${id}`,
       providesTags: (result, error, id) => [{ type: "Invoices", id }],
@@ -84,4 +90,5 @@ export const {
   useGetReceivedInvoicesQuery,
   useGetInvoicesByAgencyQuery,
   useGetInvoicesByAgentQuery,
+  useGetInvoicesByTenantQuery,
 } = invoicesApi;

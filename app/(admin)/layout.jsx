@@ -1,8 +1,7 @@
 import Header from "@/components/common/header/dashboard/Header";
 import MobileMenu from "@/components/common/header/MobileMenu";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
-import SidebarMenu from "./SidebarMenu";
-
+import SidebarMenu from "./dashboard/SidebarMenu";
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
