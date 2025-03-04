@@ -43,13 +43,11 @@ export const AgentInvoicesPage = () => {
   };
 
   return (
-    <section className="our-dashbord dashbord bgc-f7 pb50">
-      <div className="container-fluid ovh">
+    <>
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-lg-12 maxw100flex-992">
-            <div className="breadcrumb_content style2 mb30-991">
-              <h2 className="breadcrumb_title">Invoices</h2>
-              <p>Manage your invoices here.</p>
+          <div className="col-lg-12 ">
+            <div className=" mb30-991">
               <div className="container">
                 {/* Add Invoice Button */}
                 <button
@@ -104,7 +102,7 @@ export const AgentInvoicesPage = () => {
           }}
         />
       )}
-    </section>
+    </>
   );
 };
 

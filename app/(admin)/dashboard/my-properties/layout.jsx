@@ -24,16 +24,13 @@ function layout({ children }) {
               </div>
               {/* End Dashboard Navigation */}
 
+              {/* Breadcrumb and Greeting */}
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Tenancies</h2>
-                  <p>
-                    Manage your active and past leases, view payment history,
-                    and submit maintenance requests.
-                  </p>
+                  <h2 className="breadcrumb_title">My Properties</h2>
+                  <p>We are glad to see you again!</p>
                 </div>
               </div>
-              {/* End .col */}
 
               {children}
             </div>

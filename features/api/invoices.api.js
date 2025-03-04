@@ -50,6 +50,15 @@ export const invoicesApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Invoices"],
     }),
 
+    // 🔹 export Invoice to Pdf file
+    exportInvoiceToPDF: builder.query({
+      query: (id) => ({
+        url: `/invoices/${id}/pdf`,
+        method: "GET",
+      }),
+      invalidatesTags: ["Invoices"],
+    }),
+
     getSentInvoices: builder.query({
       query: (userID) => `/invoices/sent/${userID}`,
       providesTags: ["Invoices"],
@@ -91,4 +100,5 @@ export const {
   useGetInvoicesByAgencyQuery,
   useGetInvoicesByAgentQuery,
   useGetInvoicesByTenantQuery,
+  useExportInvoiceToPDFQuery,
 } = invoicesApi;

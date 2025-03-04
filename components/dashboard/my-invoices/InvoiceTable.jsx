@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const InvoiceTable = ({ invocies }) => {
+const InvoiceTable = ({ invoices }) => {
   const router = useRouter();
-  if (!invocies || invocies.length === 0) return <p>No invoices found.</p>;
+  if (!invoices || invoices.length === 0) return <p>No invoices found.</p>;
 
   return (
     <table className="table">
@@ -19,7 +19,7 @@ const InvoiceTable = ({ invocies }) => {
         </tr>
       </thead>
       <tbody>
-        {invocies.map((invoice) => (
+        {invoices.map((invoice) => (
           <tr key={invoice.id}>
             <td>{invoice.id}</td>
             <td>{invoice.tenant.name}</td>

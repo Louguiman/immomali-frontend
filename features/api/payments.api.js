@@ -22,6 +22,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchPayments: builder.query({
       query: ({ tenantId }) => `/payments?tenantId=${tenantId}`,
+      providesTags: ["Payments"],
     }),
     createPayment: builder.mutation({
       query: (payment) => ({
@@ -30,8 +31,19 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         body: payment,
       }),
     }),
+    createManualPayment: builder.mutation({
+      query: (payment) => ({
+        url: "/payments/manual",
+        method: "POST",
+        body: payment,
+      }),
+      invalidatesTags: ["Invoices", "Payments"],
+    }),
   }),
 });
 
-export const { useCreatePaymentMutation, useFetchPaymentsQuery } =
-  extendedApiSlice;
+export const {
+  useCreatePaymentMutation,
+  useCreateManualPaymentMutation,
+  useFetchPaymentsQuery,
+} = extendedApiSlice;

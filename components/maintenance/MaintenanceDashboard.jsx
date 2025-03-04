@@ -23,7 +23,7 @@ const TenantMaintenanceDashboard = () => {
       ) : (
         <div className="row">
           {isLoading && <LoadingSpinner />}
-          {!isLoading && isError
+          {!isLoading && !isError
             ? requests.map((request) => (
                 <div key={request.id} className="col-md-6">
                   <MaintenanceRequestCard request={request} />

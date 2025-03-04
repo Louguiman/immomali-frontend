@@ -56,7 +56,7 @@ const MaintenanceRequestCard = ({ request }) => {
               </span>
             </p>
             <Link
-              href={`${pathname}/maintenance-requests/${request.id}`}
+              href={`${pathname}/${request.id}`}
               className="btn btn-primary btn-sm"
             >
               View Details
