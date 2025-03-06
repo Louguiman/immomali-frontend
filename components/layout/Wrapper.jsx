@@ -1,5 +1,16 @@
+"use client";
+import { useAppSelector } from "@/store/hooks";
+import CompareFabBtn from "../common/CompareFabBtn";
+
 const Wrapper = ({ children }) => {
-    return <>{children}</>;
-  };
-  
-  export default Wrapper;
+  const compareList = useAppSelector((state) => state.properties.compareList);
+
+  return (
+    <>
+      {children}
+      {compareList.length > 0 && <CompareFabBtn />}
+    </>
+  );
+};
+
+export default Wrapper;
