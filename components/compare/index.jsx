@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const index = () => {
   const dispatch = useDispatch();
-  const compareList = useSelector((state) => state.property.compareList);
+  const compareList = useSelector((state) => state.properties.compareList);
 
   if (compareList.length === 0)
     return <p>No properties selected for comparison.</p>;

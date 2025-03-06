@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const CompareFabBtn = () => {
   const compareCount = useSelector(
-    (state) => state.property.compareList.length
+    (state) => state.properties.compareList.length
   );
 
   return (
