@@ -68,6 +68,7 @@ const initialState = {
     max: "",
   },
   length: 0,
+  compareList: [],
 };
 
 export const propertiesSlice = createSlice({
