@@ -30,15 +30,16 @@ import Image from "next/image";
 
 // Default headers if none are provided
 const defaultHeaders = [
-  { label: "Title", key: "title" },
-  { label: "Published Date", key: "createdAt" },
-  { label: "Status", key: "status" },
+  { label: "Property", key: "title" },
+  { label: "Type", key: "listynfType" },
+  { label: "Price/Rent ", key: "price" },
   { label: "Views", key: "views" },
+  { label: "Status", key: "status" },
+  { label: "Published Date", key: "createdAt" },
   { label: "Action", key: "action" },
 ];
 
 const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
-  
   return (
     <table className="table">
       <thead className="thead-light">
@@ -70,8 +71,10 @@ const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
               </div>
             </td>
 
-            {/* Published Date Column */}
-            <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+            <td>{item.listingType}</td>
+            <td>{item.price} </td>
+            {/* Views Column */}
+            <td>{item.views}</td>
 
             {/* Status Column */}
             <td>
@@ -83,9 +86,8 @@ const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
                 {item.status}
               </span>
             </td>
-
-            {/* Views Column */}
-            <td>{item.views}</td>
+            {/* Published Date Column */}
+            <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 
             {/* Action Column */}
             <td>

@@ -7,10 +7,14 @@ import Link from "next/link";
 
 const ClientReview = () => {
   const user = useAppSelector((state) => state.auth?.user);
+  // Extract roles from user object
+  const userRoles = user?.roles?.map((role) => role.name) || [];
+  const isUser = userRoles.includes("user");
   const { data: reviews, isLoading } = useGetReceivedReviewsQuery(user.id, {
-    skip: !user?.id,
+    skip: isUser,
   });
 
+  if (isUser) return <p> Please log in as an agency or an agent</p>;
   if (isLoading) return <p>Loading received reviews...</p>;
   if (!reviews?.length) return <p>No reviews received yet.</p>;
 
@@ -22,9 +26,7 @@ const ClientReview = () => {
             width={120}
             height={120}
             className="mr-3"
-            src={
-              review.user?.profilePicture || "/assets/images/default-user.png"
-            }
+            src={review.user?.img || "/assets/images/default-user.png"}
             alt="User image"
           />
           <div className="media-body">

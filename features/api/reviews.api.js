@@ -40,7 +40,7 @@ export const reviewsApi = apiSlice.injectEndpoints({
   tagTypes: ["Reviews"],
   endpoints: (builder) => ({
     getAllUserReviews: builder.query({
-      query: (userId) => `/reviews/${userId}`,
+      query: (userId) => `/reviews/user/${userId}`,
       providesTags: ["Reviews"],
     }),
 

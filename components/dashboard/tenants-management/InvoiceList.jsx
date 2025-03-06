@@ -42,9 +42,11 @@ const InvoiceList = ({ invoices }) => {
               <td>{invoice.dueDate}</td>
               <td>{invoice.notes}</td>
               <td className="col">
-                {invoice.issuedBy.name}
-                {invoice.issuedBy.email}
-                {invoice.issuedBy.phone}
+                <ul>
+                  <li> {invoice?.issuedBy?.name}</li>
+                  <li>{invoice?.issuedBy?.phone}</li>
+                  <li> {invoice?.issuedBy?.email}</li>
+                </ul>
               </td>
 
               <td>

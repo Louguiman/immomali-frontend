@@ -1,3 +1,5 @@
+"use client";
+import { useDispatch } from "react-redux";
 import CallToAction from "../common/CallToAction";
 import CopyrightFooter from "../common/footer/CopyrightFooter";
 import Footer from "../common/footer/Footer";
@@ -6,8 +8,15 @@ import MobileMenu from "../common/header/MobileMenu";
 import PopupSignInUp from "../common/PopupSignInUp";
 import BreadCrumbBanner from "./BreadCrumbBanner";
 import ComparePricing from "./ComparePricing";
+import { useSelector } from "react-redux";
 
 const index = () => {
+  const dispatch = useDispatch();
+  const compareList = useSelector((state) => state.property.compareList);
+
+  if (compareList.length === 0)
+    return <p>No properties selected for comparison.</p>;
+
   return (
     <>
       {/* <!-- Main Header Nav --> */}
@@ -32,6 +41,13 @@ const index = () => {
                 <p>We provide full service at every step</p>
               </div>
             </div>
+            <h2>Compare Properties</h2>
+            <button
+              onClick={() => dispatch(clearCompareList())}
+              className="btn btn-warning mb-3"
+            >
+              Clear Comparison
+            </button>
           </div>
           <div className="row">
             <div className="col-lg-12">

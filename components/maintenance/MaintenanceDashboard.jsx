@@ -16,8 +16,7 @@ const TenantMaintenanceDashboard = () => {
     return <p className="alert alert-danger">Error loading requests.</p>;
 
   return (
-    <section className="our-dashbord dashbord bgc-f7 pb50 mt-4">
-      <h2>My Maintenance Requests</h2>
+    <section className="col-lg-12">
       {!isLoading && requests?.length === 0 ? (
         <p>No maintenance requests found.</p>
       ) : (

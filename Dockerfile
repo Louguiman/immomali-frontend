@@ -1,35 +1,22 @@
-# Step 1: Use Node.js as the base image for building the app
-FROM node:lts-alpine AS builder
+FROM node:20-alpine AS builder
+WORKDIR /app
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+COPY package*.json ./
 
-# Copy the package.json and lock files for dependency installation
-COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install
 
-# Copy the rest of the application source code
 COPY . .
 
-# Build the application for production
 RUN yarn build
 
-# Step 2: Use a lightweight image for serving the app
-FROM node:lts-alpine
+FROM node:20-alpine
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy the built application from the builder stage
-COPY --from=builder /usr/src/app/ .
+COPY --from=builder /app/dist ./dist
 
-# Install only production dependencies
+COPY package.json ./
+
 RUN yarn install --production
 
-# Expose the default Next.js port
-EXPOSE 3000
-
-# Start the Next.js application
-CMD ["yarn", "start"]
+CMD [ "node", "dist/main.js" ]

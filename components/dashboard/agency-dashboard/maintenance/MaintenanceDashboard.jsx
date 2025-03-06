@@ -10,16 +10,14 @@ import { useSelector } from "react-redux";
 const MaintenanceDashboard = () => {
   const user = useSelector((state) => state.auth.user);
   const { data: agencyRequests, isLoading: agencyLoading } =
-    useGetRequestsByAgencyQuery(user?.agencyId, { skip: !user?.agencyId });
+    useGetRequestsByAgencyQuery(user?.agency.id, { skip: !user?.agency.id });
   const { data: agentRequests, isLoading: agentLoading } =
     useGetRequestsByAgentQuery(user?.id);
 
   return (
-    <section className="our-dashbord dashbord bgc-f7 pb50">
-      <h2 className="breadcrumb_title">Maintenance Requests</h2>
-
+    <div className="col-lg-12">
       <div className="container mt-4">
-        {user?.agencyId && (
+        {user?.agency.id && (
           <>
             <h3>Agency Requests</h3>
             <div className="row">
@@ -50,7 +48,7 @@ const MaintenanceDashboard = () => {
           )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

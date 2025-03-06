@@ -20,10 +20,8 @@ const MaintenanceDashboard = () => {
 
   return (
     <div>
-      <h2 className="breadcrumb_title">Maintenance Requests</h2>
-
       <div className="container mt-4">
-        {user?.agencyId && (
+        {isAgency && (
           <>
             <h3>Agency Requests</h3>
             <div className="row">
@@ -54,7 +52,7 @@ const MaintenanceDashboard = () => {
           )}
         </div>
       </div>
-    </div>  
+    </div>
   );
 };
 

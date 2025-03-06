@@ -40,57 +40,45 @@ export const AgencyInvoicesPage = () => {
   };
 
   return (
-    <section className="our-dashbord dashbord bgc-f7 pb50">
-      <div className="container-fluid ovh">
-        <div className="row">
-          <div className="col-lg-12 maxw100flex-992">
-            <div className="breadcrumb_content style2 mb30-991">
-              <h2 className="breadcrumb_title">Invoices</h2>
-              <p>Manage your invoices here.</p>
-              <div className="container">
-                {/* Add Invoice Button */}
-                <button
-                  className="btn btn-primary mt-3"
-                  onClick={() => setShowModal(true)}
-                >
-                  + Add Invoice
-                </button>
-                {/* Filter */}
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                >
-                  <option value="">All</option>
-                  <option value="pending">Pending</option>
-                  <option value="paid">Paid</option>
-                  <option value="overdue">Overdue</option>
-                </select>
+    <div className="col-lg-12 ">
+      <div className="breadcrumb_content style2 mb30-991">
+        <div className="container">
+          {/* Add Invoice Button */}
+          <button
+            className="btn btn-primary mt-3"
+            onClick={() => setShowModal(true)}
+          >
+            + Add Invoice
+          </button>
+          {/* Filter */}
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </div>
+      </div>
+      {/* Table */}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <AgencyInvoiceTable
+          invoices={data}
+          onEdit={(invoice) => {
+            setEditingInvoice(invoice);
+            setShowModal(true);
+          }}
+          onDelete={handleDelete}
+        />
+      )}
 
-                {/* Table */}
-                {isLoading ? (
-                  <p>Loading...</p>
-                ) : (
-                  <AgencyInvoiceTable
-                    invoices={data}
-                    onEdit={(invoice) => {
-                      setEditingInvoice(invoice);
-                      setShowModal(true);
-                    }}
-                    onDelete={handleDelete}
-                  />
-                )}
-
-                {/* Pagination */}
-                {/* <Pagination
+      {/* Pagination */}
+      {/* <Pagination
                     currentPage={page}
                     totalPage={data?.totalPage}
                     onPageChange={setPage}
                   /> */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       {showModal && (
         <InvoiceFormModal
           invoice={editingInvoice}
@@ -100,7 +88,7 @@ export const AgencyInvoicesPage = () => {
           }}
         />
       )}
-    </section>
+    </div>
   );
 };
 
