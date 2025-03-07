@@ -1,22 +1,58 @@
-FROM node:20-alpine AS builder
+# Base Node.js image
+FROM node:20-alpine AS base
+# Install required packages and pnpm globally
+RUN apk add --no-cache libc6-compat && npm install -g pnpm@latest
+
 WORKDIR /app
 
-COPY package*.json ./
+# Install dependencies only when needed
+FROM base AS deps
 
-RUN yarn install
+# Copy lockfiles and package manager config
+COPY package.json pnpm-lock.yaml* .npmrc* ./
 
+# Install dependencies using pnpm
+RUN pnpm install
+
+# Rebuild the source code only when needed
+FROM base AS builder
+
+WORKDIR /app
+
+# Copy installed dependencies
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy all project files
 COPY . .
 
-RUN yarn build
+# Disable Next.js telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
 
-FROM node:20-alpine
+# Build the Next.js application
+RUN pnpm run build
+
+# Production image, optimized for running Next.js
+FROM base AS runner
 
 WORKDIR /app
 
-COPY --from=builder /app/dist ./dist
+# Set environment to production
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY package.json ./
+# Create a non-root user for security
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-RUN yarn install --production
+# Copy public assets
+COPY --from=builder /app/public ./public
 
-CMD [ "node", "dist/main.js" ]
+# Copy the built Next.js app
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Set non-root user
+USER nextjs
+
+# Start the application
+CMD ["node", "server.js"]
