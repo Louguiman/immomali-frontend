@@ -94,7 +94,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     getRentalProperties: builder.query({
       query: (params) => ({
-        url: `/properties/search?page=1&limit=16&listingType=rent`,
+        url: `/properties/search?page=1&limit=16&type=rent`,
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),
@@ -102,7 +102,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     getSaleProperties: builder.query({
       query: (params) => ({
-        url: `/properties/search?page=1&limit=16&listingType=sale`,
+        url: `/properties/search?page=1&limit=16&type=sale`,
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),

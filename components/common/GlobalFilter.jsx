@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const GlobalFilter = ({ className = "" }) => {
+const GlobalFilter = ({ className = "", type }) => {
   const router = useRouter();
   const [searchParams, setSearchParams] = useState({
     keyword: "",
     location: "",
-    propertyType: "",
+    category: "",
+    type,
     minPrice: "",
     maxPrice: "",
   });
@@ -43,17 +44,17 @@ const GlobalFilter = ({ className = "" }) => {
           <div className="search_option_two">
             <div className="candidate_revew_select">
               <select
-                name="propertyType"
+                name="category"
                 className="selectpicker w100 form-select show-tick"
                 onChange={handleInputChange}
               >
-                <option value="">Property Type</option>
-                <option>Apartment</option>
-                <option>Bungalow</option>
-                <option>Condo</option>
-                <option>House</option>
-                <option>Land</option>
-                <option>Single Family</option>
+                <option value="">Category</option>
+                <option value="apartment">Apartment</option>
+                <option value="bungalow">Bungalow</option>
+                <option value="condo">Condo</option>
+                <option value="house">House</option>
+                <option value="land">Land</option>
+                <option value="villa">Villa</option>
               </select>
             </div>
           </div>

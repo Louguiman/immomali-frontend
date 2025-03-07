@@ -13,7 +13,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/.next ./dist
 
 COPY package.json ./
 
