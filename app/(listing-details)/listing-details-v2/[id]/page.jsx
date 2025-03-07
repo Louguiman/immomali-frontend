@@ -70,7 +70,7 @@ const ListingDynamicDetailsV2 = () => {
                   <div className="price">
                     <h2>
                       ${property.price}
-                      {property.listingType === "rent" && <small>/mo</small>}
+                      {property.type === "rent" && <small>/mo</small>}
                     </h2>
                   </div>
                 </div>

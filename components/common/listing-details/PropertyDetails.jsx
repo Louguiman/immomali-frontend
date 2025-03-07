@@ -21,10 +21,10 @@ const PropertyDetails = ({ property }) => {
       },
     ],
     [
-      { label: "Property Type", value: property.type },
+      { label: "Category", value: property.category },
       {
-        label: "Property Status",
-        value: property.listingType === "rent" ? "For Rent" : "For Sale",
+        label: "Property Type",
+        value: property.type === "rent" ? "For Rent" : "For Sale",
       },
     ],
   ];

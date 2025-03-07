@@ -3,33 +3,31 @@ import GlobalHeroFilter from "../common/GlobalHeroFilter";
 import MobileMenu from "../common/header/MobileMenu";
 import FeaturedProperties from "./FeaturedProperties";
 import FindProperties from "./FindProperties";
-import Header from "./Header";
+// import Header from "./Header";
 import HeroSlider from "./HeroSlider";
 import LookingItem from "./LookingItem";
-import Team from "./Team";
 import CopyrightFooter from "../common/footer/CopyrightFooter";
 import Footer from "../common/footer/Footer";
 import PopupSignInUp from "../common/PopupSignInUp";
-import BreadCrumb from "../common/BreadCrumb";
-import GridListButton from "../common/listing/GridListButton";
-import ShowFilter from "../common/listing/ShowFilter";
-import FilterTopBar from "../common/listing/FilterTopBar";
-import FeaturedItem from "../listing-grid/grid-v1/FeaturedItem";
-import Pagination from "../blog-details/Pagination";
-import SidebarListing3 from "../common/listing/SidebarListing3";
-import { fetchProperties } from "@/features/api/Serverside";
 import TrendingProperties from "./TrendingProperties";
 import RentalProperties from "./RentalProperties";
 import SaleProperties from "./SaleProperties";
 import DiscoverAgents from "./DiscoverAgents";
 import DiscoverAgencies from "./DiscoverAgencies";
 import CallToAction from "../common/CallToAction";
+import Header2 from "../common/header/dashboard/Header2";
+import Header3 from "../common/header/dashboard/Header3";
+import Header4 from "../common/header/dashboard/Header4";
+import Header from "./Header";
 
 const index = async () => {
   return (
     <>
       {/* <!-- Main Header Nav --> */}
       <Header />
+      {/* <Header2 /> */}
+      {/* <Header3 /> */}
+      <Header4 />
 
       {/* <!--  Mobile Menu --> */}
       <MobileMenu />
