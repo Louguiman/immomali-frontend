@@ -1,5 +1,4 @@
-
-'use client'
+"use client";
 
 import Link from "next/link";
 import { useEffect } from "react";
@@ -196,7 +195,7 @@ const FeaturedItem = () => {
               </h4>
               <p>
                 <span className="flaticon-placeholder"></span>
-                {item.location}
+                {item.address}, {item?.city}, {item?.country}
               </p>
 
               <ul className="prop_details mb0">

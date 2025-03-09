@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import "photoswipe/dist/photoswipe.css";
@@ -15,14 +15,20 @@ const ListingGallery = () => {
               <div className="col-lg-7 col-xl-8">
                 <div className="single_property_title mt30-767">
                   <h2>{singleItem.title}</h2>
-                  <p>{singleItem.location}</p>
+                  <p>{singleItem.category}</p>
+                  <p>
+                    {singleItem.address} - {singleItem.city}
+                    <span> {singleItem?.neighborhood},</span>
+                    <span> {singleItem?.state},</span>
+                    <span> {singleItem?.country}</span>
+                  </p>
                 </div>
               </div>
               <div className="col-lg-5 col-xl-4">
                 <div className="single_property_social_share position-static transform-none">
                   <div className="price float-start fn-400">
                     <h2>
-                      ${singleItem.price}
+                      {singleItem.price} FCFA
                       <small>/mo</small>
                     </h2>
                   </div>

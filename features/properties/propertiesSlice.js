@@ -8,7 +8,7 @@ const initialState = {
     userId: 0,
     title: "",
     description: "",
-    type: "Rent", // Only "Rent" or "Sale"
+    type: "rent", // Only "Rent" or "Sale"
     category: "", // New field for category
     price: 0,
     area: "",
@@ -27,7 +27,6 @@ const initialState = {
     country: "Mali", // Default country
     latitude: "",
     longitude: "",
-    location: "",
     // New fields for media
     propertyImages: [], // Array of selected images
     attachments: [], //
@@ -52,7 +51,7 @@ const initialState = {
   status: "", // For loading state tracking
   error: null,
   keyword: "",
-  propertyType: "",
+  type: "",
   location: "",
   price: {
     min: 0,
@@ -83,6 +82,19 @@ export const propertiesSlice = createSlice({
       state.savedSearches = state.savedSearches.filter(
         (search) => search.id !== action.payload
       );
+    },
+    // ✅ Compare Actions
+    addToCompare: (state, action) => {
+      if (!state.compareList.includes(action.payload)) {
+        state.compareList.push(action.payload);
+        localStorage.setItem("comparelist", JSON.stringify(state.compareList));
+      }
+    },
+    removeFromCompare: (state, action) => {
+      state.compareList = state.compareList.filter(
+        (id) => id !== action.payload
+      );
+      localStorage.setItem("comparelist", JSON.stringify(state.favorites));
     },
 
     // ✅ Favorites Actions
@@ -125,8 +137,11 @@ export const propertiesSlice = createSlice({
     addKeyword: (state, action) => {
       state.keyword = action.payload;
     },
-    addPropertyType: (state, action) => {
-      state.propertyType = action.payload;
+    addType: (state, action) => {
+      state.type = action.payload;
+    },
+    addCategory: (state, action) => {
+      state.category = action.payload;
     },
     addLocation: (state, action) => {
       state.location = action.payload;
@@ -152,7 +167,7 @@ export const propertiesSlice = createSlice({
       state.status = action.payload;
     },
     addBathrooms: (state, action) => {
-      state.bathrooms = parseInt(action.payload);
+      state.bathrooms = action.payload;
     },
     addBedrooms: (state, action) => {
       state.bedrooms = action.payload;
@@ -194,19 +209,17 @@ export const propertiesSlice = createSlice({
       state.createListing.category = action.payload;
     },
     setPrice: (state, action) => {
-      if (action.payload !== "")
-        state.createListing.price = parseInt(action.payload);
+      if (action.payload !== "") state.createListing.price = action.payload;
     },
     setArea: (state, action) => {
-      state.createListing.area = parseInt(action.payload);
+      state.createListing.area = action.payload;
     },
     setRooms: (state, action) => {
-      state.createListing.rooms = parseInt(action.payload);
+      state.createListing.rooms = action.payload;
     },
     // New reducers for location
     setAddress: (state, action) => {
       state.createListing.address = action.payload;
-      state.createListing.location = action.payload;
     },
     setState: (state, action) => {
       state.createListing.state = action.payload;
@@ -234,23 +247,21 @@ export const propertiesSlice = createSlice({
     },
 
     setBeds: (state, action) => {
-      if (action.payload !== "")
-        state.createListing.beds = parseInt(action.payload);
+      if (action.payload !== "") state.createListing.beds = action.payload;
     },
     setBaths: (state, action) => {
-      if (action.payload !== "")
-        state.createListing.baths = parseInt(action.payload);
+      if (action.payload !== "") state.createListing.baths = action.payload;
     },
     setGarages: (state, action) => {
       if (action.payload !== "") state.createListing.garages = action.payload;
     },
     setSqFt: (state, action) => {
-      state.createListing.sqFt = parseInt(action.payload);
+      state.createListing.sqFt = action.payload;
     },
     setBuiltYear: (state, action) => {
       if (action.payload !== "")
         if (action.payload !== "")
-          state.createListing.builtYear = parseInt(action.payload);
+          state.createListing.builtYear = action.payload;
     },
     // New reducers for media
     setPropertyImages: (state, action) => {
@@ -292,8 +303,9 @@ export const propertiesSlice = createSlice({
 
 export const {
   addKeyword,
-  addPropertyType,
+  addType,
   addLocation,
+  addCategory,
   addPrice,
   addAmenities,
   addStatus,
@@ -344,5 +356,7 @@ export const {
   addToRecentlyViewed,
   clearRecentlyViewed,
   loadFromStorage,
+  addToCompare,
+  removeFromCompare,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

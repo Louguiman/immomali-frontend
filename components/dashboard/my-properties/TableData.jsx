@@ -65,7 +65,9 @@ const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
                 <div>
                   <h5>{item.title}</h5>
                   <p className="mb-0">
-                    <small>{item.location}</small>
+                    <small>{item.address}</small>
+                    <small>{item?.city}</small>
+                    <small>{item?.country}</small>
                   </p>
                 </div>
               </div>

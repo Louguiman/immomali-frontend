@@ -71,7 +71,7 @@ const MaintenanceRequestDetail = ({ params }) => {
     <section className="our-dashbord dashbord bgc-f7 pb50 container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Maintenance Request Detail</h2>
-        <button onClick={() => router.goBack()} className="btn btn-secondary">
+        <button onClick={() => router.back()} className="btn btn-secondary">
           Back to List
         </button>
       </div>

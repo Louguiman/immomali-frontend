@@ -11,11 +11,17 @@ const MyAccount = () => {
   const user = useSelector((state) => state.auth?.user);
 
   const profileMenuItems = [
-    { id: 1, name: "My Profile", ruterPath: "/my-profile" },
-    { id: 2, name: " My Message", ruterPath: "/my-message" },
-    { id: 3, name: " My Favourite", ruterPath: "/my-favourites" },
-    { id: 4, name: " My Package", ruterPath: "/my-package" },
-    { id: 5, name: " Log out", ruterPath: "/logout" },
+    { id: 1, name: "Dashboard", routerPath: "/dashboard" },
+    { id: 2, name: "My Profile", routerPath: "/dashboard/my-profile" },
+    { id: 3, name: "My Properties", routerPath: "/dashboard/my-properties" },
+    { id: 4, name: "My Inquiries", routerPath: "/dashboard/my-inquiries" },
+    {
+      id: 5,
+      name: "My Requests",
+      routerPath: "/dashboard/maintenance-request",
+    },
+    { id: 6, name: "Rent Payments", routerPath: "/dashboard/my-invoices" },
+    { id: 7, name: " Log out", routerPath: "/logout" },
   ];
 
   return (
@@ -31,6 +37,9 @@ const MyAccount = () => {
         <p>
           Hello, {user?.name || "User"}!<br />
           <span className="address">{user?.email || "User"}</span>
+          <small className="address">
+            agence: {user?.agency?.name || "N/A"}
+          </small>
         </p>
       </div>
       {/* End user_set_header */}
@@ -38,7 +47,7 @@ const MyAccount = () => {
       <div className="user_setting_content">
         {profileMenuItems.map((item) => (
           <Link
-            href={item.ruterPath}
+            href={item.routerPath}
             key={item.id}
             className="dropdown-item"
             style={

@@ -64,12 +64,18 @@ const ListingDynamicDetailsV2 = () => {
               <div className="listing_single_description2 mt30-767 mb30-767">
                 <div className="single_property_title">
                   <h2>{property?.title}</h2>
-                  <p>{property?.location}</p>
+                  <p>{property?.category}</p>
+                  <p>
+                    {property?.address}
+                    <span> {property?.neighborhood},</span>
+                    <span> {property?.state},</span>
+                    <span> {property?.country}</span>
+                  </p>
                 </div>
                 <div className="single_property_social_share style2 static-title">
                   <div className="price">
                     <h2>
-                      ${property.price}
+                      {property.price} FCFA
                       {property.type === "rent" && <small>/mo</small>}
                     </h2>
                   </div>

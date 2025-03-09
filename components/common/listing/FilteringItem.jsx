@@ -18,7 +18,7 @@ import {
   addKeyword,
   addLocation,
   addPrice,
-  addPropertyType,
+  addType,
   addStatus,
   addYearBuilt,
   resetAmenities,
@@ -26,6 +26,7 @@ import {
 import PricingRangeSlider from "../../common/PricingRangeSlider";
 import { v4 as uuidv4 } from "uuid";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { addCategory } from "@/features/agent/agentSlice";
 
 const FilteringItem = () => {
   const searchParams = useSearchParams();
@@ -36,7 +37,7 @@ const FilteringItem = () => {
     keyword,
     location,
     status,
-    propertyType,
+    type,
     bathrooms,
     bedrooms,
     garages,
@@ -49,8 +50,9 @@ const FilteringItem = () => {
   const [getKeyword, setKeyword] = useState(searchParams.get("keyword"));
   const [getLocation, setLocation] = useState(searchParams.get("location"));
   const [getStatus, setStatus] = useState(status);
-  const [getPropertiesType, setPropertiesType] = useState(
-    searchParams.get("propertyType") || ""
+  const [getType, setType] = useState(searchParams.get("type") || "");
+  const [getCategory, setCategory] = useState(
+    searchParams.get("category") || ""
   );
   const [getBathroom, setBathroom] = useState(bathrooms);
   const [getBedroom, setBedroom] = useState(bedrooms);
@@ -97,8 +99,13 @@ const FilteringItem = () => {
 
   // properties type
   useEffect(() => {
-    dispath(addPropertyType(getPropertiesType));
-  }, [dispath, getPropertiesType]);
+    dispath(addType(getType));
+  }, [dispath, getType]);
+
+  // properties type
+  useEffect(() => {
+    dispath(addCategory(getCategory));
+  }, [dispath, getCategory]);
 
   // bathroom
   useEffect(() => {
@@ -139,7 +146,8 @@ const FilteringItem = () => {
     setKeyword("");
     setLocation("");
     setStatus("");
-    setPropertiesType("");
+    setType("");
+    setCategory("");
     dispath(addPrice({ min: 10000, max: 20000 }));
     setBathroom("");
     setBedroom("");
@@ -185,7 +193,8 @@ const FilteringItem = () => {
     if (getKeyword) params.set("keyword", getKeyword);
     if (getLocation) params.set("location", getLocation);
     if (getStatus) params.set("status", getStatus);
-    if (getPropertiesType) params.set("propertyType", getPropertiesType);
+    if (getType) params.set("type", getType);
+    if (getCategory) params.set("category", getCategory);
     if (getBathroom) params.set("bathrooms", getBathroom);
     if (getBedroom) params.set("bedrooms", getBedroom);
     if (getGarages) params.set("garages", getGarages);
@@ -200,16 +209,17 @@ const FilteringItem = () => {
   useEffect(() => {
     handleSearch();
   }, [
-    keyword,
-    location,
-    status,
-    propertyType,
-    bathrooms,
-    bedrooms,
-    garages,
-    yearBuilt,
-    area,
-    amenities,
+    getKeyword,
+    getLocation,
+    getStatus,
+    getType,
+    getBathroom,
+    getBedroom,
+    getGarages,
+    getBuiltYear,
+    getAreaMin,
+    getAreaMax,
+    getCategory,
     router,
   ]);
 
@@ -222,9 +232,10 @@ const FilteringItem = () => {
             className="form-control"
             placeholder="keyword"
             value={getKeyword}
+            onSubmit={handleSearch}
             onChange={(e) => setKeyword(e.target.value)}
           />
-          <label>
+          <label onMouseDown={handleSearch}>
             <span className="flaticon-magnifying-glass"></span>
           </label>
         </div>
@@ -236,7 +247,7 @@ const FilteringItem = () => {
           <input
             type="search"
             className="form-control"
-            id="exampleInputEmail"
+            id="location"
             placeholder="Location"
             value={getLocation}
             onChange={(e) => setLocation(e.target.value)}
@@ -252,17 +263,17 @@ const FilteringItem = () => {
         <div className="search_option_two">
           <div className="candidate_revew_select">
             <select
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
               className="selectpicker w100 show-tick form-select"
-              value={getStatus}
+              value={getCategory}
             >
-              <option value="">Status</option>
+              <option value="">Category</option>
               <option value="apartment">Apartment</option>
+              <option value="villa">Villa</option>
               <option value="bungalow">Bungalow</option>
               <option value="condo">Condo</option>
               <option value="house">House</option>
               <option value="land">Land</option>
-              <option value="single family">Single Family</option>
             </select>
           </div>
         </div>
@@ -273,11 +284,11 @@ const FilteringItem = () => {
         <div className="search_option_two">
           <div className="candidate_revew_select">
             <select
-              onChange={(e) => setPropertiesType(e.target.value)}
+              onChange={(e) => setType(e.target.value)}
               className="selectpicker w100 show-tick form-select"
-              value={getPropertiesType}
+              value={getType}
             >
-              <option value="">Property Type</option>
+              <option value="">Category</option>
               <option value="apartment">Apartment</option>
               <option value="bungalow">Bungalow</option>
               <option value="condo">Condo</option>

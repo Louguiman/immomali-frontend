@@ -62,7 +62,8 @@ const PropertyCard = ({ item }) => {
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
-            {item.location}
+            {item.address} {item.neighborhood}, {item?.city}, {item?.state},{" "}
+            {item?.country}
           </p>
 
           <ul className="prop_details mb0">

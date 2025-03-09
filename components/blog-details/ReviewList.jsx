@@ -6,6 +6,7 @@ import {
 } from "@/features/api/reviews.api";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Ratings from "./Ratings";
 
 const ReviewsList = ({ propertyId }) => {
   const { data: reviews, isLoading } = useGetReviewsQuery(propertyId);
@@ -27,6 +28,18 @@ const ReviewsList = ({ propertyId }) => {
   return (
     <div className="reviews-section">
       <h3>Property Reviews</h3>
+      <div className="total_review">
+        <h4>{reviews.length || "0"} Reviews</h4>
+        <ul className="review_star_list mb0 pl10">
+          <Ratings />
+        </ul>
+        <a className="tr_outoff pl10" href="#">
+          ( 4.5 out of 5 )
+        </a>
+        <a className="write_review float-end fn-xsd" href="#">
+          Write a Review
+        </a>
+      </div>
       <ul className="list-group">
         {reviews.map((review) => (
           <li key={review.id} className="list-group-item">

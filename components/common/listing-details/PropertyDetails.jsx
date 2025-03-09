@@ -7,7 +7,7 @@ const PropertyDetails = ({ property }) => {
   const details = [
     [
       { label: "Property ID", value: property.id },
-      { label: "Price", value: `$${property.price.toLocaleString()}` },
+      { label: "Price", value: `${property.price.toLocaleString()} FCFA` },
       { label: "Property Size", value: `${property.sqFt} Sq Ft` },
       { label: "Year Built", value: property.builtYear },
     ],

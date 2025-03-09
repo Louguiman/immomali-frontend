@@ -11,7 +11,7 @@ const Creator = ({ owner }) => {
         width={90}
         height={90}
         className="me-3 rounded-circle"
-        src={owner.avatarUrl || "/assets/images/team/default-agent.png"} // Fallback image
+        src={owner.avatarUrl || "/assets/images/team/1.jpg"} // Fallback image
         alt={owner.name || "Agent"}
       />
       <div className="media-body">

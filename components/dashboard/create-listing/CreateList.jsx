@@ -62,6 +62,7 @@ const CreateList = () => {
             type="text"
             className="form-control"
             id="propertyTitle"
+            required
             value={property.title}
             onChange={handleInputChange}
           />
@@ -91,11 +92,12 @@ const CreateList = () => {
             data-live-search="true"
             data-width="100%"
             id="type"
+            required
             value={property.type}
             onChange={handleSelectChange}
           >
-            <option value="Rent">Rent</option>
-            <option value="Sale">Sale</option>
+            <option value="rent">Rent</option>
+            <option value="sale">Sale</option>
           </select>
         </div>
       </div>
@@ -109,14 +111,15 @@ const CreateList = () => {
             data-live-search="true"
             data-width="100%"
             id="category"
+            required
             value={property.category}
             onChange={handleSelectChange}
           >
             <option value="">Select Category</option>
-            <option value="Apartment">Apartment</option>
-            <option value="House">House</option>
-            <option value="Villa">Villa</option>
-            <option value="Office">Office</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="villa">Villa</option>
+            <option value="office">Office</option>
             <option value="Land">Land</option>
           </select>
         </div>
@@ -125,50 +128,17 @@ const CreateList = () => {
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="formGroupExamplePrice">Price</label>
+          <label htmlFor="formGroupExamplePrice">
+            {property.type === "sale" ? "Price" : "Monthly Rent"} (FCFA)
+          </label>
           <input
             type="number"
             className="form-control"
             id="formGroupExamplePrice"
             value={property.price}
+            required
             onChange={handleInputChange}
           />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-4 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="formGroupExampleArea">Area</label>
-          <input
-            type="text"
-            className="form-control"
-            id="formGroupExampleArea"
-            value={property.area}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-      {/* End .col */}
-
-      <div className="col-lg-4 col-xl-4">
-        <div className="my_profile_setting_input ui_kit_select_search form-group">
-          <label>Rooms</label>
-          <select
-            className="selectpicker form-select"
-            data-live-search="true"
-            data-width="100%"
-            id="rooms"
-            value={property.rooms}
-            onChange={handleSelectChange}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="Other">Other</option>
-          </select>
         </div>
       </div>
       {/* End .col */}

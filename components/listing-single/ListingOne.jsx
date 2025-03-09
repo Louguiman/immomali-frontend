@@ -13,7 +13,12 @@ export default function ListingOne({ property }) {
             <div className="col-lg-7 col-xl-8">
               <div className="single_property_title mt30-767">
                 <h2>{property?.title}</h2>
-                <p>{property?.location}</p>
+                <h6>{property?.address}</h6>
+
+                <span> {property?.neighborhood},</span>
+                <h6> {property?.city},</h6>
+                <h6> {property?.state},</h6>
+                <h6> {property?.country}</h6>
               </div>
             </div>
             <div className="col-lg-5 col-xl-4">

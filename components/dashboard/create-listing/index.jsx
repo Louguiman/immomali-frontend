@@ -17,15 +17,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
+import { useRouter } from "next/navigation";
+import { set } from "lodash";
 
 const Index = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const propertyDetails = useSelector(
     (state) => state.properties.createListing
   );
   const user = useSelector((state) => state.auth.user);
 
   const [loading, setLoading] = useState(false);
+  const [uploadedProperty, setUploadedProperty] = useState(null);
 
   const [createProperty, { isLoading, isError, error }] =
     useCreatePropertyMutation();
@@ -42,9 +46,34 @@ const Index = () => {
     },
   ] = useUploadAttachmentsMutation();
 
+  const handleImageUpload = async (propertyId, images) => {
+    if (images?.length > 0) {
+      const uploadImagesPayload = {
+        propertyId,
+        images,
+      };
+
+      return await uploadImages(uploadImagesPayload).unwrap();
+    }
+  };
   const handleSubmit = () => {
     setLoading(true);
     const { propertyImages, attachments, ...propertyData } = propertyDetails;
+    if (uploadedProperty) {
+      handleImageUpload(uploadedProperty.id, propertyImages)
+        .then(() => {
+          setUploadedProperty(null);
+          toast.success("Images uploaded successfully!", { autoClose: 2000 });
+        })
+        .catch((err) => {
+          console.error("Error uploading images:", err);
+          toast.error("There was an error uploading images", {
+            autoClose: 2000,
+          });
+        });
+      setLoading(false);
+      return;
+    }
 
     toast.info("Creating property...", { autoClose: 2000 });
 
@@ -68,24 +97,11 @@ const Index = () => {
         if (!property || !property.id) {
           throw new Error("Property creation failed, no valid ID returned");
         }
-
+        setUploadedProperty(property);
         toast.success("Property created successfully!", { autoClose: 2000 });
 
         // Step 2: Upload images using Redux Toolkit mutation
-        if (propertyImages?.length > 0) {
-          const uploadImagesPayload = {
-            propertyId: property.id,
-            images: propertyImages,
-          };
-
-          return uploadImages(uploadImagesPayload)
-            .unwrap()
-            .then(() => {
-              toast.success("Images uploaded successfully!", {
-                autoClose: 2000,
-              });
-            });
-        }
+        return handleImageUpload(property.id, propertyImages);
       })
       .then(() => {
         // Step 3: Upload attachments using Redux Toolkit mutation
@@ -104,6 +120,12 @@ const Index = () => {
             });
         }
       })
+      .then(() => {
+        // Step 4: Redirect to property details page
+        setUploadedProperty(null);
+        // router.push(`/listing-details-v2/${uploadedProperty.id}`);
+        router.back();
+      })
       .catch((err) => {
         console.error("Error creating property:", err);
         toast.error("There was an error creating the property", {
@@ -116,7 +138,7 @@ const Index = () => {
   };
 
   return (
-    <ProtectedRoute >
+    <ProtectedRoute>
       {/* Main Header Nav */}
       <Header />
       <MobileMenu />

@@ -15,7 +15,7 @@ const FeaturedItem = ({ properties }) => {
   );
 
   // status handler
-  let content = properties.map((item) => (
+  let content = properties?.map((item) => (
     <div
       className={`${
         isGridOrList ? "col-12 feature-list" : "col-md-6 col-lg-6"
@@ -71,7 +71,7 @@ const FeaturedItem = ({ properties }) => {
             </h4>
             <p>
               <span className="flaticon-placeholder"></span>
-              {item.location}
+              {item.address} {item.neighborhood}, {item.city}, {item.country}
             </p>
 
             <ul className="prop_details mb0">
@@ -112,7 +112,7 @@ const FeaturedItem = ({ properties }) => {
 
   // add length of filter items
   useEffect(() => {
-    dispatch(addLength(content.length));
+    dispatch(addLength(content?.length || 0));
   }, [dispatch, content]);
 
   return <>{content}</>;

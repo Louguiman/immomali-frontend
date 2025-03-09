@@ -59,7 +59,12 @@ const TenantCard = ({
                     {tenant.property.title}
                   </Link>
                 </h5>
-                <p className="text-muted">{tenant.property.location}</p>
+                <p className="text-muted">
+                  {tenant.property.address}
+                  {tenant.property?.neighborhood},{tenant.property?.city}{" "}
+                  {tenant.property?.state}, {tenant.property?.country}
+                </p>
+                <p></p>
                 <p>
                   <strong>Tenant:</strong> {tenant.user.name}
                 </p>

@@ -74,14 +74,26 @@ const DetailsContent = ({ property }) => {
       </div>
       {/* End .feature_area */}
 
-      {/* <div className="application_statics mt30">
+      <div className="application_statics mt30">
         <h4 className="mb30">
-          Location <small className="float-end">{property.location}</small>
+          Location <small className="float-end"></small>
         </h4>
+        <h6 className="mb20">
+          Address <small className="float-end">{property?.address}</small>
+        </h6>
+        <h6 className="mb20">
+          City <small className="float-end">{property?.city}</small>
+        </h6>
+        <h6 className="mb20">
+          State <small className="float-end">{property?.state}</small>
+        </h6>
+        <h6 className="mb20">
+          Country <small className="float-end">{property?.country}</small>
+        </h6>
         <div className="property_video p0">
           <PropertyLocation />
         </div>
-      </div> */}
+      </div>
       {/* End .location_area */}
 
       {/* <div className="application_statics mt30">
@@ -110,18 +122,6 @@ const DetailsContent = ({ property }) => {
 
       <div className="product_single_content">
         <div className="mbp_pagination_comments mt30">
-          <div className="total_review">
-            <h4>896 Reviews</h4>
-            <ul className="review_star_list mb0 pl10">
-              <Ratings />
-            </ul>
-            <a className="tr_outoff pl10" href="#">
-              ( 4.5 out of 5 )
-            </a>
-            <a className="write_review float-end fn-xsd" href="#">
-              Write a Review
-            </a>
-          </div>
           {/* End .total_review */}
           {/* <Comments /> */}
           <ReviewsList propertyId={property?.id} />

@@ -1,6 +1,6 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
 import { useSearchPropertiesQuery } from "@/features/api/properties.api";
 import PropertyCard from "@/components/PropertyCard";
 import GlobalFilter from "@/components/common/GlobalFilter";
@@ -19,14 +19,20 @@ import FeaturedItem from "@/components/listing-grid/grid-v1/FeaturedItem";
 import Header from "@/components/common/header/dashboard/Header";
 
 export default function PropertiesPage() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [filters, setFilters] = useState({
-    keyword: searchParams.get("keyword") || "",
-    location: searchParams.get("location") || "",
-    propertyType: searchParams.get("propertyType") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-  });
+  // Local state for pagination & filtering
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  // const [filters, setFilters] = useState({
+  //   keyword: searchParams.get("keyword") || "",
+  //   location: searchParams.get("location") || "",
+  //   type: searchParams.get("type") || "",
+  //   category: searchParams.get("category") || "",
+  //   minPrice: searchParams.get("minPrice") || "",
+  //   maxPrice: searchParams.get("maxPrice") || "",
+  // });
 
   // ✅ Extract only params with values
   const validParams = getValidParams(searchParams);
@@ -36,16 +42,34 @@ export default function PropertiesPage() {
     refetch,
   } = useSearchPropertiesQuery(validParams);
 
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   useEffect(() => {
-    setFilters({
-      keyword: searchParams.get("keyword") || "",
-      location: searchParams.get("location") || "",
-      propertyType: searchParams.get("propertyType") || "",
-      minPrice: searchParams.get("minPrice") || "",
-      maxPrice: searchParams.get("maxPrice") || "",
-    });
+    // setFilters({
+    //   keyword: searchParams.get("keyword") || "",
+    //   location: searchParams.get("location") || "",
+    //   type: searchParams.get("type") || "",
+    //   category: searchParams.get("category") || "",
+    //   minPrice: searchParams.get("minPrice") || "",
+    //   maxPrice: searchParams.get("maxPrice") || "",
+    // });
     refetch();
   }, [searchParams]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    router.push(pathname + "?" + createQueryString("page", newPage));
+  };
 
   return (
     <>
@@ -136,7 +160,7 @@ export default function PropertiesPage() {
                     </h2>
                   </div>
                 ) : (
-                  <FeaturedItem properties={properties.data} />
+                  <FeaturedItem properties={properties?.data} />
                 )}
               </div>
               {/* End .row */}
@@ -144,7 +168,11 @@ export default function PropertiesPage() {
               <div className="row">
                 <div className="col-lg-12 mt20">
                   <div className="mbp_pagination">
-                    <Pagination />
+                    <Pagination
+                      currentPage={page}
+                      onPageChange={handlePageChange}
+                      totalPages={properties?.totalPage}
+                    />
                   </div>
                 </div>
                 {/* End paginaion .col */}

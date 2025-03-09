@@ -70,7 +70,7 @@ const SearchablePropertySelect = ({ agencyId, placeholder, onSelect }) => {
               <div>
                 <p className="mb-0 fw-bold">{property.title}</p>
                 <small className="text-muted">
-                  {property.location} | ${property.price}
+                  {property.address} {property?.city} | ${property.price}
                 </small>
               </div>
             </li>

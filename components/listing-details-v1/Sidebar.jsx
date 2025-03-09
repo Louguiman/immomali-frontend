@@ -2,7 +2,7 @@ import ContactWithAgent from "../common/agent-view/ContactWithAgent";
 import Categorie from "../common/listing/Categorie";
 import ListingCreator from "../common/listing/ListingCreator";
 import FeaturedListings from "../common/listing/FeaturedListings";
-import FeatureProperties from "../common/listing/FeatureProperties";
+import FeaturedProperties from "../home-4/FeaturedProperties";
 
 const Sidebar = ({ propertyId, agent }) => {
   return (
@@ -22,7 +22,7 @@ const Sidebar = ({ propertyId, agent }) => {
       <div className="terms_condition_widget">
         <h4 className="title">Featured Properties</h4>
         <div className="sidebar_feature_property_slider">
-          <FeatureProperties />
+          <FeaturedProperties />
         </div>
       </div>
       {/* End .Featured Properties */}

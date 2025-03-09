@@ -65,7 +65,7 @@ const PropertyCardWithQuery = ({ id }) => {
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
-            {item.location}
+            {item.address} {item?.city}, {item?.state}, {item?.country} &nbsp;
           </p>
 
           <ul className="prop_details mb0">

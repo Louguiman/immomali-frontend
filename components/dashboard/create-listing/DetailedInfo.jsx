@@ -47,6 +47,7 @@ const DetailedInfo = () => {
             type="text"
             className="form-control"
             id="beds"
+            required
             value={property.beds}
             onChange={handleInputChange}
           />
@@ -60,6 +61,7 @@ const DetailedInfo = () => {
           <label htmlFor="baths">Bathrooms</label>
           <input
             type="text"
+            required
             className="form-control"
             id="baths"
             value={property.baths}
@@ -76,6 +78,7 @@ const DetailedInfo = () => {
           <input
             type="text"
             className="form-control"
+            required
             id="garages"
             value={property.garages}
             onChange={handleInputChange}

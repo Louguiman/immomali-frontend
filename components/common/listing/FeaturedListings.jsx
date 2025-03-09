@@ -40,7 +40,7 @@ export function PropertyItem({ id }) {
           width={102}
           height={80}
           className="align-self-start me-3 w-100 h-100 cover"
-          src={item?.images[0]?.imageUrl}
+          src={item?.images[0]?.imageUrl || "/assets/images/team/1.jpg"}
           alt="featured listing image"
         />
       </Link>

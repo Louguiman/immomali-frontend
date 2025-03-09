@@ -4,6 +4,7 @@ import Link from "next/link";
 import Slider from "react-slick";
 import Image from "next/image";
 import FavoriteButton from "../common/FavoriteBtn";
+import CompareButton from "../common/CompareBtn";
 
 const FeaturedProperties = ({ properties }) => {
   const settings = {
@@ -63,9 +64,7 @@ const FeaturedProperties = ({ properties }) => {
 
                   <ul className="icon mb0">
                     <li className="list-inline-item">
-                      <a href="#">
-                        <span className="flaticon-transfer-1"></span>
-                      </a>
+                      <CompareButton propertyId={item.id} />
                     </li>
                     <li className="list-inline-item">
                       <FavoriteButton propertyId={item.id} />
@@ -91,7 +90,7 @@ const FeaturedProperties = ({ properties }) => {
                   </h4>
                   <p>
                     <span className="flaticon-placeholder"></span>
-                    {item.location}
+                    {item.address} {item?.city} {item?.country}
                   </p>
 
                   <ul className="prop_details mb0">
