@@ -12,7 +12,7 @@ const FeaturedItem = () => {
     keyword,
     location,
     status,
-    propertyType,
+    type,
     price,
     bathrooms,
     bedrooms,

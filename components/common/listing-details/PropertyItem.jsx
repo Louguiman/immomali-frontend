@@ -1,4 +1,4 @@
-const PropertyItem = ({ propertyType, beds, baths, size }) => {
+const PropertyItem = ({ type, beds, baths, size }) => {
   return (
     <ul className="mb0">
       <li className="list-inline-item">
