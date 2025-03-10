@@ -41,7 +41,7 @@ const FeaturedItem = () => {
 
   // properties handler
   const propertiesHandler = (item) =>
-    item.type.toLowerCase().includes(propertyType.toLowerCase());
+    item.type.toLowerCase().includes(type.toLowerCase());
 
   // price handler
   const priceHandler = (item) =>

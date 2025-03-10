@@ -15,9 +15,9 @@ const navItems = {
     name: "Properties",
     subMenu: [
       { name: "All Properties", routerPath: "/properties" },
-      { name: "For Sale", routerPath: "/properties?listingType=sale" },
-      { name: "For Rent", routerPath: "/properties?listingType=rent" },
-      { name: "Luxury Homes", routerPath: "/properties?propertyType=luxury" },
+      { name: "For Sale", routerPath: "/properties?type=sale" },
+      { name: "For Rent", routerPath: "/properties?type=rent" },
+      { name: "Luxury Homes", routerPath: "/properties?category=luxury" },
       { name: "New Listings", routerPath: "/properties?new" },
       { name: "Compare Properties", routerPath: "/compare" },
     ],
