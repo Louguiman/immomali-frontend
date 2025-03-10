@@ -21,7 +21,7 @@ const DetailsContent = ({ property }) => {
       <div className="listing_single_description">
         <div className="lsd_list">
           <PropertyItem
-           type,={property?.type}
+            type={property?.type}
             baths={property?.baths}
             beds={property?.beds}
             size={property?.sqFt}
