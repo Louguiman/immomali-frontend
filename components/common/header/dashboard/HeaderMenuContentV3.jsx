@@ -6,7 +6,6 @@ import MyAccount from "./MyAccount";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import LogoutButton from "../../user-credentials/LogoutButton";
 
 const navItems = {
   buy: {
@@ -208,7 +207,6 @@ const HeaderMenuContentV3 = ({ float = "" }) => {
               </div>
             </div>
           </li>
-          <LogoutButton />
         </>
       ) : (
         <li>

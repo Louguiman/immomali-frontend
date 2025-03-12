@@ -26,7 +26,7 @@ import { apiSlice } from "./api";
 // });
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
-  tagTypes: ["Properties"],
+  tagTypes: ["Properties", "userProperties"],
   endpoints: (builder) => ({
     getSignedUrl: builder.mutation({
       query: (imageUrl) => ({
@@ -67,15 +67,37 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         url: "/properties",
         params,
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
     }),
     getPropertiesByAgency: builder.query({
       query: () => `/properties/by-agency`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
     }),
     fetchPropertyById: builder.query({
       query: (id) => `/properties/${id}`,
+      providesTags: (result, error, id) => [{ type: "Properties", id }],
     }),
     fetchPropertyByUserId: builder.query({
       query: (id) => `/properties/user/${id}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
     }),
     createProperty: builder.mutation({
       query: (property) => ({
@@ -83,6 +105,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: property,
       }),
+      invalidatesTags: ["Properties"],
     }),
     searchProperties: builder.query({
       query: (params) => ({
@@ -90,6 +113,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
     getRentalProperties: builder.query({
@@ -98,6 +128,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
     getSaleProperties: builder.query({
@@ -106,6 +143,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Properties", id })),
+              { type: "Properties", id: "LIST" },
+            ]
+          : [{ type: "Properties", id: "LIST" }],
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
     updateProperty: builder.mutation({
@@ -122,7 +166,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/properties/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Properties"],
+      invalidatesTags: (result, error, { id }) => [{ type: "Properties", id }],
     }),
 
     searchAgencyProperties: builder.query({

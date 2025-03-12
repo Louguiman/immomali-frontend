@@ -35,6 +35,7 @@ import {
 // });
 
 export const authApi = apiSlice.injectEndpoints({
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -93,6 +94,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: "auth/refresh",
         method: "POST",
       }),
+      invalidatesTags: ["User"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -123,6 +125,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: "/auth/me",
         method: "GET",
       }),
+      providesTags: ["User"],
     }),
   }),
 });

@@ -1,0 +1,24 @@
+{
+  "search": {
+    "searchbar": {
+      "placeholder": "rechercher",
+      "button": "rechercher",
+      "buy": "acheter",
+      "rent": "louer",
+      "category": "catégorie",
+      "location": "emplacement",
+      "price": "prix",
+      "minPrice": "prix min",
+      "maxPrice": "prix max",
+      "bedrooms": "chambres"
+    },
+    "categories": {
+      "apartment": "Appartement",
+      "house": "Maison",
+      "office": "Bureau",
+      "villa": "Villa",
+      "land": "Terrain",
+      "other": "Autre"
+    }
+  }
+}

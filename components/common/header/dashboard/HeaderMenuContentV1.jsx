@@ -6,7 +6,6 @@ import MyAccount from "./MyAccount";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import LogoutButton from "../../user-credentials/LogoutButton";
 
 const HeaderMenuContent = ({ float = "" }) => {
   const user = useSelector((state) => state.auth?.user);
@@ -510,7 +509,6 @@ const HeaderMenuContent = ({ float = "" }) => {
               </div>
             </div>
           </li>
-          <LogoutButton />
         </>
       ) : (
         <Link href="/login" className="btn btn-secondary">

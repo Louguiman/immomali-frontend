@@ -1,5 +1,5 @@
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import SearchData from "../my-saved-search/SearchData";
 import SearchBox from "./SearchBox";

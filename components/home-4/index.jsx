@@ -15,12 +15,12 @@ import SaleProperties from "./SaleProperties";
 import DiscoverAgents from "./DiscoverAgents";
 import DiscoverAgencies from "./DiscoverAgencies";
 import CallToAction from "../common/CallToAction";
-import Header2 from "../common/header/dashboard/Header2";
-import Header3 from "../common/header/dashboard/Header3";
-import Header4 from "../common/header/dashboard/Header4";
 import Header from "./Header";
+import { getTranslations } from "next-intl/server";
 
 const index = async () => {
+  const t = await getTranslations("home");
+
   return (
     <>
       {/* <!-- Main Header Nav --> */}
@@ -52,11 +52,8 @@ const index = async () => {
             <div className="col-lg-12">
               <div className="home_content home4">
                 <div className="home-text text-center">
-                  <h2 className="fz55">Find Your Dream Home</h2>
-                  <p className="fz18 color-white">
-                    From as low as $10 per day with limited time offer
-                    discounts.
-                  </p>
+                  <h2 className="fz55">{t("banner.title")}</h2>
+                  <p className="fz18 color-white">{t("banner.description")}</p>
                 </div>
                 <GlobalHeroFilter className="home4" />
               </div>
@@ -65,7 +62,7 @@ const index = async () => {
           <div className="row">
             <div className="col-lg-12">
               <h4 className="text-center color-white fw600 mb25 mb0-520">
-                What are you looking for?
+                {t("categorySearchHeader")}
               </h4>
               <ul className="home4_iconbox mb0">
                 <LookingItem />
@@ -101,23 +98,6 @@ const index = async () => {
           </div>
         </div>
       </section>
-
-      {/* <!-- Our Blog --> */}
-      {/* <section className="our-blog bgc-f7 pb30">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 offset-lg-3">
-              <div className="main-title text-center">
-                <h2>Articles & Tips</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <Blogs />
-          </div>
-        </div>
-      </section> */}
 
       {/* <!-- Our Team --> */}
       <DiscoverAgents />

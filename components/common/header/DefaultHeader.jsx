@@ -44,7 +44,7 @@ const Header = () => {
             src="/assets/images/header-logo2.png"
             alt="header-logo2.png"
           />
-          <span>ImmoMali</span>
+          <span>IMMOMALI</span>
         </Link>
         {/* site logo brand */}
 

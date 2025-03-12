@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiSlice } from "./api";
 
 export const userApi = apiSlice.injectEndpoints({
-  tagTypes: ["Users"],
+  tagTypes: ["Users", "User"],
   endpoints: (builder) => ({
     /** 🔹 Get All Users with Pagination & Search */
     getAllUsers: builder.query({
@@ -54,6 +54,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: profileData,
       }),
+      invalidatesTags: ["User"],
     }),
 
     // Upload Profile Image
@@ -63,6 +64,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["User"],
     }),
   }),
 });

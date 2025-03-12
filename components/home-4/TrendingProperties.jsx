@@ -1,8 +1,10 @@
 import { fetchProperties } from "@/features/api/Serverside";
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
+import { getTranslations } from "next-intl/server";
 
 async function TrendingProperties() {
+  const t = await getTranslations("home.section");
   const { data: properties } = await fetchProperties();
 
   return (
@@ -11,8 +13,8 @@ async function TrendingProperties() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center mb40">
-              <h2>Trending Properties</h2>
-              <p>Explore trending properties that captivate our users.</p>
+              <h2>{t("trending.title")}</h2>
+              <p>{t("trending.description")}</p>
             </div>
           </div>
         </div>

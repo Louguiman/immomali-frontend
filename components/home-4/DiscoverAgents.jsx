@@ -2,8 +2,11 @@
 import { useGetAllAgentsQuery } from "@/features/api/agents.api";
 import React from "react";
 import Team from "./Team";
+import { useTranslations } from "next-intl";
 
 function DiscoverAgents() {
+  const t = useTranslations("home.section");
+
   const { data, isLoading, isError } = useGetAllAgentsQuery();
 
   console.log("agents: ", data);
@@ -14,8 +17,8 @@ function DiscoverAgents() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center">
-              <h2>Discover Agents</h2>
-              <p>Some of the best agents on our platform</p>
+              <h2>{t("agent.title")}</h2>
+              <p>{t("agent.description")}</p>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../../app/(admin)/dashboard/SidebarMenu";
+import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
 import TableData from "./TableData";
 import Filtering from "./Filtering";

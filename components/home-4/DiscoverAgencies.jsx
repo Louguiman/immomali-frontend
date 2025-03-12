@@ -2,8 +2,11 @@
 import React from "react";
 import { useGetAllAgenciesQuery } from "@/features/api/agencies.api";
 import AgenciesAsTeam from "./AgenciesAsTeam";
+import { useTranslations } from "next-intl";
 
 function DiscoverAgencies() {
+  const t = useTranslations("home.section");
+
   const { data, isLoading, isError } = useGetAllAgenciesQuery();
   console.log("agencies: ", data);
 
@@ -13,8 +16,8 @@ function DiscoverAgencies() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center">
-              <h2>Discover Agencies</h2>
-              <p>Some of the best agencies on our platform</p>
+              <h2>{t("agency.title")}</h2>
+              <p>{t("agency.description")}</p>
             </div>
           </div>
         </div>

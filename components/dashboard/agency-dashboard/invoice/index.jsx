@@ -9,7 +9,7 @@ import InvoiceTable from "../../my-invoices/InvoiceTable";
 import Pagination from "../../my-properties/Pagination";
 import Header from "@/components/common/header/dashboard/Header";
 import MobileMenu from "@/components/common/header/MobileMenu";
-import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
+import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
 import { usePathname } from "next/navigation";

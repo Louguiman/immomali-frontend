@@ -2,8 +2,10 @@
 import { useGetRentalPropertiesQuery } from "@/features/api/properties.api";
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
+import { useTranslations } from "next-intl";
 
 function RentalProperties() {
+  const t = useTranslations("home.section");
   const {
     data: properties,
     isLoading,
@@ -16,8 +18,8 @@ function RentalProperties() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center mb40">
-              <h2>Rental Properties</h2>
-              <p>Explore our selection of rental properties.</p>
+              <h2>{t("rent.title")}</h2>
+              <p>{t("rent.description")}</p>
             </div>
           </div>
         </div>

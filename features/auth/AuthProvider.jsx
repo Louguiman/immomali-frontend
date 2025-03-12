@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useRefreshTokenMutation } from "../api/auth.api";
 import { loadFromStorage } from "../properties/propertiesSlice";
+import { setAuthToken } from "./authSlice";
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const auth = useSelector((state) => state.auth);
   const [refreshToken] = useRefreshTokenMutation();
 
   useEffect(() => {
@@ -17,15 +18,20 @@ export default function AuthProvider({ children }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!auth.isAuthenticated && auth.accessToken) {
       // router.push("/login");
-      // refreshToken()
-      //   .unwrap()
-      //   .catch(() => {
-      //     router.push("/login");
-      //   });
+      const token = localStorage.getItem("token");
+      if (token) {
+        dispatch(setAuthToken({ accessToken: token }));
+        refreshToken()
+          .unwrap()
+          .catch(() => {
+            router.push("/login");
+          });
+      }
+      // dispatch(setAuthToken({ accessToken: token }));
     }
-  }, [isAuthenticated, refreshToken, router]);
+  }, [auth.isAuthenticated, refreshToken, router]);
 
   return <>{children}</>;
 }

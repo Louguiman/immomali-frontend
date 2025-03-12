@@ -1,9 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
 import find from "../../data/find";
+import { useTranslations } from "next-intl";
 
 const LookingItem = () => {
   const router = useRouter();
+  const t = useTranslations("search");
   return (
     <>
       {find.map((item) => (
@@ -14,7 +16,10 @@ const LookingItem = () => {
         >
           <div className="icon">
             <span className={item.icon}></span>
-            <p>{item.title}</p>
+            <p>
+              {t(item.key)}
+              {/* {item.title} */}
+            </p>
           </div>
         </li>
       ))}

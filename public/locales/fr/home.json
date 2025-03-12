@@ -1,0 +1,35 @@
+{
+  "home": {
+    "banner": {
+      "title": "Trouvez la maison de vos rêves",
+      "description": "À partir de seulement 10 $ par jour avec des offres promotionnelles limitées dans le temps."
+    },
+    "categorySearchHeader": "Que recherchez-vous ?",
+    "section": {
+      "trending": {
+        "title": "Propriétés tendance",
+        "description": "Découvrez les propriétés tendance qui captivent nos utilisateurs."
+      },
+      "rent": {
+        "title": "Biens à louer",
+        "description": "Trouvez la location parfaite qui répond à vos besoins."
+      },
+      "sale": {
+        "title": "Biens à vendre",
+        "description": "Trouvez la propriété parfaite qui répond à vos besoins."
+      },
+      "location": {
+        "title": "Emplacements populaires / Trouvez des biens dans ces villes",
+        "description": "Explorez les emplacements populaires où les utilisateurs recherchent à acheter ou louer des biens immobiliers."
+      },
+      "agent": {
+        "title": "Découvrez nos agents",
+        "description": "Rencontrez nos agents qui sont là pour vous aider à trouver la maison de vos rêves."
+      },
+      "agency": {
+        "title": "Meilleures agences",
+        "description": "Découvrez les meilleures agences de votre région."
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/common/header/dashboard/Header";
-import SidebarMenu from "@/app/(admin)/dashboard/SidebarMenu";
+import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "@/components/common/header/MobileMenu";
 import {
   useDeleteTenantMutation,

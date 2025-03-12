@@ -1,0 +1,18 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "admin": "Admin",
+    "language": "Langue",
+    "english": "Anglais",
+    "french": "Français",
+    "blog": "Blog",
+    "properties": "Propriétés",
+    "agents": "Agents"
+  }
+}

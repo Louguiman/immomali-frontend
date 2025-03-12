@@ -6,7 +6,7 @@ import MyAccount from "./MyAccount";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import LogoutButton from "../../user-credentials/LogoutButton";
+import NotificationDropdown from "@/features/notifications/NotificationDropdown";
 
 const navItems = {
   home: { name: "Home", routerPath: "/" },
@@ -53,9 +53,7 @@ const navItems = {
       { name: "Rent Payments", routerPath: "/dashboard/my-invoices" },
     ],
   },
-
   blog: { name: "Blog", routerPath: "/blog-list-1" },
-  resources: { name: "Resources", routerPath: "/blog-list-2" },
   contact: { name: "Contact", routerPath: "/contact" },
 };
 
@@ -104,7 +102,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
       </li>
 
       {/* Tenant Services */}
-      <li className="dropitem">
+      {/* <li className="dropitem">
         <a href="#" className="title">
           Tenant Services
         </a>
@@ -115,26 +113,20 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
             </li>
           ))}
         </ul>
-      </li>
+      </li> */}
 
       {/* Blog, Resources, Contact */}
       <li className={pathname === navItems.blog.routerPath ? "ui-active" : ""}>
         <Link href={navItems.blog.routerPath}>{navItems.blog.name}</Link>
       </li>
-      <li
-        className={
-          pathname === navItems.resources.routerPath ? "ui-active" : ""
-        }
-      >
-        <Link href={navItems.resources.routerPath}>
-          {navItems.resources.name}
-        </Link>
-      </li>
+
       <li
         className={pathname === navItems.contact.routerPath ? "ui-active" : ""}
       >
         <Link href={navItems.contact.routerPath}>{navItems.contact.name}</Link>
       </li>
+
+      <NotificationDropdown />
 
       {/* Authentication Links */}
       {isAuthenticated ? (
@@ -160,7 +152,6 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
               </div>
             </div>
           </li>
-          <LogoutButton />
         </>
       ) : (
         <li className="list-inline-item list_s">

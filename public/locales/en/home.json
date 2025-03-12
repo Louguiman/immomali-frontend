@@ -1,0 +1,35 @@
+{
+  "home": {
+    "banner": {
+      "title": "Find Your Dream Home",
+      "description": "From as low as $10 per day with limited time offer discounts."
+    },
+    "categorySearchHeader": "What are you looking for?",
+    "section": {
+      "trending": {
+        "title": "Trending Properties",
+        "description": "Explore trending properties that captivate our users."
+      },
+      "rent": {
+        "title": "Rental Properties",
+        "description": "Find the perfect rental property that suits your needs."
+      },
+      "sale": {
+        "title": "Properties for Sale",
+        "description": "Find the perfect property that suits your needs."
+      },
+      "location": {
+        "title": "Popular Locations / Find Properties in These Cities",
+        "description": "Explore popular locations where users are looking to buy or rent properties."
+      },
+      "agent": {
+        "title": "Discover Agents",
+        "description": "Meet our agents who are here to help you find your dream home."
+      },
+      "agency": {
+        "title": "Top Agencies",
+        "description": "Discover top agencies in your area."
+      }
+    }
+  }
+}

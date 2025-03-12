@@ -17,6 +17,7 @@
     "eslint-config-next": "^15.1.0",
     "lodash": "^4.17.21",
     "next": "^15.1.0",
+    "next-intl": "^3.26.5",
     "photoswipe": "^5.4.2",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.2.0",
@@ -28,8 +29,10 @@
     "react-redux": "^9.2.0",
     "react-slick": "^0.30.0",
     "react-toastify": "^11.0.3",
+    "redux-persist": "^6.0.0",
     "sass": "^1.68.0",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.1",
     "use-debounce": "^10.0.4",
     "uuid": "^11.0.5"
   }

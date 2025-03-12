@@ -1,0 +1,24 @@
+{
+  "search": {
+    "searchbar": {
+      "placeholder": "search ",
+      "button": "search",
+      "buy": "buy",
+      "rent": "rent",
+      "category": "category",
+      "location": "location",
+      "price": "price",
+      "minPrice": "min price",
+      "maxPrice": "max price",
+      "bedrooms": "bedrooms"
+    },
+    "categories": {
+      "apartment": "Apartment",
+      "house": "House",
+      "office": "Office",
+      "villa": "Villa",
+      "land": "Land",
+      "other": "Other"
+    }
+  }
+}

@@ -2,8 +2,12 @@
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
 import { useGetSalePropertiesQuery } from "@/features/api/properties.api";
+import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 function SaleProperties() {
+  const t = useTranslations("home.section");
+
   const { data: properties, isLoading, refetch } = useGetSalePropertiesQuery();
 
   return (
@@ -12,8 +16,8 @@ function SaleProperties() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center mb40">
-              <h2>Sale Properties</h2>
-              <p>Explore our selection of properties For Sale.</p>
+              <h2>{t("sale.title")}</h2>
+              <p>{t("sale.description")}</p>
             </div>
           </div>
         </div>

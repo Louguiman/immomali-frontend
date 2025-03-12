@@ -6,7 +6,6 @@ import MyAccount from "./MyAccount";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import LogoutButton from "../../user-credentials/LogoutButton";
 
 const navItems = {
   discover: {
@@ -181,7 +180,6 @@ const HeaderMenuContentv2 = ({ float = "" }) => {
               </div>
             </div>
           </li>
-          <LogoutButton />
         </>
       ) : (
         <li>

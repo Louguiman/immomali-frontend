@@ -1,3 +1,4 @@
+import LanguageSwitcher from "@/i18n/LanguageSwitcher";
 import Link from "next/link";
 
 const CopyrightFooter = () => {
@@ -25,7 +26,7 @@ const CopyrightFooter = () => {
       </div>
       {/* End .col */}
 
-      <div className="col-lg-6 col-xl-6">
+      <div className="col-lg-4 col-xl-4">
         <div className="copyright-widget text-end">
           <p>
             &copy; {new Date().getFullYear()} by{" "}
@@ -39,6 +40,9 @@ const CopyrightFooter = () => {
             . All rights reserved.
           </p>
         </div>
+      </div>
+      <div className="col-lg-2 col-xl-2">
+        <LanguageSwitcher />
       </div>
       {/* End .col */}
     </div>
