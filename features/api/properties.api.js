@@ -116,7 +116,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Properties", id })),
+              ...result?.data?.map(({ id }) => ({ type: "Properties", id })),
               { type: "Properties", id: "LIST" },
             ]
           : [{ type: "Properties", id: "LIST" }],
@@ -131,7 +131,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Properties", id })),
+              ...result?.data?.map(({ id }) => ({ type: "Properties", id })),
               { type: "Properties", id: "LIST" },
             ]
           : [{ type: "Properties", id: "LIST" }],
@@ -146,7 +146,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Properties", id })),
+              ...result?.data?.map(({ id }) => ({ type: "Properties", id })),
               { type: "Properties", id: "LIST" },
             ]
           : [{ type: "Properties", id: "LIST" }],

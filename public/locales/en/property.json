@@ -1,0 +1,36 @@
+{
+  "property": {
+    "sale": "Sale",
+    "rent": "Rent",
+    "viewPhotos": "View Photos",
+    "socialActions": {
+      "share": "Share",
+      "favorite": "Add to Favorites",
+      "compare": "Compare",
+      "print": "Print"
+    },
+    "categories": {
+      "apartment": "Apartment",
+      "house": "House",
+      "office": "Office",
+      "villa": "Villa",
+      "land": "Land",
+      "other": "Other"
+    },
+    "details": {
+      "propertyID": "Property ID",
+      "price": "Price",
+      "propertySize": "Property Size",
+      "yearBuilt": "Year Built",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "garage": "Garage",
+      "garageSize": "Garage Size",
+      "category": "Category",
+      "propertyType": "Property Type",
+      "forRent": "For Rent",
+      "forSale": "For Sale",
+      "n/a": "N/A"
+    }
+  }
+}

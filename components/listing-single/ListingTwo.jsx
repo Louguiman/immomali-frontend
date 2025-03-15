@@ -2,16 +2,19 @@
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
-export default function ListingTwo({ property }) {
+export default function ListingTwo({ property, locale = "en" }) {
+  const t = useTranslations("property");
+
   return (
     <section className="single_page_listing_style p0 mt85 md-mt0">
       <div className="container-fluid p0">
         <Gallery>
           <div className="row g-0" key={property?.id}>
-            <div className="col-md-6 col-lg-6 ">
+            <div className="col-md-6 col-lg-6">
               <div className="row g-0">
-                <div className="col-lg-12 ">
+                <div className="col-lg-12">
                   <div className="spls_style_one pr1 1px position-relative">
                     <Item
                       original={property?.images[0]?.imageUrl}
@@ -28,7 +31,7 @@ export default function ListingTwo({ property }) {
                               onClick={open}
                             >
                               <span className="flaticon-photo-camera"></span>{" "}
-                              View Photos
+                              {t("viewPhotos")}
                             </div>
                           </div>
                           <Image
@@ -51,7 +54,7 @@ export default function ListingTwo({ property }) {
             <div className="col-md-6 col-lg-6 position-relative">
               <div className="row g-0 gx-0">
                 {property?.images?.map((img, i) => (
-                  <div className="col-6 col-lg-6 " key={i}>
+                  <div className="col-6 col-lg-6" key={i}>
                     <div className="spls_style_one">
                       <Item
                         original={img.imageUrl}
@@ -87,17 +90,20 @@ export default function ListingTwo({ property }) {
                     </li>
                     <li className="list-inline-item">
                       <a href="#">
-                        <span className="flaticon-heart"></span>
+                        <span className="flaticon-heart"></span>{" "}
+                        {t("socialActions.favorite")}
                       </a>
                     </li>
                     <li className="list-inline-item">
                       <a href="#">
-                        <span className="flaticon-share"></span>
+                        <span className="flaticon-share"></span>{" "}
+                        {t("socialActions.share")}
                       </a>
                     </li>
                     <li className="list-inline-item">
                       <a href="#">
-                        <span className="flaticon-printer"></span>
+                        <span className="flaticon-printer"></span>{" "}
+                        {t("socialActions.print")}
                       </a>
                     </li>
                   </ul>

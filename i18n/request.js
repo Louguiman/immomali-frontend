@@ -1,5 +1,4 @@
 import { getRequestConfig } from "next-intl/server";
-import {} from "next-intl";
 import { routing } from "./routing";
 
 export default getRequestConfig(async ({ requestLocale }) => {
@@ -14,11 +13,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const homeMessages = await import(`@/public/locales/${locale}/home.json`);
   const searchMessages = await import(`@/public/locales/${locale}/search.json`);
   const navbarMessages = await import(`@/public/locales/${locale}/navbar.json`);
+  const propertyMessages = await import(
+    `@/public/locales/${locale}/property.json`
+  );
   const messages = {
     ...homeMessages.default,
     ...navbarMessages.default,
     ...commonMessages.default,
     ...searchMessages.default,
+    ...propertyMessages.default,
   };
 
   return {

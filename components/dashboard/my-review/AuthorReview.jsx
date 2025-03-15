@@ -8,7 +8,7 @@ import {
 } from "@/features/api/reviews.api";
 import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const AuthorReview = () => {
   const user = useAppSelector((state) => state.auth?.user);

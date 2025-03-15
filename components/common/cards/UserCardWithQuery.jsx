@@ -2,7 +2,7 @@
 
 import { useGetUserByIdQuery } from "@/features/api/user.api";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const UserCard = ({ id }) => {
   const { data: user, isLoading } = useGetUserByIdQuery(id, {

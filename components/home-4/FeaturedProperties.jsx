@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Slider from "react-slick";
 import Image from "next/image";
 import FavoriteButton from "../common/FavoriteBtn";

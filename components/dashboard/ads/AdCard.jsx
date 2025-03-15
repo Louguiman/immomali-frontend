@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 
 const AdCard = ({ ad, onManage }) => {
   const pathname = usePathname();

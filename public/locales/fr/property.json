@@ -1,0 +1,36 @@
+{
+  "property": {
+    "sale": "En vente",
+    "rent": "Location",
+    "viewPhotos": "Voir les photos",
+    "socialActions": {
+      "share": "Partager",
+      "favorite": "Ajouter aux favoris",
+      "compare": "Comparer",
+      "print": "Imprimer"
+    },
+    "categories": {
+      "apartment": "Appartement",
+      "house": "Maison",
+      "office": "Bureau",
+      "villa": "Villa",
+      "land": "Terrain",
+      "other": "Autre"
+    },
+    "details": {
+      "propertyID": "ID du bien",
+      "price": "Prix",
+      "propertySize": "Taille du bien",
+      "yearBuilt": "Année de construction",
+      "bedrooms": "Chambres",
+      "bathrooms": "Salles de bain",
+      "garage": "Garage",
+      "garageSize": "Taille du garage",
+      "category": "Catégorie",
+      "propertyType": "Type de bien",
+      "forRent": "À louer",
+      "forSale": "À vendre",
+      "n/a": "N/A"
+    }
+  }
+}

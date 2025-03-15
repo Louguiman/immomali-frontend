@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Social from "./Social";
 import SubscribeForm from "./SubscribeForm";
 

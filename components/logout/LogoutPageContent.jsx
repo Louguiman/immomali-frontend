@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Form from "./Form";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useDispatch } from "react-redux";
 import { useLogoutMutation } from "@/features/api/auth.api";
 import { useEffect } from "react";

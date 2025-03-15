@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import blogs from "../../data/blogs";
 import Image from "next/image";
 

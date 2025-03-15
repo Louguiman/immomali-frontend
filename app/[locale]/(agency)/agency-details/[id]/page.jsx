@@ -11,7 +11,7 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useGetAgencyByIdQuery } from "@/features/api/agencies.api";
 
 const AgencyDetailsDynamic = ({ params }) => {

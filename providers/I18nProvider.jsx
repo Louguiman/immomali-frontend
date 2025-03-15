@@ -2,7 +2,7 @@
 
 import { locales } from "@/i18n";
 import { NextIntlClientProvider } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
 export default function I18nProvider({ children }) {

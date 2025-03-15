@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/navigation";
 
 import MyAccount from "./MyAccount";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const navItems = {

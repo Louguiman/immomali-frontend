@@ -1,7 +1,7 @@
 import { getSignedUrl } from "@/features/api/Serverside";
 import { cleanUrl } from "@/utils/splitDescription";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useSelector } from "react-redux";
 
 const PropertyCard = ({ item }) => {

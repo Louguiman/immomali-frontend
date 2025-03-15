@@ -1,5 +1,6 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import { useSearchPropertiesQuery } from "@/features/api/properties.api";
 import PropertyCard from "@/components/PropertyCard";

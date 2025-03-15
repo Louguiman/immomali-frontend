@@ -6,7 +6,7 @@ import {
   useGetInvoiceByIdQuery,
 } from "@/features/api/invoices.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useState } from "react";
 import ManualPaymentModal from "@/components/payments/ManualPaymentModal";
 import { useAppSelector } from "@/store/hooks";

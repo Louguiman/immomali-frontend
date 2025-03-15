@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import HeaderMenuContent from "./HeaderMenuContentV3";
 import Image from "next/image";

@@ -1,5 +1,5 @@
 import LanguageSwitcher from "@/i18n/LanguageSwitcher";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const CopyrightFooter = () => {
   const menuItems = [

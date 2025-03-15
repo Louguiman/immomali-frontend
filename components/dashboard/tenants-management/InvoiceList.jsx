@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const InvoiceList = ({ invoices }) => {
   if (!invoices.length) return <p>No invoices found.</p>;

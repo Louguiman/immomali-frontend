@@ -11,10 +11,9 @@ import {
   SidebarContent,
   Sidebar,
 } from "react-pro-sidebar";
-import Link from "next/link";
+import { usePathname, useRouter, Link } from "@/i18n/navigation";
 
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 
 const home = [
   {

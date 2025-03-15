@@ -1,7 +1,6 @@
+"use client";
 
-'use client'
-
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import agents from "../../../data/agents";

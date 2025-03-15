@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
 import ReviewBox from "../blog-details/ReviewBox";
@@ -15,16 +16,17 @@ import PropertyVideo from "../common/listing-details/PropertyVideo";
 import WalkScore from "../common/listing-details/WalkScore";
 import WhatsNearby from "../common/listing-details/WhatsNearby";
 
-const DetailsContent = ({ property }) => {
+const DetailsContent = async ({ property }) => {
+  const t = await getTranslations("property");
   return (
     <>
       <div className="listing_single_description">
         <div className="lsd_list">
           <PropertyItem
-            type={property?.type}
-            baths={property?.baths}
-            beds={property?.beds}
-            size={property?.sqFt}
+            type={t(`property.${property?.type}`)}
+            baths={t(`property.${property?.baths}`)}
+            beds={t(`property.${property?.beds}`)}
+            size={t(`property.${property?.sqFt}`)}
           />
         </div>
         {/* End .lsd_list */}

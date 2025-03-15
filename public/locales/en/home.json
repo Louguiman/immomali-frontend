@@ -19,7 +19,7 @@
         "description": "Find the perfect property that suits your needs."
       },
       "location": {
-        "title": "Popular Locations / Find Properties in These Cities",
+        "title": "Popular Locations <br/> Find Properties in These Cities",
         "description": "Explore popular locations where users are looking to buy or rent properties."
       },
       "agent": {
@@ -30,6 +30,11 @@
         "title": "Top Agencies",
         "description": "Discover top agencies in your area."
       }
+    },
+    "cta": {
+      "title": "Become a Real Estate Agent",
+      "description": "We only work with the best companies around the globe",
+      "button": "Register Now"
     }
   }
 }
