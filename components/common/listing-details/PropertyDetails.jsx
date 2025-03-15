@@ -29,17 +29,22 @@ const PropertyDetails = ({ property }) => {
       { label: t("details.garage"), value: property.garages },
       {
         label: t("details.garageSize"),
-        value: property.garageSize ? `${property.garageSize} Sq Ft` : t("n/a"),
+        value: property.garageSize
+          ? `${property.garageSize} Sq Ft`
+          : t("details.n/a"),
       },
     ],
     [
       {
         label: t("details.category"),
-        value: t(`categories${property?.category}`),
+        value: t(`categories.${property?.category}`),
       },
       {
         label: t("details.propertyType"),
-        value: property.type === "rent" ? t("forRent") : t("forSale"),
+        value:
+          property.type === "rent"
+            ? t("details.forRent")
+            : t("details.forSale"),
       },
     ],
   ];

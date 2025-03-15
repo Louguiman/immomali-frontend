@@ -1,14 +1,18 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 const PropertyFeatures = ({ amenities }) => {
-  if (!amenities) return null; // Prevents rendering if no data is available
+  const t = useTranslations("amenities");
 
-  // Convert amenities object into an array of enabled features
+  if (!amenities) return null; // Si pas de données, on n'affiche rien
+
+  // Convertir l'objet amenities en un tableau de fonctionnalités activées
   const featureList = Object.entries(amenities)
-    .filter(([_, value]) => value === true) // Only keep enabled amenities
-    .map(([key]) => key.replace(/([A-Z])/g, " $1").trim()); // Format names
+    .filter(([_, value]) => value === true) // Garder uniquement les valeurs activées
+    .map(([key]) => t(key)); // Traduire les clés en utilisant next-intl
 
-  // Split features into 3 balanced groups for layout
+  // Diviser la liste en 3 colonnes équilibrées
   const chunkSize = Math.ceil(featureList.length / 3);
   const propertyFeatures = [
     featureList.slice(0, chunkSize),

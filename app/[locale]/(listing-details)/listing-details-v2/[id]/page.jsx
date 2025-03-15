@@ -1,11 +1,5 @@
 "use client";
 
-import "photoswipe/dist/photoswipe.css";
-import CopyrightFooter from "@/components/common/footer/CopyrightFooter";
-import Footer from "@/components/common/footer/Footer";
-import Header from "@/components/common/header/DefaultHeader";
-import MobileMenu from "@/components/common/header/MobileMenu";
-import PopupSignInUp from "@/components/common/PopupSignInUp";
 import properties from "@/data/properties";
 import DetailsContent from "@/components/listing-details-v1/DetailsContent";
 import Sidebar from "@/components/listing-details-v1/Sidebar";
@@ -47,15 +41,6 @@ const ListingDynamicDetailsV2 = () => {
 
   return (
     <>
-      {/* <!-- Main Header Nav --> */}
-      <Header />
-
-      {/* <!--  Mobile Menu --> */}
-      <MobileMenu />
-
-      {/* <!-- Modal --> */}
-      <PopupSignInUp />
-
       {/* <!-- Listing Single Property --> */}
 
       <ListingTwo property={property} />
@@ -101,22 +86,6 @@ const ListingDynamicDetailsV2 = () => {
             {/* End sidebar content .col-lg-4 */}
           </div>
           {/* End .row */}
-        </div>
-      </section>
-
-      {/* <!-- Our Footer --> */}
-      <section className="footer_one">
-        <div className="container">
-          <div className="row">
-            <Footer />
-          </div>
-        </div>
-      </section>
-
-      {/* <!-- Our Footer Bottom Area --> */}
-      <section className="footer_middle_area pt40 pb40">
-        <div className="container">
-          <CopyrightFooter />
         </div>
       </section>
     </>

@@ -2,6 +2,18 @@
   "property": {
     "sale": "Sale",
     "rent": "Rent",
+    "beds": "Beds",
+    "baths": "Baths",
+    "sqFt": "Area",
+    "features": "Features",
+    "location": "Location",
+    "address": "Address",
+    "city": "City",
+    "state": "State/Region",
+    "country": "Country",
+    "nearby": "What's Nearby",
+    "write_review": "Write a Review",
+    "your_rating_review": "Your Rating & Review",
     "viewPhotos": "View Photos",
     "socialActions": {
       "share": "Share",
@@ -30,7 +42,33 @@
       "propertyType": "Property Type",
       "forRent": "For Rent",
       "forSale": "For Sale",
+      "amenities": "Amenities",
       "n/a": "N/A"
+    },
+    "deposit": "Deposit",
+    "poolSize": "Pool Size",
+    "additionalRooms": "Additional Rooms",
+    "additionalDetails": "Additional Details",
+    "propertyDetails": "Property Details",
+    "guestBath": "Guest Bath",
+    "lastRemodelYear": "Last remodel year",
+    "equipment": "Equipment",
+    "amenities": {
+      "airConditioning": "Air Conditioning",
+      "barbeque": "Barbeque",
+      "dryer": "Dryer",
+      "gym": "Gym",
+      "laundry": "Laundry",
+      "lawn": "Lawn",
+      "microwave": "Microwave",
+      "outdoorShower": "Outdoor Shower",
+      "refrigerator": "Refrigerator",
+      "sauna": "Sauna",
+      "swimmingPool": "Swimming Pool",
+      "tvCable": "TV Cable",
+      "washer": "Washer",
+      "wifi": "WiFi",
+      "windowCoverings": "Window Coverings"
     }
   }
 }

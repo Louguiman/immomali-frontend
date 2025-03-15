@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
 import ReviewBox from "../blog-details/ReviewBox";
@@ -15,18 +14,24 @@ import PropertyLocation from "../common/listing-details/PropertyLocation";
 import PropertyVideo from "../common/listing-details/PropertyVideo";
 import WalkScore from "../common/listing-details/WalkScore";
 import WhatsNearby from "../common/listing-details/WhatsNearby";
+import { useTranslations } from "next-intl";
 
-const DetailsContent = async ({ property }) => {
-  const t = await getTranslations("property");
+const DetailsContent = ({ property }) => {
+  const t = useTranslations("property");
   return (
     <>
       <div className="listing_single_description">
         <div className="lsd_list">
           <PropertyItem
-            type={t(`property.${property?.type}`)}
-            baths={t(`property.${property?.baths}`)}
-            beds={t(`property.${property?.beds}`)}
-            size={t(`property.${property?.sqFt}`)}
+            label={{
+              beds: t("beds"),
+              baths: t("baths"),
+              sqFt: t("sqFt"),
+            }}
+            type={t(`${property?.type}`)}
+            baths={property?.baths}
+            beds={property?.beds}
+            size={property?.sqFt}
           />
         </div>
         {/* End .lsd_list */}
@@ -39,7 +44,7 @@ const DetailsContent = async ({ property }) => {
       <div className="additional_details">
         <div className="row">
           <div className="col-lg-12">
-            <h4 className="mb15">Property Details</h4>
+            <h4 className="mb15">{t("propertyDetails")}</h4>
           </div>
           <PropertyDetails property={property} />
         </div>
@@ -49,7 +54,7 @@ const DetailsContent = async ({ property }) => {
       <div className="additional_details">
         <div className="row">
           <div className="col-lg-12">
-            <h4 className="mb15">Additional details</h4>
+            <h4 className="mb15">{t("additionalDetails")}</h4>
           </div>
           <AdditionalDetails />
         </div>
@@ -67,10 +72,8 @@ const DetailsContent = async ({ property }) => {
       <div className="application_statics mt30">
         <div className="row">
           <div className="col-lg-12">
-            <h4 className="mb10">Features</h4>
+            <h4 className="mb10">{t("features")}</h4>
           </div>
-          {/* End .col */}
-
           <PropertyFeatures amenities={property?.amenities} />
         </div>
       </div>
@@ -78,19 +81,21 @@ const DetailsContent = async ({ property }) => {
 
       <div className="application_statics mt30">
         <h4 className="mb30">
-          Location <small className="float-end"></small>
+          {t("location")} <small className="float-end"></small>
         </h4>
         <h6 className="mb20">
-          Address <small className="float-end">{property?.address}</small>
+          {t("address")}{" "}
+          <small className="float-end">{property?.address}</small>
         </h6>
         <h6 className="mb20">
-          City <small className="float-end">{property?.city}</small>
+          {t("city")} <small className="float-end">{property?.city}</small>
         </h6>
         <h6 className="mb20">
-          State <small className="float-end">{property?.state}</small>
+          {t("state")} <small className="float-end">{property?.state}</small>
         </h6>
         <h6 className="mb20">
-          Country <small className="float-end">{property?.country}</small>
+          {t("country")}{" "}
+          <small className="float-end">{property?.country}</small>
         </h6>
         <div className="property_video p0">
           <PropertyLocation />
@@ -117,7 +122,7 @@ const DetailsContent = async ({ property }) => {
       {/* End walkscore_area */}
 
       <div className="whats_nearby mt30">
-        <h4 className="mb10">What&apos;s Nearby</h4>
+        <h4 className="mb10">{t("nearby")}</h4>
         <WhatsNearby />
       </div>
       {/* End what's nearby area */}
@@ -130,7 +135,7 @@ const DetailsContent = async ({ property }) => {
           <div className="custom_hr"></div>
 
           <div className="mbp_comment_form style2">
-            <h4>Write a Review</h4>
+            <h4>{t("write_review")}</h4>
             <ul className="review_star">
               <li className="list-inline-item">
                 <span className="sspd_review">
@@ -140,7 +145,7 @@ const DetailsContent = async ({ property }) => {
                 </span>
               </li>
               <li className="list-inline-item pr15">
-                <p>Your Rating & Review</p>
+                <p>{t("your_rating_review")}</p>
               </li>
             </ul>
             {/* <ReviewBox /> */}

@@ -34,12 +34,16 @@ export default function I18nProvider({ children }) {
         const navbarMessages = await import(
           `@/public/locales/${locale}/navbar.json`
         );
+        const propertyMessages = await import(
+          `@/public/locales/${locale}/property.json`
+        );
 
         setMessages({
           ...commonMessages.default,
           ...homeMessages.default,
           ...searchMessages.default,
           ...navbarMessages.default,
+          ...propertyMessages.default,
         });
       } catch (error) {
         console.error(`Failed to load translations for ${locale}:`, error);

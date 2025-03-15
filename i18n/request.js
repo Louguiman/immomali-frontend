@@ -9,13 +9,13 @@ export default getRequestConfig(async ({ requestLocale }) => {
     : routing.defaultLocale;
   console.log("requestLocale:  set ", locale);
 
+  const propertyMessages = await import(
+    `@/public/locales/${locale}/property.json`
+  );
   const commonMessages = await import(`@/public/locales/${locale}/common.json`);
   const homeMessages = await import(`@/public/locales/${locale}/home.json`);
   const searchMessages = await import(`@/public/locales/${locale}/search.json`);
   const navbarMessages = await import(`@/public/locales/${locale}/navbar.json`);
-  const propertyMessages = await import(
-    `@/public/locales/${locale}/property.json`
-  );
   const messages = {
     ...homeMessages.default,
     ...navbarMessages.default,

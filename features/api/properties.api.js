@@ -113,13 +113,6 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "GET",
         params, // ✅ Ensure we pass an object, NOT URLSearchParams
       }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result?.data?.map(({ id }) => ({ type: "Properties", id })),
-              { type: "Properties", id: "LIST" },
-            ]
-          : [{ type: "Properties", id: "LIST" }],
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
     getRentalProperties: builder.query({
