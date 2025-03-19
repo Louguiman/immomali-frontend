@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
-import { useState } from "react";
+
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { cn } from "@/utils/lib";
+import { useParams } from "next/navigation";
 
 const languages = [
   { code: "en", name: "English", flag: "/assets/images/resource/english.jpg" },
@@ -12,25 +13,42 @@ const languages = [
 ];
 
 export default function LanguageSwitcher() {
-  const currentLocale = useLocale();
+  const currentLocale = useParams().locale;
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
+  const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [currentLang, setcurrentLang] = useState(
+    languages.find((lang) => lang.code === currentLocale)
+  );
   // Find the current language
-  const currentLang = languages.find((lang) => lang.code === currentLocale);
 
   const changeLanguage = (locale) => {
     // Set the locale cookie
     document.cookie = `NEXT_LOCALE=${locale}; path=/`;
     // Update the URL with the new locale
-    router.replace(`/${locale}${pathname.substring(3)}`);
+    // router.replace(`/${locale}${pathname.substring(3)}`);
+    startTransition(() => {
+      router.replace(
+        // @ts-expect-error -- TypeScript will validate that only known `params`
+        // are used in combination with a given `pathname`. Since the two will
+        // always match for the current route, we can skip runtime checks.
+        { pathname, params },
+        { locale }
+      );
+    });
     setIsOpen(false);
   };
 
   return (
-    <div className="relative">
+    <div
+      className={`relative ${
+        isPending && "transition-opacity [&:disabled]:opacity-30"
+      }`}
+    >
       <button
+        disabled={isPending}
         className="flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-lg shadow-md hover:bg-gray-300 transition"
         onClick={() => setIsOpen(!isOpen)}
       >

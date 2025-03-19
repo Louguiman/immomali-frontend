@@ -1,10 +1,10 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import HeaderMenuContent from "../common/header/dashboard/HeaderMenuContent";
+import Link from "next/link";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);

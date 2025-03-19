@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import GlobalFilter from "./GlobalFilter";
+import { useTranslations } from "next-intl";
 
-const GlobalHeroFilter = async ({ className = "" }) => {
-  const t = await getTranslations("search");
+const GlobalHeroFilter = ({ className = "" }) => {
+  // const t = useTranslations("search");
 
   return (
     <div className={`home_adv_srch_opt ${className}`}>
@@ -17,7 +18,8 @@ const GlobalHeroFilter = async ({ className = "" }) => {
             aria-controls="pills-home"
             aria-selected="true"
           >
-            {t("searchbar.buy")}
+            {/* {t("searchbar.buy")} buy */}
+            buy
           </a>
         </li>
 
@@ -31,7 +33,8 @@ const GlobalHeroFilter = async ({ className = "" }) => {
             aria-controls="pills-profile"
             aria-selected="false"
           >
-            {t("searchbar.rent")}
+            {/* {t("searchbar.rent")} rent */}
+            rent
           </a>
         </li>
       </ul>

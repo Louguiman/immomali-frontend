@@ -1,8 +1,8 @@
 "use client";
+
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
 import { useGetSalePropertiesQuery } from "@/features/api/properties.api";
-import { getTranslations } from "next-intl/server";
 import { useTranslations } from "next-intl";
 
 function SaleProperties() {

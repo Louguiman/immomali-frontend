@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { removeFromFavorites } from "@/features/properties/propertiesSlice";
 
 const FavouritProducts = () => {
   const dispatch = useDispatch();
@@ -17,9 +19,13 @@ const FavouritProducts = () => {
     dispatch(removeFromFavorites(id));
   };
 
-  let content = favouritesProperties?.map((item) => (
-    <PropertyItem key={item} id={item} onDelete={handleDelete} />
-  ));
+  let content = useMemo(
+    () =>
+      favouritesProperties?.map((item) => (
+        <PropertyItem key={item} id={item} onDelete={handleDelete} />
+      )),
+    [dispatch, favouritesProperties]
+  );
 
   return <>{content}</>;
 };
