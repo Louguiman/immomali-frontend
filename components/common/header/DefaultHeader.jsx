@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import Image from "next/image";

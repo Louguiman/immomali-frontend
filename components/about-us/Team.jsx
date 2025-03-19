@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
 import agentsTeam from "../../data/agents";
 import Slider from "react-slick";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 const Team = () => {

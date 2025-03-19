@@ -25,8 +25,7 @@ import {
 } from "../../../features/properties/propertiesSlice";
 import PricingRangeSlider from "../../common/PricingRangeSlider";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter, usePathname } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { addCategory } from "@/features/agent/agentSlice";
 
 const FilteringItem = () => {

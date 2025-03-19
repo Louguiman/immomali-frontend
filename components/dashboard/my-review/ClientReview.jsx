@@ -3,7 +3,7 @@
 import { useGetReceivedReviewsQuery } from "@/features/api/reviews.api";
 import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 const ClientReview = () => {
   const user = useAppSelector((state) => state.auth?.user);

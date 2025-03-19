@@ -1,5 +1,5 @@
-"use client";
-import { useRouter, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const InvoiceTable = ({ invoices }) => {
   const router = useRouter();

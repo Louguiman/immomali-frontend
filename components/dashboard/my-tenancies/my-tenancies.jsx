@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { useGetUserTenanciesQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import TenantRequestForm from "@/components/maintenance/TenantRequestForm";

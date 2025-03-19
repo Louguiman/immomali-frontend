@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useGetTenantByIdQuery } from "@/features/api/tenants.api";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import LeaseDetails from "@/components/dashboard/tenants-management/LeaseDetails";
 import InvoiceList from "@/components/dashboard/tenants-management/InvoiceList";

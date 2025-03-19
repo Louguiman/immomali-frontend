@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { useRefreshTokenMutation } from "../api/auth.api";
 import { loadFromStorage } from "../properties/propertiesSlice";
 import { setAuthToken } from "./authSlice";

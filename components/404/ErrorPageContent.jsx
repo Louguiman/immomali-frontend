@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import Form from "./Form";
 import Image from "next/image";
 

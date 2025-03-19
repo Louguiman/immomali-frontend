@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 const TenantManagement = ({ tenant }) => {

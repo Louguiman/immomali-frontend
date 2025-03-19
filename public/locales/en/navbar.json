@@ -13,44 +13,7 @@
     "english": "English",
     "french": "French",
     "blog": "Blog",
-    "properties": {
-      "name": "Properties",
-      "subMenu": {
-        "allProperties": "All Properties",
-        "forSale": "For Sale",
-        "forRent": "For Rent",
-        "luxuryHomes": "Luxury Homes",
-        "newListings": "New Listings",
-        "compareProperties": "Compare Properties"
-      }
-    },
-    "agents": {
-      "name": "Agents",
-      "subMenu": {
-        "findAgent": "Find an Agent",
-        "agencies": "Agencies",
-        "becomeAgent": "Become an Agent"
-      }
-    },
-    "tenantServices": {
-      "name": "Tenant Services",
-      "subMenu": {
-        "tenancies": "Tenancies",
-        "favorites": "Favorites",
-        "recentlyViewed": "Recently Viewed",
-        "savedSearches": "Saved Searches"
-      }
-    },
-    "account": {
-      "name": "Account",
-      "subMenu": {
-        "dashboard": "Dashboard",
-        "myProfile": "My Profile",
-        "myProperties": "My Properties",
-        "myInquiries": "My Inquiries",
-        "myRequests": "My Requests",
-        "rentPayments": "Rent Payments"
-      }
-    }
+    "properties": "Properties",
+    "agents": "Agents"
   }
 }

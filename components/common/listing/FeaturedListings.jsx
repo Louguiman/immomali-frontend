@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";

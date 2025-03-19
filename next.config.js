@@ -6,14 +6,10 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   output: "standalone",
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.cloudflarestorage.com",
-        pathname: "/**",
-      },
+    domains: [
+      "r2.cloudflarestorage.com",
+      "8edf5348d3294520cc7f4ca5ee20cca1.r2.cloudflarestorage.com",
     ],
-    // unoptimized: true, // Désactive l'optimisation Next.js pour images distantes
   },
 };
 

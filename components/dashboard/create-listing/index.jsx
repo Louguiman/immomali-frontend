@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { set } from "lodash";
 
 const Index = () => {

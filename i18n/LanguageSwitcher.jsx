@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter, usePathname } from "@/i18n/navigation";
-
 import { useState, useTransition } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
 import Image from "next/image";
 import { cn } from "@/utils/lib";
 import { useParams } from "next/navigation";

@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { cleanUrl } from "@/utils/splitDescription";
 import FavoriteButton from "../common/FavoriteBtn";

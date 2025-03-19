@@ -9,9 +9,10 @@ import {
 } from "@/features/api/tenants.api";
 import PropertyCard from "@/components/PropertyCard";
 import UserCard from "@/components/common/cards/UserCard";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
 import { useState } from "react";
 import TenantCard from "@/components/TenantCard";
+import { usePathname } from "next/navigation";
 
 const TenantManagement = () => {
   const pathname = usePathname();

@@ -1,4 +1,5 @@
 import { getRequestConfig } from "next-intl/server";
+import {} from "next-intl";
 import { routing } from "./routing";
 
 export default getRequestConfig(async ({ requestLocale }) => {
@@ -24,7 +25,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ...navbarMessages.default,
     ...commonMessages.default,
     ...searchMessages.default,
-    ...propertyMessages.default,
   };
 
   return {

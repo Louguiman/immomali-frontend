@@ -1,8 +1,8 @@
 "use client";
 import { useLoginMutation } from "@/features/api/auth.api";
 import { useAppSelector } from "@/store/hooks";
-import { Link } from "@/i18n/navigation";
-import { useRouter } from "@/i18n/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";

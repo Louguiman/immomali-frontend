@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -9,7 +9,7 @@ import {
   useUpdateRequestMutation,
 } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { Link } from '@/i18n/navigation';
+import Link from "next/link";
 
 const MaintenanceRequestDetail = ({ params }) => {
   const { id } = params;

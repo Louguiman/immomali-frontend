@@ -3,14 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNotification, markAsRead } from "./notificationsSlice";
 
 export default function NotificationDropdown() {
-  const [notif, setNotif] = useState([]);
   const notifications = useSelector(
     (state) => state.notifications.notifications
   );
   const unreadCount = notifications.filter((n) => !n.read).length;
-  console.log("unreade: ", unreadCount);
-  console.log("notifications: ", notifications);
-
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -24,17 +20,13 @@ export default function NotificationDropdown() {
 
     if (!userId) return;
 
-    console.log("notifcaiton fetch: ", notifications);
+    console.log("notifcaiton fectch");
     // Fetch notifications non lues
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/notifications/unread`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log("fetched notifi: ", data);
-        setNotif(data);
-        dispatch(addNotification(data));
-      });
+      .then((data) => dispatch(addNotification(data)));
 
     // WebSocket
     const ws = new WebSocket(
@@ -84,10 +76,10 @@ export default function NotificationDropdown() {
           <div className="p-2 text-sm font-semibold bg-gray-100">
             Notifications
           </div>
-          {notif.length === 0 ? (
+          {notifications.length === 0 ? (
             <p className="p-2 text-gray-500">Aucune notification</p>
           ) : (
-            notif.map((notif, i) => (
+            notifications.map((notif, i) => (
               <div
                 key={`notif.id-${i} `}
                 className={`p-2 border-b cursor-pointer ${

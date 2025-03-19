@@ -1,6 +1,6 @@
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 
 const PropertyCardWithQuery = ({ id }) => {

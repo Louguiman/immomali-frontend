@@ -12,7 +12,7 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
-import { usePathname } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 
 export const AgentInvoicesPage = () => {
   const pathname = usePathname();

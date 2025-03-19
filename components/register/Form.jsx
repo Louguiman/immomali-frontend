@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRegisterMutation } from "@/features/api/auth.api";
 import { useCreateAgencyMutation } from "@/features/api/agencies.api";

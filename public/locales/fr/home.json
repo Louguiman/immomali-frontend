@@ -19,7 +19,7 @@
         "description": "Trouvez la propriété parfaite qui répond à vos besoins."
       },
       "location": {
-        "title": "Emplacements populaires <br/> Trouvez des biens dans ces villes",
+        "title": "Emplacements populaires / Trouvez des biens dans ces villes",
         "description": "Explorez les emplacements populaires où les utilisateurs recherchent à acheter ou louer des biens immobiliers."
       },
       "agent": {
@@ -30,11 +30,6 @@
         "title": "Meilleures agences",
         "description": "Découvrez les meilleures agences de votre région."
       }
-    },
-    "cta": {
-      "title": "Devenez un agent immobilier",
-      "description": "Nous ne travaillons qu'avec les meilleures entreprises du monde",
-      "button": "S'inscrire maintenant"
     }
   }
 }

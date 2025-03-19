@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 import properties from "../../../data/properties";
 import Image from "next/image";

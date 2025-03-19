@@ -1,6 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ProtectedRoute = ({

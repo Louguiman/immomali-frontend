@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { isSinglePageActive } from "../../../../utils/daynamicNavigation";
 import Image from "next/image";
-import { Link, usePathname } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const MyAccount = () => {
@@ -50,7 +51,7 @@ const MyAccount = () => {
             key={item.id}
             className="dropdown-item"
             style={
-              isSinglePageActive(`${item.routerPath}`, pathname)
+              isSinglePageActive(`${item.ruterPath}`, pathname)
                 ? { color: "#ff5a5f" }
                 : undefined
             }

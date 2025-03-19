@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import findProperties from "../../data/findProperties";
 import Image from "next/image";
 

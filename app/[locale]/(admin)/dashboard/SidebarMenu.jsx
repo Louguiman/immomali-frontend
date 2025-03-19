@@ -1,6 +1,7 @@
 "use client";
 
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { isSinglePageActive } from "@/utils/daynamicNavigation";

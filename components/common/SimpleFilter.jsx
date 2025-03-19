@@ -1,9 +1,10 @@
-"use client";
+'use client'
 
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
+
 
 const SimpleFilter = () => {
-  const router = useRouter();
+    const router = useRouter()
   return (
     <ul className="h1ads_1st_list mb0 text-center">
       <li className="list-inline-item">

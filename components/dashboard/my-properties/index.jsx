@@ -13,7 +13,7 @@ import {
   useFetchPropertyByUserIdQuery,
 } from "@/features/api/properties.api";
 import { useSelector } from "react-redux";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 const PropertyManagementPage = () => {
   // Get the logged-in user from Redux
   const { user } = useSelector((state) => state.auth);

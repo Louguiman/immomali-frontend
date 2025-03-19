@@ -1,7 +1,7 @@
 "use client";
 
 import { useLogoutMutation } from "@/features/api/auth.api";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
   const [logout] = useLogoutMutation();
