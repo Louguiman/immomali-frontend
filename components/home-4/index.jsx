@@ -88,8 +88,8 @@ const index = async () => {
           <div className="row">
             <div className="col-lg-6 offset-lg-3">
               <div className="main-title text-center">
-                <h2>Find Properties in These Cities</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h2>{t("section.location.title")}</h2>
+                <p>{t("section.location.description")}</p>
               </div>
             </div>
           </div>

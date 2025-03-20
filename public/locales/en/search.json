@@ -2,15 +2,15 @@
   "search": {
     "searchbar": {
       "placeholder": "search ",
-      "button": "search",
-      "buy": "buy",
-      "rent": "rent",
-      "category": "category",
-      "location": "location",
-      "price": "price",
-      "minPrice": "min price",
-      "maxPrice": "max price",
-      "bedrooms": "bedrooms"
+      "button": "Search",
+      "buy": "Buy",
+      "rent": "Rent",
+      "category": "Category",
+      "location": "Location",
+      "price": "Price",
+      "minPrice": "Min price",
+      "maxPrice": "Max price",
+      "bedrooms": "Bedrooms"
     },
     "categories": {
       "apartment": "Apartment",

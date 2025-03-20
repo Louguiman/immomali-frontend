@@ -1,18 +1,20 @@
 "use client";
-import Link from "next/link";
+
 import { useGetUserTenanciesQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import TenantRequestForm from "@/components/maintenance/TenantRequestForm";
 import TenantCard from "@/components/TenantCard";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const UserTenanciesPage = () => {
   const { data: tenancies, isLoading, isError } = useGetUserTenanciesQuery();
-
   const [maintenanceModal, setMaintenanceModal] = useState({
     show: false,
     tenancy: null,
   });
+
+  const t = useTranslations("dashboard.myTenancies");
 
   // Dummy functions for extension and termination actions.
   const handleRequestExtension = (tenancyId) => {
@@ -28,8 +30,9 @@ const UserTenanciesPage = () => {
   const handleMaintenanceRequest = (tenancy) => {
     setMaintenanceModal({ show: true, tenancy });
   };
+
   if (isError)
-    return <p className="alert alert-danger">Error loading tenancies.</p>;
+    return <p className="alert alert-danger">{t("error_loading_tenancies")}</p>;
 
   return (
     <>
@@ -51,10 +54,10 @@ const UserTenanciesPage = () => {
               ))}
             </div>
           ) : (
-            <p className="text-muted">No tenancies found.</p>
+            <p className="text-muted">{t("no_tenancies_found")}</p>
           )}
           {isError && (
-            <p className="alert alert-danger">Error loading tenancies.</p>
+            <p className="alert alert-danger">{t("error_loading_tenancies")}</p>
           )}
         </div>
       </div>

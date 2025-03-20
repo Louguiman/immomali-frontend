@@ -1,0 +1,29 @@
+{
+  "sidebar": {
+    "Dashboard": "Dashboard",
+    "Users": "Users",
+    "Agencies": "Agencies",
+    "Agents": "Agents",
+    "Invoices": "Invoices",
+    "Payments": "Payments",
+    "MaintenanceRequests": "Maintenance Requests",
+    "Notifications": "Notifications",
+    "Settings": "Settings",
+    "Profile": "Profile",
+    "MyAgents": "My Agents",
+    "MyTenants": "My Tenants",
+    "MyProperties": "My Properties",
+    "Inquiries": "Inquiries",
+    "Reviews": "Reviews",
+    "Requests": "Requests",
+    "MyTenancies": "My Tenancies",
+    "MyInvoices": "My Invoices",
+    "MyInquiries": "My Inquiries",
+    "MyReviews": "My Reviews",
+    "MyRequests": "My Requests",
+    "MyFavourites": "My Favourites",
+    "Logout": "Logout",
+    "ManageAccount": "Manage Account",
+    "AdminPanel": "Admin Panel"
+  }
+}

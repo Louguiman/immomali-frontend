@@ -9,8 +9,12 @@ import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 import { useDispatch } from "react-redux";
 import { addToRecentlyViewed } from "@/features/properties/propertiesSlice";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 
 const ListingDynamicDetailsV2 = () => {
+  const t = useTranslations("property");
+  const format = useFormatter();
   const dispatch = useDispatch();
   const { id } = useParams();
   const { data: property, isLoading, isError } = useFetchPropertyByIdQuery(id);
@@ -49,7 +53,7 @@ const ListingDynamicDetailsV2 = () => {
               <div className="listing_single_description2 mt30-767 mb30-767">
                 <div className="single_property_title">
                   <h2>{property?.title}</h2>
-                  <p>{property?.category}</p>
+                  <p>{t(`categories.${property?.category}`)}</p>
                   <p>
                     {property?.address}
                     <span> {property?.neighborhood},</span>
@@ -60,7 +64,10 @@ const ListingDynamicDetailsV2 = () => {
                 <div className="single_property_social_share style2 static-title">
                   <div className="price">
                     <h2>
-                      {property.price} FCFA
+                      {format.number(property.price, {
+                        style: "currency",
+                        currency: "XOF",
+                      })}
                       {property.type === "rent" && <small>/mo</small>}
                     </h2>
                   </div>

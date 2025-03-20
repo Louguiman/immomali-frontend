@@ -25,14 +25,6 @@ export default function PropertiesPage() {
   // Local state for pagination & filtering
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  // const [filters, setFilters] = useState({
-  //   keyword: searchParams.get("keyword") || "",
-  //   location: searchParams.get("location") || "",
-  //   type: searchParams.get("type") || "",
-  //   category: searchParams.get("category") || "",
-  //   minPrice: searchParams.get("minPrice") || "",
-  //   maxPrice: searchParams.get("maxPrice") || "",
-  // });
 
   // ✅ Extract only params with values
   const validParams = getValidParams(searchParams);
@@ -55,14 +47,6 @@ export default function PropertiesPage() {
   );
 
   useEffect(() => {
-    // setFilters({
-    //   keyword: searchParams.get("keyword") || "",
-    //   location: searchParams.get("location") || "",
-    //   type: searchParams.get("type") || "",
-    //   category: searchParams.get("category") || "",
-    //   minPrice: searchParams.get("minPrice") || "",
-    //   maxPrice: searchParams.get("maxPrice") || "",
-    // });
     refetch();
   }, [searchParams]);
 

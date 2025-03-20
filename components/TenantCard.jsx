@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations, useFormatter } from "next-intl";
 
 const TenantCard = ({
   tenant,
@@ -12,7 +13,9 @@ const TenantCard = ({
   onRequestTermination = null,
 }) => {
   const pathname = usePathname();
+  const format = useFormatter();
 
+  const t = useTranslations("dashboard.myTenancies");
   // Get property image (or fallback)
   const propertyImage =
     tenant.property?.images?.[0]?.imageUrl ||
@@ -42,7 +45,11 @@ const TenantCard = ({
           <div className="position-absolute bottom-0 start-0 p-2">
             <Link href={`/listing-details-v2/${tenant.property.id}`}>
               <button className="btn btn-sm btn-light">
-                {tenant.property.price} FCFA <small>/mo</small>
+                {format.number(tenant.property.price, {
+                  style: "currency",
+                  currency: "XOF",
+                })}
+                <small>/mo</small>
               </button>
             </Link>
           </div>
@@ -66,37 +73,49 @@ const TenantCard = ({
                 </p>
                 <p></p>
                 <p>
-                  <strong>Tenant:</strong> {tenant.user.name}
+                  <strong>{t("tenant")}:</strong> {tenant.user.name}
                 </p>
                 <p>
-                  <strong>Email:</strong> {tenant.user.email}
+                  <strong>{t("email")}:</strong> {tenant.user.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {tenant.user.phone}
+                  <strong>{t("phone")}:</strong> {tenant.user.phone}
                 </p>
                 <p>
-                  <strong>Lease Period:</strong> {leaseStart} - {leaseEnd}
+                  <strong>{t("lease_period")}:</strong> {leaseStart} -{" "}
+                  {leaseEnd}
                 </p>
               </div>
 
               {/* Right Column: Lease & Financial Details */}
               <div className="col-md-6">
                 <p>
-                  <strong>Rent:</strong> {tenant?.lease?.monthlyRent} FCFA
+                  <strong>{t("rent")}:</strong>{" "}
+                  {format.number(tenant?.lease?.monthlyRent, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
                 </p>
                 <p>
-                  <strong>Deposit:</strong> {tenant?.lease?.securityDeposit}{" "}
-                  FCFA
+                  <strong>{t("deposit")}:</strong>{" "}
+                  {format.number(tenant?.lease?.securityDeposit, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
                 </p>
                 <p>
-                  <strong>Auto-Renewal:</strong>{" "}
-                  {tenant?.lease?.autoRenewal ? "Enabled" : "Disabled"}
+                  <strong>{t("auto_renewal")}:</strong>{" "}
+                  {tenant?.lease?.autoRenewal ? t("enabled") : t("disabled")}
                 </p>
                 <p>
-                  <strong>Balance:</strong> {tenant.outstandingBalance} FCFA
+                  <strong>{t("balance")}:</strong>{" "}
+                  {format.number(tenant.outstandingBalance, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
                 </p>
                 <p>
-                  <strong>Status:</strong>{" "}
+                  <strong>{t("status")}:</strong>{" "}
                   <span
                     className={`badge ${
                       tenant?.lease?.leaseStatus === "active"
@@ -106,7 +125,7 @@ const TenantCard = ({
                         : "bg-warning"
                     }`}
                   >
-                    {tenant?.lease?.leaseStatus.toUpperCase()}
+                    {t(`status_${tenant?.lease?.leaseStatus}`)}
                   </span>
                 </p>
               </div>
@@ -118,14 +137,14 @@ const TenantCard = ({
                 href={`${pathname}/${tenant.id}`}
                 className="btn btn-sm btn-primary"
               >
-                View
+                {t("view")}
               </Link>
               {!isUser && (
                 <Link
                   href={`${pathname}/${tenant.id}/edit`}
                   className="btn btn-sm btn-warning"
                 >
-                  Edit
+                  {t("edit")}
                 </Link>
               )}
               {!isUser && (
@@ -133,7 +152,7 @@ const TenantCard = ({
                   href={`${pathname}/${tenant.id}/manage-lease`}
                   className="btn btn-sm btn-dark"
                 >
-                  Manage Lease
+                  {t("manage_lease")}
                 </Link>
               )}
               {isUser && (
@@ -141,7 +160,7 @@ const TenantCard = ({
                   onClick={() => onRequestMaintenance(tenant)}
                   className="btn btn-sm btn-secondary"
                 >
-                  Send in a Request
+                  {t("send_request")}
                 </button>
               )}
             </div>

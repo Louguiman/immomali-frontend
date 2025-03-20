@@ -69,6 +69,38 @@
       "washer": "Lave-linge",
       "wifi": "WiFi",
       "windowCoverings": "Stores"
+    },
+    "WhatsNearby": {
+      "categories": {
+        "education": "Éducation",
+        "health": "Santé & Médical",
+        "transport": "Transport"
+      },
+      "miles": "miles",
+      "reviews": "avis"
+    },
+    "ReviewsList": {
+      "loading": "Chargement des avis...",
+      "noReviews": "Aucun avis pour le moment.",
+      "propertyReviews": "Avis sur la propriété",
+      "totalReviews": "{count} avis",
+      "ratingOutOf": "{rating} sur 5",
+      "writeReview": "Écrire un avis",
+      "deleteSuccess": "Avis supprimé !",
+      "deleteFail": "Échec de la suppression de l'avis.",
+      "delete": "Supprimer",
+      "rated": "a noté"
+    },
+    "ReviewForm": {
+      "mustBeLoggedIn": "Vous devez être connecté pour laisser un avis.",
+      "reviewSubmitted": "Avis soumis !",
+      "reviewFailed": "Échec de la soumission de l'avis.",
+      "leaveReview": "Laisser un avis",
+      "rating": "Note :",
+      "stars": "{num} étoiles",
+      "comment": "Commentaire :",
+      "placeholder": "Votre avis",
+      "submit": "Soumettre l'avis"
     }
   }
 }

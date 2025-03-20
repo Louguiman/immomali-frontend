@@ -28,15 +28,15 @@ export default function LanguageSwitcher() {
     // Set the locale cookie
     document.cookie = `NEXT_LOCALE=${locale}; path=/`;
     // Update the URL with the new locale
-    // router.replace(`/${locale}${pathname.substring(3)}`);
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        { pathname, params },
-        { locale }
-      );
+      router.replace(`/${locale}${pathname.substring(3)}`);
+      // router.replace(
+      //   // @ts-expect-error -- TypeScript will validate that only known `params`
+      //   // are used in combination with a given `pathname`. Since the two will
+      //   // always match for the current route, we can skip runtime checks.
+      //   { pathname, params },
+      //   { locale }
+      // );
     });
     setIsOpen(false);
   };

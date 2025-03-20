@@ -1,0 +1,69 @@
+{
+  "dashbaord": {
+    "navigation": "Dashboard Navigation",
+    "myTenancies": {
+      "error_loading_tenancies": "Error loading tenancies.",
+      "no_tenancies_found": "No tenancies found.",
+      "title": "My Tenancies",
+      "description": "Manage your active and past leases, view payment history, and submit maintenance requests.",
+      "tenant": "Tenant",
+      "email": "Email",
+      "phone": "Phone",
+      "lease_period": "Lease Period",
+      "rent": "Rent",
+      "deposit": "Deposit",
+      "auto_renewal": "Auto-Renewal",
+      "balance": "Balance",
+      "status": "Status",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "view": "View",
+      "edit": "Edit",
+      "manage_lease": "Manage Lease",
+      "send_request": "Send Request",
+      "status_active": "Active",
+      "status_terminated": "Terminated",
+      "status_warning": "Pending"
+    },
+    "maintenance": {
+      "new_maintenance_request": "New Maintenance Request",
+      "title": "Title",
+      "description": "Description",
+      "category": "Category",
+      "priority": "Priority",
+      "general": "General",
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "hvac": "HVAC",
+      "other": "Other",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent",
+      "submit_request": "Submit Request",
+      "submitting": "Submitting...",
+      "maintenance_request_submitted": "Maintenance request submitted!",
+      "error_submitting_request": "Error submitting request."
+    },
+    "userBanner": {
+      "HowdyUser": "Salut, {name}",
+      "WelcomeBack": "Nous sommes ravis de vous revoir !"
+    },
+    "allStatistics": {
+      "AllProperties": "All Properties",
+      "TotalViews": "Total Views",
+      "TotalVisitorReviews": "Total Visitor Reviews",
+      "TotalFavorites": "Total Favorites"
+    },
+    "notifications": {
+      "ListingApproved": "Your listing {listing} has been approved!",
+      "ReviewReceived": "{user} left a review on {listing}",
+      "FavoritedListing": "Someone favorites your {listing} listing!"
+    },
+    "stats": {
+      "SectionTitle": "View Statistics",
+      "Months": "January,February,March, April,May,June",
+      "DatasetLabel": "Statistics"
+    }
+  }
+}

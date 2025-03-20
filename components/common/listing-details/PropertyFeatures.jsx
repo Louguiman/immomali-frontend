@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 
 const PropertyFeatures = ({ amenities }) => {
-  const t = useTranslations("amenities");
+  const t = useTranslations("property.amenities");
 
   if (!amenities) return null; // Si pas de données, on n'affiche rien
 

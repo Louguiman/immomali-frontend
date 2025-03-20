@@ -30,6 +30,11 @@
         "title": "Meilleures agences",
         "description": "Découvrez les meilleures agences de votre région."
       }
+    },
+    "cta": {
+      "title": "Devenez un agent immobilier",
+      "description": "Nous ne travaillons qu'avec les meilleures entreprises du monde",
+      "button": "S'inscrire maintenant"
     }
   }
 }

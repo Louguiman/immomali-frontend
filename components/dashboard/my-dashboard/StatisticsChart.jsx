@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
   CategoryScale,
@@ -23,49 +23,51 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-
-    tooltips: {
-      position: "nearest",
-      mode: "index",
-      intersect: false,
-      yPadding: 10,
-      xPadding: 10,
-      caretSize: 8,
-      backgroundColor: "rgba(72, 241, 12, 1)",
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      borderColor: "rgba(0,0,0,1)",
-      borderWidth: 4,
-    },
-  },
-};
-
-const labels = ["January", "February", "March", "April", "May", "June"];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset",
-      // data: labels.map(() => faker.datatype.number({ min: 100, max: 400 })),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      data: [196, 132, 215, 362, 210, 252],
-      fill: false,
-    },
-  ],
-};
-
 export default function StatisticsChart() {
-  return <Line options={options} data={data} />;
+  const t = useTranslations("dashboard.stats");
+
+  const labels = t("Months").split(",");
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: t("DatasetLabel"),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        data: [196, 132, 215, 362, 210, 252],
+        fill: false,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: false,
+      },
+      tooltips: {
+        position: "nearest",
+        mode: "index",
+        intersect: false,
+        yPadding: 10,
+        xPadding: 10,
+        caretSize: 8,
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 4,
+      },
+    },
+  };
+
+  return (
+    <div>
+      <h4 className="text-lg font-semibold mb-4">{t("SectionTitle")}</h4>
+      <Line options={options} data={data} />
+    </div>
+  );
 }

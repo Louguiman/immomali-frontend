@@ -69,6 +69,38 @@
       "washer": "Washer",
       "wifi": "WiFi",
       "windowCoverings": "Window Coverings"
+    },
+    "WhatsNearby": {
+      "categories": {
+        "education": "Education",
+        "health": "Health & Medical",
+        "transport": "Transportation"
+      },
+      "miles": "miles",
+      "reviews": "reviews"
+    },
+    "ReviewsList": {
+      "loading": "Loading reviews...",
+      "noReviews": "No reviews yet.",
+      "propertyReviews": "Property Reviews",
+      "totalReviews": "{count} Reviews",
+      "ratingOutOf": "{rating} out of 5",
+      "writeReview": "Write a Review",
+      "deleteSuccess": "Review deleted!",
+      "deleteFail": "Failed to delete review.",
+      "delete": "Delete",
+      "rated": "rated"
+    },
+    "ReviewForm": {
+      "mustBeLoggedIn": "You must be logged in to leave a review.",
+      "reviewSubmitted": "Review submitted!",
+      "reviewFailed": "Failed to submit review.",
+      "leaveReview": "Leave a Review",
+      "rating": "Rating:",
+      "stars": "{num} Stars",
+      "comment": "Comment:",
+      "placeholder": "Your Review",
+      "submit": "Submit Review"
     }
   }
 }

@@ -2,6 +2,7 @@
 import { useCreateRequestMutation } from "@/features/api/maintenance.api";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
   const [title, setTitle] = useState("");
@@ -9,6 +10,8 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
   const [category, setCategory] = useState("general");
   const [priority, setPriority] = useState("medium");
   const [createRequest, { isLoading }] = useCreateRequestMutation();
+
+  const t = useTranslations("dashboard.maintenance");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,12 +24,12 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
         tenantId,
         propertyId,
       }).unwrap();
-      toast.success("Maintenance request submitted!");
+      toast.success(t("maintenance_request_submitted"));
       setTitle("");
       setDescription("");
       onClose();
     } catch (error) {
-      toast.error("Error submitting request.");
+      toast.error(t("error_submitting_request"));
     }
   };
 
@@ -35,7 +38,7 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">New Maintenance Request</h5>
+            <h5 className="modal-title">{t("new_maintenance_request")}</h5>
             <button
               type="button"
               className="btn-close"
@@ -44,9 +47,9 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
-              <h3>New Maintenance Request</h3>
+              <h3>{t("new_maintenance_request")}</h3>
               <div className="mb-3">
-                <label className="form-label">Title</label>
+                <label className="form-label">{t("title")}</label>
                 <input
                   type="text"
                   className="form-control"
@@ -56,7 +59,7 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Description</label>
+                <label className="form-label">{t("description")}</label>
                 <textarea
                   className="form-control"
                   rows="3"
@@ -66,30 +69,30 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
                 ></textarea>
               </div>
               <div className="mb-3">
-                <label className="form-label">Category</label>
+                <label className="form-label">{t("category")}</label>
                 <select
                   className="form-select"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option value="general">General</option>
-                  <option value="plumbing">Plumbing</option>
-                  <option value="electrical">Electrical</option>
-                  <option value="hvac">HVAC</option>
-                  <option value="other">Other</option>
+                  <option value="general">{t("general")}</option>
+                  <option value="plumbing">{t("plumbing")}</option>
+                  <option value="electrical">{t("electrical")}</option>
+                  <option value="hvac">{t("hvac")}</option>
+                  <option value="other">{t("other")}</option>
                 </select>
               </div>
               <div className="mb-3">
-                <label className="form-label">Priority</label>
+                <label className="form-label">{t("priority")}</label>
                 <select
                   className="form-select"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
                 >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
+                  <option value="low">{t("low")}</option>
+                  <option value="medium">{t("medium")}</option>
+                  <option value="high">{t("high")}</option>
+                  <option value="urgent">{t("urgent")}</option>
                 </select>
               </div>
               <button
@@ -97,7 +100,7 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
                 className="btn btn-primary"
                 disabled={isLoading}
               >
-                {isLoading ? "Submitting..." : "Submit Request"}
+                {isLoading ? t("submitting") : t("submit_request")}
               </button>
             </form>
           </div>

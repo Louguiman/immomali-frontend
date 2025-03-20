@@ -1,32 +1,37 @@
+"use client";
+import { useTranslations } from "next-intl";
+
 const AllStatistics = () => {
+  const t = useTranslations("dashboard.allStatistics");
+
   const allStatistics = [
     {
       id: 1,
       blockStyle: "",
       icon: "flaticon-home",
       timer: "37",
-      name: "All Properties",
+      name: t("AllProperties"),
     },
     {
       id: 2,
       blockStyle: "style2",
       icon: "flaticon-view",
       timer: "24",
-      name: "Total Views",
+      name: t("TotalViews"),
     },
     {
       id: 3,
       blockStyle: "style3",
       icon: "flaticon-chat",
       timer: "12",
-      name: "Total Visitor Reviews",
+      name: t("TotalVisitorReviews"),
     },
     {
       id: 4,
       blockStyle: "style4",
       icon: "flaticon-heart",
       timer: "18",
-      name: "Total Favorites",
+      name: t("TotalFavorites"),
     },
   ];
 

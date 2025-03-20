@@ -12,7 +12,44 @@
     "english": "Anglais",
     "french": "Français",
     "blog": "Blog",
-    "properties": "Propriétés",
-    "agents": "Agents"
+    "properties": {
+      "name": "Propriétés",
+      "subMenu": {
+        "allProperties": "Toutes les propriétés",
+        "forSale": "À vendre",
+        "forRent": "À louer",
+        "luxuryHomes": "Maisons de luxe",
+        "newListings": "Nouvelles annonces",
+        "compareProperties": "Comparer les propriétés"
+      }
+    },
+    "agents": {
+      "name": "Agents",
+      "subMenu": {
+        "findAgent": "Trouver un agent",
+        "agencies": "Agences",
+        "becomeAgent": "Devenir un agent"
+      }
+    },
+    "tenantServices": {
+      "name": "Services pour locataires",
+      "subMenu": {
+        "tenancies": "Baux",
+        "favorites": "Favoris",
+        "recentlyViewed": "Récemment consulté",
+        "savedSearches": "Recherches sauvegardées"
+      }
+    },
+    "account": {
+      "name": "Compte",
+      "subMenu": {
+        "dashboard": "Tableau de bord",
+        "myProfile": "Mon profil",
+        "myProperties": "Mes propriétés",
+        "myInquiries": "Mes demandes",
+        "myRequests": "Mes requêtes",
+        "rentPayments": "Paiements de loyer"
+      }
+    }
   }
 }

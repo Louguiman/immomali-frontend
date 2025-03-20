@@ -1,20 +1,30 @@
 "use client";
+import { useTranslations, useFormatter } from "next-intl";
 
 const PropertyDetails = ({ property }) => {
+  const t = useTranslations("property");
+  const format = useFormatter();
+
   if (!property) return null; // Prevents rendering if no data is available
 
   // Define property details dynamically
   const details = [
     [
-      { label: "Property ID", value: property.id },
-      { label: "Price", value: `${property.price.toLocaleString()} FCFA` },
-      { label: "Property Size", value: `${property.sqFt} Sq Ft` },
-      { label: "Year Built", value: property.builtYear },
+      // { label: "Property ID", value: property.id },
+      {
+        label: t("details.price"),
+        value: format.number(property.price, {
+          style: "currency",
+          currency: "XOF",
+        }),
+      },
+      { label: t("details.propertySize"), value: `${property.sqFt} Sq Ft` },
+      { label: t("details.yearBuilt"), value: property.builtYear },
     ],
     [
-      { label: "Bedrooms", value: property.beds },
-      { label: "Bathrooms", value: property.baths },
-      { label: "Garage", value: property.garages },
+      { label: t("details.bedrooms"), value: property.beds },
+      { label: t("details.bathrooms"), value: property.baths },
+      { label: t("details.garage"), value: property.garages },
       {
         label: t("details.garageSize"),
         value: property.garageSize
@@ -25,7 +35,7 @@ const PropertyDetails = ({ property }) => {
     [
       {
         label: t("details.category"),
-        value: t(`categories${property?.category}`),
+        value: t(`categories.${property?.category}`),
       },
       {
         label: t("details.propertyType"),

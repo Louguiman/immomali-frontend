@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const GlobalFilter = ({ className = "", type }) => {
+  const t = useTranslations("search");
   const router = useRouter();
   const [searchParams, setSearchParams] = useState({
     keyword: "",
@@ -34,7 +36,7 @@ const GlobalFilter = ({ className = "", type }) => {
               type="text"
               name="keyword"
               className="form-control"
-              placeholder="Enter keyword..."
+              placeholder={t("searchbar.placeholder")}
               onChange={handleInputChange}
             />
           </div>
@@ -48,13 +50,13 @@ const GlobalFilter = ({ className = "", type }) => {
                 className="selectpicker w100 form-select show-tick"
                 onChange={handleInputChange}
               >
-                <option value="">Category</option>
-                <option value="apartment">Apartment</option>
-                <option value="bungalow">Bungalow</option>
-                <option value="condo">Condo</option>
-                <option value="house">House</option>
-                <option value="land">Land</option>
-                <option value="villa">Villa</option>
+                <option value="">{t("searchbar.category")}</option>
+                <option value="apartment">{t("categories.apartment")}</option>
+                <option value="office">{t("categories.office")}</option>
+                <option value="house">{t("categories.house")}</option>
+                <option value="villa">{t("categories.villa")}</option>
+                <option value="land">{t("categories.land")}</option>
+                <option value="other">{t("categories.other")}</option>
               </select>
             </div>
           </div>
@@ -66,7 +68,7 @@ const GlobalFilter = ({ className = "", type }) => {
               type="text"
               name="location"
               className="form-control"
-              placeholder="Location"
+              placeholder={t("searchbar.location")}
               onChange={handleInputChange}
             />
             <label>
@@ -78,7 +80,7 @@ const GlobalFilter = ({ className = "", type }) => {
         <li className="list-inline-item">
           <div className="small_dropdown2">
             <div className="btn dd_btn" data-bs-toggle="dropdown">
-              <span>Price</span>
+              <span>{t("searchbar.price")}</span>
               <label>
                 <span className="fa fa-angle-down"></span>
               </label>
@@ -88,14 +90,14 @@ const GlobalFilter = ({ className = "", type }) => {
                 <input
                   type="number"
                   name="minPrice"
-                  placeholder="Min Price"
+                  placeholder={t("searchbar.minPrice")}
                   className="form-control mb-2"
                   onChange={handleInputChange}
                 />
                 <input
                   type="number"
                   name="maxPrice"
-                  placeholder="Max Price"
+                  placeholder={t("searchbar.maxPrice")}
                   className="form-control"
                   onChange={handleInputChange}
                 />
@@ -111,7 +113,7 @@ const GlobalFilter = ({ className = "", type }) => {
               type="submit"
               className="btn btn-thm"
             >
-              Search
+              {t("searchbar.button")}
             </button>
           </div>
         </li>

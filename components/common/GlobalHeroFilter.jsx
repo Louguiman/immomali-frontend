@@ -2,6 +2,8 @@ import GlobalFilter from "./GlobalFilter";
 import { useTranslations } from "next-intl";
 
 const GlobalHeroFilter = ({ className = "" }) => {
+  const t = useTranslations("search");
+
   return (
     <div className={`home_adv_srch_opt ${className}`}>
       <ul className="nav nav-pills" id="pills-tab" role="tablist">
@@ -15,7 +17,7 @@ const GlobalHeroFilter = ({ className = "" }) => {
             aria-controls="pills-home"
             aria-selected="true"
           >
-            Buy
+            {t("searchbar.buy")}
           </a>
         </li>
 
@@ -29,7 +31,7 @@ const GlobalHeroFilter = ({ className = "" }) => {
             aria-controls="pills-profile"
             aria-selected="false"
           >
-            Rent
+            {t("searchbar.rent")}
           </a>
         </li>
       </ul>

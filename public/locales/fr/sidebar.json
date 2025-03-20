@@ -1,0 +1,29 @@
+{
+  "sidebar": {
+    "Dashboard": "Tableau de bord",
+    "Users": "Utilisateurs",
+    "Agencies": "Agences",
+    "Agents": "Agents",
+    "Invoices": "Factures",
+    "Payments": "Paiements",
+    "MaintenanceRequests": "Demandes de maintenance",
+    "Notifications": "Notifications",
+    "Settings": "Paramètres",
+    "Profile": "Profil",
+    "MyAgents": "Mes agents",
+    "MyTenants": "Mes locataires",
+    "MyProperties": "Mes propriétés",
+    "Inquiries": "Demandes",
+    "Reviews": "Avis",
+    "Requests": "Demandes",
+    "MyTenancies": "Mes locations",
+    "MyInvoices": "Mes factures",
+    "MyInquiries": "Mes demandes",
+    "MyReviews": "Mes avis",
+    "MyRequests": "Mes demandes",
+    "MyFavourites": "Mes favoris",
+    "Logout": "Déconnexion",
+    "ManageAccount": "Gérer mon compte",
+    "AdminPanel": "Panneau d'administration"
+  }
+}

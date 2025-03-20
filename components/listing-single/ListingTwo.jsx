@@ -2,8 +2,10 @@
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function ListingTwo({ property }) {
+  const t = useTranslations("property");
   return (
     <section className="single_page_listing_style p0 mt85 md-mt0">
       <div className="container-fluid p0">
@@ -28,7 +30,7 @@ export default function ListingTwo({ property }) {
                               onClick={open}
                             >
                               <span className="flaticon-photo-camera"></span>{" "}
-                              View Photos
+                              {t("viewPhotos")}
                             </div>
                           </div>
                           <Image

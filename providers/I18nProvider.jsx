@@ -1,6 +1,7 @@
 "use client";
 
 import { locales } from "@/i18n";
+import { loadTranslations } from "@/utils/loadTranslation";
 import { NextIntlClientProvider } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,29 +23,8 @@ export default function I18nProvider({ children }) {
     async function loadMessages(locale) {
       setIsLoading(true);
       try {
-        const commonMessages = await import(
-          `@/public/locales/${locale}/common.json`
-        );
-        const homeMessages = await import(
-          `@/public/locales/${locale}/home.json`
-        );
-        const searchMessages = await import(
-          `@/public/locales/${locale}/search.json`
-        );
-        const navbarMessages = await import(
-          `@/public/locales/${locale}/navbar.json`
-        );
-        const propertyMessages = await import(
-          `@/public/locales/${locale}/property.json`
-        );
-
-        setMessages({
-          ...commonMessages.default,
-          ...homeMessages.default,
-          ...searchMessages.default,
-          ...navbarMessages.default,
-          ...propertyMessages.default,
-        });
+        const messages = await loadTranslations(locale  );
+        setMessages(messages);
       } catch (error) {
         console.error(`Failed to load translations for ${locale}:`, error);
       } finally {

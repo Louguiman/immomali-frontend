@@ -1,0 +1,69 @@
+{
+  "dashboard": {
+    "navigation": "Navigation du tableau de bord",
+    "myTenancies": {
+      "error_loading_tenancies": "Erreur de chargement des baux.",
+      "no_tenancies_found": "Aucun bail/location trouvé.",
+      "title": "Mes locations",
+      "description": "Gérez vos baux actifs et passés, consultez l'historique des paiements et soumettez des demandes de maintenance.",
+      "tenant": "Locataire",
+      "email": "Email",
+      "phone": "Téléphone",
+      "lease_period": "Période du bail",
+      "rent": "Loyer",
+      "deposit": "Dépôt",
+      "auto_renewal": "Renouvellement automatique",
+      "balance": "Solde",
+      "status": "Statut",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "view": "Voir",
+      "edit": "Éditer",
+      "manage_lease": "Gérer le bail",
+      "send_request": "Envoyer la demande",
+      "status_active": "Actif",
+      "status_terminated": "Terminé",
+      "status_warning": "En attente"
+    },
+    "maintenance": {
+      "new_maintenance_request": "Nouvelle Demande de Maintenance",
+      "title": "Titre",
+      "description": "Description",
+      "category": "Catégorie",
+      "priority": "Priorité",
+      "general": "Général",
+      "plumbing": "Plomberie",
+      "electrical": "Électrique",
+      "hvac": "HVAC",
+      "other": "Autre",
+      "low": "Bas",
+      "medium": "Moyenne",
+      "high": "Haute",
+      "urgent": "Urgent",
+      "submit_request": "Soumettre la Demande",
+      "submitting": "Soumission...",
+      "maintenance_request_submitted": "Demande de maintenance soumise !",
+      "error_submitting_request": "Erreur lors de la soumission de la demande."
+    },
+    "userBanner": {
+      "HowdyUser": "Salut, {name}",
+      "WelcomeBack": "Nous sommes ravis de vous revoir !"
+    },
+    "allStatistics": {
+      "AllProperties": "Toutes les propriétés",
+      "TotalViews": "Total des vues",
+      "TotalVisitorReviews": "Total des avis visiteurs",
+      "TotalFavorites": "Total des favoris"
+    },
+    "notifications": {
+      "ListingApproved": "Votre annonce {listing} a été approuvée !",
+      "ReviewReceived": "{user} a laissé un avis sur {listing}",
+      "FavoritedListing": "Quelqu'un a ajouté votre annonce {listing} aux favoris"
+    },
+    "stats": {
+      "SectionTitle": "Voir les Statistiques",
+      "Months": "Janvier,Février,Mars,Avril,Mai,Juin",
+      "DatasetLabel": "Statistiques"
+    }
+  }
+}

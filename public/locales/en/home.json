@@ -30,6 +30,11 @@
         "title": "Top Agencies",
         "description": "Discover top agencies in your area."
       }
+    },
+    "cta": {
+      "title": "Become a Real Estate Agent",
+      "description": "We only work with the best companies around the globe",
+      "button": "Register Now"
     }
   }
 }

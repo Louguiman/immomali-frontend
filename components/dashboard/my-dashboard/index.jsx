@@ -43,8 +43,7 @@ const index = () => {
             <div className="row">
               <div className="col-xl-7">
                 <div className="application_statics">
-                  <h4 className="mb-4">View Statistics</h4>
-                  {/* <StatisticsChart /> */}
+                  <StatisticsChart />
                 </div>
               </div>
               {/* End statistics chart */}
