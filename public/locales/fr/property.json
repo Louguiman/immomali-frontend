@@ -15,6 +15,10 @@
     "write_review": "Écrire un avis",
     "your_rating_review": "Votre note et avis",
     "viewPhotos": "Voir les photos",
+    "propertyNotFound": "Propriété non trouvée",
+    "listingSingleProperty": "Détail de la propriété",
+    "agentSingleGridView": "Vue de l'agent",
+    "perMonth": "mois",
     "socialActions": {
       "share": "Partager",
       "favorite": "Ajouter aux favoris",
@@ -29,6 +33,7 @@
       "land": "Terrain",
       "other": "Autre"
     },
+    "no_categories": "Aucune catégorie disponible.",
     "details": {
       "propertyID": "ID du bien",
       "price": "Prix",
@@ -101,6 +106,50 @@
       "comment": "Commentaire :",
       "placeholder": "Votre avis",
       "submit": "Soumettre l'avis"
+    },
+    "WalkScore": {
+      "walkscore": "Indice de Marche",
+      "walkScore": "Indice de Marche",
+      "walkDesc": "Assez praticable à pied",
+      "bikeScore": "Indice de Vélo",
+      "bikeDesc": "Praticable à vélo",
+      "moreDetails": "Plus de détails ici"
+    },
+    "PropertyCard": {
+      "featured": "En vedette",
+      "priceSuffix": "/mois",
+      "beds": "Chambres :",
+      "baths": "Salles de bain :",
+      "sqFt": "m² :",
+      "unknown": "Inconnu"
+    },
+    "sidebar": {
+      "listedBy": "Annoncé par",
+      "featuredProperties": "Propriétés en vedette",
+      "categoriesProperty": "Catégories de propriétés",
+      "recentlyViewed": "Récemment consulté",
+      "creator": {
+        "unknownAgent": "Agent inconnu",
+        "noPhone": "Aucun numéro disponible",
+        "noEmail": "Aucun e-mail disponible",
+        "viewListings": "Voir mes annonces"
+      },
+      "contactAgent": {
+        "namePlaceholder": "Votre nom",
+        "emailPlaceholder": "E-mail",
+        "phonePlaceholder": "Numéro de téléphone",
+        "messagePlaceholder": "Votre message",
+        "sendButton": "Envoyer la demande",
+        "sending": "Envoi...",
+        "success": "Demande envoyée avec succès !",
+        "error": "Échec de l'envoi de la demande. Veuillez réessayer.",
+        "validation": {
+          "nameRequired": "Le nom est requis",
+          "emailRequired": "L'e-mail est requis",
+          "emailInvalid": "Entrez un e-mail valide",
+          "messageRequired": "Le message est requis"
+        }
+      }
     }
   }
 }

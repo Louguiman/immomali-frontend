@@ -1,24 +1,33 @@
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+// components/InvoiceTable.js
+import React from "react";
+import { useTranslations, useFormatter } from "next-intl";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const InvoiceTable = ({ invoices }) => {
+  const t = useTranslations("dashboard.invoiceList"); // Use the namespace 'invoiceList'
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
   const router = useRouter();
   const pathname = usePathname();
-  if (!invoices || invoices.length === 0) return <p>No invoices found.</p>;
+
+  if (!invoices || invoices.length === 0) {
+    return <p>{t("noInvoicesFound")}</p>; // Use localized 'No invoices found' message
+  }
 
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Tenant</th>
-          <th>Type</th>
-          <th>Amount</th>
-          <th>Paid</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th>Issued By</th>
-          <th>Actions</th>
+          <th>{t("invoiceNumber")}</th> {/* Localized 'Invoice #' */}
+          <th>{t("tenant")}</th> {/* Localized 'Tenant' */}
+          <th>{t("type")}</th> {/* Localized 'Type' */}
+          <th>{t("amount")}</th> {/* Localized 'Amount' */}
+          <th>{t("amountPaid")}</th> {/* Localized 'Amount Paid' */}
+          <th>{t("remainingBalance")}</th> {/* Localized 'Remaining Balance' */}
+          <th>{t("dueDate")}</th> {/* Localized 'Due Date' */}
+          <th>{t("status")}</th> {/* Localized 'Status' */}
+          <th>{t("issuedBy")}</th> {/* Localized 'Issued By' */}
+          <th>{t("actions")}</th> {/* Localized 'Actions' */}
         </tr>
       </thead>
       <tbody>
@@ -27,8 +36,27 @@ const InvoiceTable = ({ invoices }) => {
             <td>{invoice.id}</td>
             <td>{invoice.tenant.user.name}</td>
             <td>{invoice?.type}</td>
-            <td>{invoice.totalAmount} FCFA</td>
-            <td>{invoice.paidAmount} FCFA</td>
+            <td>
+              {formatNumber(invoice.totalAmount, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>{" "}
+            {/* Currency formatted */}
+            <td>
+              {formatNumber(invoice.paidAmount, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>{" "}
+            {/* Currency formatted */}
+            <td>
+              {formatNumber(invoice.remainingBalance, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>{" "}
+            {/* Currency formatted */}
             <td>{invoice.dueDate}</td>
             <td>
               <span
@@ -40,7 +68,7 @@ const InvoiceTable = ({ invoices }) => {
                     : "bg-warning"
                 }`}
               >
-                {invoice.status}
+                {t(invoice.status)} {/* Localized status */}
               </span>
             </td>
             <td>
@@ -50,13 +78,12 @@ const InvoiceTable = ({ invoices }) => {
                 <li> {invoice?.issuedBy?.email}</li>
               </ul>
             </td>
-
             <td>
               <button
                 onClick={() => router.push(`${pathname}/${invoice.id}`)}
                 className="btn btn-sm btn-primary me-2"
               >
-                View
+                {t("view")} {/* Localized 'View' */}
               </button>
             </td>
           </tr>

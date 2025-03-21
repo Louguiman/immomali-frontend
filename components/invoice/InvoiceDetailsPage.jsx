@@ -10,13 +10,17 @@ import Link from "next/link";
 import { useState } from "react";
 import ManualPaymentModal from "@/components/payments/ManualPaymentModal";
 import { useAppSelector } from "@/store/hooks";
+import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 
-const InvoiceDetailsPage = ({}) => {
+const InvoiceDetailsPage = () => {
   const [showModal, setShowModal] = useState(false);
   const { id } = useParams();
-  // Get the invoice ID from the URL
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
+
+  const t = useTranslations("dashboard.invoiceList"); // Hook to fetch translations
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
   const isAdminOrAgent = user?.roles.some((role) =>
@@ -30,9 +34,7 @@ const InvoiceDetailsPage = ({}) => {
 
   if (isLoading) return <LoadingSpinner />;
   if (isError)
-    return (
-      <p className="alert alert-danger">Error fetching invoice details.</p>
-    );
+    return <p className="alert alert-danger">{t("error_fetching_invoice")}</p>;
 
   const isPaid = invoice.status === "paid";
   const isOverdue = invoice.status === "overdue";
@@ -42,7 +44,9 @@ const InvoiceDetailsPage = ({}) => {
       <div className="card shadow p-4">
         {/* 🔹 Invoice Header */}
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="fw-bold text-primary">Invoice #{invoice.id}</h2>
+          <h2 className="fw-bold text-primary">
+            {t("invoice")} #{invoice.id}
+          </h2>
           <span
             className={`badge ${
               isPaid ? "bg-success" : isOverdue ? "bg-danger" : "bg-warning"
@@ -55,29 +59,29 @@ const InvoiceDetailsPage = ({}) => {
         {/* 🔹 Invoice Metadata */}
         <div className="row">
           <div className="col-md-6">
-            <h5 className="fw-bold">Tenant Information</h5>
+            <h5 className="fw-bold">{t("tenant_info")}</h5>
             <p>
-              <strong>Name:</strong> {invoice.tenant.user.name}
+              <strong>{t("name")}:</strong> {invoice.tenant.user.name}
             </p>
             <p>
-              <strong>Email:</strong> {invoice.tenant.user.email}
+              <strong>{t("email")}:</strong> {invoice.tenant.user.email}
             </p>
             <p>
-              <strong>Phone:</strong> {invoice.tenant.user.phone}
+              <strong>{t("phone")}:</strong> {invoice.tenant.user.phone}
             </p>
           </div>
 
           <div className="col-md-6">
-            <h5 className="fw-bold">Invoice Details</h5>
+            <h5 className="fw-bold">{t("invoice_details")}</h5>
             <p>
-              <strong>Issued By:</strong> {invoice.issuedBy.name}
+              <strong>{t("issued_by")}:</strong> {invoice.issuedBy.name}
             </p>
             <p>
-              <strong>Due Date:</strong> {invoice.dueDate}
+              <strong>{t("due_date")}:</strong> {invoice.dueDate}
             </p>
             <p>
-              <strong>Payment Date:</strong>{" "}
-              {invoice.paymentDate ? invoice.paymentDate : "Not Paid Yet"}
+              <strong>{t("payment_date")}:</strong>{" "}
+              {invoice.paymentDate || t("not_paid_yet")}
             </p>
           </div>
         </div>
@@ -85,33 +89,44 @@ const InvoiceDetailsPage = ({}) => {
         {/* 🔹 Financial Breakdown */}
         <div className="row mt-3">
           <div className="col-md-6">
-            <h5 className="fw-bold">Financial Overview</h5>
+            <h5 className="fw-bold">{t("financial_overview")}</h5>
             <ul className="list-group">
               <li className="list-group-item">
-                <strong>Total Amount:</strong>{" "}
-                <span className="float-end">{invoice.totalAmount} FCFA</span>
-              </li>
-              <li className="list-group-item">
-                <strong>Paid Amount:</strong>{" "}
-                <span className="float-end text-success">
-                  {invoice.paidAmount} FCFA
+                <strong>{t("total_amount")}:</strong>{" "}
+                <span className="float-end">
+                  {formatNumber(invoice.totalAmount, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
                 </span>
               </li>
               <li className="list-group-item">
-                <strong>Remaining Balance:</strong>{" "}
+                <strong>{t("paid_amount")}:</strong>{" "}
+                <span className="float-end text-success">
+                  {formatNumber(invoice.paidAmount, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
+                </span>
+              </li>
+              <li className="list-group-item">
+                <strong>{t("remaining_balance")}:</strong>{" "}
                 <span className="float-end text-danger">
-                  {invoice.remainingBalance} FCFA
+                  {formatNumber(invoice.remainingBalance, {
+                    style: "currency",
+                    currency: "XOF",
+                  })}
                 </span>
               </li>
               {invoice.tax > 0 && (
                 <li className="list-group-item">
-                  <strong>Tax:</strong>{" "}
+                  <strong>{t("tax")}:</strong>{" "}
                   <span className="float-end">{invoice.tax} FCFA</span>
                 </li>
               )}
               {invoice.discount > 0 && (
                 <li className="list-group-item">
-                  <strong>Discount:</strong>{" "}
+                  <strong>{t("discount")}:</strong>{" "}
                   <span className="float-end">-{invoice.discount} FCFA</span>
                 </li>
               )}
@@ -120,7 +135,7 @@ const InvoiceDetailsPage = ({}) => {
 
           {/* 🔹 Status History */}
           <div className="col-md-6">
-            <h5 className="fw-bold">Status History</h5>
+            <h5 className="fw-bold">{t("status_history")}</h5>
             <ul className="list-group">
               {invoice?.statusHistory?.map((entry, index) => (
                 <li key={index} className="list-group-item">
@@ -134,16 +149,16 @@ const InvoiceDetailsPage = ({}) => {
 
         {/* 🔹 Payment Records */}
         <div className="mt-4">
-          <h5 className="fw-bold">Payment Transactions</h5>
+          <h5 className="fw-bold">{t("payment_transactions")}</h5>
           {invoice?.payments?.length > 0 ? (
             <table className="table">
               <thead>
                 <tr>
-                  <th>Type</th>
-                  <th>Date</th>
-                  <th>Amount</th>
-                  <th>Paid</th>
-                  <th>Method</th>
+                  <th>{t("type")}</th>
+                  <th>{t("date")}</th>
+                  <th>{t("amount")}</th>
+                  <th>{t("paid")}</th>
+                  <th>{t("payment_method")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -151,7 +166,12 @@ const InvoiceDetailsPage = ({}) => {
                   <tr key={index}>
                     <td>{payment?.type}</td>
                     <td>{payment.paymentDate}</td>
-                    <td>{payment.amount} FCFA</td>
+                    <td>
+                      {formatNumber(payment.amount, {
+                        style: "currency",
+                        currency: "XOF",
+                      })}
+                    </td>
                     <td className="text-success">{payment.amountPaid} FCFA</td>
                     <td>{payment.paymentMethod}</td>
                   </tr>
@@ -159,14 +179,14 @@ const InvoiceDetailsPage = ({}) => {
               </tbody>
             </table>
           ) : (
-            <p className="text-muted">No payments recorded yet.</p>
+            <p className="text-muted">{t("no_payments")}</p>
           )}
         </div>
 
         {/* 🔹 Attachments */}
         {invoice.attachments?.length > 0 && (
           <div className="mt-4">
-            <h5 className="fw-bold">Attachments</h5>
+            <h5 className="fw-bold">{t("attachments")}</h5>
             <ul className="list-group">
               {invoice.attachments.map((url, index) => (
                 <li key={index} className="list-group-item">
@@ -187,7 +207,7 @@ const InvoiceDetailsPage = ({}) => {
               onClick={() => setShowModal(true)}
               disabled={isPaid}
             >
-              Record Payment
+              {t("record_payment")}
             </button>
           )}
           {isAdminOrAgent && (
@@ -195,23 +215,21 @@ const InvoiceDetailsPage = ({}) => {
               href={`/invoices/${invoice.id}/edit`}
               className="btn btn-warning"
             >
-              Edit Invoice
+              {t("edit_invoice")}
             </Link>
           )}
-
           <button
             className="btn btn-outline-secondary"
             onClick={exportToPDF}
             disabled={isExporting}
           >
-            {isExporting ? "Exporting..." : "Export as PDF"}
+            {isExporting ? `${t("exporting")}...` : t("export_as_pdf")}
           </button>
-
           <button
             onClick={() => router.back()}
             className="btn btn-outline-secondary"
           >
-            Back to Invoices
+            {t("back_to_invoices")}
           </button>
         </div>
       </div>

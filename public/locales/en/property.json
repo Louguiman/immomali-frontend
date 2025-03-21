@@ -15,6 +15,10 @@
     "write_review": "Write a Review",
     "your_rating_review": "Your Rating & Review",
     "viewPhotos": "View Photos",
+    "propertyNotFound": "Property not found",
+    "listingSingleProperty": "Property Details",
+    "agentSingleGridView": "Agent View",
+    "perMonth": "per month",
     "socialActions": {
       "share": "Share",
       "favorite": "Add to Favorites",
@@ -29,6 +33,7 @@
       "land": "Land",
       "other": "Other"
     },
+    "no_categories": "No categories available.",
     "details": {
       "propertyID": "Property ID",
       "price": "Price",
@@ -101,6 +106,50 @@
       "comment": "Comment:",
       "placeholder": "Your Review",
       "submit": "Submit Review"
+    },
+    "WalkScore": {
+      "walkscore": "Walkscore",
+      "walkScore": "Walk Score",
+      "walkDesc": "Somewhat Walkable",
+      "bikeScore": "Bike Score",
+      "bikeDesc": "Bikeable",
+      "moreDetails": "More Details Here"
+    },
+    "PropertyCard": {
+      "featured": "Featured",
+      "priceSuffix": "/mo",
+      "beds": "Beds:",
+      "baths": "Baths:",
+      "sqFt": "SqFt:",
+      "unknown": "Unknown"
+    },
+    "sidebar": {
+      "listedBy": "Listed By",
+      "featuredProperties": "Featured Properties",
+      "categoriesProperty": "Categories Property",
+      "recentlyViewed": "Recently Viewed",
+      "creator": {
+        "unknownAgent": "Unknown Agent",
+        "noPhone": "No phone available",
+        "noEmail": "No email available",
+        "viewListings": "View My Listings"
+      },
+      "contactAgent": {
+        "namePlaceholder": "Your Name",
+        "emailPlaceholder": "Email",
+        "phonePlaceholder": "Phone Number",
+        "messagePlaceholder": "Your Message",
+        "sendButton": "Send Inquiry",
+        "sending": "Sending...",
+        "success": "Inquiry sent successfully!",
+        "error": "Failed to send inquiry. Please try again.",
+        "validation": {
+          "nameRequired": "Name is required",
+          "emailRequired": "Email is required",
+          "emailInvalid": "Enter a valid email",
+          "messageRequired": "Message is required"
+        }
+      }
     }
   }
 }

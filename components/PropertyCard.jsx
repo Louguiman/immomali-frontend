@@ -3,11 +3,14 @@ import { cleanUrl } from "@/utils/splitDescription";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
 
 const PropertyCard = ({ item }) => {
+  const t = useTranslations("property.PropertyCard");
   const { statusType, featured, isGridOrList } = useSelector(
     (state) => state.filter
   );
+
   return (
     <div
       className={`feat_property home7 style4 ${
@@ -27,7 +30,7 @@ const PropertyCard = ({ item }) => {
         <div className="thmb_cntnt">
           <ul className="tag mb0">
             <li className="list-inline-item">
-              <a href="#">Featured</a>
+              <a href="#">{t("featured")}</a>
             </li>
             <li className="list-inline-item">
               <a href="#" className="text-capitalize">
@@ -50,7 +53,7 @@ const PropertyCard = ({ item }) => {
 
           <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
             {item.price} FCFA
-            <small>/mo</small>
+            <small>{t("priceSuffix")}</small>
           </Link>
         </div>
       </div>
@@ -67,12 +70,17 @@ const PropertyCard = ({ item }) => {
           </p>
 
           <ul className="prop_details mb0">
-            <li className="list-inline-item">Beds: {item?.beds} &nbsp;</li>
-            <li className="list-inline-item">Baths: {item?.baths} &nbsp;</li>
-            <li className="list-inline-item">SqFt: {item?.sqFt} &nbsp;</li>
+            <li className="list-inline-item">
+              {t("beds")} {item?.beds} &nbsp;
+            </li>
+            <li className="list-inline-item">
+              {t("baths")} {item?.baths} &nbsp;
+            </li>
+            <li className="list-inline-item">
+              {t("sqFt")} {item?.sqFt} &nbsp;
+            </li>
           </ul>
         </div>
-        {/* End .tc_content */}
 
         <div className="fp_footer">
           <ul className="fp_meta float-start mb0">
@@ -88,13 +96,12 @@ const PropertyCard = ({ item }) => {
             </li>
             <li className="list-inline-item">
               <Link href={`/agent-details/${item?.owner?.id}`}>
-                {item?.owner?.name || "Inconnu"}
+                {item?.owner?.name || t("unknown")}
               </Link>
             </li>
           </ul>
           <div className="fp_pdate float-end">{item.postedYear}</div>
         </div>
-        {/* End .fp_footer */}
       </div>
     </div>
   );

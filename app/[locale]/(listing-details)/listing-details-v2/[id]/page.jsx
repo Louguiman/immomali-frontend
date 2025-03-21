@@ -21,7 +21,7 @@ const ListingDynamicDetailsV2 = () => {
 
   useEffect(() => {
     if (!isLoading) dispatch(addToRecentlyViewed(id));
-  }, [dispatch, id, , isLoading]);
+  }, [dispatch, id, isLoading]);
 
   if (isLoading) {
     return (
@@ -34,18 +34,18 @@ const ListingDynamicDetailsV2 = () => {
   if (isError || !property) {
     return (
       <div className="container text-center mt-5">
-        <h2 className="text-danger">Property not found</h2>
+        <h2 className="text-danger">{t("propertyNotFound")}</h2>
       </div>
     );
   }
 
   return (
     <>
-      {/* <!-- Listing Single Property --> */}
+      {/* <!-- {t("listingSingleProperty")} --> */}
 
       <ListingTwo property={property} />
 
-      {/* <!-- Agent Single Grid View --> */}
+      {/* <!-- {t("agentSingleGridView")} --> */}
       <section className="our-agent-single bgc-f7 pb30-991">
         <div className="container">
           <div className="row">
@@ -68,7 +68,9 @@ const ListingDynamicDetailsV2 = () => {
                         style: "currency",
                         currency: "XOF",
                       })}
-                      {property.type === "rent" && <small>/mo</small>}
+                      {property.type === "rent" && (
+                        <small>/{t("perMonth")}</small>
+                      )}
                     </h2>
                   </div>
                 </div>

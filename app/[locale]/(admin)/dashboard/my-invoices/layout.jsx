@@ -1,6 +1,10 @@
+// components/Layout.js
 import React from "react";
+import { useTranslations } from "next-intl";
 
-function layout({ children }) {
+function Layout({ children }) {
+  const t = useTranslations("dashboard.invoiceList");
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -17,7 +21,8 @@ function layout({ children }) {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i>{" "}
+                      {t("dashboardNavigation")}
                     </button>
                   </div>
                 </div>
@@ -26,8 +31,8 @@ function layout({ children }) {
 
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Invoices</h2>
-                  <p>Manage your invoices here.</p>
+                  <h2 className="breadcrumb_title">{t("myInvoices")}</h2>
+                  <p>{t("manageInvoices")}</p>
                 </div>
               </div>
               {/* End .col */}
@@ -42,4 +47,4 @@ function layout({ children }) {
   );
 }
 
-export default layout;
+export default Layout;

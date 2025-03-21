@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import AuthProvider from "@/features/auth/AuthProvider";
 import I18nProvider from "@/providers/I18nProvider";
 import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
 
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
