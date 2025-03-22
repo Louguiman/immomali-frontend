@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
-// import properties from "../../../data/properties";
 import Image from "next/image";
 import FavoriteButton from "@/components/common/FavoriteBtn";
+import { useTranslations } from "next-intl"; // Import useTranslations
 
 const FeaturedItem = ({ properties }) => {
   const dispatch = useDispatch();
@@ -14,7 +14,10 @@ const FeaturedItem = ({ properties }) => {
     (state) => state.filter
   );
 
-  // status handler
+  // Translation hook
+  const t = useTranslations("property");
+
+  // Status handler
   let content = properties?.map((item) => (
     <div
       className={`${
@@ -38,11 +41,11 @@ const FeaturedItem = ({ properties }) => {
           <div className="thmb_cntnt">
             <ul className="tag mb0">
               <li className="list-inline-item">
-                <a href="#">Featured</a>
+                <a href="#">{t("featured")}</a> {/* Translation */}
               </li>
               <li className="list-inline-item">
                 <a href="#" className="text-capitalize">
-                  For {item?.listingType}
+                  {t(item?.type)} {/* Translation for 'For' */}
                 </a>
               </li>
             </ul>
@@ -59,7 +62,7 @@ const FeaturedItem = ({ properties }) => {
 
             <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
               {item.price} F CFA
-              <small>/mois</small>
+              <small>/ {t("month")}</small> {/* Translation for "/mois" */}
             </Link>
           </div>
         </div>
@@ -75,9 +78,16 @@ const FeaturedItem = ({ properties }) => {
             </p>
 
             <ul className="prop_details mb0">
-              <li className="list-inline-item">Beds: {item?.beds} &nbsp;</li>
-              <li className="list-inline-item">Baths: {item?.baths} &nbsp;</li>
-              <li className="list-inline-item">SqFt: {item?.sqFt} &nbsp;</li>
+              <li className="list-inline-item">
+                {t("beds")}: {item?.beds} &nbsp; {/* Translation for 'Beds' */}
+              </li>
+              <li className="list-inline-item">
+                {t("baths")}: {item?.baths} &nbsp;{" "}
+                {/* Translation for 'Baths' */}
+              </li>
+              <li className="list-inline-item">
+                {t("sqft")}: {item?.sqFt} &nbsp; {/* Translation for 'SqFt' */}
+              </li>
             </ul>
           </div>
           {/* End .tc_content */}
@@ -96,7 +106,8 @@ const FeaturedItem = ({ properties }) => {
               </li>
               <li className="list-inline-item">
                 <Link href={`/agent-details/${item?.owner?.id}`}>
-                  {item?.owner?.name || "Inconnu"}
+                  {item?.owner?.name || t("unknown")}{" "}
+                  {/* Translation for "Inconnu" */}
                 </Link>
               </li>
             </ul>
@@ -110,7 +121,7 @@ const FeaturedItem = ({ properties }) => {
     </div>
   ));
 
-  // add length of filter items
+  // Add length of filter items
   useEffect(() => {
     dispatch(addLength(content?.length || 0));
   }, [dispatch, content]);

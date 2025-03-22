@@ -1,4 +1,16 @@
 {
-  "welcome": "Welcome",
-  "logout": "Logout"
+  "common": {
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "status": "Status",
+    "sortBy": "Sort by",
+    "allStatus": "All Status",
+    "old": "Old",
+    "recent": "Recent",
+    "featuredAll": "Featured All",
+    "sale": "Sale",
+    "rent": "Rent",
+    "searchResults": "Search results",
+    "noResults": "Not found results"
+  }
 }

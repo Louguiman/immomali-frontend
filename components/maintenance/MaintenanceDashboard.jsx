@@ -1,34 +1,36 @@
 "use client";
-import { useGetUserMaintenanceRequestsQuery } from "@/features/api/maintenance.api"; // You need to implement this RTK Query endpoint
+
+import { useGetUserMaintenanceRequestsQuery } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MaintenanceRequestCard from "./MaintenanceRequestCard";
 import { useAppSelector } from "@/store/hooks";
+import { useTranslations } from "next-intl";
 
 const TenantMaintenanceDashboard = () => {
+  const t = useTranslations("dashboard.maintenance");
   const user = useAppSelector((state) => state.auth.user);
+
   const {
     data: requests,
     isLoading,
     isError,
-  } = useGetUserMaintenanceRequestsQuery(user.id, { skip: !user.id });
+  } = useGetUserMaintenanceRequestsQuery(user?.id, { skip: !user?.id });
 
-  if (isError)
-    return <p className="alert alert-danger">Error loading requests.</p>;
+  if (isError) return <p className="alert alert-danger">{t("error")}</p>;
 
   return (
     <section className="col-lg-12">
       {!isLoading && requests?.length === 0 ? (
-        <p>No maintenance requests found.</p>
+        <p>{t("noRequests")}</p>
       ) : (
         <div className="row">
           {isLoading && <LoadingSpinner />}
-          {!isLoading && !isError
-            ? requests.map((request) => (
-                <div key={request.id} className="col-md-6">
-                  <MaintenanceRequestCard request={request} />
-                </div>
-              ))
-            : null}
+          {!isLoading &&
+            requests?.map((request) => (
+              <div key={request.id} className="col-md-6">
+                <MaintenanceRequestCard request={request} />
+              </div>
+            ))}
         </div>
       )}
     </section>

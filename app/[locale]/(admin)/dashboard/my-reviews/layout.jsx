@@ -1,6 +1,11 @@
-import React from "react";
+"use client";
 
-function layout({ children }) {
+import React from "react";
+import { useTranslations } from "next-intl";
+
+function Layout({ children }) {
+  const t = useTranslations("dashboard");
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -17,18 +22,21 @@ function layout({ children }) {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i> {t("navigation")}
                     </button>
                   </div>
                 </div>
               </div>
-              {/* End Dashboard Navigation */}x{/* Breadcrumb and Greeting */}
+              {/* End Dashboard Navigation */}
+
+              {/* Breadcrumb and Greeting */}
               <div className="col-lg-8 col-xl-9 mb20">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Reviews</h2>
-                  <p>We are glad to see you again!</p>
+                  <h2 className="breadcrumb_title">{t("reviews.title")}</h2>
+                  <p>{t("reviews.greeting")}</p>
                 </div>
               </div>
+
               {children}
             </div>
           </div>
@@ -39,4 +47,4 @@ function layout({ children }) {
   );
 }
 
-export default layout;
+export default Layout;

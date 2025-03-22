@@ -1,4 +1,16 @@
 {
-  "welcome": "Bienvenue",
-  "logout": "Se déconnecter"
+  "common": {
+    "welcome": "Bienvenue",
+    "logout": "Se déconnecter",
+    "status": "Statut",
+    "sortBy": "Trier par",
+    "allStatus": "Tous les statuts",
+    "old": "Ancien",
+    "recent": "Récent",
+    "featuredAll": "Tous les vedettes",
+    "sale": "Vente",
+    "rent": "Location",
+    "searchResults": "Résultats de la recherche",
+    "noResults": "Aucun résultat trouvé"
+  }
 }

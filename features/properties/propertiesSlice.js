@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   savedSearches: [], // Stores saved search filters
-  favorites: [], // Stores favorited property IDs
+  favorites: [],
+  currentPage: 1, // To track the current page
+  itemsPerPage: 5, // You can adjust this based on your needs
+  // Stores favorited property IDs
   recentlyViewed: [], // Stores recently viewed property IDs
   createListing: {
     userId: 0,
@@ -103,6 +106,9 @@ export const propertiesSlice = createSlice({
         state.favorites.push(action.payload);
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
     },
     removeFromFavorites: (state, action) => {
       state.favorites = state.favorites.filter((id) => id !== action.payload);
@@ -358,5 +364,6 @@ export const {
   loadFromStorage,
   addToCompare,
   removeFromCompare,
+  setCurrentPage,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

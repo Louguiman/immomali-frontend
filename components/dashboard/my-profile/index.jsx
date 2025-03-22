@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
@@ -5,7 +8,9 @@ import ChangePassword from "./ChangePassword";
 import ProfileInfo from "./ProfileInfo";
 import SocialMedia from "./SocialMedia";
 
-const index = () => {
+const Index = () => {
+  const t = useTranslations("dashboard.profile"); // Charge les traductions du namespace "profile"
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -22,7 +27,8 @@ const index = () => {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i>{" "}
+                      {t("dashboardNavigation")}
                     </button>
                   </div>
                 </div>
@@ -31,8 +37,8 @@ const index = () => {
 
               <div className="col-lg-12 mb10">
                 <div className="breadcrumb_content style2">
-                  <h2 className="breadcrumb_title">My Profile</h2>
-                  <p>We are glad to see you again!</p>
+                  <h2 className="breadcrumb_title">{t("myProfile")}</h2>
+                  <p>{t("welcomeMessage")}</p>
                 </div>
               </div>
               {/* End .col */}
@@ -41,19 +47,19 @@ const index = () => {
                 <div className="my_dashboard_review">
                   <div className="row">
                     <div className="col-xl-2">
-                      <h4>Profile Information</h4>
+                      <h4>{t("profileInfo")}</h4>
                     </div>
                     <div className="col-xl-10">
                       <ProfileInfo />
                     </div>
                   </div>
                 </div>
-                {/* End prifle info wrapper end */}
+                {/* End profile info wrapper */}
 
                 <div className="my_dashboard_review mt30">
                   <div className="row">
                     <div className="col-xl-2">
-                      <h4>Social Media</h4>
+                      <h4>{t("socialMedia")}</h4>
                     </div>
                     <div className="col-xl-10">
                       <SocialMedia />
@@ -65,7 +71,7 @@ const index = () => {
                 <div className="my_dashboard_review mt30">
                   <div className="row">
                     <div className="col-xl-2">
-                      <h4>Change password</h4>
+                      <h4>{t("changePassword")}</h4>
                     </div>
                     <div className="col-xl-10">
                       <ChangePassword />
@@ -79,7 +85,7 @@ const index = () => {
             <div className="row mt50">
               <div className="col-lg-12">
                 <div className="copyright-widget text-center">
-                  <p>© 2020 Find House. Made with love.</p>
+                  <p>{t("copyright", { year: new Date().getFullYear() })}</p>
                 </div>
               </div>
             </div>
@@ -92,4 +98,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

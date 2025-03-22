@@ -14,6 +14,9 @@ import {
 } from "@/features/api/properties.api";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2"; // Import SweetAlert2
+import { useTranslations } from "next-intl"; // Import useTranslations from next-intl
+
 const PropertyManagementPage = () => {
   // Get the logged-in user from Redux
   const { user } = useSelector((state) => state.auth);
@@ -22,6 +25,9 @@ const PropertyManagementPage = () => {
   const [limit, setLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({});
+
+  // Initialize translations hook
+  const t = useTranslations("property");
 
   // Combine filters for the query
   const queryParams = {
@@ -41,12 +47,21 @@ const PropertyManagementPage = () => {
   const [deleteProperty] = useDeletePropertyMutation();
 
   const handleDelete = async (id) => {
-    if (confirm("Are you sure you want to delete this property?")) {
+    const result = await Swal.fire({
+      title: t("confirmDelete"), // Using translation
+      text: t("confirmDelete"),
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: t("yesDelete"), // Using translation for the confirm button
+      cancelButtonText: t("cancel"), // Using translation for the cancel button
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteProperty(id);
-        alert("Property deleted successfully.");
+        Swal.fire(t("successDelete"), "", "success"); // Using translation
       } catch (error) {
-        alert("Failed to delete property.");
+        Swal.fire(t("errorDelete"), "", "error"); // Using translation
       }
     }
   };
@@ -95,8 +110,8 @@ const PropertyManagementPage = () => {
       <div className="col-lg-12">
         <div className="my_dashboard_review mb40">
           {isLoading ? (
-            <div className="property_table">Loading properties...</div>
-          ) : data && data && data.length ? (
+            <div className="property_table">{t("loadingProperties")}</div> // Using translation
+          ) : data && data.length ? (
             <div className="property_table">
               <div className="table-responsive mt0">
                 {/* TableData receives property data and dynamic header configuration */}
@@ -117,7 +132,7 @@ const PropertyManagementPage = () => {
               </div>
             </div>
           ) : (
-            <div className="property_table">No properties found</div>
+            <div className="property_table">{t("noPropertiesFound")}</div> // Using translation
           )}
         </div>
       </div>

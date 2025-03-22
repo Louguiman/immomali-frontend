@@ -1,8 +1,12 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import AuthorReview from "./AuthorReview";
 import ClientReview from "./ClientReview";
-import SearchBox from "./SearchBox";
 
-const index = () => {
+const Index = () => {
+  const t = useTranslations("dashboard.reviews");
+
   return (
     <div className="container-fluid ovh">
       <div className="row">
@@ -11,7 +15,7 @@ const index = () => {
             <div className="col-lg-12">
               <div id="myreview" className="my_dashboard_review">
                 <div className="review_content">
-                  <h4>My Reviews</h4>
+                  <h4>{t("myReviews")}</h4>
                   <AuthorReview />
                 </div>
               </div>
@@ -21,7 +25,7 @@ const index = () => {
             <div className="col-lg-12">
               <div id="client_myreview" className="my_dashboard_review mt30">
                 <div className="review_content client-review">
-                  <h4>Visitor Reviews</h4>
+                  <h4>{t("visitorReviews")}</h4>
                   <ClientReview />
                 </div>
               </div>
@@ -32,7 +36,7 @@ const index = () => {
           <div className="row mt50">
             <div className="col-lg-12">
               <div className="copyright-widget text-center">
-                <p>© 2020 Find House. Made with love.</p>
+                <p>{t("copyright")}</p>
               </div>
             </div>
           </div>
@@ -44,4 +48,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

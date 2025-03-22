@@ -104,7 +104,11 @@
       "status_warning": "En attente"
     },
     "maintenance": {
+      "SectionTitle": "Mes Demandes de Maintenance",
+      "SectionDescription": "Gérez vos demandes de maintenance ici.",
       "new_maintenance_request": "Nouvelle Demande de Maintenance",
+      "error": "Erreur lors du chargement des demandes.",
+      "noRequests": "Aucune demande de maintenance trouvée.",
       "title": "Titre",
       "description": "Description",
       "category": "Catégorie",
@@ -121,7 +125,43 @@
       "submit_request": "Soumettre la Demande",
       "submitting": "Soumission...",
       "maintenance_request_submitted": "Demande de maintenance soumise !",
-      "error_submitting_request": "Erreur lors de la soumission de la demande."
+      "error_submitting_request": "Erreur lors de la soumission de la demande.",
+      "noImage": "Aucune image disponible",
+      "status": "Statut",
+      "Status": {
+        "in-progress": "En cours",
+        "resolved": "Résolu",
+        "pending": "En attente",
+        "inProgress": "En cours",
+        "cancelled": "Annulé"
+      },
+      "viewDetails": "Voir les détails",
+      "titleDetails": {
+        "detail": "Détail de la demande de maintenance"
+      },
+      "label": {
+        "category": "Catégorie",
+        "priority": "Priorité",
+        "status": "Statut",
+        "estimatedCost": "Coût estimé",
+        "actualCost": "Coût réel",
+        "resolutionNotes": "Notes de résolution"
+      },
+
+      "button": {
+        "back": "Retour à la liste",
+        "edit": "Modifier",
+        "update": "Mettre à jour",
+        "updating": "Mise à jour...",
+        "cancel": "Annuler"
+      },
+      "success": {
+        "update": "Requête mise à jour avec succès !"
+      },
+      "Error": {
+        "loading": "Erreur lors du chargement.",
+        "update": "Échec de la mise à jour."
+      }
     },
     "userBanner": {
       "HowdyUser": "Salut, {name}",
@@ -142,6 +182,137 @@
       "SectionTitle": "Voir les Statistiques",
       "Months": "Janvier,Février,Mars,Avril,Mai,Juin",
       "DatasetLabel": "Statistiques"
+    },
+    "profile": {
+      "dashboardNavigation": "Navigation du tableau de bord",
+      "myProfile": "Mon profil",
+      "welcomeMessage": "Nous sommes ravis de vous revoir !",
+      "profileInfo": "Informations du profil",
+      "socialMedia": "Réseaux sociaux",
+      "changePassword": "Changer le mot de passe",
+      "copyright": "© {year} Find House. Fait avec amour.",
+      "uploadPhoto": "Télécharger une photo",
+      "imageMinSize": "*Minimum 260px x 260px",
+      "uploading": "Téléchargement...",
+      "saveImage": "Enregistrer l’image",
+      "updating": "Mise à jour...",
+      "updateProfile": "Mettre à jour le profil",
+      "alert": {
+        "success": "Succès",
+        "error": "Erreur",
+        "selectImage": "Veuillez sélectionner une image",
+        "imageUpdated": "Image de profil mise à jour avec succès",
+        "imageUpdateFailed": "Échec de l’upload de l’image",
+        "profileUpdated": "Profil mis à jour avec succès",
+        "profileUpdateFailed": "Échec de la mise à jour du profil"
+      },
+      "fields": {
+        "name": "Nom",
+        "email": "Email",
+        "firstName": "Prénom",
+        "lastName": "Nom de famille",
+        "position": "Poste",
+        "license": "Licence",
+        "taxNumber": "Numéro fiscal",
+        "phone": "Téléphone",
+        "fax": "Fax",
+        "mobile": "Mobile",
+        "language": "Langue",
+        "companyName": "Nom de l’entreprise",
+        "address": "Adresse",
+        "about": "À propos"
+      },
+      "validation": {
+        "nameRequired": "Le nom est requis",
+        "invalidEmail": "Email invalide",
+        "emailRequired": "L’email est requis",
+        "firstNameRequired": "Le prénom est requis",
+        "lastNameRequired": "Le nom de famille est requis",
+        "invalidPhone": "Numéro de téléphone invalide",
+        "invalidMobile": "Numéro de mobile invalide",
+        "languageRequired": "La langue est requise"
+      },
+      "SocialMedia": {
+        "title": "Liens des réseaux sociaux",
+        "updateProfile": "Mettre à jour le profil",
+        "updating": "Mise à jour...",
+        "fields": {
+          "skype": "Skype",
+          "website": "Site Web",
+          "facebook": "Facebook",
+          "twitter": "Twitter",
+          "linkedin": "LinkedIn",
+          "instagram": "Instagram",
+          "googlePlus": "Google Plus",
+          "youtube": "YouTube",
+          "pinterest": "Pinterest",
+          "vimeo": "Vimeo"
+        },
+        "alert": {
+          "success": "Succès",
+          "error": "Erreur",
+          "socialMediaUpdated": "Les réseaux sociaux ont été mis à jour avec succès !",
+          "socialMediaUpdateFailed": "Échec de la mise à jour des réseaux sociaux."
+        },
+        "validation": {
+          "invalidUrl": "Format d'URL invalide"
+        }
+      },
+      "ChangePassword": {
+        "title": "Changer le mot de passe",
+        "updateProfile": "Mettre à jour le mot de passe",
+        "updating": "Mise à jour...",
+        "fields": {
+          "oldPassword": "Ancien mot de passe",
+          "newPassword": "Nouveau mot de passe",
+          "confirmPassword": "Confirmer le nouveau mot de passe"
+        },
+        "alert": {
+          "success": "Succès",
+          "error": "Erreur",
+          "passwordUpdated": "Mot de passe mis à jour avec succès !",
+          "passwordUpdateFailed": "Échec de la mise à jour du mot de passe."
+        },
+        "validation": {
+          "required": "Ce champ est requis",
+          "minLength": "Le mot de passe doit contenir au moins 6 caractères",
+          "passwordMatch": "Les mots de passe ne correspondent pas"
+        }
+      }
+    },
+    "reviews": {
+      "title": "Mes avis",
+      "greeting": "Nous sommes heureux de vous revoir !",
+      "myReviews": "Mes Avis",
+      "visitorReviews": "Avis des Visiteurs",
+      "copyright": "© 2020 Find House. Fait avec amour.",
+      "loading": "Chargement des avis...",
+      "noReviews": "Aucun avis pour le moment.",
+      "yourReviewOn": "Votre avis sur",
+      "rating": "Évaluation",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet avis ?",
+      "updateSuccess": "Avis mis à jour avec succès !",
+      "updateError": "Échec de la mise à jour de l'avis : {error}",
+      "deleteSuccess": "Avis supprimé avec succès !",
+      "deleteError": "Échec de la suppression de l'avis : {error}",
+      "reviewImageAlt": "Image d'avis",
+      "pleaseLogin": "Veuillez vous connecter en tant qu'agence ou agent",
+      "loadingReviews": "Chargement des avis reçus...",
+      "reviewFrom": "Avis de"
+    },
+    "favourite": {
+      "dashboardNavigation": "Navigation du tableau de bord",
+      "myFavorites": "Mes Favoris",
+      "welcomeBack": "Nous sommes ravis de vous revoir !",
+      "copyright": "© {year} Find House. Fait avec amour.",
+      "loading": "Chargement...",
+      "forSale": "À {type}",
+      "pricePerMonth": "{price} FCFA /mois",
+      "delete": "Supprimer"
     }
   }
 }

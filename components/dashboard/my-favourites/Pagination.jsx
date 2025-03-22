@@ -1,44 +1,53 @@
-const Pagination = () => {
+import React from "react";
+export const Pagination = ({
+  currentPage,
+  onPageChange,
+  totalItems,
+  itemsPerPage,
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <ul className="page_navigation">
-      <li className="page-item disabled">
-        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">
-          {" "}
+      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+        <a className="page-link" href="#" onClick={handlePrevious}>
           <span className="flaticon-left-arrow"></span>
         </a>
       </li>
-      <li className="page-item">
-        <a className="page-link" href="#">
-          1
-        </a>
-      </li>
-      <li className="page-item active" aria-current="page">
-        <a className="page-link" href="#">
-          2 <span className="sr-only">(current)</span>
-        </a>
-      </li>
-      <li className="page-item">
-        <a className="page-link" href="#">
-          3
-        </a>
-      </li>
-      <li className="page-item">
-        <a className="page-link" href="#">
-          ...
-        </a>
-      </li>
-      <li className="page-item">
-        <a className="page-link" href="#">
-          29
-        </a>
-      </li>
-      <li className="page-item">
-        <a className="page-link" href="#">
+      {pageNumbers.map((page) => (
+        <li
+          key={page}
+          className={`page-item ${currentPage === page ? "active" : ""}`}
+        >
+          <a className="page-link" href="#" onClick={() => onPageChange(page)}>
+            {page}
+          </a>
+        </li>
+      ))}
+      <li
+        className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+      >
+        <a className="page-link" href="#" onClick={handleNext}>
           <span className="flaticon-right-arrow"></span>
         </a>
       </li>
     </ul>
   );
 };
-
-export default Pagination;

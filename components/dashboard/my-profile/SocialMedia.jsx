@@ -1,60 +1,80 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Swal from "sweetalert2";
+import { useTranslations } from "next-intl";
 import { useAppSelector } from "@/store/hooks";
 import { useUpdateUserProfileMutation } from "@/features/api/user.api";
 
 const SocialMedia = () => {
   const { user } = useAppSelector((state) => state.auth);
-
   const [updateSocialMedia, { isLoading: isUpdating }] =
     useUpdateUserProfileMutation();
+  const t = useTranslations("dashboard.profile.SocialMedia");
 
-  const [socialMedia, setSocialMedia] = useState({
-    skype: "",
-    website: "",
-    facebook: "",
-    twitter: "",
-    linkedin: "",
-    instagram: "",
-    googlePlus: "",
-    youtube: "",
-    pinterest: "",
-    vimeo: "",
+  // Validation Schema
+  const schema = yup.object().shape({
+    skype: yup.string().url(t("validation.invalidUrl")).nullable(),
+    website: yup.string().url(t("validation.invalidUrl")).nullable(),
+    facebook: yup.string().url(t("validation.invalidUrl")).nullable(),
+    twitter: yup.string().url(t("validation.invalidUrl")).nullable(),
+    linkedin: yup.string().url(t("validation.invalidUrl")).nullable(),
+    instagram: yup.string().url(t("validation.invalidUrl")).nullable(),
+    googlePlus: yup.string().url(t("validation.invalidUrl")).nullable(),
+    youtube: yup.string().url(t("validation.invalidUrl")).nullable(),
+    pinterest: yup.string().url(t("validation.invalidUrl")).nullable(),
+    vimeo: yup.string().url(t("validation.invalidUrl")).nullable(),
   });
 
-  // Populate social media data when user is loaded
+  // React Hook Form Setup
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      skype: "",
+      website: "",
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      instagram: "",
+      googlePlus: "",
+      youtube: "",
+      pinterest: "",
+      vimeo: "",
+    },
+  });
+
+  // Populate data when user is loaded
   useEffect(() => {
     if (user?.socialMedia) {
-      setSocialMedia({
-        skype: user.socialMedia.skype || "",
-        website: user.socialMedia.website || "",
-        facebook: user.socialMedia.facebook || "",
-        twitter: user.socialMedia.twitter || "",
-        linkedin: user.socialMedia.linkedin || "",
-        instagram: user.socialMedia.instagram || "",
-        googlePlus: user.socialMedia.googlePlus || "",
-        youtube: user.socialMedia.youtube || "",
-        pinterest: user.socialMedia.pinterest || "",
-        vimeo: user.socialMedia.vimeo || "",
+      Object.keys(user.socialMedia).forEach((key) => {
+        setValue(key, user.socialMedia[key] || "");
       });
     }
-  }, [user]);
+  }, [user, setValue]);
 
-  // Handle Input Changes
-  const handleChange = (e) => {
-    setSocialMedia({ ...socialMedia, [e.target.id]: e.target.value });
-  };
-
-  // Handle Social Media Update
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  // Handle Form Submission
+  const onSubmit = async (data) => {
     try {
-      await updateSocialMedia(socialMedia).unwrap();
-      toast.success("Social media updated successfully!");
+      await updateSocialMedia(data).unwrap();
+      Swal.fire({
+        icon: "success",
+        title: t("alert.success"),
+        text: t("alert.socialMediaUpdated"),
+      });
     } catch (error) {
-      toast.error("Failed to update social media.");
+      Swal.fire({
+        icon: "error",
+        title: t("alert.error"),
+        text: t("alert.socialMediaUpdateFailed"),
+      });
       console.error("Update Error:", error);
     }
   };
@@ -62,21 +82,16 @@ const SocialMedia = () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <form onSubmit={handleUpdate}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
-        {Object.keys(socialMedia).map((key) => (
+        {Object.keys(schema.fields).map((key) => (
           <div className="col-lg-6 col-xl-6" key={key}>
             <div className="my_profile_setting_input form-group">
-              <label htmlFor={key}>
-                {key.charAt(0).toUpperCase() + key.slice(1)}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id={key}
-                value={socialMedia[key]}
-                onChange={handleChange}
-              />
+              <label htmlFor={key}>{t(`fields.${key}`)}</label>
+              <input type="text" className="form-control" {...register(key)} />
+              {errors[key] && (
+                <div className="text-danger">{errors[key]?.message}</div>
+              )}
             </div>
           </div>
         ))}
@@ -84,7 +99,7 @@ const SocialMedia = () => {
         <div className="col-xl-12 text-right">
           <div className="my_profile_setting_input">
             <button type="submit" className="btn btn2" disabled={isUpdating}>
-              {isUpdating ? "Updating..." : "Update Profile"}
+              {isUpdating ? t("updating") : t("updateProfile")}
             </button>
           </div>
         </div>

@@ -82,7 +82,6 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
       <li className={pathname === navItems.home.routerPath ? "ui-active" : ""}>
         <Link href={navItems.home.routerPath}>{t(navItems.home.name)}</Link>
       </li>
-
       {/* Properties */}
       <li className="dropitem">
         <a href="#" className="title">
@@ -98,7 +97,6 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           ))}
         </ul>
       </li>
-
       {/* Agents */}
       <li className="dropitem">
         <a href="#" className="title">
@@ -114,7 +112,6 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           ))}
         </ul>
       </li>
-
       {/* Tenant Services */}
       {/* <li className="dropitem">
         <a href="#" className="title">
@@ -128,14 +125,11 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           ))}
         </ul>
       </li> */}
-
       {/* Blog, Resources, Contact */}
       <li className={pathname === navItems.blog.routerPath ? "ui-active" : ""}>
-        <Link href={navItems.blog.routerPath}>
-          <Link href={navItems.blog.routerPath}>{t(navItems.blog.name)}</Link>
-        </Link>
+        <Link href={navItems.blog.routerPath}>{t(navItems.blog.name)}</Link>
       </li>
-
+      1
       <li
         className={pathname === navItems.contact.routerPath ? "ui-active" : ""}
       >
@@ -143,9 +137,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           {t(navItems.contact.name)}
         </Link>
       </li>
-
       <NotificationDropdown />
-
       {/* Authentication Links */}
       {isAuthenticated ? (
         <li className="dropitem ">
@@ -205,7 +197,6 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           </Link>
         </li>
       )}
-
       {/* Add Property */}
       <li className={`list-inline-item add_listing ${float}`}>
         <Link href="/create-listing">

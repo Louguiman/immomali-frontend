@@ -6,76 +6,98 @@ import {
 } from "@/features/api/user.api";
 import { useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Swal from "sweetalert2";
+import { useTranslations } from "next-intl";
+
+// ✅ Schéma de validation Yup avec traduction
+const getProfileSchema = (t) =>
+  yup.object().shape({
+    name: yup.string().required(t("profile.validation.nameRequired")),
+    email: yup
+      .string()
+      .email(t("profile.validation.invalidEmail"))
+      .required(t("profile.validation.emailRequired")),
+    firstName: yup.string().required(t("profile.validation.firstNameRequired")),
+    lastName: yup.string().required(t("profile.validation.lastNameRequired")),
+    position: yup.string().notRequired(),
+    license: yup.string().notRequired(),
+    taxNumber: yup.string().notRequired(),
+    phone: yup
+      .string()
+      .matches(/^\+?\d{10,15}$/, t("profile.validation.invalidPhone"))
+      .notRequired(),
+    fax: yup.string().notRequired(),
+    mobile: yup
+      .string()
+      .matches(/^\+?\d{10,15}$/, t("profile.validation.invalidMobile"))
+      .notRequired(),
+    language: yup.string().required(t("profile.validation.languageRequired")),
+    companyName: yup.string().notRequired(),
+    address: yup.string().notRequired(),
+    about: yup.string().notRequired(),
+  });
 
 const ProfileInfo = () => {
+  const t = useTranslations("dashboard"); // ✅ Récupération des traductions
   const { user } = useAppSelector((state) => state.auth);
   const [updateUserProfile, { isLoading: isUpdating }] =
     useUpdateUserProfileMutation();
   const [uploadProfileImage, { isLoading: isUploading }] =
     useUploadProfileImageMutation();
+  const [profileImage, setProfileImage] = useState(user?.img || null);
 
-  // State for Profile Image Upload
-  const [profileImage, setProfileImage] = useState(null);
-
-  // State for Form Fields
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    position: "",
-    license: "",
-    taxNumber: "",
-    phone: "",
-    fax: "",
-    mobile: "",
-    language: "",
-    companyName: "",
-    address: "",
-    about: "",
+  // ✅ Hook Form avec validation Yup
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(getProfileSchema(t)),
+    defaultValues: {
+      name: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      position: "",
+      license: "",
+      taxNumber: "",
+      phone: "",
+      fax: "",
+      mobile: "",
+      language: "",
+      companyName: "",
+      address: "",
+      about: "",
+    },
   });
 
-  // upload profile
-  // Prefill form with user data when fetched
+  // ✅ Pré-remplir les champs avec les données utilisateur
   useEffect(() => {
     if (user) {
-      setFormData({
-        userId: user.id,
-        name: user.name || "",
-        email: user.email || "",
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        position: user.position || "",
-        license: user.license || "",
-        taxNumber: user.taxNumber || "",
-        phone: user.phone || "",
-        fax: user.fax || "",
-        mobile: user.mobile || "",
-        language: user.language || "",
-        companyName: user.companyName || "",
-        address: user.address || "",
-        about: user.about || "",
-      });
+      Object.keys(user).forEach((key) => setValue(key, user[key] || ""));
+      if (user?.img) setProfileImage(user?.img);
     }
-  }, [user]);
+  }, [user, setValue]);
 
-  // Handle Input Changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  // Handle File Selection
+  // ✅ Gestion du changement de fichier
   const handleFileChange = (e) => {
     if (e.target.files?.length) {
       setProfileImage(e.target.files[0]);
     }
   };
 
-  // Upload Profile Image
+  // ✅ Upload de l’image de profil
   const handleUploadImage = async () => {
     if (!profileImage) {
-      toast.error("Please select an image first.");
+      Swal.fire(
+        t("profile.alert.error"),
+        t("profile.alert.selectImage"),
+        "error"
+      );
       return;
     }
 
@@ -83,36 +105,49 @@ const ProfileInfo = () => {
     formData.append("file", profileImage);
 
     try {
-      const response = await uploadProfileImage(formData).unwrap();
-      toast.success("Profile image updated successfully!");
-      console.log("Uploaded Image URL:", response.imageUrl);
+      await uploadProfileImage(formData).unwrap();
+      Swal.fire(
+        t("profile.alert.success"),
+        t("profile.alert.imageUpdated"),
+        "success"
+      );
     } catch (error) {
-      toast.error("Failed to upload profile image.");
-      console.error("Upload Error:", error);
+      Swal.fire(
+        t("profile.alert.error"),
+        t("profile.alert.imageUpdateFailed"),
+        "error"
+      );
     }
   };
 
-  // Update Profile Information
-  const handleUpdateProfile = async (e) => {
-    e.preventDefault();
+  // ✅ Mise à jour du profil utilisateur
+  const onSubmit = async (data) => {
     try {
-      await updateUserProfile(formData).unwrap();
-      toast.success("Profile updated successfully!");
+      await updateUserProfile(data).unwrap();
+      Swal.fire(
+        t("profile.alert.success"),
+        t("profile.alert.profileUpdated"),
+        "success"
+      );
     } catch (error) {
-      toast.error("Failed to update profile.");
-      console.error("Profile Update Error:", error);
+      Swal.fire(
+        t("profile.alert.error"),
+        t("profile.alert.profileUpdateFailed"),
+        "error"
+      );
     }
   };
 
   return (
-    <form onSubmit={handleUpdateProfile}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
+        {/* Upload Image */}
         <div className="col-lg-12">
           <div className="wrap-custom-file">
             <input
               type="file"
               id="image1"
-              accept="image/png, image/gif, image/jpeg"
+              accept="image/*"
               onChange={handleFileChange}
             />
             <label
@@ -128,11 +163,11 @@ const ProfileInfo = () => {
               htmlFor="image1"
             >
               <span>
-                <i className="flaticon-download"></i> Upload Photo{" "}
+                <i className="flaticon-download"></i> {t("profile.uploadPhoto")}
               </span>
             </label>
           </div>
-          <p>*Minimum 260px x 260px</p>
+          <p>{t("profile.imageMinSize")}</p>
           {profileImage && (
             <button
               type="button"
@@ -140,38 +175,37 @@ const ProfileInfo = () => {
               onClick={handleUploadImage}
               disabled={isUploading}
             >
-              {isUploading ? "Uploading..." : "Save Image"}
+              {isUploading ? t("profile.uploading") : t("profile.saveImage")}
             </button>
           )}
         </div>
-        {/* End .col */}
 
         {/* Dynamic Form Fields */}
-        {Object.keys(formData).map((key) => (
+        {Object.keys(getProfileSchema(t).fields).map((key) => (
           <div className="col-lg-6 col-xl-6" key={key}>
             <div className="my_profile_setting_input form-group">
-              <label htmlFor={key}>
-                {key.replace(/([A-Z])/g, " $1").trim()}
-              </label>
+              <label htmlFor={key}>{t(`profile.fields.${key}`)}</label>
               <input
-                type={key === "email" ? "email" : "text"}
+                type="text"
                 className="form-control"
                 id={key}
-                value={formData[key]}
-                onChange={handleChange}
+                {...register(key)}
               />
+              {errors[key] && (
+                <p className="text-danger">{errors[key]?.message}</p>
+              )}
             </div>
           </div>
         ))}
 
+        {/* Submit Button */}
         <div className="col-xl-12 text-right">
           <div className="my_profile_setting_input">
             <button type="submit" className="btn btn2" disabled={isUpdating}>
-              {isUpdating ? "Updating..." : "Update Profile"}
+              {isUpdating ? t("profile.updating") : t("profile.updateProfile")}
             </button>
           </div>
         </div>
-        {/* End .col */}
       </div>
     </form>
   );

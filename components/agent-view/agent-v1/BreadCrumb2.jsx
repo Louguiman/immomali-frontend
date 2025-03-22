@@ -1,12 +1,15 @@
+import { useTranslations } from "next-intl";
 import BreadCrumb from "../../common/BreadCrumb";
 
-const BreadCrumb2 = () => {
+const BreadCrumbAgents = () => {
+  const t = useTranslations("home.agents");
+
   return (
     <div className="breadcrumb_content style2 mb0-991">
-      <BreadCrumb title="Agent View – Agent V1" />
-      <h2 className="breadcrumb_title">All Agents</h2>
+      <BreadCrumb title={t("find_agents_breadcrumb")} />
+      <h2 className="breadcrumb_title">{t("all_agents")}</h2>
     </div>
   );
 };
 
-export default BreadCrumb2;
+export default BreadCrumbAgents;

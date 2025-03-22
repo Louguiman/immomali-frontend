@@ -36,7 +36,7 @@ const Sidebar = ({ propertyId, agent }) => {
           <ul className="list_details">
             <Categorie />
           </ul>
-        </div>
+        </div>`1`
       </div>
       {/* End .Categories Property */}
 

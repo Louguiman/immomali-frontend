@@ -35,6 +35,42 @@
       "title": "Become a Real Estate Agent",
       "description": "We only work with the best companies around the globe",
       "button": "Register Now"
+    },
+    "agents": {
+      "find_agents_breadcrumb": "Find Agents – Search & Filter",
+      "all_agents": "All Agents",
+      "loading_agents": "Loading agents...",
+      "error_fetching_agents": "Error fetching agents.",
+      "no_agents_found": "No agents found.",
+      "listings": "Listings",
+      "view_my_listings": "View My Listings",
+      "sidebar": {
+        "find_agent": "Find Agent",
+        "featured_properties": "Featured Properties",
+        "categories_property": "Categories Property",
+        "recently_viewed": "Recently Viewed",
+        "search": {
+          "enter_agent_name": "Enter Agent Name",
+          "all_categories": "All Categories",
+          "broker": "Broker",
+          "agent": "Agent",
+          "all_cities": "All Cities",
+          "atlanta": "Atlanta",
+          "florida": "Florida",
+          "los angeles": "Los Angeles",
+          "miami": "Miami",
+          "new york": "New York",
+          "orlando": "Orlando",
+          "clear": "Clear"
+        }
+      },
+      "topBar": {
+        "search_results": "Search results",
+        "no_results": "No result found",
+        "sort_by": "Sort by",
+        "select_type": "Select Type",
+        "listings": "{count} Listings"
+      }
     }
   }
 }

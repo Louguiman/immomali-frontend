@@ -1,5 +1,5 @@
 {
-  "dashbaord": {
+  "dashboard": {
     "navigation": "Dashboard Navigation",
     "TenantProfile": {
       "notFound": "Tenant not found.",
@@ -102,6 +102,10 @@
       "status_warning": "Pending"
     },
     "maintenance": {
+      "SectionTitle": "My Maintenance Requests",
+      "SectionDescription": "Manage your maintenance requests here.",
+      "error": "Error loading requests.",
+      "noRequests": "No maintenance requests found.",
       "new_maintenance_request": "New Maintenance Request",
       "title": "Title",
       "description": "Description",
@@ -119,7 +123,42 @@
       "submit_request": "Submit Request",
       "submitting": "Submitting...",
       "maintenance_request_submitted": "Maintenance request submitted!",
-      "error_submitting_request": "Error submitting request."
+      "error_submitting_request": "Error submitting request.",
+      "noImage": "No image available",
+      "status": "Status",
+      "Status": {
+        "pending": "Pending",
+        "in-progress": "In Progress",
+        "inProgress": "In Progress",
+        "resolved": "Resolved",
+        "cancelled": "Cancelled"
+      },
+      "viewDetails": "View Details",
+      "titleDetails": {
+        "detail": "Maintenance Request Details"
+      },
+      "label": {
+        "category": "Category",
+        "priority": "Priority",
+        "status": "Status",
+        "estimatedCost": "Estimated Cost",
+        "actualCost": "Actual Cost",
+        "resolutionNotes": "Resolution Notes"
+      },
+      "button": {
+        "back": "Back to List",
+        "edit": "Edit",
+        "update": "Update",
+        "updating": "Updating...",
+        "cancel": "Cancel"
+      },
+      "success": {
+        "update": "Request updated successfully!"
+      },
+      "Error": {
+        "loading": "Error loading data.",
+        "update": "Failed to update request."
+      }
     },
     "userBanner": {
       "HowdyUser": "Salut, {name}",
@@ -140,6 +179,130 @@
       "SectionTitle": "View Statistics",
       "Months": "January,February,March, April,May,June",
       "DatasetLabel": "Statistics"
+    },
+    "profile": {
+      "dashboardNavigation": "Dashboard Navigation",
+      "myProfile": "My Profile",
+      "welcomeMessage": "We are glad to see you again!",
+      "profileInfo": "Profile Information",
+      "socialMedia": "Social Media",
+      "changePassword": "Change Password",
+      "copyright": "© {year} Find House. Made with love.",
+      "uploadPhoto": "Upload Photo",
+      "imageMinSize": "*Minimum 260px x 260px",
+      "uploading": "Uploading...",
+      "saveImage": "Save Image",
+      "updating": "Updating...",
+      "updateProfile": "Update Profile",
+      "alert": {
+        "success": "Success",
+        "error": "Error",
+        "selectImage": "Please select an image",
+        "imageUpdated": "Profile image updated successfully",
+        "imageUpdateFailed": "Failed to upload profile image",
+        "profileUpdated": "Profile updated successfully",
+        "profileUpdateFailed": "Failed to update profile"
+      },
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "position": "Position",
+        "license": "License",
+        "taxNumber": "Tax Number",
+        "phone": "Phone",
+        "fax": "Fax",
+        "mobile": "Mobile",
+        "language": "Language",
+        "companyName": "Company Name",
+        "address": "Address",
+        "about": "About"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "invalidEmail": "Invalid email",
+        "emailRequired": "Email is required",
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "invalidPhone": "Invalid phone number",
+        "invalidMobile": "Invalid mobile number",
+        "languageRequired": "Language is required"
+      },
+      "SocialMedia": {
+        "title": "Social Media Links",
+        "fields": {
+          "skype": "Skype",
+          "website": "Website",
+          "facebook": "Facebook",
+          "twitter": "Twitter",
+          "linkedin": "LinkedIn",
+          "instagram": "Instagram",
+          "googlePlus": "Google Plus",
+          "youtube": "YouTube",
+          "pinterest": "Pinterest",
+          "vimeo": "Vimeo"
+        },
+        "alert": {
+          "success": "Social media updated successfully",
+          "error": "Failed to update social media"
+        }
+      },
+      "ChangePassword": {
+        "title": "Change Password",
+        "updateProfile": "Update Password",
+        "updating": "Updating...",
+        "fields": {
+          "oldPassword": "Old Password",
+          "newPassword": "New Password",
+          "confirmPassword": "Confirm New Password"
+        },
+        "alert": {
+          "success": "Success",
+          "error": "Error",
+          "passwordUpdated": "Password updated successfully!",
+          "passwordUpdateFailed": "Failed to update password."
+        },
+        "validation": {
+          "required": "This field is required",
+          "minLength": "Password must be at least 6 characters long",
+          "passwordMatch": "Passwords do not match"
+        }
+      }
+    },
+    "reviews": {
+      "title": "My Reviews",
+      "greeting": "We are glad to see you again!",
+      "myReviews": "My Reviews",
+      "visitorReviews": "Visitor Reviews",
+      "copyright": "© 2020 Find House. Made with love.",
+      "loading": "Loading reviews...",
+      "noReviews": "No reviews yet.",
+      "yourReviewOn": "Your review on",
+      "rating": "Rating",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this review?",
+      "updateSuccess": "Review updated successfully!",
+      "updateError": "Failed to update review: {error}",
+      "deleteSuccess": "Review deleted successfully!",
+      "deleteError": "Failed to delete review: {error}",
+      "reviewImageAlt": "Review image",
+      "pleaseLogin": "Please log in as an agency or an agent",
+      "loadingReviews": "Loading received reviews...",
+      "reviewFrom": "Review from"
+    },
+    "favourite": {
+      "dashboardNavigation": "Dashboard Navigation",
+      "myFavorites": "My Favorites",
+      "welcomeBack": "We are glad to see you again!",
+      "copyright": "© {year} Find House. Made with love.",
+      "loading": "Loading...",
+      "forSale": "For {type}",
+      "pricePerMonth": "{price} FCFA /mo",
+      "delete": "Delete"
     }
   }
 }

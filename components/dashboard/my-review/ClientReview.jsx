@@ -4,6 +4,7 @@ import { useGetReceivedReviewsQuery } from "@/features/api/reviews.api";
 import { useAppSelector } from "@/store/hooks";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const ClientReview = () => {
   const user = useAppSelector((state) => state.auth?.user);
@@ -14,9 +15,11 @@ const ClientReview = () => {
     skip: isUser,
   });
 
-  if (isUser) return <p> Please log in as an agency or an agent</p>;
-  if (isLoading) return <p>Loading received reviews...</p>;
-  if (!reviews?.length) return <p>No reviews received yet.</p>;
+  const t = useTranslations("dashboard.reviews"); // Initialize translation function
+
+  if (isUser) return <p>{t("pleaseLogin")}</p>;
+  if (isLoading) return <p>{t("loadingReviews")}</p>;
+  if (!reviews?.length) return <p>{t("noReviews")}</p>;
 
   return (
     <>
@@ -31,7 +34,7 @@ const ClientReview = () => {
           />
           <div className="media-body">
             <h5 className="review_title mt-0">
-              Review from{" "}
+              {t("reviewFrom")}{" "}
               <Link href={`/user/${review.user?.id}`}>
                 <span className="text-thm">{review.user?.name}</span>
               </Link>

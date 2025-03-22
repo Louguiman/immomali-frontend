@@ -41,7 +41,7 @@ const InvoiceTable = ({ invoices }) => {
                 style: "currency",
                 currency: "XOF",
               })}
-            </td>{" "}
+            </td>
             {/* Currency formatted */}
             <td>
               {formatNumber(invoice.paidAmount, {

@@ -1,6 +1,12 @@
-import React from "react";
+"use client";
 
-function layout({ children }) {
+import React from "react";
+import PropTypes from "prop-types";
+import { useTranslations } from "next-intl";
+
+const Layout = ({ children }) => {
+  const t = useTranslations("dashboard");
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -17,7 +23,7 @@ function layout({ children }) {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i> {t("navigation")}
                     </button>
                   </div>
                 </div>
@@ -26,8 +32,10 @@ function layout({ children }) {
 
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Maintenance Requests</h2>
-                  <p>Manage your maintenance requests here.</p>
+                  <h2 className="breadcrumb_title">
+                    {t("maintenance.SectionTitle")}
+                  </h2>
+                  <p>{t("maintenance.SectionDescription")}</p>
                 </div>
               </div>
               {/* End .col */}
@@ -40,6 +48,10 @@ function layout({ children }) {
       </div>
     </section>
   );
-}
+};
 
-export default layout;
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default Layout;

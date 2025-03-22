@@ -35,6 +35,42 @@
       "title": "Devenez un agent immobilier",
       "description": "Nous ne travaillons qu'avec les meilleures entreprises du monde",
       "button": "S'inscrire maintenant"
+    },
+    "agents": {
+      "find_agents_breadcrumb": "Trouver des agents – Recherche et filtrage",
+      "all_agents": "Tous les agents",
+      "loading_agents": "Chargement des agents...",
+      "error_fetching_agents": "Erreur lors du chargement des agents.",
+      "no_agents_found": "Aucun agent trouvé.",
+      "listings": "Annonces",
+      "view_my_listings": "Voir mes annonces",
+      "sidebar": {
+        "find_agent": "Trouver un agent",
+        "featured_properties": "Propriétés en vedette",
+        "categories_property": "Catégories de propriétés",
+        "recently_viewed": "Récemment consulté",
+        "search": {
+          "enter_agent_name": "Saisissez le nom de l'agent",
+          "all_categories": "Toutes les catégories",
+          "broker": "Courtier",
+          "agent": "Agent",
+          "all_cities": "Toutes les villes",
+          "atlanta": "Atlanta",
+          "florida": "Floride",
+          "los angeles": "Los Angeles",
+          "miami": "Miami",
+          "new york": "New York",
+          "orlando": "Orlando",
+          "clear": "Effacer"
+        }
+      },
+      "topBar": {
+        "search_results": "Résultats de recherche",
+        "no_results": "Aucun résultat trouvé",
+        "sort_by": "Trier par",
+        "select_type": "Sélectionner le type",
+        "listings": "{count} Annonces"
+      }
     }
   }
 }

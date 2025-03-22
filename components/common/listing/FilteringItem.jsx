@@ -27,11 +27,13 @@ import PricingRangeSlider from "../../common/PricingRangeSlider";
 import { v4 as uuidv4 } from "uuid";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { addCategory } from "@/features/agent/agentSlice";
+import { useTranslations } from "next-intl";
 
 const FilteringItem = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const t = useTranslations("property"); // Get the translation function
 
   const {
     keyword,
@@ -225,12 +227,13 @@ const FilteringItem = () => {
 
   return (
     <ul className="sasw_list mb0">
+      {/* Search by Keyword */}
       <li className="search_area">
         <div className="form-group mb-3">
           <input
             type="text"
             className="form-control"
-            placeholder="keyword"
+            placeholder={t("keyword")}
             value={getKeyword}
             onSubmit={handleSearch}
             onChange={(e) => setKeyword(e.target.value)}
@@ -240,46 +243,25 @@ const FilteringItem = () => {
           </label>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Search by Location */}
       <li className="search_area">
         <div className="form-group mb-3">
           <input
             type="search"
             className="form-control"
             id="location"
-            placeholder="Location"
+            placeholder={t("location")}
             value={getLocation}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <label htmlFor="exampleInputEmail">
+          <label htmlFor="location">
             <span className="flaticon-maps-and-flags"></span>
           </label>
         </div>
       </li>
-      {/* End li */}
 
-      <li>
-        <div className="search_option_two">
-          <div className="candidate_revew_select">
-            <select
-              onChange={(e) => setCategory(e.target.value)}
-              className="selectpicker w100 show-tick form-select"
-              value={getCategory}
-            >
-              <option value="">Category</option>
-              <option value="apartment">Apartment</option>
-              <option value="villa">Villa</option>
-              <option value="bungalow">Bungalow</option>
-              <option value="condo">Condo</option>
-              <option value="house">House</option>
-              <option value="land">Land</option>
-            </select>
-          </div>
-        </div>
-      </li>
-      {/* End li */}
-
+      {/* Category Filter */}
       <li>
         <div className="search_option_two">
           <div className="candidate_revew_select">
@@ -288,19 +270,36 @@ const FilteringItem = () => {
               className="selectpicker w100 show-tick form-select"
               value={getType}
             >
-              <option value="">Category</option>
-              <option value="apartment">Apartment</option>
-              <option value="bungalow">Bungalow</option>
-              <option value="condo">Condo</option>
-              <option value="house">House</option>
-              <option value="land">Land</option>
-              <option value="single family">Single Family</option>
+              <option value="">{t("Type")}</option>
+              <option value="rent">{t("rent")}</option>
+              <option value="sale">{t("sale")}</option>
             </select>
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Type Filter */}
+      <li>
+        <div className="search_option_two">
+          <div className="candidate_revew_select">
+            <select
+              onChange={(e) => setCategory(e.target.value)}
+              className="selectpicker w100 show-tick form-select"
+              value={getCategory}
+            >
+              <option value="">{t("category")}</option>
+              <option value="apartment">{t("categories.apartment")}</option>
+              <option value="house">{t("categories.house")}</option>
+              <option value="office">{t("categories.office")}</option>
+              <option value="villa">{t("categories.villa")}</option>
+              <option value="land">{t("categories.land")}</option>
+              <option value="other">{t("categories.other")}</option>
+            </select>
+          </div>
+        </div>
+      </li>
+
+      {/* Price Range Filter */}
       <li>
         <div className="small_dropdown2">
           <div
@@ -309,8 +308,9 @@ const FilteringItem = () => {
             data-bs-toggle="dropdown"
             data-bs-auto-close="outside"
             aria-expanded="false"
+            role="button"
           >
-            <span>Price Range</span>
+            <span>{t("priceRange")}</span>
             <label htmlFor="prncgs2">
               <span className="fa fa-angle-down"></span>
             </label>
@@ -322,8 +322,8 @@ const FilteringItem = () => {
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Bathroom Filter */}
       <li>
         <div className="search_option_two">
           <div className="candidate_revew_select">
@@ -332,7 +332,7 @@ const FilteringItem = () => {
               className="selectpicker w100 show-tick form-select"
               value={getBathroom}
             >
-              <option value="">Bathrooms</option>
+              <option value="">{t("bathrooms")}</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -343,8 +343,8 @@ const FilteringItem = () => {
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Bedroom Filter */}
       <li>
         <div className="search_option_two">
           <div className="candidate_revew_select">
@@ -353,7 +353,7 @@ const FilteringItem = () => {
               className="selectpicker w100 show-tick form-select"
               value={getBedroom}
             >
-              <option value="">Bedrooms</option>
+              <option value="">{t("bedrooms")}</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -364,8 +364,8 @@ const FilteringItem = () => {
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Garages Filter */}
       <li>
         <div className="search_option_two">
           <div className="candidate_revew_select">
@@ -374,16 +374,17 @@ const FilteringItem = () => {
               className="selectpicker w100 show-tick form-select"
               value={getGarages}
             >
-              <option value="">Garages</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-              <option value="other">Others</option>
+              <option value="">{t("garages")}</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="more">{t("more")}</option>
             </select>
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Year Built Filter */}
       <li>
         <div className="search_option_two">
           <div className="candidate_revew_select">
@@ -392,7 +393,7 @@ const FilteringItem = () => {
               className="selectpicker w100 show-tick form-select"
               value={getBuiltYear}
             >
-              <option value="">Year built</option>
+              <option value="">{t("year_built")}</option>
               <option value="2013">2013</option>
               <option value="2014">2014</option>
               <option value="2015">2015</option>
@@ -405,36 +406,33 @@ const FilteringItem = () => {
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Area Min and Max */}
       <li className="min_area list-inline-item">
         <div className="form-group mb-4">
           <input
             type="number"
             className="form-control"
-            id="exampleInputName2"
-            placeholder="Min Area"
+            placeholder={t("minArea")}
             value={getAreaMin}
             onChange={(e) => setAreaMin(e.target.value)}
           />
         </div>
       </li>
-      {/* End li */}
 
       <li className="max_area list-inline-item">
         <div className="form-group mb-4">
           <input
             type="number"
             className="form-control"
-            id="exampleInputName3"
-            placeholder="Max Area"
+            placeholder={t("maxArea")}
             value={getAreaMax}
             onChange={(e) => setAreaMax(e.target.value)}
           />
         </div>
       </li>
-      {/* End li */}
 
+      {/* Advanced Features */}
       <li>
         <div id="accordion" className="panel-group">
           <div className="panel">
@@ -446,12 +444,10 @@ const FilteringItem = () => {
                   data-bs-toggle="collapse"
                   data-bs-parent="#accordion"
                 >
-                  <i className="flaticon-more"></i> Advanced features
+                  <i className="flaticon-more"></i> {t("advancedFeatures")}
                 </a>
               </h4>
             </div>
-            {/* End .panel-heading */}
-
             <div id="panelBodyRating" className="panel-collapse collapse">
               <div className="panel-body row">
                 <div className="col-lg-12">
@@ -486,8 +482,8 @@ const FilteringItem = () => {
           </div>
         </div>
       </li>
-      {/* End li */}
 
+      {/* Clear Filters Button */}
       <li>
         <div className="search_option_button">
           <button
@@ -495,11 +491,10 @@ const FilteringItem = () => {
             type="button"
             className="btn btn-block btn-thm w-100"
           >
-            Clear Filters
+            {t("clearFilters")}
           </button>
         </div>
       </li>
-      {/* End li */}
     </ul>
   );
 };

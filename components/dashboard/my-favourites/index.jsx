@@ -1,9 +1,33 @@
+"use client";
+
+import { useAppSelector } from "@/store/hooks";
 import FavouritProducts from "./FavouritProducts";
 import Filtering from "./Filtering";
-import Pagination from "./Pagination";
+import { Pagination } from "./Pagination";
 import SearchBox from "./SearchBox";
+import { useTranslations } from "next-intl";
+import { setCurrentPage } from "@/features/properties/propertiesSlice";
+import { useDispatch } from "react-redux";
+import { useMemo } from "react";
 
-const index = () => {
+const Index = () => {
+  const t = useTranslations("dashboard.favourite");
+  const dispatch = useDispatch();
+  const { favorites, currentPage, itemsPerPage } = useAppSelector(
+    (state) => state.properties
+  );
+
+  // Handle page change action
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
+  };
+
+  const paginatedFavorites = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return favorites.slice(startIndex, endIndex);
+  }, [currentPage, favorites, itemsPerPage]);
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -20,7 +44,8 @@ const index = () => {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i>{" "}
+                      {t("dashboardNavigation")}
                     </button>
                   </div>
                 </div>
@@ -29,8 +54,8 @@ const index = () => {
 
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Favorites</h2>
-                  <p>We are glad to see you again!</p>
+                  <h2 className="breadcrumb_title">{t("myFavorites")}</h2>
+                  <p>{t("welcomeBack")}</p>
                 </div>
               </div>
               {/* End .col */}
@@ -57,10 +82,17 @@ const index = () => {
               <div className="col-lg-12">
                 <div className="my_dashboard_review mb40">
                   <div className="favorite_item_list">
-                    <FavouritProducts />
+                    <FavouritProducts
+                      favouritesProperties={paginatedFavorites}
+                    />
 
                     <div className="mbp_pagination">
-                      <Pagination />
+                      <Pagination
+                        currentPage={currentPage}
+                        onPageChange={handlePageChange}
+                        totalItems={favorites.length}
+                        itemsPerPage={itemsPerPage}
+                      />
                     </div>
                   </div>
                 </div>
@@ -72,7 +104,7 @@ const index = () => {
             <div className="row mt50">
               <div className="col-lg-12">
                 <div className="copyright-widget text-center">
-                  <p>© 2020 Find House. Made with love.</p>
+                  <p>{t("copyright", { year: new Date().getFullYear() })}</p>
                 </div>
               </div>
             </div>
@@ -85,4 +117,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

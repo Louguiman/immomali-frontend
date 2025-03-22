@@ -46,7 +46,13 @@ export const userApi = apiSlice.injectEndpoints({
     searchUsers: builder.query({
       query: (query) => `/users/search?query=${query}`,
     }),
-
+    changePassword: builder.mutation({
+      query: (body) => ({
+        url: "auth/change-password",
+        method: "PATCH",
+        body,
+      }),
+    }),
     // Update user profile
     updateUserProfile: builder.mutation({
       query: ({ userId, ...profileData }) => ({
@@ -78,4 +84,5 @@ export const {
   useUpdateUserProfileMutation,
   useUploadProfileImageMutation, // ✅ Now available for use
   useSearchUsersQuery,
+  useChangePasswordMutation,
 } = userApi;

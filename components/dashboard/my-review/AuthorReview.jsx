@@ -1,6 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import {
   useUpdateReviewMutation,
   useDeleteReviewMutation,
@@ -11,10 +13,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const AuthorReview = () => {
+  const t = useTranslations("dashboard.reviews");
   const user = useAppSelector((state) => state.auth?.user);
   const { data: reviews, isLoading } = useGetAllUserReviewsQuery(user?.id, {
     skip: !user?.id,
   });
+
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
   const [editingReview, setEditingReview] = useState(null);
@@ -23,8 +27,8 @@ const AuthorReview = () => {
     rating: 0,
   });
 
-  if (isLoading) return <p>Loading reviews...</p>;
-  if (!reviews?.length) return <p>No reviews yet.</p>;
+  if (isLoading) return <p>{t("loading")}</p>;
+  if (!reviews?.length) return <p>{t("noReviews")}</p>;
 
   /** Handle Edit Click */
   const handleEditClick = (review) => {
@@ -36,25 +40,25 @@ const AuthorReview = () => {
   const handleSave = async (reviewId) => {
     try {
       await updateReview({ id: reviewId, ...updatedReview }).unwrap();
-      toast.success("Review updated successfully!");
+      toast.success(t("updateSuccess"));
       setEditingReview(null);
     } catch (err) {
       toast.error(
-        "Failed to update review: " + err.data?.message || err.message
+        t("updateError", { error: err.data?.message || err.message })
       );
     }
   };
 
   /** Handle Delete Review */
   const handleDelete = async (reviewId) => {
-    if (!window.confirm("Are you sure you want to delete this review?")) return;
+    if (!window.confirm(t("confirmDelete"))) return;
 
     try {
       await deleteReview(reviewId).unwrap();
-      toast.success("Review deleted successfully!");
+      toast.success(t("deleteSuccess"));
     } catch (err) {
       toast.error(
-        "Failed to delete review: " + err.data?.message || err.message
+        t("deleteError", { error: err.data?.message || err.message })
       );
     }
   };
@@ -68,11 +72,11 @@ const AuthorReview = () => {
             height={120}
             className="mr-3 rounded-circle"
             src="/assets/images/resource/review.png"
-            alt="Review image"
+            alt={t("reviewImageAlt")}
           />
           <div className="media-body">
             <h5 className="review_title mt-0">
-              Your review on{" "}
+              {t("yourReviewOn")}{" "}
               <Link href="#">
                 <span className="text-thm">
                   {item?.property?.title ||
@@ -110,7 +114,7 @@ const AuthorReview = () => {
                   }
                 ></textarea>
                 <div className="d-flex align-items-center">
-                  <label className="me-2">Rating:</label>
+                  <label className="me-2">{t("rating")}:</label>
                   <select
                     className="form-select w-auto"
                     value={updatedReview.rating}
@@ -131,13 +135,13 @@ const AuthorReview = () => {
                     className="btn btn-sm btn-success ms-3"
                     onClick={() => handleSave(item.id)}
                   >
-                    Save
+                    {t("save")}
                   </button>
                   <button
                     className="btn btn-sm btn-secondary ms-2"
                     onClick={() => setEditingReview(null)}
                   >
-                    Cancel
+                    {t("cancel")}
                   </button>
                 </div>
               </div>
@@ -152,7 +156,7 @@ const AuthorReview = () => {
                 className="list-inline-item"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Edit"
+                title={t("edit")}
               >
                 <a
                   href="#"
@@ -168,7 +172,7 @@ const AuthorReview = () => {
                 className="list-inline-item"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Delete"
+                title={t("delete")}
               >
                 <a
                   href="#"
