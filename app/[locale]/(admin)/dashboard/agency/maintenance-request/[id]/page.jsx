@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -10,9 +10,11 @@ import {
 } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
+import { removeEmptyValues } from "@/utils/getValidParams";
 
 const MaintenanceRequestDetail = ({ params }) => {
-  const { id } = params;
+  const { id } = useParams();
+
   const router = useRouter();
   const { data: request, isLoading, isError } = useGetRequestByIdQuery(id);
   const [updateRequest, { isLoading: isUpdating }] = useUpdateRequestMutation();
@@ -57,13 +59,19 @@ const MaintenanceRequestDetail = ({ params }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    console.log("request data: ", formData);
+
+    const data = removeEmptyValues(formData);
     try {
-      await updateRequest({ id: request.id, ...formData }).unwrap();
+      await updateRequest({ id: request.id, ...data }).unwrap();
       toast.success("Maintenance request updated successfully!");
       setIsEditing(false);
       router.refresh(); // refresh data if needed
     } catch (error) {
-      toast.error("Failed to update maintenance request.");
+      toast.error(
+        "Failed to update maintenance request." +
+          error?.data?.message?.toString()
+      );
     }
   };
 

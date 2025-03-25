@@ -71,7 +71,7 @@ const AuthorReview = () => {
             width={120}
             height={120}
             className="mr-3 rounded-circle"
-            src="/assets/images/resource/review.png"
+            src={item?.user?.img || "/assets/images/resource/review.png"}
             alt={t("reviewImageAlt")}
           />
           <div className="media-body">

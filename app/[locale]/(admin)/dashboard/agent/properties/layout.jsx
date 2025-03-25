@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
-function layout({ children }) {
+function Layout({ children }) {
+  const t = useTranslations("property"); // Hook to fetch translation
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -17,7 +20,8 @@ function layout({ children }) {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i>{" "}
+                      {t("dashboardnavigation")}
                     </button>
                   </div>
                 </div>
@@ -26,8 +30,11 @@ function layout({ children }) {
 
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Properties</h2>
-                  <p>Manage your properties here.</p>
+                  <h2 className="breadcrumb_title">
+                    {t("breadcrumbtitle")} {/* Translated title */}
+                  </h2>
+                  <p>{t("breadcrumbdescription")}</p>{" "}
+                  {/* Translated description */}
                 </div>
               </div>
               {/* End .col */}
@@ -42,4 +49,4 @@ function layout({ children }) {
   );
 }
 
-export default layout;
+export default Layout;

@@ -1,12 +1,15 @@
 "use client";
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { toast } from "react-toastify";
 import { useRegisterMutation } from "@/features/api/auth.api";
 import { useCreateAgencyMutation } from "@/features/api/agencies.api";
 import { useCreateAgentMutation } from "@/features/api/agents.api";
+import Swal from "sweetalert2"; // SweetAlert import
 
 const SignupForm = () => {
+  const t = useTranslations("SignupForm"); // Using next-intl to get translations
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,7 +50,7 @@ const SignupForm = () => {
           description: formData.description,
           website: formData.website,
         }).unwrap();
-        toast.success("Agency registered successfully!");
+        Swal.fire(t("agencyRegistered"));
       } else if (formData.role === "agent") {
         // Create an agent
         await createAgent({
@@ -58,7 +61,7 @@ const SignupForm = () => {
           role: formData.role,
           agencyId: formData.agencyId ? parseInt(formData.agencyId) : null,
         }).unwrap();
-        toast.success("Agent registered successfully!");
+        Swal.fire(t("agentRegistered"));
       } else {
         // Register a normal user
         await registerUser({
@@ -68,21 +71,25 @@ const SignupForm = () => {
           phoneNumber: formData.phoneNumber,
           role: formData.role,
         }).unwrap();
-        toast.success("User registered successfully!");
+        Swal.fire(t("userRegistered"));
       }
     } catch (err) {
-      toast.error("Registration failed: " + err.data?.message || err.message);
+      Swal.fire({
+        icon: "error",
+        title: t("registrationFailed"),
+        text: err.data?.message || err.message,
+      });
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="heading text-center">
-        <h3>Register Your Account</h3>
+        <h3>{t("registerYourAccount")}</h3>
         <p className="text-center">
-          Already have an account?{" "}
+          {t("alreadyHaveAccount")}{" "}
           <Link href="/login" className="text-thm">
-            Login
+            {t("login")}
           </Link>
         </p>
       </div>
@@ -96,7 +103,7 @@ const SignupForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          placeholder="Full Name"
+          placeholder={t("fullName")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -114,7 +121,7 @@ const SignupForm = () => {
           value={formData.email}
           onChange={handleChange}
           required
-          placeholder="Email Address"
+          placeholder={t("email")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -132,7 +139,7 @@ const SignupForm = () => {
           value={formData.password}
           onChange={handleChange}
           required
-          placeholder="Password"
+          placeholder={t("password")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -150,7 +157,7 @@ const SignupForm = () => {
           value={formData.phoneNumber}
           onChange={handleChange}
           required
-          placeholder="Phone Number"
+          placeholder={t("phoneNumber")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -161,7 +168,7 @@ const SignupForm = () => {
 
       {/* Role Selection */}
       <div className="form-group">
-        <label className="form-label">Choose Your Role</label>
+        <label className="form-label">{t("chooseRole")}</label>
         <div className="role-selection">
           <label className="role-option">
             <input
@@ -172,8 +179,8 @@ const SignupForm = () => {
               onChange={handleChange}
             />
             <span className="role-text">
-              <strong>User</strong>
-              <p>Looking for properties? Sign up as a user.</p>
+              <strong>{t("user")}</strong>
+              <p>{t("userDescription")}</p>
             </span>
           </label>
 
@@ -186,8 +193,8 @@ const SignupForm = () => {
               onChange={handleChange}
             />
             <span className="role-text">
-              <strong>Agent</strong>
-              <p>Manage and promote properties as an agent.</p>
+              <strong>{t("agent")}</strong>
+              <p>{t("agentDescription")}</p>
             </span>
           </label>
 
@@ -200,8 +207,8 @@ const SignupForm = () => {
               onChange={handleChange}
             />
             <span className="role-text">
-              <strong>Agency</strong>
-              <p>List and manage properties for your agency.</p>
+              <strong>{t("agency")}</strong>
+              <p>{t("agencyDescription")}</p>
             </span>
           </label>
         </div>
@@ -216,7 +223,7 @@ const SignupForm = () => {
             name="agencyId"
             value={formData.agencyId || ""}
             onChange={handleChange}
-            placeholder="Agency ID (if applicable)"
+            placeholder={t("agencyId")}
           />
           <div className="input-group-prepend">
             <div className="input-group-text">
@@ -236,7 +243,7 @@ const SignupForm = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              placeholder="Agency Description"
+              placeholder={t("agencyDescription")}
             />
           </div>
 
@@ -247,7 +254,7 @@ const SignupForm = () => {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              placeholder="Agency Address"
+              placeholder={t("agencyAddress")}
             />
           </div>
 
@@ -258,7 +265,7 @@ const SignupForm = () => {
               name="website"
               value={formData.website}
               onChange={handleChange}
-              placeholder="Agency Website (Optional)"
+              placeholder={t("agencyWebsite")}
             />
           </div>
         </>
@@ -270,8 +277,8 @@ const SignupForm = () => {
         className="btn btn-log w-100 btn-thm"
       >
         {isRegistering || isCreatingAgency || isCreatingAgent
-          ? "Registering..."
-          : "Register"}
+          ? t("registering")
+          : t("register")}
       </button>
     </form>
   );

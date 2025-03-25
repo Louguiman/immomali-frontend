@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
 import MobileMenu from "../../common/header/MobileMenu";
@@ -10,15 +10,16 @@ import {
   useDeleteAgentMutation,
 } from "@/features/api/agents.api";
 import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form"; // Form validation
+import { useTranslations } from "next-intl"; // Next-Intl for localization
+import Swal from "sweetalert2"; // SweetAlert2 for alerts
 
 const AgentManagement = () => {
   const { user } = useSelector((state) => state.auth); // Get logged-in agency
   const [search, setSearch] = useState("");
   const { data: agents, isLoading } = useGetAgentsByAgencyQuery(
     user?.agency?.id,
-    {
-      skip: !user?.agency?.id,
-    }
+    { skip: !user?.agency?.id }
   );
 
   const [createAgent] = useCreateAgentMutation();
@@ -26,29 +27,40 @@ const AgentManagement = () => {
   const [deleteAgent] = useDeleteAgentMutation();
   const [selectedAgent, setSelectedAgent] = useState(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
-    isActive: true,
-  });
+  // Setting up form validation with react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const t = useTranslations("dashboard.agentManagement");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (selectedAgent && selectedAgent.id) {
-      await updateAgent({ id: selectedAgent.id, ...formData });
-    } else {
-      await createAgent({ ...formData, agencyId: user?.agency?.id });
+  // Handle submit (Create/Update Agent)
+  const handleAgentSubmit = async (data) => {
+    try {
+      if (selectedAgent) {
+        await updateAgent({ id: selectedAgent.id, ...data });
+        Swal.fire(t("agent.management.update.success"), "", "success");
+      } else {
+        await createAgent({ ...data, agencyId: user?.agency?.id });
+        Swal.fire(t("agent.management.create.success"), "", "success");
+      }
+      reset(); // Reset form after submit
+      setSelectedAgent(null); // Deselect agent after submit
+    } catch (error) {
+      Swal.fire(t("general.error"), t("general.somethingWentWrong"), "error");
     }
-    setSelectedAgent(null);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      isActive: true,
-    });
+  };
+
+  // Handle Delete
+  const handleDelete = async (id) => {
+    try {
+      await deleteAgent(id);
+      Swal.fire(t("agent.management.delete.success"), "", "success");
+    } catch (error) {
+      Swal.fire(t("general.error"), t("general.somethingWentWrong"), "error");
+    }
   };
 
   if (isLoading)
@@ -87,7 +99,8 @@ const AgentManagement = () => {
                         data-bs-target="#DashboardOffcanvasMenu"
                         aria-controls="DashboardOffcanvasMenu"
                       >
-                        <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                        <i className="fa fa-bars pr10"></i>{" "}
+                        {t("dashboard.navigation")}
                       </button>
                     </div>
                   </div>
@@ -95,8 +108,10 @@ const AgentManagement = () => {
 
                 <div className="col-lg-4 col-xl-4 mb10">
                   <div className="breadcrumb_content style2 mb30-991">
-                    <h2 className="breadcrumb_title">Agent Management</h2>
-                    <p>Manage your agency's agents</p>
+                    <h2 className="breadcrumb_title">
+                      {t("agent.management.title")}
+                    </h2>
+                    <p>{t("agent.management.description")}</p>
                   </div>
                 </div>
 
@@ -106,7 +121,7 @@ const AgentManagement = () => {
                     <input
                       type="text"
                       className="form-control w-50"
-                      placeholder="Search agents..."
+                      placeholder={t("agent.management.search.placeholder")}
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
@@ -114,7 +129,8 @@ const AgentManagement = () => {
                       className="btn btn-success"
                       onClick={() => setSelectedAgent({})}
                     >
-                      <i className="bi bi-plus-circle"></i> Add Agent
+                      <i className="bi bi-plus-circle"></i>{" "}
+                      {t("agent.management.create.button")}
                     </button>
                   </div>
 
@@ -123,46 +139,58 @@ const AgentManagement = () => {
                     <table className="table table-striped table-hover align-middle">
                       <thead className="table-dark">
                         <tr>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Phone</th>
-                          <th>Status</th>
-                          <th className="text-center">Actions</th>
+                          <th>{t("general.id")}</th>
+                          <th>{t("general.name")}</th>
+                          <th>{t("general.email")}</th>
+                          <th>{t("general.phone")}</th>
+                          <th>{t("general.status")}</th>
+                          <th className="text-center">
+                            {t("general.actions")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {agents?.map((agent) => (
-                          <tr key={agent.id}>
-                            <td>{agent.id}</td>
-                            <td>{agent.name}</td>
-                            <td>{agent.email}</td>
-                            <td>{agent.phoneNumber || "N/A"}</td>
-                            <td>
-                              <span
-                                className={`badge ${
-                                  agent.isActive ? "bg-success" : "bg-danger"
-                                }`}
-                              >
-                                {agent.isActive ? "Active" : "Inactive"}
-                              </span>
-                            </td>
-                            <td className="text-center">
-                              <button
-                                className="btn btn-sm btn-warning me-2"
-                                onClick={() => setSelectedAgent(agent)}
-                              >
-                                <i className="bi bi-pencil-square"></i> Edit
-                              </button>
-                              <button
-                                className="btn btn-sm btn-danger"
-                                onClick={() => deleteAgent(agent.id)}
-                              >
-                                <i className="bi bi-trash"></i> Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
+                        {agents
+                          ?.filter((agent) =>
+                            agent.name
+                              .toLowerCase()
+                              .includes(search.toLowerCase())
+                          )
+                          .map((agent) => (
+                            <tr key={agent.id}>
+                              <td>{agent.id}</td>
+                              <td>{agent.name}</td>
+                              <td>{agent.email}</td>
+                              <td>{agent.phoneNumber || "N/A"}</td>
+                              <td>
+                                <span
+                                  className={`badge ${
+                                    agent.isActive ? "bg-success" : "bg-danger"
+                                  }`}
+                                >
+                                  {agent.isActive
+                                    ? t("general.active")
+                                    : t("general.inactive")}
+                                </span>
+                              </td>
+                              <td className="text-center">
+                                <button
+                                  className="btn btn-sm btn-warning me-2"
+                                  onClick={() => setSelectedAgent(agent)}
+                                >
+                                  <i className="bi bi-pencil-square"></i>{" "}
+                                  {t("general.edit")}
+                                </button>
+                                <button
+                                  className="btn btn-sm btn-danger"
+                                  onClick={() => handleDelete(agent.id)}
+                                >
+                                  <i className="bi bi-trash"></i>{" "}
+                                  {t("general.delete")}
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
@@ -174,7 +202,9 @@ const AgentManagement = () => {
                         <div className="modal-content">
                           <div className="modal-header">
                             <h5 className="modal-title">
-                              {selectedAgent.id ? "Edit Agent" : "Create Agent"}
+                              {selectedAgent.id
+                                ? t("agent.edit")
+                                : t("agent.creation")}
                             </h5>
                             <button
                               type="button"
@@ -183,108 +213,93 @@ const AgentManagement = () => {
                             ></button>
                           </div>
                           <div className="modal-body">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit(handleAgentSubmit)}>
                               {/* Full Name */}
                               <div className="mb-3">
-                                <label className="form-label">Full Name</label>
+                                <label className="form-label">
+                                  {t("general.name")}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control"
-                                  value={formData.name}
-                                  onChange={(e) =>
-                                    setFormData({
-                                      ...formData,
-                                      name: e.target.value,
-                                    })
-                                  }
-                                  required
+                                  defaultValue={selectedAgent?.name || ""}
+                                  {...register("name", {
+                                    required: t("validation.required"),
+                                  })}
                                 />
+                                {errors.name && (
+                                  <div className="text-danger">
+                                    {errors.name.message}
+                                  </div>
+                                )}
                               </div>
+
                               {/* Email */}
                               <div className="mb-3">
-                                <label className="form-label">Email</label>
+                                <label className="form-label">
+                                  {t("general.email")}
+                                </label>
                                 <input
                                   type="email"
                                   className="form-control"
-                                  value={formData.email}
-                                  onChange={(e) =>
-                                    setFormData({
-                                      ...formData,
-                                      email: e.target.value,
-                                    })
-                                  }
-                                  required
+                                  defaultValue={selectedAgent?.email || ""}
+                                  {...register("email", {
+                                    required: t("validation.required"),
+                                  })}
                                 />
+                                {errors.email && (
+                                  <div className="text-danger">
+                                    {errors.email.message}
+                                  </div>
+                                )}
                               </div>
-                              {/* Password (Optional for Edit) */}
+
+                              {/* Password */}
                               <div className="mb-3">
-                                <label className="form-label">Password</label>
+                                <label className="form-label">
+                                  {t("general.password")}
+                                </label>
                                 <input
                                   type="password"
                                   className="form-control"
-                                  placeholder="Leave blank to keep existing"
-                                  value={formData.password || ""}
-                                  onChange={(e) =>
-                                    setFormData({
-                                      ...formData,
-                                      password: e.target.value,
-                                    })
-                                  }
+                                  placeholder={t("general.passwordPlaceholder")}
+                                  {...register("password")}
                                 />
                               </div>
-                              Agency Selection
-                              {/* <div className="mb-3">
-                                <label className="form-label">Agency</label>
-                                <select
-                                  className="form-select"
-                                  value={formData.agencyId || ""}
-                                  onChange={(e) =>
-                                    setFormData({
-                                      ...formData,
-                                      agencyId: e.target.value
-                                        ? Number(e.target.value)
-                                        : null,
-                                    })
-                                  }
-                                >
-                                  <option value="">Select Agency</option>
-                                  {agencies?.map((agency) => (
-                                    <option key={agency.id} value={agency.id}>
-                                      {agency.name}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div> */}
+
                               {/* Active Status Toggle */}
                               <div className="mb-3">
-                                <label className="form-label">Status</label>
+                                <label className="form-label">
+                                  {t("general.status")}
+                                </label>
                                 <select
                                   className="form-select"
-                                  value={formData.isActive ? "true" : "false"}
-                                  onChange={(e) =>
-                                    setFormData({
-                                      ...formData,
-                                      isActive: e.target.value === "true",
-                                    })
+                                  defaultValue={
+                                    selectedAgent?.isActive ? "true" : "false"
                                   }
+                                  {...register("isActive")}
                                 >
-                                  <option value="true">Active</option>
-                                  <option value="false">Inactive</option>
+                                  <option value="true">
+                                    {t("general.active")}
+                                  </option>
+                                  <option value="false">
+                                    {t("general.inactive")}
+                                  </option>
                                 </select>
                               </div>
-                              {/* Modal Actions */}
+
                               <div className="modal-footer">
                                 <button
                                   type="submit"
                                   className="btn btn-primary"
                                 >
-                                  Save
+                                  {t("general.save")}
                                 </button>
                                 <button
                                   className="btn btn-secondary"
                                   onClick={() => setSelectedAgent(null)}
                                 >
-                                  Cancel
+                                  {t("general.cancel")}
                                 </button>
                               </div>
                             </form>

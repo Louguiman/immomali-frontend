@@ -62,7 +62,7 @@ const TenantCard = ({
               {/* Left Column: Tenant & Property Details */}
               <div className="col-md-6">
                 <h5 className="card-title">
-                  <Link href={`/properties/${tenant.property.id}`}>
+                  <Link href={`/listing-details-V2/${tenant.property.id}`}>
                     {tenant.property.title}
                   </Link>
                 </h5>

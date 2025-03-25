@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -11,8 +11,8 @@ import {
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
 
-const MaintenanceRequestDetail = ({ params }) => {
-  const { id } = params;
+const MaintenanceRequestDetail = () => {
+  const { id } = useParams();
   const router = useRouter();
   const { data: request, isLoading, isError } = useGetRequestByIdQuery(id);
   const [updateRequest, { isLoading: isUpdating }] = useUpdateRequestMutation();
@@ -63,7 +63,10 @@ const MaintenanceRequestDetail = ({ params }) => {
       setIsEditing(false);
       router.refresh(); // refresh data if needed
     } catch (error) {
-      toast.error("Failed to update maintenance request.");
+      toast.error(
+        "Failed to update maintenance request." +
+          error?.data?.message?.toString()
+      );
     }
   };
 

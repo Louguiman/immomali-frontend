@@ -2,10 +2,11 @@
   "navbar": {
     "home": "Accueil",
     "about": "À propos",
+    "services": "Services",
     "contact": "Contact",
-    "login": "Connexion",
-    "register": "Inscription",
-    "logout": "Déconnexion",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "logout": "Se déconnecter",
     "profile": "Profil",
     "admin": "Admin",
     "language": "Langue",
@@ -19,7 +20,7 @@
         "forSale": "À vendre",
         "forRent": "À louer",
         "luxuryHomes": "Maisons de luxe",
-        "newListings": "Nouvelles annonces",
+        "newListings": "Nouveaux biens",
         "compareProperties": "Comparer les propriétés"
       }
     },
@@ -32,11 +33,11 @@
       }
     },
     "tenantServices": {
-      "name": "Services pour locataires",
+      "name": "Services aux locataires",
       "subMenu": {
         "tenancies": "Baux",
         "favorites": "Favoris",
-        "recentlyViewed": "Récemment consulté",
+        "recentlyViewed": "Vus récemment",
         "savedSearches": "Recherches sauvegardées"
       }
     },
@@ -50,6 +51,8 @@
         "myRequests": "Mes requêtes",
         "rentPayments": "Paiements de loyer"
       }
-    }
+    },
+    "by": "par",
+    "allRightsReserved": "Tous droits réservés."
   }
 }

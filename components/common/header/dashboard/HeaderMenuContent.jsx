@@ -129,7 +129,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
       <li className={pathname === navItems.blog.routerPath ? "ui-active" : ""}>
         <Link href={navItems.blog.routerPath}>{t(navItems.blog.name)}</Link>
       </li>
-      1
+
       <li
         className={pathname === navItems.contact.routerPath ? "ui-active" : ""}
       >
@@ -146,7 +146,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
               width={40}
               height={40}
               className="float-start"
-              src={user?.img | "/assets/images/team/e1.png"}
+              src={user?.img || "/assets/images/team/e1.png"}
               alt="1.png"
             />
             <p>
@@ -164,7 +164,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
                   className="rounded-circle"
                   width={90}
                   height={90}
-                  src="/assets/images/team/lc1.png"
+                  src={user?.img || "/assets/images/team/lc1.png"}
                   alt="e1.png"
                 />
               </div>

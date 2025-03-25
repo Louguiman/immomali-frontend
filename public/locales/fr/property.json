@@ -1,5 +1,8 @@
 {
   "property": {
+    "dashboardnavigation": "Navigation du tableau de bord",
+    "breadcrumbtitle": "Mes Propriétés",
+    "breadcrumbdescription": "Gérez vos propriétés ici.",
     "sectionTitle": "Toutes les propriétés",
     "sectionDescription": "Parcourez nos annonces immobilières",
     "Advanced Search": "Recherche avancée",

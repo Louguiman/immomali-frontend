@@ -7,6 +7,8 @@ import { addLength } from "../../../features/properties/propertiesSlice";
 import Image from "next/image";
 import FavoriteButton from "@/components/common/FavoriteBtn";
 import { useTranslations } from "next-intl"; // Import useTranslations
+import { useFormatter } from "next-intl";
+import CompareButton from "@/components/common/CompareBtn";
 
 const FeaturedItem = ({ properties }) => {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ const FeaturedItem = ({ properties }) => {
 
   // Translation hook
   const t = useTranslations("property");
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
 
   // Status handler
   let content = properties?.map((item) => (
@@ -45,15 +48,13 @@ const FeaturedItem = ({ properties }) => {
               </li>
               <li className="list-inline-item">
                 <a href="#" className="text-capitalize">
-                  {t(item?.type)} {/* Translation for 'For' */}
+                  ` {t(item?.type)}` {/* Translation for 'For' */}
                 </a>
               </li>
             </ul>
             <ul className="icon mb0">
               <li className="list-inline-item">
-                <a href="#">
-                  <span className="flaticon-transfer-1"></span>
-                </a>
+                <CompareButton propertyId={item.id} />
               </li>
               <li className="list-inline-item">
                 <FavoriteButton propertyId={item.id} />
@@ -61,14 +62,18 @@ const FeaturedItem = ({ properties }) => {
             </ul>
 
             <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
-              {item.price} F CFA
-              <small>/ {t("month")}</small> {/* Translation for "/mois" */}
+              {formatNumber(item.price, {
+                style: "currency",
+                currency: "XOF",
+              })}
+              {item.type !== "sale" && <small>/ {t("month")}</small>}
+              {/* Translation for "/mois" */}
             </Link>
           </div>
         </div>
         <div className="details">
           <div className="tc_content">
-            <p className="text-thm">{item.type}</p>
+            <p className="text-thm"> {t(item?.type)}</p>
             <h4>
               <Link href={`/listing-details-v2/${item.id}`}>{item.title}</Link>
             </h4>

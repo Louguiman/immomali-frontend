@@ -47,8 +47,8 @@ const ProfileInfo = () => {
     useUpdateUserProfileMutation();
   const [uploadProfileImage, { isLoading: isUploading }] =
     useUploadProfileImageMutation();
-  const [profileImage, setProfileImage] = useState(user?.img || null);
-
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageUrl, setProfileImageUrl] = useState(user?.img || null);
   // ✅ Hook Form avec validation Yup
   const {
     register,
@@ -87,6 +87,7 @@ const ProfileInfo = () => {
   const handleFileChange = (e) => {
     if (e.target.files?.length) {
       setProfileImage(e.target.files[0]);
+      setProfileImageUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
 
@@ -152,11 +153,9 @@ const ProfileInfo = () => {
             />
             <label
               style={
-                profileImage
+                profileImageUrl
                   ? {
-                      backgroundImage: `url(${URL.createObjectURL(
-                        profileImage
-                      )})`,
+                      backgroundImage: `url(${profileImageUrl})`,
                     }
                   : undefined
               }

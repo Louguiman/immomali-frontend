@@ -29,8 +29,8 @@ const MaintenanceDashboard = () => {
                 <LoadingSpinner />
               ) : (
                 agencyRequests?.map((req) => (
-                  <div key={request.id} className="col-md-6">
-                    <MaintenanceRequestCard request={request} />
+                  <div key={req.id} className="col-md-6">
+                    <MaintenanceRequestCard request={req} />
                   </div>
                 ))
               )}
@@ -45,8 +45,8 @@ const MaintenanceDashboard = () => {
             <LoadingSpinner />
           ) : (
             agentRequests?.map((req) => (
-              <div key={request.id} className="col-md-6">
-                <MaintenanceRequestCard request={request} />
+              <div key={req.id} className="col-md-6">
+                <MaintenanceRequestCard request={req} />
               </div>
             ))
           )}

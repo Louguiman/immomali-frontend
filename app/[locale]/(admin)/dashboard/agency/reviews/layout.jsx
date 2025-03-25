@@ -1,6 +1,9 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 
 function layout({ children }) {
+  const t = useTranslations("dashboard.reviews");
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
@@ -26,8 +29,8 @@ function layout({ children }) {
 
               <div className="col-lg-4 col-xl-4 mb10">
                 <div className="breadcrumb_content style2 mb30-991">
-                  <h2 className="breadcrumb_title">My Invoices</h2>
-                  <p>Manage your invoices here.</p>
+                  <h2 className="breadcrumb_title">{t("title")}</h2>
+                  <p>{t("greeting")} </p>
                 </div>
               </div>
               {/* End .col */}

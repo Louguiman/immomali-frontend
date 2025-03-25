@@ -29,15 +29,13 @@ const ClientReview = () => {
             width={120}
             height={120}
             className="mr-3"
-            src={review.user?.img || "/assets/images/default-user.png"}
+            src={review?.user?.img || "/assets/images/resource/review.png"}
             alt="User image"
           />
           <div className="media-body">
             <h5 className="review_title mt-0">
               {t("reviewFrom")}{" "}
-              <Link href={`/user/${review.user?.id}`}>
-                <span className="text-thm">{review.user?.name}</span>
-              </Link>
+              <span className="text-thm">{review.user?.name}</span>
               <span className="sspd_review float-end">
                 {[...Array(review.rating)].map((_, i) => (
                   <i key={i} className="fa fa-star"></i>

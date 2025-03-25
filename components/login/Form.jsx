@@ -3,15 +3,17 @@ import { useLoginMutation } from "@/features/api/auth.api";
 import { useAppSelector } from "@/store/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 const Form = () => {
   const [login, { isLoading }] = useLoginMutation();
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const userRoles = user?.roles?.map((role) => role.name) || [];
+  const [rememberMe, setRememberMe] = useState(false);
+  const t = useTranslations("LoginForm");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -20,24 +22,24 @@ const Form = () => {
       else router.back();
     }
   }, [isAuthenticated, user, router]);
-  const handleSubmit = async (e) => {
-    console.log("submit:");
 
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
     const password = formData.get("password");
-    console.log("submit:", email, password);
 
     try {
       const data = await login({ email, password }).unwrap();
       localStorage.setItem("token", data.accessToken);
-      console.log("log in: ", data);
-      toast.success("Login Succesful!");
 
-      // }
+      if (rememberMe) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+
+      toast.success(t("loginButton") + " " + t("loginSuccess"));
     } catch (error) {
-      toast.error("Login failed", error);
+      toast.error(t("loginFailed"));
       console.log("login error: ", error);
     }
   };
@@ -45,15 +47,14 @@ const Form = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="heading text-center">
-        <h3>Login to your account</h3>
+        <h3>{t("loginTitle")}</h3>
         <p className="text-center">
-          Dont have an account?{" "}
+          {t("signupPrompt")}{" "}
           <Link href="/register" className="text-thm">
-            Sign Up!
+            {t("signupLink")}
           </Link>
         </p>
       </div>
-      {/* End .heading */}
 
       <div className="input-group mb-2 mr-sm-2">
         <input
@@ -61,7 +62,7 @@ const Form = () => {
           type="text"
           className="form-control"
           required
-          placeholder="User Name Or Email"
+          placeholder={t("emailPlaceholder")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -69,7 +70,6 @@ const Form = () => {
           </div>
         </div>
       </div>
-      {/* End .input-group */}
 
       <div className="input-group form-group">
         <input
@@ -77,7 +77,7 @@ const Form = () => {
           type="password"
           className="form-control"
           required
-          placeholder="Password"
+          placeholder={t("passwordPlaceholder")}
         />
         <div className="input-group-prepend">
           <div className="input-group-text">
@@ -85,7 +85,6 @@ const Form = () => {
           </div>
         </div>
       </div>
-      {/* End .input-group */}
 
       <div className="form-group form-check custom-checkbox mb-3">
         <input
@@ -93,57 +92,56 @@ const Form = () => {
           type="checkbox"
           value=""
           id="remeberMe"
+          checked={rememberMe}
+          onChange={(e) => setRememberMe(e.target.checked)}
         />
         <label
           className="form-check-label form-check-label"
           htmlFor="remeberMe"
         >
-          Remember me
+          {t("rememberMe")}
         </label>
 
         <a className="btn-fpswd float-end" href="#">
-          Forgot password?
+          {t("forgotPassword")}
         </a>
       </div>
-      {/* End .form-group */}
 
       <button
         type="submit"
         disabled={isLoading}
         className="btn btn-log w-100 btn-thm"
       >
-        {isLoading ? "Logging in..." : "Login"}
+        {isLoading ? t("loggingIn") : t("loginButton")}
       </button>
-      {/* login button */}
 
       <div className="divide">
-        <span className="lf_divider">Or</span>
+        <span className="lf_divider">{t("or")}</span>
         <hr />
       </div>
-      {/* devider */}
 
       <div className="row mt25">
         <div className="col-lg-6">
           <button
-            type="submit"
+            type="button"
             className="btn btn-block color-white bgc-fb mb0 w-100"
+            // onClick={handleFacebookLogin}
           >
-            <i className="fa fa-facebook float-start mt5"></i> Facebook
+            <i className="fa fa-facebook float-start mt5"></i>{" "}
+            {t("loginFacebook")}
           </button>
         </div>
-        {/* End .col */}
 
         <div className="col-lg-6">
           <button
-            type="submit"
+            type="button"
             className="btn btn2 btn-block color-white bgc-gogle mb0 w-100"
+            // onClick={handleGoogleLogin}
           >
-            <i className="fa fa-google float-start mt5"></i> Google
+            <i className="fa fa-google float-start mt5"></i> {t("loginGoogle")}
           </button>
         </div>
-        {/* End .col */}
       </div>
-      {/* more signin options */}
     </form>
   );
 };

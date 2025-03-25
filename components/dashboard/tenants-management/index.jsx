@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useState } from "react";
 import TenantCard from "@/components/TenantCard";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const TenantManagement = () => {
   const pathname = usePathname();
@@ -20,7 +21,7 @@ const TenantManagement = () => {
   const [deleteTenant] = useDeleteTenantMutation();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-
+  const t = useTranslations("dashboard.myTenancies");
   // Filter tenants based on search and status
   const filteredTenants = tenants?.filter((tenant) => {
     const matchesSearch =
@@ -38,18 +39,18 @@ const TenantManagement = () => {
   return (
     <section className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="mb-0">Tenant Management</h2>
+        <h2 className="mb-0">{t("SectionTitle")}</h2> {/* Translated Title */}
         <Link href={`${pathname}/create`} className="btn btn-primary">
-          + Add Tenant
+          {t("addTenant")} {/* Translated Button Text */}
         </Link>
       </div>
       {/* Filters & Search */}
-      <div className="row mb-3 ">
+      <div className="row mb-3">
         <div className="col-md-6">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by tenant, email, or property..."
+            placeholder={t("searchPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -60,21 +61,25 @@ const TenantManagement = () => {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <option value="">All Statuses</option>
-            <option value="active">Active</option>
-            <option value="pending">Pending</option>
-            <option value="terminated">Terminated</option>
-            <option value="expired">Expired</option>
+            <option value="">{t("allStatuses")}</option>{" "}
+            {/* Translated "All Statuses" */}
+            <option value="active">{t("active")}</option>{" "}
+            {/* Translated "Active" */}
+            <option value="pending">{t("pending")}</option>{" "}
+            {/* Translated "Pending" */}
+            <option value="terminated">{t("terminated")}</option>{" "}
+            {/* Translated "Terminated" */}
+            <option value="expired">{t("expired")}</option>{" "}
+            {/* Translated "Expired" */}
           </select>
         </div>
       </div>
-
       {/* Tenant List */}
-      {isLoading && <p>Loading tenants...</p>}
-      {isError && <p className="text-danger">Failed to load tenants.</p>}
-
+      {isLoading && <p>{t("loading")}</p>} {/* Translated Loading Text */}
+      {isError && <p className="text-danger">{t("error")}</p>}{" "}
+      {/* Translated Error Text */}
       {filteredTenants?.length > 0 ? (
-        <div className="row  col-lg-12">
+        <div className="row col-lg-12">
           {filteredTenants.map((tenant) => (
             <div key={tenant.id} className="col-md-12">
               <TenantCard tenant={tenant} />
@@ -82,7 +87,7 @@ const TenantManagement = () => {
           ))}
         </div>
       ) : (
-        <p className="text-muted">No tenants found.</p>
+        <p className="text-muted">{t("noTenants")}</p>
       )}
     </section>
   );

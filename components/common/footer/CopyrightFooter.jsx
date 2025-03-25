@@ -1,14 +1,23 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/i18n/LanguageSwitcher";
 import Link from "next/link";
 
 const CopyrightFooter = () => {
+  const t = useTranslations();
+
   const menuItems = [
-    { id: 1, name: "Home", routeLink: "/" },
-    { id: 2, name: "Listing", routeLink: "/listing-grid-v3" },
-    { id: 3, name: "Property", routeLink: "/listing-grid-v4" },
-    { id: 4, name: "About Us", routeLink: "/about-us" },
-    { id: 5, name: "Blog", routeLink: "/blog-list-3" },
-    { id: 6, name: "Contact", routeLink: "/contact" },
+    { id: 1, name: t("navbar.home"), routeLink: "/" },
+    { id: 2, name: t("navbar.properties.name"), routeLink: "/listing-grid-v3" },
+    {
+      id: 3,
+      name: t("navbar.properties.subMenu.allProperties"),
+      routeLink: "/listing-grid-v4",
+    },
+    { id: 4, name: t("navbar.about"), routeLink: "/about-us" },
+    { id: 5, name: t("navbar.blog"), routeLink: "/blog-list-3" },
+    { id: 6, name: t("navbar.contact"), routeLink: "/contact" },
   ];
 
   return (
@@ -29,7 +38,7 @@ const CopyrightFooter = () => {
       <div className="col-lg-4 col-xl-4">
         <div className="copyright-widget text-end">
           <p>
-            &copy; {new Date().getFullYear()} by{" "}
+            &copy; {new Date().getFullYear()} {t("navbar.by")}{" "}
             <a
               href="https://themeforest.net/user/ib-themes"
               target="_blank"
@@ -37,7 +46,7 @@ const CopyrightFooter = () => {
             >
               ib-themes
             </a>
-            . All rights reserved.
+            . {t("navbar.allRightsReserved")}
           </p>
         </div>
       </div>

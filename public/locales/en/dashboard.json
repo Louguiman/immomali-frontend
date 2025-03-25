@@ -1,6 +1,50 @@
 {
   "dashboard": {
     "navigation": "Dashboard Navigation",
+    "agentManagement": {
+      "general": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "status": "Status",
+        "actions": "Actions",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "error": "Error",
+        "somethingWentWrong": "Something went wrong, please try again",
+        "password": "Password",
+        "passwordPlaceholder": "Leave blank to keep existing"
+      },
+      "agent": {
+        "management": {
+          "title": "Agent Management",
+          "description": "Manage your agency's agents",
+          "search": {
+            "placeholder": "Search agents..."
+          },
+          "create": {
+            "button": "Add Agent",
+            "success": "Agent created successfully!"
+          },
+          "update": {
+            "success": "Agent updated successfully!"
+          },
+          "delete": {
+            "success": "Agent deleted successfully!"
+          },
+          "edit": "Edit Agent",
+          "creation": "Create Agent"
+        }
+      },
+      "validation": {
+        "required": "This field is required"
+      }
+    },
     "TenantProfile": {
       "notFound": "Tenant not found.",
       "backToTenants": "Back to Tenants",
@@ -78,6 +122,18 @@
       "no_payments": "No payments recorded yet."
     },
     "myTenancies": {
+      "tenantManagement.title": "Tenant Management",
+      "tenantManagement.addTenant": "+ Add Tenant",
+      "tenantManagement.searchPlaceholder": "Search by tenant, email, or property...",
+      "tenantManagement.allStatuses": "All Statuses",
+      "tenantManagement.active": "Active",
+      "tenantManagement.pending": "Pending",
+      "tenantManagement.terminated": "Terminated",
+      "tenantManagement.expired": "Expired",
+      "tenantManagement.loading": "Loading tenants...",
+      "tenantManagement.error": "Failed to load tenants.",
+      "tenantManagement.noTenants": "No tenants found.",
+      "tenanciestitle": "My Tenancies",
       "error_loading_tenancies": "Error loading tenancies.",
       "no_tenancies_found": "No tenancies found.",
       "title": "My Tenancies",

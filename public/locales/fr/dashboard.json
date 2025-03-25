@@ -1,6 +1,50 @@
 {
   "dashboard": {
     "navigation": "Navigation du tableau de bord",
+    "agentManagement": {
+      "general": {
+        "id": "ID",
+        "name": "Nom",
+        "email": "Email",
+        "phone": "Téléphone",
+        "status": "Statut",
+        "actions": "Actions",
+        "active": "Actif",
+        "inactive": "Inactif",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "error": "Erreur",
+        "somethingWentWrong": "Quelque chose a mal tourné, veuillez réessayer",
+        "password": "Mot de passe",
+        "passwordPlaceholder": "Laissez vide pour conserver l'existant"
+      },
+      "agent": {
+        "management": {
+          "title": "Gestion des Agents",
+          "description": "Gérez les agents de votre agence",
+          "search": {
+            "placeholder": "Rechercher des agents..."
+          },
+          "create": {
+            "button": "Ajouter un Agent",
+            "success": "Agent créé avec succès !"
+          },
+          "update": {
+            "success": "Agent mis à jour avec succès !"
+          },
+          "delete": {
+            "success": "Agent supprimé avec succès !"
+          },
+          "edit": "Modifier l'Agent",
+          "creation": "Créer un Agent"
+        }
+      },
+      "validation": {
+        "required": "Ce champ est requis"
+      }
+    },
     "TenantProfile": {
       "notFound": "Locataire introuvable.",
       "backToTenants": "Retour aux locataires",
@@ -80,6 +124,18 @@
       "no_payments": "Aucun paiement enregistré."
     },
     "myTenancies": {
+      "SectionTitle": "Gestion des Locataires",
+      "addTenant": "+ Ajouter un Locataire",
+      "searchPlaceholder": "Rechercher par locataire, e-mail ou propriété...",
+      "allStatuses": "Tous les Statuts",
+      "active": "Actif",
+      "pending": "En attente",
+      "terminated": "Terminé",
+      "expired": "Expiré",
+      "loading": "Chargement des locataires...",
+      "error": "Échec du chargement des locataires.",
+      "noTenants": "Aucun locataire trouvé.",
+      "tenanciestitle": "Mes Locations/Locataires",
       "error_loading_tenancies": "Erreur de chargement des baux.",
       "no_tenancies_found": "Aucun bail/location trouvé.",
       "title": "Mes locations",

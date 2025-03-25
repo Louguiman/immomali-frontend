@@ -8,22 +8,23 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import LeaseDetails from "@/components/dashboard/tenants-management/LeaseDetails";
 import InvoiceList from "@/components/dashboard/tenants-management/InvoiceList";
 import PropertyCard from "@/components/PropertyCard";
+import { useTranslations } from "next-intl"; // Import the useTranslations hook for translation
 
 const TenantProfile = () => {
   const router = useRouter();
   const { id } = useParams();
   const { data: tenant, isLoading, isError } = useGetTenantByIdQuery(id);
+  const t = useTranslations("dashboard.TenantProfile"); // Hook to fetch translation
 
   if (isLoading) return <LoadingSpinner />;
-  if (isError || !tenant)
-    return <p className="text-danger">Tenant not found.</p>;
+  if (isError || !tenant) return <p className="text-danger">{t("notFound")}</p>; // Translated error text
 
   return (
     <section className="container-fluid">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>{tenant.user.name}</h2>
         <button onClick={() => router.back()} className="btn btn-secondary">
-          Back to Tenants
+          {t("backToTenants")}
         </button>
       </div>
 
@@ -33,15 +34,19 @@ const TenantProfile = () => {
           <div className="card shadow-sm">
             <div className="card-body text-center">
               <Image
-                src={tenant.user?.img || "/assets/images/default-avatar.png"}
+                src={tenant.user?.img || "/assets/images/resource/review.png"}
                 width={100}
                 height={100}
                 className="rounded-circle mb-3"
-                alt="Tenant Profile"
+                alt={t("avatarAlt")}
               />
               <h5>{tenant.user.name}</h5>
-              <p>Email: {tenant.user.email}</p>
-              <p>Phone: {tenant.user.phone}</p>
+              <p>
+                {t("email")}: {tenant.user.email}
+              </p>
+              <p>
+                {t("phone")}: {tenant.user.phone}
+              </p>
             </div>
           </div>
           <div className="mt-2">

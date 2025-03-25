@@ -1,5 +1,8 @@
 {
   "property": {
+    "dashboard.navigation": "Dashboard Navigation",
+    "breadcrumb.title": "My Properties",
+    "breadcrumb.description": "Manage your properties here.",
     "sectionTitle": "All Properties",
     "sectionDescription": "Browse our property listings",
     "Advanced Search": "Advanced Search",

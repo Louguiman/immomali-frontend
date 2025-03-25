@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 
 // Define an interface for a Property (adapt as necessary)
 // interface Property {
@@ -44,6 +45,7 @@ const defaultHeaders = [
 
 const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
   const t = useTranslations("property"); // Initialize the translations hook
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
 
   return (
     <table className="table">
@@ -79,7 +81,12 @@ const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
             </td>
 
             <td>{item.listingType}</td>
-            <td>{item.price} </td>
+            <td>
+              {formatNumber(item.price, {
+                style: "currency",
+                currency: "XOF",
+              })}{" "}
+            </td>
             {/* Views Column */}
             <td>{item.views}</td>
 

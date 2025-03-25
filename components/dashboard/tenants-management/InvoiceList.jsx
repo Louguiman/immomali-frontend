@@ -1,10 +1,11 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Swal from "sweetalert2";
 
 const InvoiceList = ({ invoices }) => {
   const t = useTranslations("dashboard.invoiceList");
-
+  const pathname = usePathname();
   if (!invoices.length) return <p>{t("noInvoicesFound")}</p>;
 
   const handleDelete = (invoiceId) => {
