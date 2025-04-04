@@ -38,7 +38,7 @@ const TenantProfile = () => {
                 width={100}
                 height={100}
                 className="rounded-circle mb-3"
-                alt={t("avatarAlt")}
+                alt={"avatarAlt"}
               />
               <h5>{tenant.user.name}</h5>
               <p>

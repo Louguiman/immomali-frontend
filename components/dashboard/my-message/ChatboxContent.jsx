@@ -1,5 +1,7 @@
 "use client";
+
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
   useGetInquiryRepliesQuery,
@@ -10,14 +12,15 @@ import PropertyCard from "@/components/PropertyCard";
 import { useSelector } from "react-redux";
 
 const ChatboxContent = ({ inquiry }) => {
-  const { user } = useSelector((state) => state.auth); // Get logged-in user
+  const t = useTranslations("dashboard.message.chatbox"); // Utilisation des traductions
+  const { user } = useSelector((state) => state.auth); // Récupération de l'utilisateur connecté
   const { data: replies, isLoading } = useGetInquiryRepliesQuery(inquiry?.id);
   const [createReply, { isLoading: isSending }] = useSendInquiryReplyMutation();
   const [message, setMessage] = useState("");
 
-  if (isLoading) return <p>Loading messages...</p>;
+  if (isLoading) return <p>{t("loading_messages")}</p>;
 
-  // Function to handle reply submission
+  // Fonction pour envoyer une réponse
   const handleSendReply = async (e) => {
     e.preventDefault();
     if (!message.trim()) return;
@@ -28,8 +31,7 @@ const ChatboxContent = ({ inquiry }) => {
         inquiryId: inquiry.id,
         message,
       }).unwrap();
-
-      setMessage(""); // Clear input field after sending
+      setMessage(""); // Effacer le champ après l'envoi
     } catch (error) {
       console.error("Error sending reply:", error);
     }
@@ -38,16 +40,32 @@ const ChatboxContent = ({ inquiry }) => {
   return (
     <>
       <div className="meta">
-        <h5 className="name">{inquiry?.name || "Unknown"}</h5>
-        <h6 className="name">{inquiry?.email || "Unknown"}</h6>
-        <h6 className="name">{inquiry?.phoneNumber || "Unknown"}</h6>
+        {/* Nom */}
+        <h5 className="name">
+          <span className="flaticon-user pr-2"></span>
+          {inquiry?.name || t("unknown")}
+        </h5>
+
+        {/* Email */}
+        <h6 className="email">
+          <span className="flaticon-mail pr-2"></span>
+          {inquiry?.email || t("unknown")}
+        </h6>
+
+        {/* Téléphone */}
+        <h6 className="phone">
+          <span className="flaticon-phone-call pr-2"></span>
+          {inquiry?.phoneNumber || t("unknown")}
+        </h6>
+
+        {/* Message */}
         <p className="preview">{inquiry.message}</p>
       </div>
 
-      {/* Display PropertyCard if inquiry is about a property */}
+      {/* Affichage de la propriété si concerné */}
       {inquiry.property && (
         <div className="property-preview">
-          <h5 className="text-thm">Property Inquiry</h5>
+          <h5 className="text-thm">{t("property_inquiry")}</h5>
           <PropertyCard property={inquiry.property} />
         </div>
       )}
@@ -60,7 +78,7 @@ const ChatboxContent = ({ inquiry }) => {
         </ul>
       </div>
 
-      {/* Message Input */}
+      {/* Zone de saisie du message */}
       <div className="mi_text">
         <div className="message_input">
           <form
@@ -69,16 +87,18 @@ const ChatboxContent = ({ inquiry }) => {
           >
             <textarea
               className="form-control"
-              placeholder="Enter text here..."
+              placeholder={t("enter_text")}
               cols="20"
               rows="1"
               wrap="hard"
               required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-            />
+            >
+              <span className="flaticon-chat pr-2"></span>
+            </textarea>
             <button className="btn" type="submit" disabled={isSending}>
-              {isSending ? "Sending..." : "Send Message"}
+              {isSending ? t("sending") : t("send_message")}
             </button>
           </form>
         </div>

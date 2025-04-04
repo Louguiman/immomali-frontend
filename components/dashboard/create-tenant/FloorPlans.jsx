@@ -1,4 +1,4 @@
-const FloorPlans = () => {
+const FloorPlans = ({ activeStep, onNext, onPrevious }) => {
   return (
     <div className="row">
       <div className="col-xl-12">

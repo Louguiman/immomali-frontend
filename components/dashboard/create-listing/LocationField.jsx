@@ -1,7 +1,10 @@
-// LocationField.js
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
   setAddress,
   setState,
@@ -14,135 +17,161 @@ import {
   setStreetView,
 } from "@/features/properties/propertiesSlice";
 
-const LocationField = () => {
+const LocationField = ({ activeStep, onNext, onPrevious }) => {
   const dispatch = useDispatch();
+  const t = useTranslations("property");
+  const [location, setLocation] = useState(null);
   const property = useSelector((state) => state.properties.createListing);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "propertyAddress":
-        dispatch(setAddress(value));
-        break;
-      case "propertyState":
-        dispatch(setState(value));
-        break;
-      case "propertyCity":
-        dispatch(setCity(value));
-        break;
-      case "neighborHood":
-        dispatch(setNeighborhood(value));
-        break;
-      case "zipCode":
-        dispatch(setZipCode(value));
-        break;
-      case "googleMapLat":
-        dispatch(setLatitude(value));
-        break;
-      case "googleMapLong":
-        dispatch(setLongitude(value));
-        break;
-      default:
-        break;
-    }
+  // Validation schema using Yup
+  const validationSchema = yup.object().shape({
+    address: yup.string().required(t("validation.required")),
+    state: yup.string(),
+    city: yup.string().required(t("validation.required")),
+    neighborhood: yup.string(),
+    zipCode: yup.string(),
+    // latitude: yup.notRequired().number().typeError(t("validation.number")),
+    // longitude: yup.notRequired().number().typeError(t("validation.number")),
+    country: yup.string().required(t("validation.required")),
+    streetView: yup.string(),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      address: property.address || "",
+      state: property.state || "",
+      city: property.city || "",
+      neighborhood: property.neighborhood || "",
+      zipCode: property.zipCode || "",
+      latitude: property.latitude || "",
+      longitude: property.longitude || "",
+      country: property.country || "Mali",
+      streetView: property.streetView || "Street View v1",
+    },
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = (data) => {
+    dispatch(setAddress(data.address));
+    dispatch(setState(data.state));
+    dispatch(setCity(data.city));
+    dispatch(setNeighborhood(data.neighborhood));
+    dispatch(setZipCode(data.zipCode));
+    dispatch(setLatitude(data.latitude));
+    dispatch(setLongitude(data.longitude));
+    dispatch(setCountry(data.country));
+    dispatch(setStreetView(data.streetView));
+    onNext();
   };
 
-  const handleSelectChange = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "country":
-        dispatch(setCountry(value));
-        break;
-      case "streetView":
-        dispatch(setStreetView(value));
-        break;
-      default:
-        break;
+  const getUserLocation = () => {
+    if ("geolocation" in navigator) {
+      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const { latitude, longitude } = coords;
+        console.log("coords user: ", coords);
+
+        setLocation({ latitude, longitude });
+        setValue("longitude", longitude);
+        setValue("latitude", latitude);
+      });
     }
   };
 
   return (
-    <>
+    <form
+      className="my_dashboard_review mt30"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3 className="mb30">{t("location")}</h3>
+
       <div className="col-lg-12">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyAddress">Address</label>
+          <label htmlFor="address">{t("address")}</label>
           <input
             type="text"
             className="form-control"
-            id="propertyAddress"
-            value={property.address}
-            onChange={handleInputChange}
+            id="address"
+            {...register("address")}
           />
+          {errors.address && (
+            <span className="text-danger">{errors.address.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyState">County / State</label>
+          <label htmlFor="state">{t("countyState")}</label>
           <input
             type="text"
             className="form-control"
-            id="propertyState"
-            value={property.state}
-            onChange={handleInputChange}
+            id="state"
+            {...register("state")}
           />
+          {errors.state && (
+            <span className="text-danger">{errors.state.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyCity">City</label>
+          <label htmlFor="city">{t("city")}</label>
           <input
             type="text"
             className="form-control"
-            id="propertyCity"
-            value={property.city}
-            onChange={handleInputChange}
+            id="city"
+            {...register("city")}
           />
+          {errors.city && (
+            <span className="text-danger">{errors.city.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="neighborHood">Neighborhood</label>
+          <label htmlFor="neighborhood">{t("neighborhood")}</label>
           <input
             type="text"
             className="form-control"
-            id="neighborHood"
-            value={property.neighborhood}
-            onChange={handleInputChange}
+            id="neighborhood"
+            {...register("neighborhood")}
           />
+          {errors.neighborhood && (
+            <span className="text-danger">{errors.neighborhood.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="zipCode">Zip</label>
+          <label htmlFor="zipCode">{t("zipCode")}</label>
           <input
             type="text"
             className="form-control"
             id="zipCode"
-            value={property.zipCode}
-            onChange={handleInputChange}
+            {...register("zipCode")}
           />
+          {errors.zipCode && (
+            <span className="text-danger">{errors.zipCode.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
-          <label>Country</label>
+          <label>{t("country")}</label>
           <select
             className="selectpicker form-select"
-            data-live-search="true"
-            data-width="100%"
             id="country"
-            value={property.country}
-            onChange={handleSelectChange}
+            {...register("country")}
           >
             <option value="Mali">Mali</option>
             <option value="Turkey">Turkey</option>
@@ -152,60 +181,56 @@ const LocationField = () => {
             <option value="Greece">Greece</option>
             <option value="Portugal">Portugal</option>
           </select>
+          {errors.country && (
+            <span className="text-danger">{errors.country.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
-      {/* 
-      <div className="col-lg-12">
+
+      <div className="col-lg-4 col-xl-4">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={getUserLocation}
+        >
+          Get my current coordinates
+        </button>
         <div className="my_profile_setting_input form-group">
-          <div className="h400 bdrs8" id="map-canvas">
-            <div className="gmap_canvas pe-none">
-              <iframe
-                title="map"
-                className="gmap_iframe"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d206252.721472711!2d-115.31508339643749!3d36.12519578053308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80beb782a4f57dd1%3A0x3accd5e6d5b379a3!2sLas%20Vegas%2C%20NV%2C%20USA!5e0!3m2!1sen!2sbd!4v1669000531244!5m2!1sen!2sbd"
-              ></iframe>
-            </div>
-          </div>
+          <label htmlFor="latitude">{t("latitude")}</label>
+          <input
+            type="number"
+            className="form-control"
+            id="latitude"
+            {...register("latitude")}
+          />
+          {errors.latitude && (
+            <span className="text-danger">{errors.latitude.message}</span>
+          )}
         </div>
       </div>
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="googleMapLat">Latitude (for Google Maps)</label>
+          <label htmlFor="longitude">{t("longitude")}</label>
           <input
-            type="text"
+            type="number"
             className="form-control"
-            id="googleMapLat"
-            value={property.latitude}
-            onChange={handleInputChange}
+            id="longitude"
+            {...register("longitude")}
           />
-        </div>
-      </div>
-
-      <div className="col-lg-4 col-xl-4">
-        <div className="my_profile_setting_input form-group">
-          <label htmlFor="googleMapLong">Longitude (for Google Maps)</label>
-          <input
-            type="text"
-            className="form-control"
-            id="googleMapLong"
-            value={property.longitude}
-            onChange={handleInputChange}
-          />
+          {errors.longitude && (
+            <span className="text-danger">{errors.longitude.message}</span>
+          )}
         </div>
       </div>
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
-          <label>Google Map Street View</label>
+          <label>{t("streetView")}</label>
           <select
             className="selectpicker form-select"
-            data-live-search="true"
-            data-width="100%"
             id="streetView"
-            value={property.streetView}
-            onChange={handleSelectChange}
+            {...register("streetView")}
           >
             <option value="Street View v1">Street View v1</option>
             <option value="Street View v2">Street View v2</option>
@@ -214,22 +239,29 @@ const LocationField = () => {
             <option value="Street View v5">Street View v5</option>
             <option value="Street View v6">Street View v6</option>
           </select>
+          {errors.streetView && (
+            <span className="text-danger">{errors.streetView.message}</span>
+          )}
         </div>
-      </div> */}
-      {/* End .col */}
+      </div>
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">
-          <button href="#info" className="btn btn1 float-start">
-            Back
-          </button>
-          <button href="#details" className="btn btn2 float-end">
-            Next
+          {activeStep > 0 && (
+            <button
+              type="button"
+              className="btn btn1 float-start"
+              onClick={onPrevious}
+            >
+              {t("back")}
+            </button>
+          )}
+          <button type="submit" className="btn btn2 float-end">
+            {t("next")}
           </button>
         </div>
       </div>
-      {/* End .col */}
-    </>
+    </form>
   );
 };
 

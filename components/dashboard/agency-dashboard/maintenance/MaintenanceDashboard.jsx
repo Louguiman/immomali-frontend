@@ -1,3 +1,4 @@
+// components/maintenance/MaintenanceDashboard.js
 "use client";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MaintenanceRequestCard from "@/components/maintenance/MaintenanceRequestCard";
@@ -6,8 +7,10 @@ import {
   useGetRequestsByAgentQuery,
 } from "@/features/api/maintenance.api";
 import { useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
 
 const MaintenanceDashboard = () => {
+  const t = useTranslations("dashboard.maintenance"); // Add the translation hook
   const user = useSelector((state) => state.auth.user);
   const { data: agencyRequests, isLoading: agencyLoading } =
     useGetRequestsByAgencyQuery(user?.agency.id, { skip: !user?.agency.id });
@@ -19,7 +22,7 @@ const MaintenanceDashboard = () => {
       <div className="container mt-4">
         {user?.agency.id && (
           <>
-            <h3>Agency Requests</h3>
+            <h3>{t("agency_requests")}</h3> {/* Translatable string */}
             <div className="row">
               {agencyLoading ? (
                 <LoadingSpinner />
@@ -35,7 +38,7 @@ const MaintenanceDashboard = () => {
         )}
       </div>
       <div className="container mt-4">
-        <h3>Assigned to You</h3>
+        <h3>{t("assigned_to_you")}</h3> {/* Translatable string */}
         <div className="row">
           {agentLoading ? (
             <LoadingSpinner />

@@ -1,13 +1,17 @@
+"use client";
+import { useTranslations } from "next-intl";
 import ChatBox from "./ChatBox";
 
-const index = () => {
+const Index = () => {
+  const t  = useTranslations("dashboard.message"); // Hook pour gérer les traductions
+
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">
         <div className="row">
           <div className="col-lg-12 maxw100flex-992">
             <div className="row">
-              {/* Start Dashboard Navigation */}
+              {/* Début de la navigation du dashboard */}
               <div className="col-lg-12">
                 <div className="dashboard_navigationbar dn db-1024">
                   <div className="dropdown">
@@ -17,39 +21,43 @@ const index = () => {
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
                     >
-                      <i className="fa fa-bars pr10"></i> Dashboard Navigation
+                      <i className="fa fa-bars pr10"></i>{" "}
+                      {t("dashboard.navigation")}
                     </button>
                   </div>
                 </div>
               </div>
-              {/* End Dashboard Navigation */}
+              {/* Fin de la navigation du dashboard */}
 
               <div className="col-lg-12 mb10">
                 <div className="breadcrumb_content style2">
-                  <h2 className="breadcrumb_title">Message</h2>
-                  <p>We are glad to see you again!</p>
+                  <h2 className="breadcrumb_title">{t("message.title")}</h2>
+                  <p>{t("message.welcome_back")}</p>
                 </div>
               </div>
             </div>
-            {/* End .row */}
+            {/* Fin .row */}
 
             <ChatBox />
-            {/* End message box */}
+            {/* Boîte de discussion */}
 
             <div className="row mt50">
               <div className="col-lg-12">
                 <div className="copyright-widget text-center">
-                  <p>© 2020 Find House. Made with love.</p>
+                  <p>
+                    © {new Date().getFullYear()} Find House.{" "}
+                    {t("footer.made_with_love")}
+                  </p>
                 </div>
               </div>
             </div>
-            {/* End .row */}
+            {/* Fin .row */}
           </div>
-          {/* End .col */}
+          {/* Fin .col */}
         </div>
       </div>
     </section>
   );
 };
 
-export default index;
+export default Index;

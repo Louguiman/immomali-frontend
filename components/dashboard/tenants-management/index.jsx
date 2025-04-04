@@ -10,14 +10,34 @@ import {
 import PropertyCard from "@/components/PropertyCard";
 import UserCard from "@/components/common/cards/UserCard";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import TenantCard from "@/components/TenantCard";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useSelector } from "react-redux";
 
 const TenantManagement = () => {
+  const user = useSelector((state) => state.auth.user);
+
+  // Determine if the logged-in user is allowed to update (agent, agency, admin)
+  const canEdit = user?.roles.some((role) =>
+    ["agent", "agency", "admin"].includes(role.name)
+  );
+  const createQueryString = () => {
+    const params = new URLSearchParams();
+    params.set("agencyId", user.agency.id);
+
+    return params.toString();
+  };
+
   const pathname = usePathname();
-  const { data: tenants, isLoading, isError } = useGetTenantsQuery({});
+  const {
+    data: tenants,
+    isLoading,
+    isError,
+  } = useGetTenantsQuery(createQueryString(), {
+    skip: !user.agency.id || !createQueryString,
+  });
   const [deleteTenant] = useDeleteTenantMutation();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");

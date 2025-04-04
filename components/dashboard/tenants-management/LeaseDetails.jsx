@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useUpdateLeaseMutation } from "@/features/api/tenants.api";
 import { useTranslations } from "next-intl";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import { useFormatter } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const LeaseDetails = ({ lease }) => {
   const t = useTranslations("dashboard.TenantProfile");
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [leaseData, setLeaseData] = useState(lease);
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
+
   const [updateLease, { isLoading, error }] = useUpdateLeaseMutation();
 
   useEffect(() => {
@@ -24,6 +29,8 @@ const LeaseDetails = ({ lease }) => {
         timer: 2000,
         showConfirmButton: false,
       });
+
+      router.refresh();
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -58,10 +65,16 @@ const LeaseDetails = ({ lease }) => {
         <strong>{t("endDate")}:</strong> {lease?.leaseEndDate || "N/A"}
       </p>
       <p>
-        <strong>{t("rentAmount")}:</strong> ${lease?.monthlyRent || "N/A"}
+        <strong>{t("rentAmount")}:</strong>{" "}
+        {lease?.monthlyRent
+          ? formatNumber(lease?.monthlyRent, {
+              style: "currency",
+              currency: "XOF",
+            })
+          : "N/A"}
       </p>
       <p>
-        <strong>{t("status")}:</strong>{" "}
+        <strong>{t("status")}:</strong>
         <span
           className={`badge ${
             lease?.leaseStatus === "active" ? "bg-success" : "bg-danger"

@@ -1,12 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   useGetTenantByIdQuery,
   useUpdateTenantMutation,
 } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useState, useEffect } from "react";
+import CreateListing from "@/components/dashboard/create-tenant";
 
 export const EditTenantPage = () => {
   const { id } = useParams();
@@ -49,111 +50,112 @@ export const EditTenantPage = () => {
     setIsEditing(false);
   };
 
-  return (
-    <div className="container mt-4">
-      <h2 className="mb-4">Edit Tenant Details</h2>
-      <form onSubmit={handleSubmit} className="row g-3">
-        {/* Left Column */}
-        <div className="col-md-6">
-          <div className="mb-3">
-            <label className="form-label">Lease Start Date</label>
-            <input
-              type="date"
-              name="leaseStartDate"
-              className="form-control"
-              value={formData.leaseStartDate}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+  return <CreateListing tenant={tenant} />;
+  // return (
+  //   <div className="container mt-4">
+  //     <h2 className="mb-4">Edit Tenant Details</h2>
+  //     <form onSubmit={handleSubmit} className="row g-3">
+  //       {/* Left Column */}
+  //       <div className="col-md-6">
+  //         <div className="mb-3">
+  //           <label className="form-label">Lease Start Date</label>
+  //           <input
+  //             type="date"
+  //             name="leaseStartDate"
+  //             className="form-control"
+  //             value={formData.leaseStartDate}
+  //             onChange={handleChange}
+  //             disabled={!isEditing}
+  //           />
+  //         </div>
 
-          <div className="mb-3">
-            <label className="form-label">Lease End Date</label>
-            <input
-              type="date"
-              name="leaseEndDate"
-              className="form-control"
-              value={formData.leaseEndDate}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-        </div>
+  //         <div className="mb-3">
+  //           <label className="form-label">Lease End Date</label>
+  //           <input
+  //             type="date"
+  //             name="leaseEndDate"
+  //             className="form-control"
+  //             value={formData.leaseEndDate}
+  //             onChange={handleChange}
+  //             disabled={!isEditing}
+  //           />
+  //         </div>
+  //       </div>
 
-        {/* Right Column */}
-        <div className="col-md-6">
-          <div className="mb-3">
-            <label className="form-label">Monthly Rent</label>
-            <input
-              type="number"
-              name="monthlyRent"
-              className="form-control"
-              value={formData.monthlyRent}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+  //       {/* Right Column */}
+  //       <div className="col-md-6">
+  //         <div className="mb-3">
+  //           <label className="form-label">Monthly Rent</label>
+  //           <input
+  //             type="number"
+  //             name="monthlyRent"
+  //             className="form-control"
+  //             value={formData.monthlyRent}
+  //             onChange={handleChange}
+  //             disabled={!isEditing}
+  //           />
+  //         </div>
 
-          <div className="mb-3">
-            <label className="form-label">Outstanding Balance</label>
-            <input
-              type="number"
-              name="outstandingBalance"
-              className="form-control"
-              value={formData.outstandingBalance}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
+  //         <div className="mb-3">
+  //           <label className="form-label">Outstanding Balance</label>
+  //           <input
+  //             type="number"
+  //             name="outstandingBalance"
+  //             className="form-control"
+  //             value={formData.outstandingBalance}
+  //             onChange={handleChange}
+  //             disabled={!isEditing}
+  //           />
+  //         </div>
 
-          <div className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="autoRenewal"
-              name="autoRenewal"
-              checked={formData.autoRenewal}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-            <label className="form-check-label" htmlFor="autoRenewal">
-              Auto-Renew Lease
-            </label>
-          </div>
-        </div>
+  //         <div className="form-check">
+  //           <input
+  //             type="checkbox"
+  //             className="form-check-input"
+  //             id="autoRenewal"
+  //             name="autoRenewal"
+  //             checked={formData.autoRenewal}
+  //             onChange={handleChange}
+  //             disabled={!isEditing}
+  //           />
+  //           <label className="form-check-label" htmlFor="autoRenewal">
+  //             Auto-Renew Lease
+  //           </label>
+  //         </div>
+  //       </div>
 
-        {/* Action Buttons */}
-        <div className="col-12">
-          {!isEditing ? (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setIsEditing(true)}
-            >
-              Edit Tenant
-            </button>
-          ) : (
-            <>
-              <button
-                type="submit"
-                className="btn btn-success me-2"
-                disabled={isUpdating}
-              >
-                {isUpdating ? "Saving..." : "Save Changes"}
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setIsEditing(false)}
-              >
-                Cancel
-              </button>
-            </>
-          )}
-        </div>
-      </form>
-    </div>
-  );
+  //       {/* Action Buttons */}
+  //       <div className="col-12">
+  //         {!isEditing ? (
+  //           <button
+  //             type="button"
+  //             className="btn btn-primary"
+  //             onClick={() => setIsEditing(true)}
+  //           >
+  //             Edit Tenant
+  //           </button>
+  //         ) : (
+  //           <>
+  //             <button
+  //               type="submit"
+  //               className="btn btn-success me-2"
+  //               disabled={isUpdating}
+  //             >
+  //               {isUpdating ? "Saving..." : "Save Changes"}
+  //             </button>
+  //             <button
+  //               type="button"
+  //               className="btn btn-secondary"
+  //               onClick={() => setIsEditing(false)}
+  //             >
+  //               Cancel
+  //             </button>
+  //           </>
+  //         )}
+  //       </div>
+  //     </form>
+  //   </div>
+  // );
 };
 
 export default EditTenantPage;

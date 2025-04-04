@@ -15,7 +15,7 @@ const STATUS_COLORS = {
 const MaintenanceRequestCard = ({ request }) => {
   const t = useTranslations("dashboard.maintenance");
   const pathname = usePathname();
-  const imageUrl = request.property?.images?.[0]?.imageUrl;
+  // const imageUrl = ;
 
   return (
     <div className="card mb-4 shadow-sm">
@@ -25,11 +25,12 @@ const MaintenanceRequestCard = ({ request }) => {
           className="col-md-5 position-relative"
           style={{ minHeight: "200px" }}
         >
-          {imageUrl ? (
+          {request.property?.images?.[0]?.imageUrl ? (
             <Image
-              src={imageUrl}
+              width={200}
+              height={200}
+              src={request.property?.images?.[0]?.imageUrl}
               alt={request.property.title}
-              fill
               className="img-fluid rounded-start object-fit-cover"
             />
           ) : (
