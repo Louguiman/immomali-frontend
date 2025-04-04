@@ -6,13 +6,18 @@ export const tenantApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     /** 🔹 Get All Tenants */
     getTenants: builder.query({
-      query: ({ search = "" }) => `tenants?search=${search}`,
+      query: (params) => ({
+        url: `tenants`,
+        method: "GET",
+        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+      }),
       providesTags: ["Tenants"],
     }),
 
     /** 🔹 Get Single Tenant Profile */
     getTenantById: builder.query({
       query: (tenantId) => `tenants/${tenantId}`,
+      providesTags: ["Tenants"],
     }),
 
     /** 🔹 Create a New Tenant */
@@ -27,11 +32,12 @@ export const tenantApi = apiSlice.injectEndpoints({
 
     /** 🔹 Update Tenant Information */
     updateTenant: builder.mutation({
-      query: ({ tenantId, data }) => ({
-        url: `tenants/${tenantId}`,
+      query: ({ id, data }) => ({
+        url: `tenants/${id}`,
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Delete Tenant */
@@ -40,6 +46,7 @@ export const tenantApi = apiSlice.injectEndpoints({
         url: `tenants/${tenantId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Get Tenant's Active Leases */
@@ -54,6 +61,7 @@ export const tenantApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { status: leaseStatus },
       }),
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Extend or Terminate Lease */
@@ -63,6 +71,7 @@ export const tenantApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: leaseData,
       }),
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Get Tenant's Payment History */
@@ -81,6 +90,7 @@ export const tenantApi = apiSlice.injectEndpoints({
           body: formData,
         };
       },
+      invalidatesTags: ["Tenants"],
     }),
 
     /** 🔹 Send Overdue Payment Reminder */

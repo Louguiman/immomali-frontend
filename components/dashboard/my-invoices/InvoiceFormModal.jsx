@@ -6,10 +6,12 @@ import {
 import { useGetTenantsQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useAppSelector } from "@/store/hooks";
+import { useTranslations } from "next-intl";
 
 const InvoiceFormModal = ({ invoice, onClose }) => {
   const isEditing = Boolean(invoice);
   const user = useAppSelector((state) => state.auth.user);
+  const t = useTranslations("dashboard.invoiceList");
 
   const [formData, setFormData] = useState({
     tenantId: invoice?.tenant?.id || "",
@@ -41,16 +43,14 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
     }
   }, [invoice]);
 
-  // 🔹 Handle Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔹 Handle File Upload (Attachments)
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
-    const fileUrls = files.map((file) => URL.createObjectURL(file)); // Temporary preview URLs
+    const fileUrls = files.map((file) => URL.createObjectURL(file));
     setFormData((prev) => ({
       ...prev,
       attachments: [...prev.attachments, ...fileUrls],
@@ -60,7 +60,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.tenantId || !formData.totalAmount || !formData.dueDate) {
-      alert("Please fill in all required fields.");
+      alert(t("pleaseFillRequiredFields"));
       return;
     }
 
@@ -84,7 +84,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
           discount: formData.discount ? parseInt(formData.discount) : 0,
         });
       }
-      onClose(); // Close modal on success
+      onClose();
     } catch (error) {
       console.error("Error creating invoice:", error);
     }
@@ -96,7 +96,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">
-              {isEditing ? "Edit Invoice" : "Create Invoice"}
+              {isEditing ? t("editInvoice") : t("createInvoice")}
             </h5>
             <button
               type="button"
@@ -106,8 +106,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
-              {/* Tenant Selection */}
-              <label>Tenant</label>
+              <label>{t("tenant")}</label>
               <select
                 className="form-control"
                 value={formData.tenantId}
@@ -116,7 +115,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 }
                 required
               >
-                <option value="">Select Tenant</option>
+                <option value="">{t("selectTenant")}</option>
                 {tenants?.map((tenant) => (
                   <option key={tenant.id} value={tenant.id}>
                     {tenant.user?.name} - {tenant.property?.title}
@@ -124,9 +123,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 ))}
               </select>
 
-              {/* Total Amount */}
               <div className="mb-3">
-                <label className="form-label">Total Amount</label>
+                <label className="form-label">{t("totalAmount")}</label>
                 <input
                   type="number"
                   className="form-control"
@@ -137,9 +135,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 />
               </div>
 
-              {/* Invoice Type */}
               <div className="mb-3">
-                <label className="form-label">Invoice Type</label>
+                <label className="form-label">{t("invoiceType")}</label>
                 <select
                   className="form-select"
                   name="type"
@@ -153,9 +150,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 </select>
               </div>
 
-              {/* Status */}
               <div className="mb-3">
-                <label className="form-label">Status</label>
+                <label className="form-label">{t("status")}</label>
                 <select
                   className="form-select"
                   name="status"
@@ -168,11 +164,10 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 </select>
               </div>
 
-              {/* Tax & Discount */}
               <div className="row">
                 <div className="col-md-6">
                   <div className="mb-3">
-                    <label className="form-label">Tax</label>
+                    <label className="form-label">{t("tax")}</label>
                     <input
                       type="number"
                       className="form-control"
@@ -184,7 +179,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 </div>
                 <div className="col-md-6">
                   <div className="mb-3">
-                    <label className="form-label">Discount</label>
+                    <label className="form-label">{t("discount")}</label>
                     <input
                       type="number"
                       className="form-control"
@@ -196,9 +191,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 </div>
               </div>
 
-              {/* Due Date */}
               <div className="mb-3">
-                <label className="form-label">Due Date</label>
+                <label className="form-label">{t("dueDate")}</label>
                 <input
                   type="date"
                   className="form-control"
@@ -209,9 +203,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 />
               </div>
 
-              {/* Notes */}
               <div className="mb-3">
-                <label className="form-label">Notes</label>
+                <label className="form-label">{t("notes")}</label>
                 <textarea
                   className="form-control"
                   name="notes"
@@ -220,9 +213,8 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 ></textarea>
               </div>
 
-              {/* File Upload */}
               <div className="mb-3">
-                <label className="form-label">Attachments</label>
+                <label className="form-label">{t("attachments")}</label>
                 <input
                   type="file"
                   className="form-control"
@@ -240,14 +232,13 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <div className="mt-3 modal-footer">
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={onClose}
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
                 <button
                   type="submit"
@@ -257,9 +248,9 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
                   {creating || updating ? (
                     <LoadingSpinner />
                   ) : isEditing ? (
-                    "Update Invoice"
+                    t("updateInvoice")
                   ) : (
-                    "Create Invoice"
+                    t("createInvoice")
                   )}
                 </button>
               </div>

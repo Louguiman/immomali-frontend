@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import InboxUser from "./InboxUser";
 import ChatboxContent from "./ChatboxContent";
 import { useAppSelector } from "@/store/hooks";
@@ -10,28 +11,36 @@ import {
 import { useState } from "react";
 
 const ChatBox = () => {
+  const t = useTranslations("dashboard.message"); // Hook de traduction
   const user = useAppSelector((state) => state.auth?.user);
+  const userId = user?.id;
+
   const {
     data: sentInquiries,
     isLoading: sentLoading,
     isError: isErrorSent,
-  } = useGetSentInquiriesQuery(user.id, { skip: !user?.id });
+  } = useGetSentInquiriesQuery(userId, { skip: !userId });
+
   const {
     data: receivedInquiries,
     isLoading: receivedLoading,
     isError: isErrorReceived,
-  } = useGetReceivedInquiriesQuery(user.id, { skip: !user?.id });
-  const [selectedInquiry, setSelectedInquiry] = useState(null);
-  if (sentLoading || receivedLoading) return <p>Loading inquiries...</p>;
-  if (isErrorSent || isErrorReceived) return <p>Error loading inquiries...</p>;
+  } = useGetReceivedInquiriesQuery(userId, { skip: !userId });
 
-  const inquiries = user.roles.some((role) => role.name !== "user")
+  const [selectedInquiry, setSelectedInquiry] = useState(null);
+
+  if (sentLoading || receivedLoading) return <p>{t("chatbox.loading")}</p>;
+
+  if (isErrorSent || isErrorReceived)
+    return <p>{t("chatbox.error_loading")}</p>;
+
+  const inquiries = user?.roles?.some((role) => role.name !== "user")
     ? receivedInquiries
     : sentInquiries;
 
   return (
     <div className="row">
-      {/* Sidebar - List of Inquiries */}
+      {/* Barre latérale - Liste des demandes */}
       <div className="col-lg-5 col-xl-4">
         <div className="message_container">
           <InboxUser
@@ -42,13 +51,13 @@ const ChatBox = () => {
         </div>
       </div>
 
-      {/* Chatbox - Display selected inquiry details */}
+      {/* Zone de discussion - Affichage des messages */}
       <div className="col-lg-7 col-xl-8">
         <div className="message_container">
           {selectedInquiry ? (
             <ChatboxContent inquiry={selectedInquiry} />
           ) : (
-            <p className="text-center">Select an inquiry to view messages.</p>
+            <p className="text-center">{t("chatbox.select_inquiry")}</p>
           )}
         </div>
       </div>

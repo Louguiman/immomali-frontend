@@ -61,13 +61,13 @@ const InvoiceDetailsPage = () => {
           <div className="col-md-6">
             <h5 className="fw-bold">{t("tenant_info")}</h5>
             <p>
-              <strong>{t("name")}:</strong> {invoice.tenant.user.name}
+              <strong>{t("name")}:</strong> {invoice.tenant?.user?.name}
             </p>
             <p>
-              <strong>{t("email")}:</strong> {invoice.tenant.user.email}
+              <strong>{t("email")}:</strong> {invoice.tenant?.user?.email}
             </p>
             <p>
-              <strong>{t("phone")}:</strong> {invoice.tenant.user.phone}
+              <strong>{t("phone")}:</strong> {invoice.tenant?.user?.phone}
             </p>
           </div>
 

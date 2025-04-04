@@ -89,7 +89,7 @@ const PropertyCard = ({ item }) => {
                 <Image
                   width={40}
                   height={40}
-                  src={item.posterAvatar}
+                  src={item?.owner?.img || "/assets/images/team/e1.png"}
                   alt="pposter1.png"
                 />
               </Link>

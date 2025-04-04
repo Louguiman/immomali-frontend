@@ -5,20 +5,18 @@ import {
   useUpdateTenantMutation,
   useUploadLeaseDocumentsMutation,
 } from "@/features/api/tenants.api";
-import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
-import MobileMenu from "../../common/header/MobileMenu";
 import TenantForm from "./TenantForm";
 import LeaseDetails from "./LeaseDetails";
 import DocumentUploader from "./DocumentUploader";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import Stepper from "../create-listing/Stepper";
+import { useTranslations } from "next-intl";
 
 const TenantManagement = ({ tenant }) => {
+  const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state) => state.auth.user);
@@ -26,11 +24,11 @@ const TenantManagement = ({ tenant }) => {
   const leaseDetails = useSelector((state) => state.tenants.leaseDetails);
 
   const [loading, setLoading] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
-  const [createTenant, { isLoading: isCreating }] = useCreateTenantMutation();
-  const [updateTenant, { isLoading: isUpdating }] = useUpdateTenantMutation();
-  const [uploadLeaseDocuments, { isLoading }] =
-    useUploadLeaseDocumentsMutation();
+  const [createTenant] = useCreateTenantMutation();
+  const [updateTenant] = useUpdateTenantMutation();
+  const [uploadLeaseDocuments] = useUploadLeaseDocumentsMutation();
 
   useEffect(() => {
     if (tenant) {
@@ -38,14 +36,20 @@ const TenantManagement = ({ tenant }) => {
       dispatch(setTenant(tenantDetails));
       dispatch(setLease(lease));
     }
-
-    return () => {};
   }, [tenant]);
+
+  const handleNext = () => {
+    setActiveStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
 
   const handleSubmit = async () => {
     let leaseId = null;
     setLoading(true);
-    toast.info("Processing tenant details...", { autoClose: 2000 });
+    toast.info(t("processing"), { autoClose: 2000 });
 
     try {
       const tenantData = {
@@ -60,11 +64,11 @@ const TenantManagement = ({ tenant }) => {
           id: tenant.id,
           data: tenantData,
         }).unwrap();
-        toast.success("Tenant updated successfully!", { autoClose: 2000 });
+        toast.success(t("updated"), { autoClose: 2000 });
       } else {
         response = await createTenant(tenantData).unwrap();
         leaseId = response.lease.id;
-        toast.success("Tenant created successfully!", { autoClose: 2000 });
+        toast.success(t("created"), { autoClose: 2000 });
         router.back();
       }
 
@@ -77,67 +81,90 @@ const TenantManagement = ({ tenant }) => {
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("An error occurred while processing the tenant.", {
-        autoClose: 2000,
-      });
+      toast.error(t("error"), { autoClose: 2000 });
     } finally {
       setLoading(false);
     }
   };
+
+  const steps = [
+    {
+      label: t("editTenant"),
+      component: (
+        <TenantForm
+          tenantToEdit={tenant}
+          activeStep={activeStep}
+          onNext={handleNext}
+        />
+      ),
+    },
+    {
+      label: t("leaseDetails"),
+      component: (
+        <LeaseDetails
+          activeStep={activeStep}
+          onNext={handleNext}
+          onPrevious={handleBack}
+        />
+      ),
+    },
+    {
+      label: t("documentUpload"),
+      component: (
+        <DocumentUploader
+          activeStep={activeStep}
+          onNext={handleNext}
+          onPrevious={handleBack}
+        />
+      ),
+    },
+  ];
 
   return (
     <div className="container-fluid ovh">
       <div className="row">
         <div className="col-lg-12 maxw100flex-992">
           <div className="row">
-            <div className="col-lg-12 mb10">
+            <div className="col-lg-8 mb10">
               <div className="breadcrumb_content style2">
                 <h2 className="breadcrumb_title">
-                  {tenant?.id ? "Edit Tenant" : "Add New Tenant"}
+                  {tenant?.id ? t("editTenant") : t("addTenant")}
                 </h2>
                 <p>Manage tenant lease details and rental agreements.</p>
               </div>
             </div>
 
-            {/* Tenant Form */}
-            <div id="info" className="col-lg-12">
-              {/* <h4 className="breadcrumb_title">Tenant Details</h4> */}
-              <TenantForm />
+            <div id="stepper" className="col-lg-8">
+              <Stepper
+                activeStep={activeStep}
+                steps={steps}
+                onNext={handleNext}
+                onPrevious={handleBack}
+                onFinish={handleSubmit}
+                isLoading={loading}
+              >
+                {steps[activeStep].component}
+              </Stepper>
             </div>
-
-            {/* Lease Details */}
-            <div id="lease" className="my_dashboard_review mt30">
-              <h2 className="breadcrumb_title">Lease Details</h2>
-              <LeaseDetails />
-            </div>
-
-            {/* Document Upload */}
-            <div id="documents" className="my_dashboard_review mt30">
-              <DocumentUploader />
-            </div>
-
-            {/* Submit */}
-            <div id="submit" className="col-xl-12">
-              <div className="my_profile_setting_input">
-                <button
-                  className="btn btn1 float-start"
-                  onClick={() => router.back()}
-                >
-                  Back
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  className="btn btn2 float-end"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <i className="fa fa-spinner fa-spin"></i>
-                  ) : (
-                    "Save Tenant"
-                  )}
-                </button>
+            {activeStep === steps.length - 1 && (
+              <div id="submit" className="col-xl-12 mt30">
+                <div className="my_profile_setting_input">
+                  <button
+                    onClick={handleSubmit}
+                    className="btn btn2 float-end"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <span>
+                        <i className="fa fa-spinner fa-spin"></i> {t("saving")}
+                      </span>
+                    ) : (
+                      t("save")
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

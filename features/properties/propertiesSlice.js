@@ -13,13 +13,13 @@ const initialState = {
     description: "",
     type: "rent", // Only "Rent" or "Sale"
     category: "", // New field for category
-    price: 0,
+    price: "",
     area: "",
     rooms: "1",
-    beds: 1,
-    baths: 1,
+    beds: "",
+    baths: "",
     garages: "",
-    sqFt: 0,
+    sqFt: "",
     builtYear: 2010,
     // New fields for location
     address: "",

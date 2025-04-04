@@ -8,7 +8,7 @@ const UserCard = ({ user }) => {
     <div className="card user-card">
       <div className="card-img-top text-center">
         <Image
-          src={user.img || "/assets/images/default-user.jpg"}
+          src={user?.img || "/assets/images/team/e1.png"}
           alt={user.name}
           width={100}
           height={100}

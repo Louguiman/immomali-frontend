@@ -46,9 +46,62 @@
       }
     },
     "TenantProfile": {
+      "addTenant": "+ Ajouter un nouveau Locataire",
+      "leaseDocumentsTitle": "Documents de location",
+      "uploadInstructions": "Téléchargez les contrats de location, les pièces d'identité, etc.",
+      "selectDocuments": "Sélectionner des documents",
+      "uploadedDocuments": "Documents téléchargés",
+      "delete": "Supprimer",
+      "finish": "Terminer",
+      "leaseStartDate": "Date de début du bail",
+      "leaseEndDate": "Date de fin du bail",
+      "monthlyRent": "Loyer mensuel (FCFA)",
+      "securityDeposit": "Caution",
+      "autoRenew": "Renouvellement automatique du bail",
+      "autoRenewPrompt": "Le bail doit-il être renouvelé automatiquement à expiration",
+      "leaseStatus": "Statut du bail",
+      "additionalTerms": "Conditions supplémentaires",
+      "fixedTerm": "À durée déterminée",
+      "monthToMonth": "De mois en mois",
+      "pending": "En attente",
+      "terminated": "Terminé",
+      "yes": "Oui",
+      "no": "Non",
+      "resetForm": "Réinitialiser le formulaire",
+      "leaseStartDateRequired": "La date de début du bail est requise.",
+      "leaseEndDateRequired": "La date de fin du bail est requise.",
+      "leaseEndDateInvalid": "La date de fin ne peut pas être antérieure à la date de début.",
+      "monthlyRentRequired": "Le loyer mensuel est requis.",
+      "monthlyRentPositive": "Le loyer mensuel doit être un nombre positif.",
+      "monthlyRentInvalid": "Le loyer mensuel doit être un nombre valide.",
+      "securityDepositRequired": "La caution est requise.",
+      "securityDepositPositive": "La caution doit être un nombre positif.",
+      "securityDepositInvalid": "La caution doit être un nombre valide.",
+      "leaseTypeRequired": "Le type de bail est requis.",
+      "autoRenewRequired": "L'option de renouvellement automatique est requise.",
+      "leaseStatusRequired": "Le statut du bail est requis.",
+      "leaseDetails": "Détails du bail",
+      "documentUpload": "Téléversement de documents",
+      "editTenant": "Modifier le locataire",
+      "processing": "Traitement des informations du locataire...",
+      "updated": "Locataire mis à jour avec succès!",
+      "created": "Locataire créé avec succès!",
+      "uploaded": "Documents de bail téléchargés!",
       "notFound": "Locataire introuvable.",
       "backToTenants": "Retour aux locataires",
       "email": "E-mail :",
+      "fullName": "Nom complet",
+      "phone": "Numéro de téléphone",
+      "searchUsers": "Rechercher des utilisateurs par e-mail ou téléphone...",
+      "propertyToRent": "Propriété à louer",
+      "searchProperties": "Rechercher des propriétés...",
+      "searchAgent": "Rechercher un agent à assigner",
+      "selectedAgent": "Agent sélectionné",
+      "selectedTenant": "Locataire sélectionné",
+      "property": "Propriété",
+      "agent": "Agent",
+      "next": "Suivant",
+      "back": "Retour",
       "phone": "Tel:",
       "success": "Succès",
       "error": "Erreur",
@@ -92,6 +145,7 @@
       "notes": "Notes",
       "issuedBy": "Émis par",
       "actions": "Actions",
+      "edit": "Modifier",
       "view": "Voir",
       "paid": "Payée",
       "unpaid": "Impayée",
@@ -121,7 +175,24 @@
       "edit_invoice": "Modifier la facture",
       "export_as_pdf": "Exporter en PDF",
       "record_payment": "Enregistrer un paiement",
-      "no_payments": "Aucun paiement enregistré."
+      "no_payments": "Aucun paiement enregistré.",
+      "partially_paid": "paiement partiel",
+      "deleteInvoice": {
+        "title": "Êtes-vous sûr ?",
+        "text": "Vous ne pourrez pas récupérer cette facture !",
+        "confirmButton": "Oui, supprimez-la !",
+        "cancelButton": "Non, annuler !",
+        "deleted": "Supprimé !",
+        "successText": "Votre facture a été supprimée."
+      },
+      "addInvoice": "Ajouter une facture",
+      "filter": "Filtrer",
+      "createInvoice": "Créer une facture",
+      "editInvoice": "Modifier la facture",
+      "selectTenant": "Sélectionner un locataire",
+      "totalAmount": "Montant total",
+      "invoiceType": "Type de facture",
+      "updateInvoice": "Mettre à jour la facture"
     },
     "myTenancies": {
       "SectionTitle": "Gestion des Locataires",
@@ -157,14 +228,20 @@
       "send_request": "Envoyer la demande",
       "status_active": "Actif",
       "status_terminated": "Terminé",
-      "status_warning": "En attente"
+      "status_warning": "En attente",
+      "status_pending": "En attente"
     },
     "maintenance": {
+      "dashboard_navigation": "Navigation du tableau de bord",
+      "maintenance_requests": "Demandes de maintenance",
+      "handle_requests": "Gérer les demandes de maintenance des locataires",
       "SectionTitle": "Mes Demandes de Maintenance",
       "SectionDescription": "Gérez vos demandes de maintenance ici.",
       "new_maintenance_request": "Nouvelle Demande de Maintenance",
       "error": "Erreur lors du chargement des demandes.",
       "noRequests": "Aucune demande de maintenance trouvée.",
+      "agency_requests": "Demandes de l'agence",
+      "assigned_to_you": "Attribué à vous",
       "title": "Titre",
       "description": "Description",
       "category": "Catégorie",
@@ -369,6 +446,38 @@
       "forSale": "À {type}",
       "pricePerMonth": "{price} FCFA /mois",
       "delete": "Supprimer"
+    },
+    "message": {
+      "dashboard": {
+        "navigation": "Navigation du tableau de bord"
+      },
+      "message": {
+        "title": "Messages",
+        "welcome_back": "Nous sommes ravis de vous revoir !"
+      },
+      "footer": {
+        "made_with_love": "Fait avec amour."
+      },
+      "chatbox": {
+        "loading": "Chargement des demandes...",
+        "error_loading": "Erreur lors du chargement des demandes...",
+        "select_inquiry": "Sélectionnez une demande pour voir les messages.",
+        "loading_messages": "Chargement des messages...",
+        "unknown": "Inconnu",
+        "property_inquiry": "Demande de propriété",
+        "enter_text": "Saisissez votre message...",
+        "sending": "Envoi...",
+        "send_message": "Envoyer le message"
+      },
+      "search": {
+        "placeholder": "Rechercher",
+        "aria_label": "Rechercher des utilisateurs"
+      },
+      "user": {
+        "image_alt": "Photo de profil de l'utilisateur",
+        "unknown": "Inconnu",
+        "no_message": "Aucun message disponible"
+      }
     }
   }
 }

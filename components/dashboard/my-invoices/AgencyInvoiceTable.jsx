@@ -1,23 +1,31 @@
+import { useFormatter } from "next-intl";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 
 const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
+  const t = useTranslations("dashboard.invoiceList");
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
+
   const pathname = usePathname();
   const router = useRouter();
-  if (!invoices || invoices.length === 0) return <p>No invoices found.</p>;
-
+  if (!invoices || invoices.length === 0) {
+    return <p>{t("noInvoicesFound")}</p>; // Use localized 'No invoices found' message
+  }
   return (
     <table className="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Tenant</th>
+          <th>{t("invoiceNumber")}</th> {/* Localized 'Invoice #' */}
+          <th>{t("tenant")}</th> {/* Localized 'Tenant' */}
           <th>Property</th>
-          <th>Type</th>
-          <th>Total Amount</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th>Notes</th>
-          <th>Actions</th>
+          <th>{t("type")}</th> {/* Localized 'Type' */}
+          <th>{t("amount")}</th> {/* Localized 'Amount' */}
+          <th>{t("amountPaid")}</th> {/* Localized 'Amount Paid' */}
+          <th>{t("remainingBalance")}</th> {/* Localized 'Remaining Balance' */}
+          <th>{t("dueDate")}</th> {/* Localized 'Due Date' */}
+          <th>{t("status")}</th> {/* Localized 'Status' */}
+          <th>{t("issuedBy")}</th> {/* Localized 'Issued By' */}
+          <th>{t("actions")}</th> {/* Localized 'Actions' */}
         </tr>
       </thead>
       <tbody>
@@ -26,8 +34,27 @@ const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
             <td>{invoice.id}</td>
             <td>{invoice?.tenant?.user?.name}</td>
             <td>{invoice?.tenant?.property?.title}</td>
-            <td>{invoice.type} </td>
-            <td>{invoice.totalAmount} FCFA</td>
+            <td>{invoice?.type}</td>
+            <td>
+              {formatNumber(invoice.totalAmount, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>
+            <td>
+              {formatNumber(invoice.paidAmount, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>
+            {/* Currency formatted */}
+            <td>
+              {formatNumber(invoice.remainingBalance, {
+                style: "currency",
+                currency: "XOF",
+              })}
+            </td>{" "}
+            {/* Currency formatted */}
             <td>{invoice.dueDate}</td>
             <td>
               <span
@@ -39,30 +66,35 @@ const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
                     : "bg-warning"
                 }`}
               >
-                {invoice.status}
+                {t(invoice.status)}
               </span>
             </td>
-            <td>{invoice?.notes}</td>
-
+            <td>
+              <ul>
+                <li> {invoice?.issuedBy?.name}</li>
+                <li>{invoice?.issuedBy?.phone}</li>
+                <li> {invoice?.issuedBy?.email}</li>
+              </ul>
+            </td>
             <td>
               <button
                 onClick={() => router.push(`${pathname}/${invoice.id}`)}
                 className="btn btn-sm btn-primary me-2"
               >
-                View
+                {t("view")}
               </button>
 
               <button
                 className="btn btn-sm btn-warning me-2"
                 onClick={() => onEdit(invoice)}
               >
-                Edit
+                {t("edit")}
               </button>
               <button
                 className="btn btn-sm btn-danger"
                 onClick={() => onDelete(invoice.id)}
               >
-                Delete
+                {t("delete")}
               </button>
             </td>
           </tr>

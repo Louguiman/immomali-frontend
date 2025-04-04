@@ -1,157 +1,161 @@
-// CreateList.js
 "use client";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
   setPropertyTitle,
   setPropertyDescription,
   setType,
   setCategory,
   setPrice,
-  setArea,
-  setRooms,
 } from "@/features/properties/propertiesSlice";
 
-const CreateList = () => {
+const CreateList = ({ activeStep, onNext, onPrevious }) => {
   const dispatch = useDispatch();
+  const t = useTranslations("property");
   const property = useSelector((state) => state.properties.createListing);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "propertyTitle":
-        dispatch(setPropertyTitle(value));
-        break;
-      case "propertyDescription":
-        dispatch(setPropertyDescription(value));
-        break;
-      case "formGroupExamplePrice":
-        dispatch(setPrice(value));
-        break;
-      case "formGroupExampleArea":
-        dispatch(setArea(value));
-        break;
-      default:
-        break;
-    }
-  };
+  // Validation schema using Yup
+  const validationSchema = yup.object().shape({
+    title: yup.string().required(t("validation.required")),
+    description: yup.string().required(t("validation.required")),
+    type: yup.string().required(t("validation.required")),
+    category: yup.string().required(t("validation.required")),
+    price: yup
+      .number()
+      .typeError(t("validation.number"))
+      .positive(t("validation.positive"))
+      .required(t("validation.required")),
+  });
 
-  const handleSelectChange = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "type":
-        dispatch(setType(value));
-        break;
-      case "category":
-        dispatch(setCategory(value));
-        break;
-      case "rooms":
-        dispatch(setRooms(value));
-        break;
-      default:
-        break;
-    }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: property.title || "",
+      description: property.description || "",
+      type: property.type || "rent",
+      category: property.category || "",
+      price: property.price || "",
+    },
+    resolver: yupResolver(validationSchema),
+  });
+
+  // Watch the type value in real-time
+  const propertyType = watch("type");
+
+  const onSubmit = (data) => {
+    dispatch(setPropertyTitle(data.title));
+    dispatch(setPropertyDescription(data.description));
+    dispatch(setType(data.type));
+    dispatch(setCategory(data.category));
+    dispatch(setPrice(data.price));
+    onNext();
   };
 
   return (
-    <>
+    <form className="my_dashboard_review" onSubmit={handleSubmit(onSubmit)}>
+      <h3 className="mb30">{t("createListing")}</h3>
+
       <div className="col-lg-12">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="propertyTitle">Property Title</label>
+          <label htmlFor="title">{t("propertyTitle")}</label>
           <input
             type="text"
             className="form-control"
-            id="propertyTitle"
-            required
-            value={property.title}
-            onChange={handleInputChange}
+            id="title"
+            {...register("title")}
           />
+          {errors.title && (
+            <span className="text-danger">{errors.title.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-12">
         <div className="my_profile_setting_textarea">
-          <label htmlFor="propertyDescription">Description</label>
+          <label htmlFor="description">{t("description")}</label>
           <textarea
             className="form-control"
-            id="propertyDescription"
+            id="description"
             rows="7"
-            value={property.description}
-            onChange={handleInputChange}
+            {...register("description")}
           ></textarea>
+          {errors.description && (
+            <span className="text-danger">{errors.description.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
-          <label>Type</label>
+          <label>{t("type")}</label>
           <select
             className="selectpicker form-select"
-            data-live-search="true"
-            data-width="100%"
             id="type"
-            required
-            value={property.type}
-            onChange={handleSelectChange}
+            {...register("type")}
           >
-            <option value="rent">Rent</option>
-            <option value="sale">Sale</option>
+            <option value="rent">{t("rent")}</option>
+            <option value="sale">{t("sale")}</option>
           </select>
+          {errors.type && (
+            <span className="text-danger">{errors.type.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-6 col-xl-6">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
-          <label>Category</label>
+          <label>{t("category")}</label>
           <select
             className="selectpicker form-select"
-            data-live-search="true"
-            data-width="100%"
             id="category"
-            required
-            value={property.category}
-            onChange={handleSelectChange}
+            {...register("category")}
           >
-            <option value="">Select Category</option>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="villa">Villa</option>
-            <option value="office">Office</option>
-            <option value="Land">Land</option>
+            <option value="">{t("selectCategory")}</option>
+            <option value="apartment">{t("apartment")}</option>
+            <option value="house">{t("house")}</option>
+            <option value="villa">{t("villa")}</option>
+            <option value="office">{t("office")}</option>
+            <option value="land">{t("land")}</option>
           </select>
+          {errors.category && (
+            <span className="text-danger">{errors.category.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="formGroupExamplePrice">
-            {property.type === "sale" ? "Price" : "Monthly Rent"} (FCFA)
+          <label htmlFor="price">
+            {propertyType === "sale" ? t("price") : t("monthlyRent")} (FCFA)
           </label>
           <input
             type="number"
             className="form-control"
-            id="formGroupExamplePrice"
-            value={property.price}
-            required
-            onChange={handleInputChange}
+            id="price"
+            {...register("price")}
           />
+          {errors.price && (
+            <span className="text-danger">{errors.price.message}</span>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">
-          <button className="btn btn1 float-start">Back</button>
-          <button href="#location" className="btn btn2 float-end">
-            Next
+          <button type="submit" className="btn btn2 float-end">
+            {t("next")}
           </button>
         </div>
       </div>
-    </>
+    </form>
   );
 };
 

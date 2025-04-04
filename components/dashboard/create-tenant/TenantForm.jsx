@@ -8,14 +8,23 @@ import SearchablePropertySelect from "./SearchablePropertySelect";
 import SearchableAgentSelect from "./SearchableAgentSelect";
 import UserCard from "@/components/common/cards/UserCard";
 import MinimalPropertyCard from "@/components/MinimalPropertyCard";
+import { useTranslations } from "next-intl";
 
-const TenantForm = () => {
+const TenantForm = ({ tenantToEdit, activeStep, onNext, onPrevious }) => {
+  const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useDispatch();
   const tenant = useSelector((state) => state.tenants.tenantDetails);
   const user = useSelector((state) => state.auth.user);
-  const [selectedTenant, setSelectedTenant] = useState(null);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [selectedTenant, setSelectedTenant] = useState(
+    tenantToEdit?.user || null
+  );
+  const [selectedProperty, setSelectedProperty] = useState(
+    tenantToEdit?.property || null
+  );
+  const [selectedAgent, setSelectedAgent] = useState(
+    tenantToEdit?.agent || null
+  );
+
   /** 🔹 Handle Input Change */
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -26,6 +35,7 @@ const TenantForm = () => {
     setSelectedTenant(user);
     dispatch(setTenantField({ field: "userId", value: user.id }));
   };
+
   const handlePropertySelection = (property) => {
     setSelectedProperty(property);
     dispatch(setLeaseField({ field: "monthlyRent", value: property.price }));
@@ -46,17 +56,16 @@ const TenantForm = () => {
     <>
       <div className="col-lg-6">
         <SearchableUserSelect
-          placeholder="Search users by email or phone..."
+          placeholder={t("searchUsers")}
           onSelect={handleTenantSelection}
         />
       </div>
 
       {!selectedTenant ? (
         <>
-          {" "}
           <div className="col-lg-6 mt-2">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="name">Full Name</label>
+              <label htmlFor="name">{t("fullName")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -68,7 +77,7 @@ const TenantForm = () => {
           </div>
           <div className="col-lg-6">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">{t("email")}</label>
               <input
                 type="email"
                 className="form-control"
@@ -80,7 +89,7 @@ const TenantForm = () => {
           </div>
           <div className="col-lg-6">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="phone">Phone Number</label>
+              <label htmlFor="phone">{t("phone")}</label>
               <input
                 type="tel"
                 className="form-control"
@@ -95,10 +104,10 @@ const TenantForm = () => {
 
       <div className="col-lg-6 d-flex align-items-center mt-2">
         <div className="my_profile_setting_input form-group col-lg-6">
-          <label htmlFor="propertyID">Property to be rented out</label>
+          <label htmlFor="propertyID">{t("propertyToRent")}</label>
           <SearchablePropertySelect
-            agencyId={user?.agency?.id} // Pass agencyId for filtering
-            placeholder="Search properties..."
+            agencyId={user?.agency?.id}
+            placeholder={t("searchProperties")}
             onSelect={handlePropertySelection}
           />
         </div>
@@ -110,21 +119,21 @@ const TenantForm = () => {
             agencyId={user?.agency?.id}
             user={user}
             isAgency={userRoles.includes("agency")}
-            placeholder={"Search for an agent to assign"}
+            placeholder={t("searchAgent")}
             onSelect={handleAgentSelection}
           />
         </div>
       </div>
+
       {selectedAgent && (
         <div className="col-lg-6 mt-2">
-          <label htmlFor="selectedTenant">Selected Agent</label>
-
+          <label htmlFor="selectedTenant">{t("selectedAgent")}</label>
           <div
             id="selectedAgent"
             className="my_profile_setting_input form-group d-flex align-items-center"
           >
             <Image
-              src={selectedAgent.img || "/assets/images/default-user.png"} // Fallback image
+              src={selectedAgent.img || "/assets/images/team/e1.png"}
               alt={selectedAgent.name}
               width={35}
               height={35}
@@ -140,28 +149,33 @@ const TenantForm = () => {
         </div>
       )}
 
-      {/* Display Selected Items in Top Right */}
       <div className="position-absolute top-0 end-0 p-3 mt-5 mr-2 bg-light shadow rounded">
-        <p className="fw-bold mt-2">Selected Tenant: </p>
-
+        <p className="fw-bold mt-2">{t("selectedTenant")}</p>
         {selectedTenant && (
           <div className="mb-3 d-flex align-items-center">
             <UserCard user={selectedTenant} />
           </div>
         )}
-
         {selectedProperty && (
           <>
-            <p className="fw-bold mt-2">Property: {selectedProperty.title}</p>
+            <p className="fw-bold mt-2">
+              {t("property")}: {selectedProperty.title}
+            </p>
             <MinimalPropertyCard item={selectedProperty} />
           </>
         )}
         {selectedAgent && (
           <p className="fw-bold mt-2">
-            Agent: {selectedAgent.name} |{" "}
+            {t("agent")}: {selectedAgent.name} |{" "}
             {selectedAgent?.phone || selectedAgent.email}
           </p>
         )}
+      </div>
+
+      <div className="col-xl-12">
+        <button type="button" onClick={onNext} className="btn btn2 float-end">
+          {t("next")}
+        </button>
       </div>
     </>
   );

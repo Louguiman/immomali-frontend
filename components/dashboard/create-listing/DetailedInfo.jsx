@@ -1,5 +1,10 @@
 "use client";
+
 import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useTranslations } from "next-intl";
 import { useSelector, useDispatch } from "react-redux";
 import CheckBoxFilter from "../../common/CheckBoxFilter";
 import {
@@ -10,116 +15,139 @@ import {
   setBuiltYear,
 } from "@/features/properties/propertiesSlice";
 
-const DetailedInfo = () => {
+const DetailedInfo = ({ activeStep, onNext, onPrevious }) => {
+  const t = useTranslations("property");
   const dispatch = useDispatch();
   const property = useSelector((state) => state.properties.createListing);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case "beds":
-        dispatch(setBeds(value));
-        break;
-      case "baths":
-        dispatch(setBaths(value));
-        break;
-      case "garages":
-        dispatch(setGarages(value));
-        break;
-      case "sqFt":
-        dispatch(setSqFt(value));
-        break;
-      case "builtYear":
-        dispatch(setBuiltYear(value));
-        break;
-      default:
-        break;
-    }
+  // Validation schema using Yup
+  const schema = yup.object().shape({
+    beds: yup
+      .number()
+      .typeError(t("validation.number"))
+      .required(t("validation.required")),
+    baths: yup
+      .number()
+      .typeError(t("validation.number"))
+      .required(t("validation.required")),
+    garages: yup
+      .number()
+      .typeError(t("validation.number"))
+      .required(t("validation.required")),
+    sqFt: yup
+      .number()
+      .typeError(t("validation.number"))
+      .required(t("validation.required")),
+    builtYear: yup
+      .number()
+      .typeError(t("validation.number"))
+      .required(t("validation.required")),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: property,
+  });
+
+  const onSubmit = (data) => {
+    dispatch(setBeds(data.beds));
+    dispatch(setBaths(data.baths));
+    dispatch(setGarages(data.garages));
+    dispatch(setSqFt(data.sqFt));
+    dispatch(setBuiltYear(data.builtYear));
+    onNext();
   };
 
   return (
-    <div className="row">
+    <form
+      className="my_dashboard_review row mt30"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3 className="mb30">{t("detailedInformation")}</h3>
+
       {/* Bedrooms */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="beds">Bedrooms</label>
+          <label htmlFor="beds">{t("bedrooms")}</label>
           <input
             type="text"
             className="form-control"
             id="beds"
-            required
-            value={property.beds}
-            onChange={handleInputChange}
+            {...register("beds")}
           />
+          {errors.beds && <p className="text-danger">{errors.beds.message}</p>}
         </div>
       </div>
-      {/* End .col */}
 
       {/* Bathrooms */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="baths">Bathrooms</label>
+          <label htmlFor="baths">{t("bathrooms")}</label>
           <input
             type="text"
-            required
             className="form-control"
             id="baths"
-            value={property.baths}
-            onChange={handleInputChange}
+            {...register("baths")}
           />
+          {errors.baths && (
+            <p className="text-danger">{errors.baths.message}</p>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       {/* Garages */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="garages">Garages</label>
+          <label htmlFor="garages">{t("garages")}</label>
           <input
             type="text"
             className="form-control"
-            required
             id="garages"
-            value={property.garages}
-            onChange={handleInputChange}
+            {...register("garages")}
           />
+          {errors.garages && (
+            <p className="text-danger">{errors.garages.message}</p>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       {/* Square Footage */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="sqFt">Square Footage</label>
+          <label htmlFor="sqFt">{t("squareFootage")}</label>
           <input
             type="text"
             className="form-control"
             id="sqFt"
-            value={property.sqFt}
-            onChange={handleInputChange}
+            {...register("sqFt")}
           />
+          {errors.sqFt && <p className="text-danger">{errors.sqFt.message}</p>}
         </div>
       </div>
-      {/* End .col */}
 
       {/* Year Built */}
       <div className="col-lg-6 col-xl-4">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="builtYear">Year Built</label>
+          <label htmlFor="builtYear">{t("yearBuilt")}</label>
           <input
             type="text"
             className="form-control"
             id="builtYear"
-            value={property.builtYear}
-            onChange={handleInputChange}
+            {...register("builtYear")}
           />
+          {errors.builtYear && (
+            <p className="text-danger">{errors.builtYear.message}</p>
+          )}
         </div>
       </div>
-      {/* End .col */}
 
       {/* Amenities Section */}
       <div className="col-xl-12">
-        <h4 className="mb10">Amenities</h4>
+        <h4 className="mb10">{t("Amenities")}</h4>
       </div>
 
       <CheckBoxFilter />
@@ -127,16 +155,21 @@ const DetailedInfo = () => {
       {/* Navigation Buttons */}
       <div className="col-xl-12">
         <div className="my_profile_setting_input overflow-hidden mt20">
-          <button href="#location" className="btn btn1 float-start">
-            Back
-          </button>
-          <button href="#media" className="btn btn2 float-end">
-            Next
+          {activeStep > 1 && (
+            <button
+              type="button"
+              className="btn btn1 float-start"
+              onClick={onPrevious}
+            >
+              {t("back")}
+            </button>
+          )}
+          <button type="submit" className="btn btn2 float-end">
+            {t("next")}
           </button>
         </div>
       </div>
-      {/* End .col */}
-    </div>
+    </form>
   );
 };
 

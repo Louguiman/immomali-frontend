@@ -119,6 +119,27 @@ html {
   font-size: 100%;
 }
 
+.stepper-container {
+  margin-bottom: 20px;
+}
+
+.stepper-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stepper-step {
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.stepper-step.active {
+  background: #007bff;
+  color: white;
+}
+
 body {
   background-attachment: fixed;
   background-color: #ffffff;
