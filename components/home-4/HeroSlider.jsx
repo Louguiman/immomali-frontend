@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Slider from "react-slick";
 
@@ -17,7 +17,9 @@ const HeroSlider = () => {
     <Slider {...settings} arrows={true}>
       <div className="slide slide-one image-1"></div>
       <div className="slide slide-one image-2"></div>
-      <div className="slide slide-one image-1"></div>
+      <div className="slide slide-one image-3"></div>
+      <div className="slide slide-one image-4"></div>
+      <div className="slide slide-one image-5"></div>
     </Slider>
   );
 };

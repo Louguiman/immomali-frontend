@@ -5,12 +5,12 @@ import { useAppSelector } from "@/store/hooks";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 
 const FeaturedListings = () => {
-  const recentlyViewvedlist = useAppSelector(
+  const recentlyViewedList = useAppSelector(
     (state) => state.properties.recentlyViewed
   );
   return (
     <div>
-      {recentlyViewvedlist.map((item) => (
+      {recentlyViewedList.map((item) => (
         <PropertyItem id={item} key={item} />
       ))}
     </div>

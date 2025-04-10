@@ -11,6 +11,7 @@
         "actions": "Actions",
         "active": "Actif",
         "inactive": "Inactif",
+        "close": "Fermer",
         "edit": "Modifier",
         "delete": "Supprimer",
         "save": "Enregistrer",
@@ -46,6 +47,7 @@
       }
     },
     "TenantProfile": {
+      "description": "Gérez vos baux actifs et passés, consultez l'historique des paiements et soumettez des demandes de maintenance.",
       "addTenant": "+ Ajouter un nouveau Locataire",
       "leaseDocumentsTitle": "Documents de location",
       "uploadInstructions": "Téléchargez les contrats de location, les pièces d'identité, etc.",
@@ -91,7 +93,6 @@
       "backToTenants": "Retour aux locataires",
       "email": "E-mail :",
       "fullName": "Nom complet",
-      "phone": "Numéro de téléphone",
       "searchUsers": "Rechercher des utilisateurs par e-mail ou téléphone...",
       "propertyToRent": "Propriété à louer",
       "searchProperties": "Rechercher des propriétés...",

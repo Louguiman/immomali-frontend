@@ -4,27 +4,26 @@ import { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslations } from "next-intl";
+import Swal from "sweetalert2";
 
-import isEqual from "lodash/isEqual";
 import { getAgencyProfileSchema } from "@/utils/lib/validation/agency";
 import {
   useGetAgencyByIdQuery,
   useUpdateAgencyMutation,
 } from "@/features/api/agencies.api";
-import Swal from "sweetalert2";
 import { toBase64 } from "@/utils/lib";
 
 const AgencyProfileForm = ({ agencyId }) => {
   const t = useTranslations("dashboard"); // Load translations for the "profile" namespace
   const [editMode, setEditMode] = useState(false);
-  const [logoPreview, setLogoPreview] = useState(null);
-  const [logoFile, setLogoFile] = useState(null);
   const { data: agency, isLoading } = useGetAgencyByIdQuery(agencyId, {
     skip: !agencyId,
   });
+  const [logoPreview, setLogoPreview] = useState(agency?.logoUrl || null);
+  const [logoFile, setLogoFile] = useState(null);
   const [updateAgency, { isLoading: isUpdating }] = useUpdateAgencyMutation();
   const [touchedFields, setTouchedFields] = useState({});
-
+  // console.log("agency: ", agency);
   const validationSchema = useMemo(() => getAgencyProfileSchema(t), [t]);
   const {
     register,

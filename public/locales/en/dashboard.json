@@ -11,6 +11,7 @@
         "actions": "Actions",
         "active": "Active",
         "inactive": "Inactive",
+        "close": "Close",
         "edit": "Edit",
         "delete": "Delete",
         "save": "Save",

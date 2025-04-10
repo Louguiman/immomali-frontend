@@ -56,7 +56,7 @@ const SidebarMenu = () => {
     agency: [
       { name: t("Dashboard"), route: "/dashboard", icon: "flaticon-layers" },
       {
-        name: t("Profile"),
+        name: t("AgencyProfile"),
         route: "/dashboard/agency/profile",
         icon: "flaticon-user",
       },
@@ -66,14 +66,14 @@ const SidebarMenu = () => {
         icon: "flaticon-user-1",
       },
       {
-        name: t("MyTenants"),
-        route: "/dashboard/agency/tenants",
-        icon: "flaticon-user-2",
-      },
-      {
         name: t("MyProperties"),
         route: "/dashboard/agency/properties",
         icon: "flaticon-home",
+      },
+      {
+        name: t("MyTenants"),
+        route: "/dashboard/agency/tenants",
+        icon: "flaticon-user-2",
       },
       {
         name: t("Inquiries"),
@@ -98,20 +98,20 @@ const SidebarMenu = () => {
     ],
     agent: [
       { name: t("Dashboard"), route: "/dashboard", icon: "flaticon-layers" },
+      // {
+      //   name: t("Profile"),
+      //   route: "/dashboard/agent/profile",
+      //   icon: "flaticon-user",
+      // },
       {
-        name: t("Profile"),
-        route: "/dashboard/agent/profile",
-        icon: "flaticon-user",
+        name: t("MyProperties"),
+        route: "/dashboard/agent/properties",
+        icon: "flaticon-home",
       },
       {
         name: t("MyTenants"),
         route: "/dashboard/agent/tenants",
         icon: "flaticon-user-2",
-      },
-      {
-        name: t("MyProperties"),
-        route: "/dashboard/agent/properties",
-        icon: "flaticon-home",
       },
       {
         name: t("Inquiries"),

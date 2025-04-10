@@ -11,7 +11,7 @@ import { logoutSuccess } from "@/features/auth/authSlice";
 const LogoutPageContent = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [logout, { isLoading: isLoggingout }] = useLogoutMutation();
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const handleLogout = async () => {
     // await logout().unwrap();
@@ -42,8 +42,8 @@ const LogoutPageContent = () => {
       </div>
       <p>Thank you for your visit! you’re looking for</p>
 
-      {/* <isLoggingout /> */}
-      {isLoggingout ? (
+      {/* <isLoggingOut /> */}
+      {isLoggingOut ? (
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>

@@ -8825,8 +8825,9 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 
 /*== Inner Pages Breadcrumb ==*/
 .inner_page_breadcrumb {
-  background-image: url(../images/background/inner-pagebg.jpg);
+  background-image: url(../images/home/23.jpg);
   background-repeat: no-repeat;
+  /* background-position: center center; */
   height: 370px;
   margin-top: 88px;
   position: relative;

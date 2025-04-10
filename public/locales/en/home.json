@@ -38,7 +38,9 @@
     },
     "agents": {
       "find_agents_breadcrumb": "Find Agents – Search & Filter",
+      "find_agencies_breadcrumb": "Find Agencies – Search & Filter",
       "all_agents": "All Agents",
+      "all_agencies": "All Agencies",
       "loading_agents": "Loading agents...",
       "error_fetching_agents": "Error fetching agents.",
       "no_agents_found": "No agents found.",

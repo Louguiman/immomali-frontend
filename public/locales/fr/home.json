@@ -38,6 +38,8 @@
     },
     "agents": {
       "find_agents_breadcrumb": "Trouver des agents – Recherche et filtrage",
+      "find_agencies_breadcrumb": "Trouver des agencess – Recherche et filtrage",
+      "all_agencies": "Tous les Agences",
       "all_agents": "Tous les agents",
       "loading_agents": "Chargement des agents...",
       "error_fetching_agents": "Erreur lors du chargement des agents.",
