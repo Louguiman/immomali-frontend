@@ -5,7 +5,7 @@ import FeaturedProperties from "./FeaturedProperties";
 import { useTranslations } from "next-intl";
 
 function RentalProperties() {
-  const t = useTranslations("home.section");
+  const t = useTranslations("home");
   const {
     data: properties,
     isLoading,
@@ -18,8 +18,8 @@ function RentalProperties() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center mb40">
-              <h2>{t("rent.title")}</h2>
-              <p>{t("rent.description")}</p>
+              <h2>{t("section.rent.title")}</h2>
+              <p>{t("section.rent.description")}</p>
             </div>
           </div>
         </div>

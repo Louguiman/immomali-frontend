@@ -14,7 +14,7 @@ export const fetchProperties = async (page = 1, limit = 10, filters = {}) => {
     );
 
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      console.log(`HTTP error! status: ${res.status}`);
     }
 
     return await res.json();

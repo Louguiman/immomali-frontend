@@ -24,7 +24,10 @@ export const agenciesApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: agency,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Agencies", id }],
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Agencies", id },
+        "User",
+      ],
     }),
     deleteAgency: builder.mutation({
       query: (id) => ({

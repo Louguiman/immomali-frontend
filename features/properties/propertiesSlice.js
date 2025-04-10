@@ -97,7 +97,11 @@ export const propertiesSlice = createSlice({
       state.compareList = state.compareList.filter(
         (id) => id !== action.payload
       );
-      localStorage.setItem("comparelist", JSON.stringify(state.favorites));
+      localStorage.setItem("comparelist", JSON.stringify(state.compareList));
+    },
+    clearCompareList: (state) => {
+      state.compareList = [];
+      localStorage.removeItem("comparelist");
     },
 
     // ✅ Favorites Actions
@@ -365,5 +369,6 @@ export const {
   addToCompare,
   removeFromCompare,
   setCurrentPage,
+  clearCompareList,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

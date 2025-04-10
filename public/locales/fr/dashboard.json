@@ -327,9 +327,16 @@
       "uploadPhoto": "Télécharger une photo",
       "imageMinSize": "*Minimum 260px x 260px",
       "uploading": "Téléchargement...",
+      "loading": "Chargement du profil...",
       "saveImage": "Enregistrer l’image",
       "updating": "Mise à jour...",
       "updateProfile": "Mettre à jour le profil",
+      "edit": "Modifier le profil",
+
+      "updatedSuccess": "Profil mis à jour avec succès",
+      "updateFailed": "La mise à jour a échoué. Veuillez réessayer.",
+      "noChanges": "Aucun changement à enregistrer",
+
       "alert": {
         "success": "Succès",
         "error": "Erreur",
@@ -353,7 +360,11 @@
         "language": "Langue",
         "companyName": "Nom de l’entreprise",
         "address": "Adresse",
-        "about": "À propos"
+        "about": "À propos",
+        "agencyname": "Nom de l'agence",
+        "description": "Description",
+        "phoneNumber": "Numéro de téléphone",
+        "website": "Site web"
       },
       "validation": {
         "nameRequired": "Le nom est requis",
@@ -363,7 +374,11 @@
         "lastNameRequired": "Le nom de famille est requis",
         "invalidPhone": "Numéro de téléphone invalide",
         "invalidMobile": "Numéro de mobile invalide",
-        "languageRequired": "La langue est requise"
+        "languageRequired": "La langue est requise",
+        "agencyNameRequired": "Le nom de l'agence est requis",
+        "nameMin": "Le nom de l'agence doit comporter au moins 2 caractères",
+        "email": "Veuillez entrer une adresse e-mail valide",
+        "website": "Veuillez entrer une URL de site web valide"
       },
       "SocialMedia": {
         "title": "Liens des réseaux sociaux",

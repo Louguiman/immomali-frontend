@@ -30,7 +30,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
     city: yup.string().required(t("validation.required")),
     neighborhood: yup.string(),
     zipCode: yup.string(),
-    // latitude: yup.notRequired().number().typeError(t("validation.number")),
+    // latitude: yup.notRequired().numb er().typeError(t("validation.number")),
     // longitude: yup.notRequired().number().typeError(t("validation.number")),
     country: yup.string().required(t("validation.required")),
     streetView: yup.string(),
@@ -200,6 +200,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
           <input
             type="number"
             className="form-control"
+            step="any"
             id="latitude"
             {...register("latitude")}
           />
@@ -214,6 +215,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
           <label htmlFor="longitude">{t("longitude")}</label>
           <input
             type="number"
+            step="any"
             className="form-control"
             id="longitude"
             {...register("longitude")}

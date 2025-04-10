@@ -1,25 +1,23 @@
 import CopyrightFooter from "@/components/common/footer/CopyrightFooter";
 import Footer from "@/components/common/footer/Footer";
+import Header from "@/components/common/header/DefaultHeader";
 import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
-import Header from "@/components/home-4/Header";
+import BreadCrumbBanner from "@/components/compare/BreadCrumbBanner";
 import React from "react";
-import Banner from "./Banner";
 
-function Layout({ children }) {
+function layout({ children }) {
   return (
     <>
       {/* <!-- Main Header Nav --> */}
       <Header />
-
       {/* <!--  Mobile Menu --> */}
       <MobileMenu />
-
       {/* <!-- Modal --> */}
       <PopupSignInUp />
-      <Banner />
-      <React.Suspense>{children}</React.Suspense>
-
+      {/* <!-- Inner Page Breadcrumb --> */}
+      <BreadCrumbBanner />
+      {children}
       {/* <!-- Our Footer --> */}
       <section className="footer_one">
         <div className="container">
@@ -28,7 +26,6 @@ function Layout({ children }) {
           </div>
         </div>
       </section>
-
       {/* <!-- Our Footer Bottom Area --> */}
       <section className="footer_middle_area pt40 pb40">
         <div className="container">
@@ -39,4 +36,4 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export default layout;

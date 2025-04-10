@@ -1,8 +1,8 @@
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-const CallToAction = async () => {
-  const t = await getTranslations("home.cta");
+const CallToAction =  () => {
+  const t =  useTranslations("home.cta");
   return (
     <div className="row">
       <div className="col-lg-8">

@@ -1,15 +1,15 @@
 import dynamic from "next/dynamic";
-import MyProfile from "@/components/dashboard/my-profile";
+import AgencyProfile from "@/components/dashboard/my-profile/AgencyProfile";
 
 export const metadata = {
-  title: "My Profile || ImmoMali - Real Estate",
+  title: "My Agency Profile || ImmoMali - Real Estate",
   description: "ImmoMali - Real Estate",
 };
 
 const index = () => {
   return (
     <>
-      <MyProfile />
+      <AgencyProfile />
     </>
   );
 };

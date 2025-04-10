@@ -27,8 +27,7 @@ const MaintenanceRequestCard = ({ request }) => {
         >
           {request.property?.images?.[0]?.imageUrl ? (
             <Image
-              width={200}
-              height={200}
+              fill
               src={request.property?.images?.[0]?.imageUrl}
               alt={request.property.title}
               className="img-fluid rounded-start object-fit-cover"

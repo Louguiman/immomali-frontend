@@ -26,7 +26,7 @@ const Agency = () => {
               width={251}
               height={220}
               className="contain"
-              src={item.img}
+              src={item?.logoUrl || "/assets/images/team/6.jpg"}
               alt="bh1.jpg"
             />
           </Link>
