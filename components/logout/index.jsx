@@ -3,7 +3,7 @@ import Footer from "../common/footer/Footer";
 import Header from "../common/header/DefaultHeader";
 import MobileMenu from "../common/header/MobileMenu";
 import PopupSignInUp from "../common/PopupSignInUp";
-import LogoutPageConten from "./LogoutPageContent";
+import LogoutPageContent from "./LogoutPageContent";
 
 const index = () => {
   return (
@@ -22,7 +22,7 @@ const index = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-10 offset-lg-1 text-center">
-              <LogoutPageConten />
+              <LogoutPageContent />
             </div>
           </div>
         </div>

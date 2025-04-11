@@ -1,8 +1,8 @@
 {
   "home": {
     "banner": {
-      "title": "Find Your Dream Home",
-      "description": "From as low as $10 per day with limited time offer discounts."
+      "title": "Your future starts here",
+      "description": "Homes for every lifestyle and budget. Find yours today."
     },
     "categorySearchHeader": "What are you looking for?",
     "section": {
@@ -74,5 +74,12 @@
         "listings": "{count} Listings"
       }
     }
+  },
+  "logout": {
+    "title": "Ohh! You have been logged out",
+    "message": "Thank you for your visit!",
+    "redirect": "Redirecting to home page...",
+    "success": "You have been logged out successfully.",
+    "loading": "Logging you out..."
   }
 }

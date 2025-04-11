@@ -56,12 +56,10 @@ export default function PropertiesPage() {
     /* <!-- Listing Grid View --> */
   }
   return (
-    <section className="our-listing bgc-f7 pb30-991 mt85 md-mt0">
+    <section className="our-listing bgc-f7 pb30-991 mt0 md-mt0">
       <div className="container">
         <div className="row">
-          <div className="col-lg-6">
-            <BreadCrumb2 />
-          </div>
+          <div className="col-lg-6"></div>
 
           <div className="col-lg-6 position-relative">
             <div className="listing_list_style mb20-xsd tal-991">

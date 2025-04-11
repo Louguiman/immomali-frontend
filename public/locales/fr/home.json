@@ -1,8 +1,8 @@
 {
   "home": {
     "banner": {
-      "title": "Trouvez la maison de vos rêves",
-      "description": "À partir de seulement 10 $ par jour avec des offres promotionnelles limitées dans le temps."
+      "title": "Votre futur commence ici",
+      "description": "Des logements pour tous les styles et budgets. Trouvez le vôtre aujourd’hui."
     },
     "categorySearchHeader": "Que recherchez-vous ?",
     "section": {
@@ -74,5 +74,12 @@
         "listings": "{count} Annonces"
       }
     }
+  },
+  "logout": {
+    "title": "Ohh ! Vous avez été déconnecté",
+    "message": "Merci de votre visite !",
+    "redirect": "Redirection vers la page d'accueil...",
+    "success": "Vous avez été déconnecté avec succès.",
+    "loading": "Déconnexion en cours..."
   }
 }
