@@ -189,7 +189,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
                 </li>
               ))}
               <li>
-                <Link href="/logout">{t("account.subMenu.logout")}</Link>
+                <Link href="/logout">{t("logout")}</Link>
               </li>
             </ul>
           </li>
