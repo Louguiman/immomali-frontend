@@ -75,7 +75,7 @@ const SocialMedia = () => {
         title: t("alert.error"),
         text: t("alert.socialMediaUpdateFailed"),
       });
-      console.error("Update Error:", error);
+      console.log("Update Error:", error);
     }
   };
 

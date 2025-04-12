@@ -37,7 +37,7 @@ const LeaseDetails = ({ lease }) => {
         title: t("error"),
         text: t("leaseUpdateFailed"),
       });
-      console.error("Échec de la mise à jour du bail :", err);
+      console.log("Échec de la mise à jour du bail :", err);
     }
   };
 

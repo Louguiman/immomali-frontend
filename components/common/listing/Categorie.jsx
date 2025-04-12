@@ -29,7 +29,7 @@ export default function Categorie() {
           setError("Invalid data format received.");
         }
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.log("Error fetching categories:", error);
         setError("Failed to load categories.");
       }
     };

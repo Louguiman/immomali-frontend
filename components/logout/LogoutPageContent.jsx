@@ -18,7 +18,7 @@ const LogoutPageContent = () => {
     try {
       // await logout().unwrap();
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.log("Logout failed:", error);
     } finally {
       dispatch(logoutSuccess());
       localStorage.removeItem("persist:root");

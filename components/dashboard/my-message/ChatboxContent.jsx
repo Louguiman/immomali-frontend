@@ -33,7 +33,7 @@ const ChatboxContent = ({ inquiry }) => {
       }).unwrap();
       setMessage(""); // Effacer le champ après l'envoi
     } catch (error) {
-      console.error("Error sending reply:", error);
+      console.log("Error sending reply:", error);
     }
   };
 

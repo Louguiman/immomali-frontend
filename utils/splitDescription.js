@@ -32,7 +32,7 @@ export function cleanUrl(url) {
     // Remove extra slashes but preserve the 'https://' part
     return url.replace(/([^:]\/)\/+/g, "$1");
   } catch (error) {
-    console.error("Error cleaning URL:", error);
+    console.log("Error cleaning URL:", error);
     return url; // Return original if error occurs
   }
 }

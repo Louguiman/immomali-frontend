@@ -41,7 +41,7 @@ function ComparePricingCard({ property }) {
       console.log("Fetched property data:", data);
     }, // Set the property data on success
     onError: (error) => {
-      console.error("Error fetching property:", error);
+      console.log("Error fetching property:", error);
     }, // Handle error if needed
   });
 

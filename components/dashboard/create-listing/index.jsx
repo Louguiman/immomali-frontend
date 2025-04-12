@@ -51,7 +51,7 @@ const Index = () => {
         await uploadImages(uploadImagesPayload).unwrap();
         toast.success(t("imageUploadSuccess"), { autoClose: 2000 });
       } catch (err) {
-        console.error("Error uploading images:", err);
+        console.log("Error uploading images:", err);
         toast.error(t("imageUploadError", { message: err.message }), {
           autoClose: 2000,
         });
@@ -68,7 +68,7 @@ const Index = () => {
           autoClose: 2000,
         });
       } catch (err) {
-        console.error("Error uploading attachments:", err);
+        console.log("Error uploading attachments:", err);
         toast.error(t("attachmentsUploadError", { message: err.message }), {
           autoClose: 2000,
         });
@@ -97,7 +97,7 @@ const Index = () => {
       // Redirect to property details page
       router.push(`/listing-details-v2/${newProperty.id}`);
     } catch (err) {
-      console.error("Error creating property:", err);
+      console.log("Error creating property:", err);
       toast.error(t("propertyCreationError", { message: err.message }), {
         autoClose: 2000,
       });

@@ -23,10 +23,10 @@ export default function I18nProvider({ children }) {
     async function loadMessages(locale) {
       setIsLoading(true);
       try {
-        const messages = await loadTranslations(locale  );
+        const messages = await loadTranslations(locale);
         setMessages(messages);
       } catch (error) {
-        console.error(`Failed to load translations for ${locale}:`, error);
+        console.log(`Failed to load translations for ${locale}:`, error);
       } finally {
         setIsLoading(false);
       }

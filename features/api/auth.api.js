@@ -109,7 +109,7 @@ export const authApi = apiSlice.injectEndpoints({
             loginSuccess({ user: userResponse, accessToken: data.accessToken })
           );
         } catch (error) {
-          console.error("Refresh token failed", error);
+          console.log("Refresh token failed", error);
         }
       },
     }),

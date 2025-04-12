@@ -86,7 +86,7 @@ const InvoiceFormModal = ({ invoice, onClose }) => {
       }
       onClose();
     } catch (error) {
-      console.error("Error creating invoice:", error);
+      console.log("Error creating invoice:", error);
     }
   };
 
