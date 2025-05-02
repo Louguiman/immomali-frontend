@@ -49,6 +49,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    deletePropertyImage: builder.mutation({
+      query: (id) => ({
+        url: `/property-images/${id}`,
+        method: "DELETE",
+      }),
+    }),
     uploadAttachments: builder.mutation({
       query: ({ propertyId, attachments }) => {
         const formData = new FormData();
@@ -61,6 +67,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           body: formData,
         };
       },
+    }),
+    deleteAttachment: builder.mutation({
+      query: (id) => ({
+        url: `/attachments/${id}`,
+        method: "DELETE",
+      }),
     }),
     fetchProperties: builder.query({
       query: (params) => ({
@@ -117,6 +129,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 60, // Cache for 60 seconds
     }),
+    getTopCities: builder.query({
+      query: () => "statistics/top-cities",
+    }),
     updateProperty: builder.mutation({
       query: ({ id, ...updateData }) => ({
         url: `/properties/${id}`,
@@ -155,4 +170,7 @@ export const {
   useDeletePropertyMutation,
   useGetSalePropertiesQuery,
   useGetRentalPropertiesQuery,
+  useGetTopCitiesQuery,
+  useDeleteAttachmentMutation,
+  useDeletePropertyImageMutation,
 } = extendedApiSlice;

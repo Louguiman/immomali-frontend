@@ -52,7 +52,11 @@ const ChatBox = () => {
       </div>
 
       {/* Zone de discussion - Affichage des messages */}
-      <div className="col-lg-7 col-xl-8">
+      <div
+        className={
+          selectedInquiry?.property ? "col-lg-5 col-xl-6" : "col-lg-7 col-xl-8"
+        }
+      >
         <div className="message_container">
           {selectedInquiry ? (
             <ChatboxContent inquiry={selectedInquiry} />

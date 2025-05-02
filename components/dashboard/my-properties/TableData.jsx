@@ -35,10 +35,10 @@ import { useFormatter } from "next-intl";
 // Default headers if none are provided
 const defaultHeaders = [
   { label: "Property", key: "title" },
-  { label: "Type", key: "listingType" },
+  { label: "address", key: "address" },
+  { label: "Type", key: "type" },
   { label: "Price/Rent", key: "price" },
-  { label: "Views", key: "views" },
-  { label: "Status", key: "status" },
+  { label: "category", key: "category" },
   { label: "Published Date", key: "createdAt" },
   { label: "Action", key: "action" },
 ];
@@ -61,45 +61,34 @@ const TableData = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
           <tr key={item.id}>
             {/* Title Column with Image and Location */}
             <td>
-              <div className="d-flex align-items-center">
+              <div className="align-items-center justify-content-center text-align-center">
                 <Image
                   width={150}
                   height={100}
-                  className="img-thumbnail me-2"
+                  className="img-thumbnail me-2 mb-2"
                   src={item.images[0]?.imageUrl || "/placeholder-image.jpg"} // Fallback image
                   alt={item.title}
                 />
-                <div>
-                  <h5>{item.title}</h5>
-                  <p className="mb-0">
-                    <small>{item.address}</small>
-                    <small>{item.city}</small>
-                    <small>{item.country}</small>
-                  </p>
-                </div>
+                <h5>{item.title}</h5>
+                <div></div>
               </div>
             </td>
+            <td>
+              <p className="mb-0">
+                {item.address} {item.city} {item.country}
+              </p>
+            </td>
 
-            <td>{item.listingType}</td>
+            <td>{t(item.type)}</td>
             <td>
               {formatNumber(item.price, {
                 style: "currency",
                 currency: "XOF",
-              })}{" "}
+              })}
             </td>
             {/* Views Column */}
-            <td>{item.views}</td>
+            <td>{t(`categories.${item.category}`)}</td>
 
-            {/* Status Column */}
-            <td>
-              <span
-                className={`badge ${
-                  item.status === "active" ? "bg-success" : "bg-warning"
-                }`}
-              >
-                {t(item.status) || item.status} {/* Translating status */}
-              </span>
-            </td>
             {/* Published Date Column */}
             <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 

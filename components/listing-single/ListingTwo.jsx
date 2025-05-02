@@ -37,7 +37,7 @@ export default function ListingTwo({ property }) {
                             width={951}
                             height={569}
                             priority
-                            className="img-fluid w100 cover lds-2"
+                            className="img w100 cover lds-2"
                             src={property?.images[0]?.imageUrl}
                             alt={property?.images[0]?.imageUrl}
                           />
@@ -66,7 +66,7 @@ export default function ListingTwo({ property }) {
                             <Image
                               width={476}
                               height={285}
-                              className="img-fluid w100 cover"
+                              className="img w100 cover"
                               src={img.imageUrl}
                               alt={img.imageUrl}
                             />

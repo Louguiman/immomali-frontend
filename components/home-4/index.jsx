@@ -1,8 +1,7 @@
-import Blogs from "../common/Blogs";
+
 import GlobalHeroFilter from "../common/GlobalHeroFilter";
 import MobileMenu from "../common/header/MobileMenu";
-import FeaturedProperties from "./FeaturedProperties";
-import FindProperties from "./FindProperties";
+
 // import Header from "./Header";
 import HeroSlider from "./HeroSlider";
 import LookingItem from "./LookingItem";
@@ -17,6 +16,7 @@ import DiscoverAgencies from "./DiscoverAgencies";
 import CallToAction from "../common/CallToAction";
 import Header from "./Header";
 import { getTranslations } from "next-intl/server";
+import CitiesSection from "./CitiesSection";
 
 const index = async () => {
   const t = await getTranslations("home");
@@ -93,9 +93,7 @@ const index = async () => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <FindProperties />
-          </div>
+          <CitiesSection />
         </div>
       </section>
 

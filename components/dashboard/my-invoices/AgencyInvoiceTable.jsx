@@ -31,7 +31,7 @@ const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
       <tbody>
         {invoices.map((invoice) => (
           <tr key={invoice.id}>
-            <td>{invoice.id}</td>
+            <td>{invoice.ref}</td>
             <td>{invoice?.tenant?.user?.name}</td>
             <td>{invoice?.tenant?.property?.title}</td>
             <td>{invoice?.type}</td>
@@ -53,7 +53,7 @@ const AgencyInvoiceTable = ({ invoices, onEdit, onDelete }) => {
                 style: "currency",
                 currency: "XOF",
               })}
-            </td>{" "}
+            </td>
             {/* Currency formatted */}
             <td>{invoice.dueDate}</td>
             <td>

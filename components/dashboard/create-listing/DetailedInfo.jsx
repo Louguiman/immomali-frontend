@@ -59,7 +59,7 @@ const DetailedInfo = ({ activeStep, onNext, onPrevious }) => {
     dispatch(setGarages(data.garages));
     dispatch(setSqFt(data.sqFt));
     dispatch(setBuiltYear(data.builtYear));
-    onNext();
+    if (onNext) onNext();
   };
 
   return (

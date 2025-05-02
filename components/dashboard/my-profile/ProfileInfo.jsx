@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { useTranslations } from "next-intl";
+import { useGetMeQuery } from "@/features/api/auth.api";
 
 // ✅ Schéma de validation Yup avec traduction
 const getProfileSchema = (t) =>
@@ -43,6 +44,7 @@ const getProfileSchema = (t) =>
 const ProfileInfo = () => {
   const t = useTranslations("dashboard"); // ✅ Récupération des traductions
   const { user } = useAppSelector((state) => state.auth);
+  const { refetch } = useGetMeQuery();
   const [updateUserProfile, { isLoading: isUpdating }] =
     useUpdateUserProfileMutation();
   const [uploadProfileImage, { isLoading: isUploading }] =
@@ -107,6 +109,7 @@ const ProfileInfo = () => {
 
     try {
       await uploadProfileImage(formData).unwrap();
+      await refetch(); // Re-fetch user data after upload
       Swal.fire(
         t("profile.alert.success"),
         t("profile.alert.imageUpdated"),
@@ -125,6 +128,7 @@ const ProfileInfo = () => {
   const onSubmit = async (data) => {
     try {
       await updateUserProfile(data).unwrap();
+      await refetch(); // Re-fetch user data after update
       Swal.fire(
         t("profile.alert.success"),
         t("profile.alert.profileUpdated"),

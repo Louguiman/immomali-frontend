@@ -112,19 +112,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           ))}
         </ul>
       </li>
-      {/* Tenant Services */}
-      {/* <li className="dropitem">
-        <a href="#" className="title">
-          {t("tenantServices.name")}
-        </a>
-        <ul className="sub-menu">
-          {navItems.tenantServices.subMenu.map((item, index) => (
-            <li key={index}>
-              {t(`tenantServices.subMenu.${item.name}`)}
-            </li>
-          ))}
-        </ul>
-      </li> */}
+
       {/* Blog, Resources, Contact */}
       <li className={pathname === navItems.blog.routerPath ? "ui-active" : ""}>
         <Link href={navItems.blog.routerPath}>{t(navItems.blog.name)}</Link>
@@ -151,9 +139,9 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
                 alt="1.png"
               />
               <p>
-                <span className="dn-1199 ms-1">{user?.name || "User"}!</span>
-                {/* <span className="address">{user?.email || "User"}</span> */}
-                <br />
+                <span className="dn-1199 ms-1">{user?.name || "User"}</span>
+                <span className="address">{user?.email || "User"}</span>
+                {/* <br /> */}
                 <span className="address">{user?.agency?.name || "N/A"}</span>
               </p>
             </div>

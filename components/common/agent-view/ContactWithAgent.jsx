@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
-const ContactWithAgent = ({ agentId }) => {
+const ContactWithAgent = ({ agentId, propertyId }) => {
   const t = useTranslations("property.sidebar.contactAgent");
   const user = useSelector((state) => state.auth?.user);
 
@@ -16,6 +16,7 @@ const ContactWithAgent = ({ agentId }) => {
     phoneNumber: "",
     message: "",
     agentId: agentId,
+    propertyId,
   });
 
   const [errors, setErrors] = useState({});

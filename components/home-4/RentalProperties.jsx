@@ -3,14 +3,15 @@ import { useGetRentalPropertiesQuery } from "@/features/api/properties.api";
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
 import { useTranslations } from "next-intl";
+import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function RentalProperties() {
   const t = useTranslations("home");
-  const {
-    data: properties,
-    isLoading,
-    refetch,
-  } = useGetRentalPropertiesQuery();
+  const { data: properties, isLoading } = useGetRentalPropertiesQuery();
+
+  if (isLoading) {
+    return <SkeletonSectionLoader />;
+  }
 
   return (
     <section id="best-property" className="best-property bgc-f7">

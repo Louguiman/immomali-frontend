@@ -16,13 +16,12 @@ const LogoutPageContent = () => {
 
   const handleLogout = async () => {
     try {
-      // await logout().unwrap();
+      await logout().unwrap();
+      dispatch(logoutSuccess());
+      localStorage.removeItem("persist:root");
     } catch (error) {
       console.log("Logout failed:", error);
     } finally {
-      dispatch(logoutSuccess());
-      localStorage.removeItem("persist:root");
-
       Swal.fire({
         title: t("success"),
         icon: "success",
@@ -30,9 +29,7 @@ const LogoutPageContent = () => {
         timer: 1500,
       });
 
-      setTimeout(() => {
-        router.push("/");
-      }, 1600);
+      router.push("/");
     }
   };
 

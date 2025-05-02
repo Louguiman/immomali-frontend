@@ -4,11 +4,16 @@ import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
 import { useGetSalePropertiesQuery } from "@/features/api/properties.api";
 import { useTranslations } from "next-intl";
+import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function SaleProperties() {
   const t = useTranslations("home");
 
   const { data: properties, isLoading, refetch } = useGetSalePropertiesQuery();
+
+  if (isLoading) {
+    return <SkeletonSectionLoader />;
+  }
 
   return (
     <section id="best-property" className="best-property bgc-f7">

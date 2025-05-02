@@ -46,98 +46,115 @@ const FilteringItem = () => {
     yearBuilt,
     area,
     amenities,
+    price,
   } = useSelector((state) => state.properties);
 
   // input state
-  const [getKeyword, setKeyword] = useState(searchParams.get("keyword"));
-  const [getLocation, setLocation] = useState(searchParams.get("location"));
-  const [getStatus, setStatus] = useState(status);
+  const [getKeyword, setKeyword] = useState(searchParams.get("keyword") || "");
+  const [getLocation, setLocation] = useState(
+    searchParams.get("location") || ""
+  );
+  const [getMinPrice, setMinPrice] = useState(
+    searchParams.get("minPrice") || price.min || ""
+  );
+  const [getMaxPrice, setMaxPrice] = useState(
+    searchParams.get("maxPrice") || price.max || ""
+  );
+  const [getStatus, setStatus] = useState(status || "");
   const [getType, setType] = useState(searchParams.get("type") || "");
   const [getCategory, setCategory] = useState(
     searchParams.get("category") || ""
   );
-  const [getBathroom, setBathroom] = useState(bathrooms);
-  const [getBedroom, setBedroom] = useState(bedrooms);
-  const [getGarages, setGarages] = useState(garages);
-  const [getBuiltYear, setBuiltYear] = useState(yearBuilt);
-  const [getAreaMin, setAreaMin] = useState(area.min);
-  const [getAreaMax, setAreaMax] = useState(area.max);
+  const [getBathroom, setBathroom] = useState(bathrooms || "");
+  const [getBedroom, setBedroom] = useState(bedrooms || "");
+  const [getGarages, setGarages] = useState(garages || "");
+  const [getBuiltYear, setBuiltYear] = useState(yearBuilt || "");
+  const [getAreaMin, setAreaMin] = useState(area.min || "");
+  const [getAreaMax, setAreaMax] = useState(area.max || "");
 
   // advanced state
   const [getAdvanced, setAdvanced] = useState([
-    { id: uuidv4(), name: "Air Conditioning" },
-    { id: uuidv4(), name: "Barbeque" },
-    { id: uuidv4(), name: "Gym" },
-    { id: uuidv4(), name: "Microwave" },
-    { id: uuidv4(), name: "TV Cable" },
-    { id: uuidv4(), name: "Lawn" },
-    { id: uuidv4(), name: "Refrigerator" },
-    { id: uuidv4(), name: "Swimming Pool" },
-    { id: uuidv4(), name: "WiFi" },
-    { id: uuidv4(), name: "Sauna" },
-    { id: uuidv4(), name: "Dryer" },
-    { id: uuidv4(), name: "Washer" },
-    { id: uuidv4(), name: "Laundry" },
-    { id: uuidv4(), name: "Outdoor Shower" },
-    { id: uuidv4(), name: "Window Coverings" },
+    { id: uuidv4(), name: t("amenities.airConditioning") },
+    { id: uuidv4(), name: t("amenities.barbeque") },
+    { id: uuidv4(), name: t("amenities.gym") },
+    { id: uuidv4(), name: t("amenities.microwave") },
+    { id: uuidv4(), name: t("amenities.tvCable") },
+    { id: uuidv4(), name: t("amenities.lawn") },
+    { id: uuidv4(), name: t("amenities.refrigerator") },
+    { id: uuidv4(), name: t("amenities.swimmingPool") },
+    { id: uuidv4(), name: t("amenities.wifi") },
+    { id: uuidv4(), name: t("amenities.sauna") },
+    { id: uuidv4(), name: t("amenities.dryer") },
+    { id: uuidv4(), name: t("amenities.washer") },
+    { id: uuidv4(), name: t("amenities.laundry") },
+    { id: uuidv4(), name: t("amenities.outdoorShower") },
+    { id: uuidv4(), name: t("amenities.windowCoverings") },
   ]);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   // keyword
   useEffect(() => {
-    dispath(addKeyword(getKeyword));
-  }, [dispath, getKeyword]);
+    dispatch(addKeyword(getKeyword));
+  }, [dispatch, getKeyword]);
 
   // location
   useEffect(() => {
-    dispath(addLocation(getLocation));
-  }, [dispath, getLocation]);
+    dispatch(addLocation(getLocation));
+  }, [dispatch, getLocation]);
 
   // status
   useEffect(() => {
-    dispath(addStatus(getStatus));
-  }, [dispath, getStatus]);
+    dispatch(addStatus(getStatus));
+  }, [dispatch, getStatus]);
 
   // properties type
   useEffect(() => {
-    dispath(addType(getType));
-  }, [dispath, getType]);
+    dispatch(addType(getType));
+  }, [dispatch, getType]);
 
   // properties type
   useEffect(() => {
-    dispath(addCategory(getCategory));
-  }, [dispath, getCategory]);
+    dispatch(addCategory(getCategory));
+  }, [dispatch, getCategory]);
 
   // bathroom
   useEffect(() => {
-    dispath(addBathrooms(getBathroom));
-  }, [dispath, getBathroom]);
+    dispatch(addBathrooms(getBathroom));
+  }, [dispatch, getBathroom]);
 
   // bedroom
   useEffect(() => {
-    dispath(addBedrooms(getBedroom));
-  }, [dispath, getBedroom]);
+    dispatch(addBedrooms(getBedroom));
+  }, [dispatch, getBedroom]);
 
   // garages
   useEffect(() => {
-    dispath(addGarages(getGarages));
-  }, [dispath, getGarages]);
+    dispatch(addGarages(getGarages));
+  }, [dispatch, getGarages]);
 
+  useEffect(() => {
+    dispatch(
+      addPrice({
+        min: getMinPrice,
+        max: getMaxPrice,
+      })
+    );
+  }, [dispatch, getMinPrice, getMaxPrice]);
   // built years
   useEffect(() => {
-    dispath(addYearBuilt(getBuiltYear));
-  }, [dispath, getBuiltYear]);
+    dispatch(addYearBuilt(getBuiltYear));
+  }, [dispatch, getBuiltYear]);
 
   // area min
   useEffect(() => {
-    dispath(dispath(addAreaMin(getAreaMin)));
-  }, [dispath, getAreaMin]);
+    dispatch(dispatch(addAreaMin(getAreaMin)));
+  }, [dispatch, getAreaMin]);
 
   // area max
   useEffect(() => {
-    dispath(dispath(addAreaMax(getAreaMax)));
-  }, [dispath, getAreaMax]);
+    dispatch(dispatch(addAreaMax(getAreaMax)));
+  }, [dispatch, getAreaMax]);
 
   // clear filter
   const clearHandler = () => {
@@ -147,10 +164,12 @@ const FilteringItem = () => {
   const clearAllFilters = () => {
     setKeyword("");
     setLocation("");
+    setMinPrice("");
+    setMaxPrice("");
     setStatus("");
     setType("");
     setCategory("");
-    dispath(addPrice({ min: 10000, max: 20000 }));
+    dispatch(addPrice({ min: 10000, max: 20000 }));
     setBathroom("");
     setBedroom("");
     setBedroom("");
@@ -158,9 +177,9 @@ const FilteringItem = () => {
     setBuiltYear("");
     setAreaMin("");
     setAreaMax("");
-    dispath(resetAmenities());
-    dispath(addStatusType(""));
-    dispath(addFeatured(""));
+    dispatch(resetAmenities());
+    dispatch(addStatusType(""));
+    dispatch(addFeatured(""));
     clearAdvanced();
   };
 
@@ -203,6 +222,8 @@ const FilteringItem = () => {
     if (getBuiltYear) params.set("yearBuilt", getBuiltYear);
     if (getAreaMin) params.set("minArea", getAreaMin);
     if (getAreaMax) params.set("maxArea", getAreaMax);
+    if (getMinPrice) params.set("minPrice", getMinPrice);
+    if (getMaxPrice) params.set("maxPrice", getMaxPrice);
 
     router.replace(`${pathname}?${params.toString()}`);
   }, 300);
@@ -222,6 +243,9 @@ const FilteringItem = () => {
     getAreaMin,
     getAreaMax,
     getCategory,
+    getMinPrice,
+    getMaxPrice,
+    price,
     router,
   ]);
 
@@ -462,7 +486,7 @@ const FilteringItem = () => {
                             value={feature.name}
                             checked={feature.isChecked || false}
                             onChange={(e) =>
-                              dispath(addAmenities(e.target.value))
+                              dispatch(addAmenities(e.target.value))
                             }
                             onClick={() => advancedHandler(feature.id)}
                           />

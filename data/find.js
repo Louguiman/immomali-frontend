@@ -1,24 +1,26 @@
+const { default: LazyIcon } = require("@/components/LazyIcon");
+
 module.exports = [
   {
     id: 1,
     title: "Modern Villa",
     key: "categories.villa",
     route: "/properties?category=villa",
-    icon: "flaticon-house",
+    icon: <span className={"flaticon-house"}></span>,
     text: `Aliquam dictum elit vitae mauris facilisis, at dictum urna.`,
   },
   {
     id: 2,
     title: "Family House",
     key: "categories.house",
-    icon: "flaticon-house-1",
+    icon: <span className={"flaticon-house-1"}></span>,
     route: "/properties?category=house",
     text: `Aliquam dictum elit vitae mauris facilisis, at dictum urna.`,
   },
   {
     id: 3,
     title: "Office",
-    icon: "flaticon-house-2",
+    icon: <span className={"flaticon-house-2"}></span>,
     key: "categories.office",
     route: "/properties?category=office",
     text: `Aliquam dictum elit vitae mauris facilisis, at dictum urna.`,
@@ -26,7 +28,7 @@ module.exports = [
   {
     id: 4,
     title: "Apartment",
-    icon: "flaticon-building",
+    icon: <span className={"flaticon-building"}></span>,
     key: "categories.apartment",
     route: "/properties?category=apartment",
     text: `Aliquam dictum elit vitae mauris facilisis, at dictum urna.`,
@@ -34,7 +36,7 @@ module.exports = [
   {
     id: 5,
     title: "Land",
-    icon: "flaticon-flat",
+    icon: <LazyIcon iconName="004-land" alt="House Icon" />,
     key: "categories.land",
     route: "/properties?category=land",
     text: `Aliquam dictum elit vitae mauris facilisis, at dictum urna.`,

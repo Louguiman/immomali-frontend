@@ -15,7 +15,7 @@ const LookingItem = () => {
           key={item.id}
         >
           <div className="icon">
-            <span className={item.icon}></span>
+            {item.icon}
             <p>
               {t(item.key)}
               {/* {item.title} */}

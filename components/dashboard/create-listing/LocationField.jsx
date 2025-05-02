@@ -66,7 +66,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
     dispatch(setLongitude(data.longitude));
     dispatch(setCountry(data.country));
     dispatch(setStreetView(data.streetView));
-    onNext();
+    if (onNext) onNext();
   };
 
   const getUserLocation = () => {
@@ -226,7 +226,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
         </div>
       </div>
 
-      <div className="col-lg-4 col-xl-4">
+      {/* <div className="col-lg-4 col-xl-4">
         <div className="my_profile_setting_input ui_kit_select_search form-group">
           <label>{t("streetView")}</label>
           <select
@@ -245,7 +245,7 @@ const LocationField = ({ activeStep, onNext, onPrevious }) => {
             <span className="text-danger">{errors.streetView.message}</span>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">

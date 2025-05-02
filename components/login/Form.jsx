@@ -17,9 +17,9 @@ const Form = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (userRoles.includes("admin")) router.push("/dashboard");
+      if (userRoles.includes("agency")) router.push("/dashboard");
       else if (userRoles.includes("agent")) router.push("/dashboard");
-      else router.back();
+      else router.push("/");
     }
   }, [isAuthenticated, user, router]);
 

@@ -170,7 +170,7 @@ const SidebarMenu = () => {
     common: [
       {
         name: t("Profile"),
-        route: "/dashboard/profile",
+        route: "/dashboard/my-profile",
         icon: "flaticon-user",
       },
       { name: t("Logout"), route: "/logout", icon: "flaticon-logout" },

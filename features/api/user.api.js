@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiSlice } from "./api";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -55,8 +54,8 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     // Update user profile
     updateUserProfile: builder.mutation({
-      query: ({ userId, ...profileData }) => ({
-        url: `/users/profile/${userId}`,
+      query: ({ id, ...profileData }) => ({
+        url: `/users/profile/${id}`,
         method: "PATCH",
         body: profileData,
       }),

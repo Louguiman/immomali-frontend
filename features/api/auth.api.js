@@ -125,6 +125,16 @@ export const authApi = apiSlice.injectEndpoints({
         url: "/auth/me",
         method: "GET",
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          // Store user and access token
+          dispatch(loginSuccess({ user: data }));
+        } catch (error) {
+          console.info("Login failed", error);
+        }
+      },
       providesTags: ["User"],
     }),
   }),

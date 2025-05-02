@@ -17,6 +17,7 @@ const CreateList = ({ activeStep, onNext, onPrevious }) => {
   const dispatch = useDispatch();
   const t = useTranslations("property");
   const property = useSelector((state) => state.properties.createListing);
+  console.log("property create listing: ", property);
 
   // Validation schema using Yup
   const validationSchema = yup.object().shape({
@@ -56,7 +57,7 @@ const CreateList = ({ activeStep, onNext, onPrevious }) => {
     dispatch(setType(data.type));
     dispatch(setCategory(data.category));
     dispatch(setPrice(data.price));
-    onNext();
+    if (onNext) onNext();
   };
 
   return (

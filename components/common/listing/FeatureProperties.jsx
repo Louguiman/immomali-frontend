@@ -1,10 +1,16 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import featureProContent from "../../../data/properties";
 import Slider from "react-slick";
+import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 
 const FeatureProperties = () => {
+  // Translation hook
+  const t = useTranslations("property");
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
+
   const settings = {
     dots: true,
     arrows: false,
@@ -39,8 +45,11 @@ const FeatureProperties = () => {
                     ))}
                   </ul>
                   <a className="fp_price" href="#">
-                    ${item.price}
-                    <small>/mo</small>
+                    {formatNumber(item.price, {
+                      style: "currency",
+                      currency: "XOF",
+                    })}
+                    {item.type !== "sale" && <small>/ {t("month")}</small>}
                   </a>
                   <h4 className="posr color-white">{item.title}</h4>
                 </div>
