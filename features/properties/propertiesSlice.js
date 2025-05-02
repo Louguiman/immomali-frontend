@@ -1,74 +1,73 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  savedSearches: [], // Stores saved search filters
-  favorites: [],
-  currentPage: 1, // To track the current page
-  itemsPerPage: 5, // You can adjust this based on your needs
-  // Stores favorited property IDs
-  recentlyViewed: [], // Stores recently viewed property IDs
-  createListing: {
-    userId: 0,
-    title: "",
-    description: "",
-    type: "rent", // Only "Rent" or "Sale"
-    category: "", // New field for category
-    price: "",
-    area: "",
-    rooms: "1",
-    beds: "",
-    baths: "",
-    garages: "",
-    sqFt: "",
-    builtYear: 2010,
-    // New fields for location
-    address: "",
-    state: "",
-    city: "",
-    neighborhood: "",
-    zipCode: "",
-    country: "Mali", // Default country
-    latitude: "",
-    longitude: "",
-    // New fields for media
-    propertyImages: [], // Array of selected images
-    attachments: [], //
-    amenities: {
-      airConditioning: false,
-      barbeque: false,
-      dryer: false,
-      gym: false,
-      laundry: false,
-      lawn: false,
-      microwave: false,
-      outdoorShower: false,
-      refrigerator: false,
-      sauna: false,
-      swimmingPool: false,
-      tvCable: false,
-      washer: false,
-      wifi: false,
-      windowCoverings: false,
-    },
+const initialListingState = {
+  id: 0,
+  userId: 0,
+  title: "",
+  description: "",
+  type: "rent",
+  category: "",
+  price: "",
+  area: "",
+  rooms: "1",
+  beds: "",
+  baths: "",
+  garages: "",
+  sqFt: "",
+  builtYear: 2010,
+  address: "",
+  state: "",
+  city: "",
+  neighborhood: "",
+  zipCode: "",
+  country: "Mali",
+  latitude: "",
+  longitude: "",
+  streetView: "",
+  propertyImages: [],
+  attachments: [],
+  amenities: {
+    airConditioning: false,
+    barbeque: false,
+    dryer: false,
+    gym: false,
+    laundry: false,
+    lawn: false,
+    microwave: false,
+    outdoorShower: false,
+    refrigerator: false,
+    sauna: false,
+    swimmingPool: false,
+    tvCable: false,
+    washer: false,
+    wifi: false,
+    windowCoverings: false,
   },
-  status: "", // For loading state tracking
+};
+
+const initialState = {
+  savedSearches: [],
+  favorites: [],
+  newImages: [], // Local File objects
+  newAttachments: [], // Local File objects
+  deletedImages: [],
+  deletedAttachment: [],
+  currentPage: 1,
+  itemsPerPage: 5,
+  recentlyViewed: [],
+  createListing: { ...initialListingState },
+  status: "",
   error: null,
   keyword: "",
   type: "",
   location: "",
-  price: {
-    min: 0,
-    max: 0,
-  },
+  price: { min: 0, max: 0 },
   amenities: [],
   bathrooms: "",
   bedrooms: "",
   garages: "",
   yearBuilt: "",
-  area: {
-    min: "",
-    max: "",
-  },
+  area: { min: "", max: "" },
   length: 0,
   compareList: [],
 };
@@ -77,6 +76,46 @@ export const propertiesSlice = createSlice({
   name: "properties",
   initialState,
   reducers: {
+    addNewImage(state, action) {
+      state.newImages.push(action.payload); // File
+    },
+    addNewAttachment(state, action) {
+      state.newAttachments.push(action.payload); // File
+    },
+    markImageForDeletion(state, action) {
+      const id = action.payload;
+
+      // Remove from uploadedImages and track for deletion
+      state.createListing.propertyImages =
+        state.createListing.propertyImages.filter((img) => img.id !== id);
+      state.deletedImages.push(id);
+    },
+    markIAttachmentForDeletion(state, action) {
+      const id = action.payload;
+
+      // Remove from uploadedImages and track for deletion
+      state.createListing.attachments = state.createListing.attachments.filter(
+        (img) => img !== id
+      );
+      state.deletedAttachment.push(id);
+    },
+
+    removeNewImage(state, action) {
+      const name = action.payload;
+      state.newImages = state.newImages.filter((file) => file.name !== name);
+    },
+
+    removeNewAttachment(state, action) {
+      const name = action.payload;
+      state.newAttachments = state.newAttachments.filter(
+        (file) => file.name !== name
+      );
+    },
+
+    // (Optional) if editing again
+    resetDeletedImages(state) {
+      state.deletedImages = [];
+    },
     // ✅ Saved Search Actions
     saveSearch: (state, action) => {
       state.savedSearches.push(action.payload);
@@ -97,7 +136,11 @@ export const propertiesSlice = createSlice({
       state.compareList = state.compareList.filter(
         (id) => id !== action.payload
       );
-      localStorage.setItem("comparelist", JSON.stringify(state.favorites));
+      localStorage.setItem("comparelist", JSON.stringify(state.compareList));
+    },
+    clearCompareList: (state) => {
+      state.compareList = [];
+      localStorage.removeItem("comparelist");
     },
 
     // ✅ Favorites Actions
@@ -304,6 +347,18 @@ export const propertiesSlice = createSlice({
       const { amenity, value } = action.payload;
       state.createListing.amenities[amenity] = value;
     },
+    setCreateListing: (state, action) => {
+      const { images, amenities, ...rest } = action.payload;
+      const { id, ...restAmenities } = amenities;
+      state.createListing = {
+        ...rest,
+        propertyImages: images,
+        amenities: restAmenities,
+      };
+    },
+    resetCreateListing: (state) => {
+      state.createListing = { ...initialListingState };
+    },
   },
 });
 
@@ -365,5 +420,15 @@ export const {
   addToCompare,
   removeFromCompare,
   setCurrentPage,
+  clearCompareList,
+  setCreateListing,
+  resetCreateListing,
+  resetDeletedImages,
+  addNewImage,
+  removeNewImage,
+  markImageForDeletion,
+  addNewAttachment,
+  markIAttachmentForDeletion,
+  removeNewAttachment,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

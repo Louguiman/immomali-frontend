@@ -36,6 +36,7 @@
     "register": "S'inscrire",
     "agencyAddress": "Adresse",
     "agencyWebsite": "Site Web",
+    "agencyId": "Laisser vide pour être considéré comme un agent libre",
     "phoneNumberError": "Veuillez entrer un numéro de téléphone valide.",
     "emailError": "Veuillez entrer une adresse email valide.",
     "passwordError": "Le mot de passe doit comporter au moins 6 caractères.",

@@ -3,6 +3,7 @@ import { useGetAllAgentsQuery } from "@/features/api/agents.api";
 import React from "react";
 import Team from "./Team";
 import { useTranslations } from "next-intl";
+import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function DiscoverAgents() {
   const t = useTranslations("home.section");
@@ -10,6 +11,9 @@ function DiscoverAgents() {
   const { data, isLoading, isError } = useGetAllAgentsQuery();
 
   console.log("agents: ", data);
+  if (isLoading) {
+    return <SkeletonSectionLoader />;
+  }
 
   return (
     <section className="our-team">

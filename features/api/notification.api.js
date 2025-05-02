@@ -1,21 +1,28 @@
-import { Complaint } from "@/utils/interface/complaint.interace";
 import { apiSlice } from "./api";
 
-// TS
-// export const extendedApiSlice = apiSlice.injectEndpoints({
-//   endpoints: (builder) => ({
-//     fetchNotifications: builder.query<any[], void>({
-//       query: () => "/notifications",
-//     }),
-//   }),
-// });
-export const extendedApiSlice = apiSlice.injectEndpoints({
+export const notificationsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ["Notifications"],
   endpoints: (builder) => ({
     fetchNotifications: builder.query({
       query: () => "/notifications",
     }),
+    getUnreadNotifications: builder.query({
+      query: () => "/notifications/unread",
+      providesTags: [{ type: "Notifications", id: "LIST" }],
+    }),
+    markNotificationRead: builder.mutation({
+      query: (id) => ({
+        url: `/notifications/${id}/read`,
+        method: "POST",
+        body: { read: true },
+      }),
+      invalidatesTags: [{ type: "Notifications", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useFetchNotificationsQuery } = extendedApiSlice;
+export const {
+  useFetchNotificationsQuery,
+  useGetUnreadNotificationsQuery,
+  useMarkNotificationReadMutation,
+} = notificationsApiSlice;

@@ -12,6 +12,7 @@
     "language": "Langue",
     "english": "Anglais",
     "french": "Français",
+    "addProperty": "Ajouter une propriété",
     "blog": "Blog",
     "properties": {
       "name": "Propriétés",
@@ -54,5 +55,16 @@
     },
     "by": "par",
     "allRightsReserved": "Tous droits réservés."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "none": "Aucune notification non lue.",
+    "loading": "Chargement…",
+    "toggle": "Afficher les notifications",
+    "types": {
+      "newMessage": "Nouveau Message",
+      "newInquiry": "Nouvelle Demande",
+      "maintenanceAssigned": "Maintenance Assignée"
+    }
   }
 }

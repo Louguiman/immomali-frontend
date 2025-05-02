@@ -48,7 +48,7 @@ const FeaturedItem = ({ properties }) => {
               </li>
               <li className="list-inline-item">
                 <a href="#" className="text-capitalize">
-                  ` {t(item?.type)}` {/* Translation for 'For' */}
+                  {t(item?.type)} {/* Translation for 'For' */}
                 </a>
               </li>
             </ul>
@@ -73,7 +73,7 @@ const FeaturedItem = ({ properties }) => {
         </div>
         <div className="details">
           <div className="tc_content">
-            <p className="text-thm"> {t(item?.type)}</p>
+            <p className="text-thm"> {t(`categories.${item?.category}`)}</p>
             <h4>
               <Link href={`/listing-details-v2/${item.id}`}>{item.title}</Link>
             </h4>

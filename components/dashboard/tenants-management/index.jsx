@@ -25,8 +25,8 @@ const TenantManagement = () => {
   );
   const createQueryString = () => {
     const params = new URLSearchParams();
-    params.set("agencyId", user.agency.id);
-
+    if (user?.agency?.id) params.set("agencyId", user?.agency?.id);
+    else params.set("agentId", user?.id);
     return params.toString();
   };
 
@@ -36,7 +36,7 @@ const TenantManagement = () => {
     isLoading,
     isError,
   } = useGetTenantsQuery(createQueryString(), {
-    skip: !user.agency.id || !createQueryString,
+    skip: !createQueryString,
   });
   const [deleteTenant] = useDeleteTenantMutation();
   const [searchTerm, setSearchTerm] = useState("");

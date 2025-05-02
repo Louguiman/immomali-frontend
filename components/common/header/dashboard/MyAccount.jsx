@@ -51,7 +51,7 @@ const MyAccount = () => {
             key={item.id}
             className="dropdown-item"
             style={
-              isSinglePageActive(`${item.ruterPath}`, pathname)
+              isSinglePageActive(`${item.routerPath}`, pathname)
                 ? { color: "#ff5a5f" }
                 : undefined
             }

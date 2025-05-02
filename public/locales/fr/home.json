@@ -1,8 +1,8 @@
 {
   "home": {
     "banner": {
-      "title": "Trouvez la maison de vos rêves",
-      "description": "À partir de seulement 10 $ par jour avec des offres promotionnelles limitées dans le temps."
+      "title": "Votre futur commence ici",
+      "description": "Des logements pour tous les styles et budgets. Trouvez le vôtre aujourd’hui."
     },
     "categorySearchHeader": "Que recherchez-vous ?",
     "section": {
@@ -38,6 +38,8 @@
     },
     "agents": {
       "find_agents_breadcrumb": "Trouver des agents – Recherche et filtrage",
+      "find_agencies_breadcrumb": "Trouver des agencess – Recherche et filtrage",
+      "all_agencies": "Tous les Agences",
       "all_agents": "Tous les agents",
       "loading_agents": "Chargement des agents...",
       "error_fetching_agents": "Erreur lors du chargement des agents.",
@@ -72,5 +74,12 @@
         "listings": "{count} Annonces"
       }
     }
+  },
+  "logout": {
+    "title": "Ohh ! Vous avez été déconnecté",
+    "message": "Merci de votre visite !",
+    "redirect": "Redirection vers la page d'accueil...",
+    "success": "Vous avez été déconnecté avec succès.",
+    "loading": "Déconnexion en cours..."
   }
 }

@@ -1,12 +1,7 @@
 "use client";
 import { useDispatch } from "react-redux";
-import CallToAction from "../common/CallToAction";
-import CopyrightFooter from "../common/footer/CopyrightFooter";
-import Footer from "../common/footer/Footer";
-import Header from "../common/header/DefaultHeader";
-import MobileMenu from "../common/header/MobileMenu";
-import PopupSignInUp from "../common/PopupSignInUp";
-import BreadCrumbBanner from "./BreadCrumbBanner";
+import { clearCompareList } from "@/features/properties/propertiesSlice";
+
 import ComparePricing from "./ComparePricing";
 import { useSelector } from "react-redux";
 
@@ -19,18 +14,6 @@ const index = () => {
 
   return (
     <>
-      {/* <!-- Main Header Nav --> */}
-      <Header />
-
-      {/* <!--  Mobile Menu --> */}
-      <MobileMenu />
-
-      {/* <!-- Modal --> */}
-      <PopupSignInUp />
-
-      {/* <!-- Inner Page Breadcrumb --> */}
-      <BreadCrumbBanner />
-
       {/* <!-- Our Pricing Table --> */}
       <section className="our-pricing bgc-fa">
         <div className="container">
@@ -41,13 +24,12 @@ const index = () => {
                 <p>We provide full service at every step</p>
               </div>
             </div>
-            <h2>Compare Properties</h2>
-            <button
+            {/* <button
               onClick={() => dispatch(clearCompareList())}
               className="btn btn-warning mb-3"
             >
               Clear Comparison
-            </button>
+            </button> */}
           </div>
           <div className="row">
             <div className="col-lg-12">
@@ -56,46 +38,58 @@ const index = () => {
                   <li className="list-inline-item">
                     <ul className="mc_child_list one">
                       <li>
-                        <div className="membership_header dn"></div>
+                        <div className="">Property</div>
                       </li>
                       <li>City</li>
                       <li>Beds</li>
-                      <li>Rooms</li>
+                      <li>Bathrooms</li>
                       <li>Garage</li>
                       <li>Year of build</li>
                       <li>Laundry Room</li>
                       <li>Status</li>
+
+                      {/* Additional fields */}
+                      <li>State</li>
+                      <li>Country</li>
+                      <li>Address</li>
+                      <li>Neighborhood</li>
+                      <li>Category</li>
+                      <li>Type</li>
+                      <li>Sale Tag</li>
+                      <li>Sq. Ft</li>
+                      <li>Attachments</li>
+                      <li>Featured</li>
+                      <li>Owner</li>
+                      <li>Agency</li>
+                      <li>Tenants</li>
+
+                      {/* Amenities */}
+                      <li>Air Conditioning</li>
+                      <li>Barbeque</li>
+                      <li>Dryer</li>
+                      <li>Gym</li>
+                      <li>Lawn</li>
+                      <li>Microwave</li>
+                      <li>Outdoor Shower</li>
+                      <li>Refrigerator</li>
+                      <li>Sauna</li>
+                      <li>Swimming Pool</li>
+                      <li>TV Cable</li>
+                      <li>Washer</li>
+                      <li>WiFi</li>
+                      <li>Window Coverings</li>
+
+                      {/* View Link */}
+                      <li>Action</li>
                     </ul>
                   </li>
+
                   <ComparePricing />
                 </ul>
                 {/* End .mc_parent_list */}
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* <!-- Start Call to Action --> */}
-      <section className="start-partners bgc-thm pt50 pb50">
-        <div className="container">
-          <CallToAction />
-        </div>
-      </section>
-
-      {/* <!-- Our Footer --> */}
-      <section className="footer_one">
-        <div className="container">
-          <div className="row">
-            <Footer />
-          </div>
-        </div>
-      </section>
-
-      {/* <!-- Our Footer Bottom Area --> */}
-      <section className="footer_middle_area pt40 pb40">
-        <div className="container">
-          <CopyrightFooter />
         </div>
       </section>
     </>

@@ -7,7 +7,7 @@ import AuthProvider from "@/features/auth/AuthProvider";
 import I18nProvider from "@/providers/I18nProvider";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-
+import BootstrapClientScript from "./components/BootstrapClientScript";
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
@@ -40,6 +40,8 @@ export default async function RootLayout({ children, params }) {
           <ToastContainer position="top-right" autoClose={3000} />
           <ScrollToTop />
         </I18nProvider>
+        {/* ✅ Dynamically load Bootstrap JS only on the client */}
+        <BootstrapClientScript />
       </body>
     </html>
   );

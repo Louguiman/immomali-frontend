@@ -112,19 +112,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           ))}
         </ul>
       </li>
-      {/* Tenant Services */}
-      {/* <li className="dropitem">
-        <a href="#" className="title">
-          {t("tenantServices.name")}
-        </a>
-        <ul className="sub-menu">
-          {navItems.tenantServices.subMenu.map((item, index) => (
-            <li key={index}>
-              {t(`tenantServices.subMenu.${item.name}`)}
-            </li>
-          ))}
-        </ul>
-      </li> */}
+
       {/* Blog, Resources, Contact */}
       <li className={pathname === navItems.blog.routerPath ? "ui-active" : ""}>
         <Link href={navItems.blog.routerPath}>{t(navItems.blog.name)}</Link>
@@ -137,58 +125,63 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
           {t(navItems.contact.name)}
         </Link>
       </li>
-      <NotificationDropdown />
       {/* Authentication Links */}
       {isAuthenticated ? (
-        <li className="dropitem ">
-          <div className="user_set_header">
-            <Image
-              width={40}
-              height={40}
-              className="float-start"
-              src={user?.img || "/assets/images/team/e1.png"}
-              alt="1.png"
-            />
-            <p>
-              <span className="dn-1199 ms-1">{user?.name || "User"}!</span>
-              {/* <span className="address">{user?.email || "User"}</span> */}
-              <br />
-              <span className="address">{user?.agency?.name || "N/A"}</span>
-            </p>
-          </div>
-
-          <ul className="sub-menu">
-            <div className="user_set_header row">
-              <div className="col-lg-4">
-                <Image
-                  className="rounded-circle"
-                  width={90}
-                  height={90}
-                  src={user?.img || "/assets/images/team/lc1.png"}
-                  alt="e1.png"
-                />
-              </div>
-              <div className="col-lg-8">
-                <p>
-                  Hello, {user?.name || "User"}!<br />
-                </p>
-                <small className="address">{user?.email || "User"}</small>
-                <br />
-                <small className="address">
-                  agence: {user?.agency?.name || "N/A"}
-                </small>
-              </div>
+        <>
+          <NotificationDropdown />
+          <li className="dropitem ">
+            <div className="user_set_header">
+              <Image
+                width={40}
+                height={40}
+                className="float-start"
+                src={user?.img || "/assets/images/team/e1.png"}
+                alt="1.png"
+              />
+              <p>
+                <span className="dn-1199 ms-1">{user?.name || "User"}</span>
+                <span className="address">{user?.email || "User"}</span>
+                {/* <br /> */}
+                <span className="address">{user?.agency?.name || "N/A"}</span>
+              </p>
             </div>
 
-            {navItems.account.subMenu.map((item, index) => (
-              <li key={index}>
-                <Link href={item.routerPath}>
-                  {t(`account.subMenu.${item.name}`)}
-                </Link>
+            <ul className="sub-menu">
+              <div className="user_set_header row">
+                <div className="col-lg-4">
+                  <Image
+                    className="rounded-circle"
+                    width={90}
+                    height={90}
+                    src={user?.img || "/assets/images/team/lc1.png"}
+                    alt="e1.png"
+                  />
+                </div>
+                <div className="col-lg-8">
+                  <p>
+                    Hello, {user?.name || "User"}!<br />
+                  </p>
+                  <small className="address">{user?.email || "User"}</small>
+                  <br />
+                  <small className="address">
+                    agence: {user?.agency?.name || "N/A"}
+                  </small>
+                </div>
+              </div>
+
+              {navItems.account.subMenu.map((item, index) => (
+                <li key={index}>
+                  <Link href={item.routerPath}>
+                    {t(`account.subMenu.${item.name}`)}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/logout">{t("logout")}</Link>
               </li>
-            ))}
-          </ul>
-        </li>
+            </ul>
+          </li>
+        </>
       ) : (
         <li className="list-inline-item list_s">
           <Link href="/login">

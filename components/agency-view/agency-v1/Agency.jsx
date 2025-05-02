@@ -6,13 +6,22 @@ import { useDispatch } from "react-redux";
 import { addAgentItemLength } from "../../../features/agent/agentSlice";
 import Image from "next/image";
 import { useGetAllAgenciesQuery } from "@/features/api/agencies.api";
+import { useTranslations } from "next-intl";
 
 const Agency = () => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
+  const t = useTranslations("home.agents");
+
   const { data: agencies, isLoading, isError } = useGetAllAgenciesQuery();
 
-  if (isLoading) return <p>Loading agencies...</p>;
-  if (isError) return <p>Error fetching agencies.</p>;
+  useEffect(() => {
+    if (!isLoading && agencies !== null) {
+      dispatch(addAgentItemLength(agencies.length));
+    }
+  }, [agencies]);
+
+  if (isLoading) return <p>{t("loading_agents")}</p>;
+  if (isError) return <p>{t("error_fetching_agents")}</p>;
 
   let content = agencies.map((item) => (
     <div className="col-md-6 col-lg-6" key={item.id}>
@@ -26,7 +35,7 @@ const Agency = () => {
               width={251}
               height={220}
               className="contain"
-              src={item.img}
+              src={item?.logoUrl || "/assets/images/team/6.jpg"}
               alt="bh1.jpg"
             />
           </Link>
@@ -83,7 +92,7 @@ const Agency = () => {
             </ul>
             <div className="fp_pdate float-end text-thm">
               <Link href={`/agency-details/${item.id}`} className="text-thm">
-                View My Listings <i className="fa fa-angle-right"></i>
+                {t("view_my_listings")} <i className="fa fa-angle-right"></i>
               </Link>
             </div>
           </div>
@@ -93,11 +102,6 @@ const Agency = () => {
     </div>
   ));
 
-  // useEffect(() => {
-  //   if (!isLoading && agencies !== null) {
-  //     dispath(addAgentItemLength(agencies.length));
-  //   }
-  // }, [agencies]);
   return <>{content}</>;
 };
 

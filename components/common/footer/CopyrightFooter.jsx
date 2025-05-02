@@ -9,11 +9,11 @@ const CopyrightFooter = () => {
 
   const menuItems = [
     { id: 1, name: t("navbar.home"), routeLink: "/" },
-    { id: 2, name: t("navbar.properties.name"), routeLink: "/listing-grid-v3" },
+    { id: 2, name: t("navbar.properties.name"), routeLink: "/properties" },
     {
       id: 3,
       name: t("navbar.properties.subMenu.allProperties"),
-      routeLink: "/listing-grid-v4",
+      routeLink: "/properties",
     },
     { id: 4, name: t("navbar.about"), routeLink: "/about-us" },
     { id: 5, name: t("navbar.blog"), routeLink: "/blog-list-3" },
@@ -39,12 +39,8 @@ const CopyrightFooter = () => {
         <div className="copyright-widget text-end">
           <p>
             &copy; {new Date().getFullYear()} {t("navbar.by")}{" "}
-            <a
-              href="https://themeforest.net/user/ib-themes"
-              target="_blank"
-              rel="noreferrer"
-            >
-              ib-themes
+            <a href="#" target="_blank" rel="noreferrer">
+              SankareTech
             </a>
             . {t("navbar.allRightsReserved")}
           </p>

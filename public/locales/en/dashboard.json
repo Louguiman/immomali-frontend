@@ -11,6 +11,7 @@
         "actions": "Actions",
         "active": "Active",
         "inactive": "Inactive",
+        "close": "Close",
         "edit": "Edit",
         "delete": "Delete",
         "save": "Save",
@@ -102,7 +103,6 @@
       "agent": "Agent",
       "next": "Next",
       "back": "Back",
-      "phone": "Phone:",
       "success": "Success",
       "error": "Error",
       "cancelled": "Cancelled",
@@ -324,9 +324,14 @@
       "uploadPhoto": "Upload Photo",
       "imageMinSize": "*Minimum 260px x 260px",
       "uploading": "Uploading...",
-      "saveImage": "Save Image",
-      "updating": "Updating...",
+      "loading": "Loading profile...",
+      "edit": "Edit Profile",
       "updateProfile": "Update Profile",
+      "updating": "Updating...",
+      "updatedSuccess": "Profile updated successfully",
+      "updateFailed": "Update failed. Please try again.",
+      "noChanges": "No changes to save",
+      "saveImage": "Save Image",
       "alert": {
         "success": "Success",
         "error": "Error",
@@ -337,8 +342,11 @@
         "profileUpdateFailed": "Failed to update profile"
       },
       "fields": {
-        "name": "Name",
+        "name": "Agency Name",
+        "description": "Description",
+        "phoneNumber": "Phone Number",
         "email": "Email",
+        "website": "Website",
         "firstName": "First Name",
         "lastName": "Last Name",
         "position": "Position",
@@ -360,7 +368,11 @@
         "lastNameRequired": "Last name is required",
         "invalidPhone": "Invalid phone number",
         "invalidMobile": "Invalid mobile number",
-        "languageRequired": "Language is required"
+        "languageRequired": "Language is required",
+        "agencyNameRequired": "Agency name is required",
+        "nameMin": "Agency name must be at least 2 characters",
+        "email": "Please enter a valid email address",
+        "website": "Please enter a valid website URL"
       },
       "SocialMedia": {
         "title": "Social Media Links",

@@ -5,8 +5,14 @@ import Slider from "react-slick";
 import Image from "next/image";
 import FavoriteButton from "../common/FavoriteBtn";
 import CompareButton from "../common/CompareBtn";
+import { useFormatter } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const FeaturedProperties = ({ properties }) => {
+  // Translation hook
+  const t = useTranslations("property");
+  const { number: formatNumber } = useFormatter(); // Hook for number formatting
+
   const settings = {
     dots: true,
     arrows: false,
@@ -75,14 +81,17 @@ const FeaturedProperties = ({ properties }) => {
                     href={`/listing-details-v2/${item.id}`}
                     className="fp_price"
                   >
-                    {item.price} F CFA
-                    {item?.listingType == "rent" ? <small>/mo</small> : null}
+                    {formatNumber(item.price, {
+                      style: "currency",
+                      currency: "XOF",
+                    })}
+                    {item.type !== "sale" && <small>/ {t("month")}</small>}
                   </Link>
                 </div>
               </div>
               <div className="details">
                 <div className="tc_content">
-                  <p className="text-thm">{item.type}</p>
+                  <p className="text-thm">{t(item.type)}</p>
                   <h4>
                     <Link href={`/listing-details-v2/${item.id}`}>
                       {item.title}
@@ -95,13 +104,13 @@ const FeaturedProperties = ({ properties }) => {
 
                   <ul className="prop_details mb0">
                     <li className="list-inline-item">
-                      Beds: {item?.beds} &nbsp;
+                      {t("beds")}: {item?.beds} &nbsp;
                     </li>
                     <li className="list-inline-item">
-                      Baths: {item?.baths} &nbsp;
+                      {t("baths")}: {item?.baths} &nbsp;
                     </li>
                     <li className="list-inline-item">
-                      SqFt: {item?.sqFt} &nbsp;
+                      {t("area")}: {item?.sqFt} {t("PropertyCard.sqFt")};
                     </li>
                   </ul>
                 </div>

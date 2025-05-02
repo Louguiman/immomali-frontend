@@ -29,6 +29,8 @@ export default function PropertiesPage() {
     data: properties,
     isLoading,
     refetch,
+    isError,
+    error,
   } = useSearchPropertiesQuery(validParams);
 
   // Get a new searchParams string by merging the current
@@ -52,16 +54,25 @@ export default function PropertiesPage() {
     router.push(pathname + "?" + createQueryString("page", newPage));
   };
 
+  if (isError) {
+    console.log("Error fetching properties:", error);
+    return <div>{error?.data?.message}</div>; // Display an error message
+  }
+  // if (isLoading) {
+  //   return <div>{t("Loading")}</div>; // Display a loading message
+  // }
+  if (!properties) {
+    return <div>{t("No search results")}</div>; // Display a message when no data is available
+  }
+
   {
     /* <!-- Listing Grid View --> */
   }
   return (
-    <section className="our-listing bgc-f7 pb30-991 mt85 md-mt0">
+    <section className="our-listing bgc-f7 pb30-991 mt0 md-mt0">
       <div className="container">
         <div className="row">
-          <div className="col-lg-6">
-            <BreadCrumb2 />
-          </div>
+          <div className="col-lg-6"></div>
 
           <div className="col-lg-6 position-relative">
             <div className="listing_list_style mb20-xsd tal-991">

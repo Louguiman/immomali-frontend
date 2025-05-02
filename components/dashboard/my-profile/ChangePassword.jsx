@@ -61,7 +61,7 @@ const ChangePassword = () => {
           error?.data?.message?.toString(),
       });
 
-      console.error("Change Password Error:", error);
+      console.log("Change Password Error:", error);
     }
   };
 

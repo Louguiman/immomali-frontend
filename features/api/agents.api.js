@@ -6,6 +6,7 @@ export const agentsApi = apiSlice.injectEndpoints({
       query: (agencyId) => `/users/agency/${agencyId}`,
       providesTags: ["Agents"],
     }),
+
     searchAgentsByAgency: builder.query({
       query: ({ agencyId, query }) =>
         `/users/agency/${agencyId}?query=${query}`,
@@ -16,6 +17,7 @@ export const agentsApi = apiSlice.injectEndpoints({
       query: () => "/agents",
       providesTags: ["Agents"],
     }),
+
     getAgentById: builder.query({
       query: (id) => `/agents/${id}`,
       providesTags: (result, error, id) => [{ type: "Agents", id }],
@@ -34,7 +36,9 @@ export const agentsApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: agent,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Agents", id }],
+      invalidatesTags: ["Agents"],
+
+      // invalidatesTags: (result, error, { id }) => [{ type: "Agents", id }],
     }),
     deleteAgent: builder.mutation({
       query: (id) => ({

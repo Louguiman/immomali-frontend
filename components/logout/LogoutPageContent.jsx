@@ -1,61 +1,66 @@
 "use client";
-import Link from "next/link";
-import Form from "./Form";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useLogoutMutation } from "@/features/api/auth.api";
 import { useEffect } from "react";
 import { logoutSuccess } from "@/features/auth/authSlice";
+import Swal from "sweetalert2";
+import { useTranslations } from "next-intl";
 
 const LogoutPageContent = () => {
+  const t = useTranslations("logout");
   const router = useRouter();
   const dispatch = useDispatch();
-  const [logout, { isLoading: isLoggingout }] = useLogoutMutation();
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const handleLogout = async () => {
-    // await logout().unwrap();
-    dispatch(logoutSuccess());
-    // Nettoie le localStorage pour Redux Persist si nécessaire
-    localStorage.removeItem("persist:root");
-    setTimeout(() => {
+    try {
+      await logout().unwrap();
+      dispatch(logoutSuccess());
+      localStorage.removeItem("persist:root");
+    } catch (error) {
+      console.log("Logout failed:", error);
+    } finally {
+      Swal.fire({
+        title: t("success"),
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       router.push("/");
-    }, 1000);
+    }
   };
+
   useEffect(() => {
-    // Déconnecte l'utilisateur en dispatchant l'action logout
     handleLogout();
-    return () => {};
-  }, [dispatch, router]);
+  }, []);
 
   return (
-    <div className="error_page footer_apps_widget">
+    <div className="error_page footer_apps_widget text-center">
       <Image
         width={266}
         height={200}
         className="img-fluid img-thumb contain"
-        src="/assets/images/resource/error.png"
-        alt="error.png"
+        src="/assets/images/resource/logout.png"
+        alt="logout"
       />
-      <div className="erro_code">
-        <h1>Ohh! You have been loggged out</h1>
-      </div>
-      <p>Thank you for your visit! you’re looking for</p>
 
-      {/* <isLoggingout /> */}
-      {isLoggingout ? (
+      <div className="erro_code">
+        <h4>{t("title")}</h4>
+      </div>
+      <p>{t("message")}</p>
+
+      {isLoggingOut ? (
         <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">{t("loading")}</span>
         </div>
       ) : (
         <div className="col-lg-6 offset-lg-3">
-          <p>Redirecting to home page...</p>
+          <p>{t("redirect")}</p>
         </div>
       )}
-
-      {/* <Link href="/" className="btn btn_error btn-thm">
-        Back To Home
-      </Link> */}
     </div>
   );
 };

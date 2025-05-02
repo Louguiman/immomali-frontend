@@ -35,15 +35,23 @@ const AgentManagement = () => {
     reset,
   } = useForm();
   const t = useTranslations("dashboard.agentManagement");
+  const translatedNavText = useTranslations("dashboard");
 
   // Handle submit (Create/Update Agent)
   const handleAgentSubmit = async (data) => {
     try {
-      if (selectedAgent) {
-        await updateAgent({ id: selectedAgent.id, ...data });
+      if (selectedAgent?.id) {
+        await updateAgent({
+          id: selectedAgent.id,
+          agent: { ...data, isActive: data.isActive === "true" },
+        }).unwrap();
         Swal.fire(t("agent.management.update.success"), "", "success");
       } else {
-        await createAgent({ ...data, agencyId: user?.agency?.id });
+        await createAgent({
+          ...data,
+          agencyId: user?.agency?.id,
+          isActive: data.isActive === "true",
+        }).unwrap();
         Swal.fire(t("agent.management.create.success"), "", "success");
       }
       reset(); // Reset form after submit
@@ -56,7 +64,7 @@ const AgentManagement = () => {
   // Handle Delete
   const handleDelete = async (id) => {
     try {
-      await deleteAgent(id);
+      await deleteAgent(id).unwrap();
       Swal.fire(t("agent.management.delete.success"), "", "success");
     } catch (error) {
       Swal.fire(t("general.error"), t("general.somethingWentWrong"), "error");
@@ -72,8 +80,8 @@ const AgentManagement = () => {
 
   return (
     <>
-      <Header />
-      <MobileMenu />
+      {/* <Header />
+      <MobileMenu /> */}
       <div className="dashboard_sidebar_menu">
         <div
           className="offcanvas offcanvas-dashboard offcanvas-start"
@@ -100,7 +108,7 @@ const AgentManagement = () => {
                         aria-controls="DashboardOffcanvasMenu"
                       >
                         <i className="fa fa-bars pr10"></i>{" "}
-                        {t("dashboard.navigation")}
+                        {translatedNavText("navigation")}
                       </button>
                     </div>
                   </div>
@@ -203,12 +211,13 @@ const AgentManagement = () => {
                           <div className="modal-header">
                             <h5 className="modal-title">
                               {selectedAgent.id
-                                ? t("agent.edit")
-                                : t("agent.creation")}
+                                ? t("agent.management.edit")
+                                : t("agent.management.creation")}
                             </h5>
                             <button
                               type="button"
                               className="btn-close"
+                              aria-label={t("general.close")}
                               onClick={() => setSelectedAgent(null)}
                             ></button>
                           </div>
@@ -279,10 +288,10 @@ const AgentManagement = () => {
                                   }
                                   {...register("isActive")}
                                 >
-                                  <option value="true">
+                                  <option value={true}>
                                     {t("general.active")}
                                   </option>
-                                  <option value="false">
+                                  <option value={false}>
                                     {t("general.inactive")}
                                   </option>
                                 </select>

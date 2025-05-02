@@ -7,9 +7,11 @@ import {
   useGetInquiryRepliesQuery,
   useSendInquiryReplyMutation,
 } from "@/features/api/inquiries.api";
-import SignleChatboxReply from "./SignleChatboxReply";
+import SingleChatboxReply from "./SingleChatboxReply";
 import PropertyCard from "@/components/PropertyCard";
 import { useSelector } from "react-redux";
+import MinimalPropertyCard from "@/components/MinimalPropertyCard";
+import PropertyCardWithQuery from "@/components/common/cards/PropertyCardWithQuery";
 
 const ChatboxContent = ({ inquiry }) => {
   const t = useTranslations("dashboard.message.chatbox"); // Utilisation des traductions
@@ -17,6 +19,7 @@ const ChatboxContent = ({ inquiry }) => {
   const { data: replies, isLoading } = useGetInquiryRepliesQuery(inquiry?.id);
   const [createReply, { isLoading: isSending }] = useSendInquiryReplyMutation();
   const [message, setMessage] = useState("");
+  console.log("inquiry: ", inquiry);
 
   if (isLoading) return <p>{t("loading_messages")}</p>;
 
@@ -33,7 +36,7 @@ const ChatboxContent = ({ inquiry }) => {
       }).unwrap();
       setMessage(""); // Effacer le champ après l'envoi
     } catch (error) {
-      console.error("Error sending reply:", error);
+      console.log("Error sending reply:", error);
     }
   };
 
@@ -42,7 +45,7 @@ const ChatboxContent = ({ inquiry }) => {
       <div className="meta">
         {/* Nom */}
         <h5 className="name">
-          <span className="flaticon-user pr-2"></span>
+          <span className="flaticon-user pr-2 mr-2"></span>
           {inquiry?.name || t("unknown")}
         </h5>
 
@@ -61,26 +64,25 @@ const ChatboxContent = ({ inquiry }) => {
         {/* Message */}
         <p className="preview">{inquiry.message}</p>
       </div>
-
       {/* Affichage de la propriété si concerné */}
-      {inquiry.property && (
+      {inquiry?.property && (
         <div className="property-preview">
           <h5 className="text-thm">{t("property_inquiry")}</h5>
-          <PropertyCard property={inquiry.property} />
+          <PropertyCardWithQuery id={inquiry?.property.id} />
         </div>
       )}
 
       <div className="inbox_chatting_box">
         <ul className="chatting_content">
           {replies?.map((reply) => (
-            <SignleChatboxReply key={reply.id} reply={reply} />
+            <SingleChatboxReply key={reply.id} reply={reply} />
           ))}
         </ul>
       </div>
 
       {/* Zone de saisie du message */}
       <div className="mi_text">
-        <div className="message_input">
+        <div className={`message_input ${isSending ? "disabled" : ""} `}>
           <form
             className="form-inline position-relative"
             onSubmit={handleSendReply}

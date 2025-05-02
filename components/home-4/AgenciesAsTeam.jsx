@@ -61,7 +61,7 @@ const AgenciesAsTeam = ({ data }) => {
                 width={245}
                 height={307}
                 className="img-fluid w100 cover h-100"
-                src={item.img || "/assets/images/team/6.jpg"}
+                src={item?.logoUrl || "/assets/images/team/6.jpg"}
                 alt="5.jpg"
               />
               <div className="overylay">

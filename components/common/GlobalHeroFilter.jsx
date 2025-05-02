@@ -1,58 +1,62 @@
+"use client";
+import { useState } from "react";
 import GlobalFilter from "./GlobalFilter";
 import { useTranslations } from "next-intl";
 
 const GlobalHeroFilter = ({ className = "" }) => {
   const t = useTranslations("search");
+  const [activeTab, setActiveTab] = useState("rent");
 
   return (
     <div className={`home_adv_srch_opt ${className}`}>
-      <ul className="nav nav-pills" id="pills-tab" role="tablist">
+      <ul className="nav nav-pills" role="tablist">
         <li className="nav-item">
           <a
-            className="nav-link active"
-            id="pills-home-tab"
-            data-bs-toggle="pill"
-            href="#pills-home"
+            className={`nav-link ${activeTab === "rent" ? "active" : ""}`}
             role="tab"
-            aria-controls="pills-home"
-            aria-selected="true"
-          >
-            {t("searchbar.buy")}
-          </a>
-        </li>
-
-        <li className="nav-item">
-          <a
-            className="nav-link"
-            id="pills-profile-tab"
-            data-bs-toggle="pill"
-            href="#pills-profile"
-            role="tab"
-            aria-controls="pills-profile"
-            aria-selected="false"
+            aria-selected={activeTab === "rent"}
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab("rent");
+            }}
+            href="#"
           >
             {t("searchbar.rent")}
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link ${activeTab === "buy" ? "active" : ""}`}
+            role="tab"
+            aria-selected={activeTab === "buy"}
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab("buy");
+            }}
+            href="#"
+          >
+            {t("searchbar.buy")}
           </a>
         </li>
       </ul>
       {/* End nav-pills */}
 
-      <div className="tab-content home1_adsrchfrm" id="pills-tabContent">
+      <div className="tab-content home1_adsrchfrm">
         <div
-          className="tab-pane fade show active"
-          id="pills-home"
+          className={`tab-pane fade ${
+            activeTab === "rent" ? "show active" : ""
+          }`}
           role="tabpanel"
-          aria-labelledby="pills-home-tab"
         >
-          <GlobalFilter type={"sale"} />
+          <GlobalFilter type="rent" />
         </div>
         <div
-          className="tab-pane fade"
-          id="pills-profile"
+          className={`tab-pane fade ${
+            activeTab === "buy" ? "show active" : ""
+          }`}
           role="tabpanel"
-          aria-labelledby="pills-profile-tab"
         >
-          <GlobalFilter type={"rent"} />
+          <GlobalFilter type="sale" />
         </div>
       </div>
     </div>

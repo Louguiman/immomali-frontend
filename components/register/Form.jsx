@@ -243,7 +243,7 @@ const SignupForm = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              placeholder={t("agencyDescription")}
+              placeholder={"Description"}
             />
           </div>
 

@@ -13,11 +13,12 @@ import {
   useFetchPropertyByUserIdQuery,
 } from "@/features/api/properties.api";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2"; // Import SweetAlert2
 import { useTranslations } from "next-intl"; // Import useTranslations from next-intl
 
 const PropertyManagementPage = () => {
+  const pathname = usePathname();
   // Get the logged-in user from Redux
   const { user } = useSelector((state) => state.auth);
   // Local state for pagination & filtering
@@ -110,15 +111,13 @@ const PropertyManagementPage = () => {
       <div className="col-lg-12">
         <div className="my_dashboard_review mb40">
           {isLoading ? (
-            <div className="property_table">{t("loadingProperties")}</div> // Using translation
+            <div className="property_table">{t("loading")}</div> // Using translation
           ) : data && data.length ? (
             <div className="property_table">
               <div className="table-responsive mt0">
                 {/* TableData receives property data and dynamic header configuration */}
                 <TableData
-                  onEdit={(id) =>
-                    router.push(`/dashboard/properties/edit/${id}`)
-                  }
+                  onEdit={(id) => router.push(`${pathname}/${id}/edit`)}
                   onDelete={handleDelete}
                   data={data}
                 />

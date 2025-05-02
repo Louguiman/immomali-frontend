@@ -22,7 +22,7 @@
     "squareFootage": "Superficie",
     "yearBuilt": "Année de construction",
     "Amenities": "Équipements",
-    "save": "Enregistrer",
+    "save": "sauvegarder",
     "saving": "Enregistrement...",
     "propertyTitle": "Titre de la propriété",
     "description": "Description",
@@ -37,6 +37,20 @@
     "land": "Terrain",
     "back": "Retour",
     "next": "Suivant",
+    "confirmDeleteImage": "Êtes-vous sûr de vouloir supprimer cette image ?",
+    "confirmDeleteAttachment": "Êtes-vous sûr de vouloir supprimer cette pièce jointe ?",
+    "yes": "Oui",
+    "no": "Non",
+    "imageDeleted": "Image supprimée avec succès.",
+    "attachmentDeleted": "Pièce jointe supprimée avec succès.",
+    "imageDeleteError": "Échec de la suppression de l’image.",
+    "attachmentDeleteError": "Échec de la suppression de la pièce jointe.",
+    "savingAll": "Enregistrement des modifications…",
+    "propertyUpdated": "Propriété mise à jour avec succès.",
+    "loading": "Chargement…",
+    "errorLoading": "Erreur lors du chargement de la propriété.",
+    "editProperty": "Modifier la propriété",
+    "manageDetails": "Gérez les détails de votre propriété",
     "validation": {
       "required": "Ce champ est requis",
       "number": "Doit être un nombre",
@@ -56,6 +70,7 @@
     "breadcrumbTitle": "Mes Propriétés",
     "greeting": "Nous sommes heureux de vous revoir !",
     "Property": "Propriété",
+    "Properties": "Propriétés",
     "category": "Catégorie",
     "Type": "Type",
     "Price/Rent": "Prix/Louer",
@@ -74,7 +89,7 @@
     "Rent": "Location",
     "rent": "Location",
     "beds": "Chbr",
-    "baths": "WC",
+    "baths": "Sdb",
     "sqFt": "Superficie",
     "featured": "Vedette",
     "for": "Pour",
@@ -93,6 +108,7 @@
     "garages": "Garages",
     "year_built": "Année de construction",
     "minArea": "Surface minimum",
+    "area": "Superficie",
     "maxArea": "Surface maximum",
     "clearFilters": "Réinitialiser les filtres",
     "advancedFeatures": "Fonctionnalités avancées",
@@ -137,7 +153,7 @@
       "amenities": "Commodités",
       "n/a": "N/A"
     },
-    "deposit": "Dépôt",
+    "deposit": "Caution",
     "poolSize": "Taille de la piscine",
     "propertyDetails": "Détails de la propriété",
     "additionalDetails": "Details supplémentaires",
@@ -211,7 +227,7 @@
       "priceSuffix": "/mois",
       "beds": "Chambres :",
       "baths": "Salles de bain :",
-      "sqFt": "m² :",
+      "sqFt": "m²",
       "unknown": "Inconnu"
     },
     "sidebar": {
@@ -241,6 +257,16 @@
           "messageRequired": "Le message est requis"
         }
       }
+    },
+    "errors": {
+      "propertyNotFound": "Propriété non trouvée",
+      "propertyDeleted": "Propriété supprimée avec succès",
+      "propertyNotDeleted": "Échec de la suppression de la propriété",
+      "propertyUpdated": "Propriété mise à jour avec succès",
+      "propertyNotUpdated": "Échec de la mise à jour de la propriété",
+      "imageUploadError": "Erreur lors du téléchargement de l'image",
+      "attachmentUploadError": "Erreur lors du téléchargement de la pièce jointe",
+      "locationUnvailable": "Emplacement non disponible"
     }
   }
 }

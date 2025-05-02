@@ -51,11 +51,27 @@
     "land": "Land",
     "back": "Back",
     "next": "Next",
+    "confirmDeleteImage": "Are you sure you want to delete this image?",
+    "confirmDeleteAttachment": "Are you sure you want to delete this attachment?",
+    "yes": "Yes",
+    "no": "No",
+    "imageDeleted": "Image deleted successfully.",
+    "attachmentDeleted": "Attachment deleted successfully.",
+    "imageDeleteError": "Failed to delete image.",
+    "attachmentDeleteError": "Failed to delete attachment.",
+    "savingAll": "Saving changes...",
+    "propertyUpdated": "Property updated successfully.",
+    "loading": "Loading...",
+    "errorLoading": "Error loading property.",
+    "editProperty": "Edit Property",
+    "manageDetails": "Manage your property details",
+
     "validation": {
       "required": "This field is required",
       "number": "Must be a number",
       "positive": "Must be a positive number"
     },
+    "Properties": "Properties",
     "Property": "Property",
     "category": "Category",
     "Type": "Type",
@@ -85,7 +101,8 @@
     "Rent": "Rent",
     "beds": "Beds",
     "baths": "Baths",
-    "sqFt": "Area",
+    "area": "Area",
+    "sqFt": "sqFt",
     "more": "More",
     "featured": "Featured",
     "for": "For",
@@ -242,6 +259,19 @@
           "messageRequired": "Message is required"
         }
       }
+    },
+    "errors": {
+      "propertyNotFound": "Property not found",
+      "unauthorized": "Unauthorized access",
+      "forbidden": "Forbidden",
+      "serverError": "Server error",
+      "notFound": "Not found",
+      "badRequest": "Bad request",
+      "validationError": "Validation error",
+      "networkError": "Network error",
+      "timeout": "Request timed out",
+      "unknownError": "Unknown error occurred",
+      "locationUnvailable": "Location not available"
     }
   }
 }

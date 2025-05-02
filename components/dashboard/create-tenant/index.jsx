@@ -1,5 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import {
   useCreateTenantMutation,
   useUpdateTenantMutation,
@@ -8,12 +13,8 @@ import {
 import TenantForm from "./TenantForm";
 import LeaseDetails from "./LeaseDetails";
 import DocumentUploader from "./DocumentUploader";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
-import { useRouter } from "next/navigation";
 import Stepper from "../create-listing/Stepper";
-import { useTranslations } from "next-intl";
 
 const TenantManagement = ({ tenant }) => {
   const t = useTranslations("dashboard.TenantProfile");
@@ -49,7 +50,15 @@ const TenantManagement = ({ tenant }) => {
   const handleSubmit = async () => {
     let leaseId = null;
     setLoading(true);
-    toast.info(t("processing"), { autoClose: 2000 });
+
+    Swal.fire({
+      title: t("processing"),
+      // didOpen: () => {
+      //   Swal.showLoading();
+      // },
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
 
     try {
       const tenantData = {
@@ -64,11 +73,24 @@ const TenantManagement = ({ tenant }) => {
           id: tenant.id,
           data: tenantData,
         }).unwrap();
-        toast.success(t("updated"), { autoClose: 2000 });
+
+        await Swal.fire({
+          icon: "success",
+          title: t("updated"),
+          timer: 2000,
+          showConfirmButton: false,
+        });
       } else {
         response = await createTenant(tenantData).unwrap();
         leaseId = response.lease.id;
-        toast.success(t("created"), { autoClose: 2000 });
+
+        await Swal.fire({
+          icon: "success",
+          title: t("created"),
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         router.back();
       }
 
@@ -77,11 +99,22 @@ const TenantManagement = ({ tenant }) => {
           leaseId,
           documents: tenant.leaseDocuments,
         }).unwrap();
-        toast.success("Lease documents uploaded!", { autoClose: 2000 });
+
+        await Swal.fire({
+          icon: "success",
+          title: "Lease documents uploaded!",
+          timer: 2000,
+          showConfirmButton: false,
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(t("error"), { autoClose: 2000 });
+      console.log("Error:", error);
+
+      await Swal.fire({
+        icon: "error",
+        title: t("error"),
+        text: error?.data?.message || error?.message || "Something went wrong",
+      });
     } finally {
       setLoading(false);
     }
@@ -124,13 +157,12 @@ const TenantManagement = ({ tenant }) => {
     <div className="container-fluid ovh">
       <div className="row">
         <div className="col-lg-12 maxw100flex-992">
-          <div className="row">
+          <div className="row" style={{ overflow: "auto" }}>
             <div className="col-lg-8 mb10">
               <div className="breadcrumb_content style2">
                 <h2 className="breadcrumb_title">
                   {tenant?.id ? t("editTenant") : t("addTenant")}
                 </h2>
-                <p>Manage tenant lease details and rental agreements.</p>
               </div>
             </div>
 
