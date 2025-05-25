@@ -1,4 +1,4 @@
-import { fetchProperties } from "@/features/api/Serverside";
+import { fetchProperties } from "@/utils/server/property-server-fetches";
 import React from "react";
 import FeaturedProperties from "./FeaturedProperties";
 import { getTranslations } from "next-intl/server";
