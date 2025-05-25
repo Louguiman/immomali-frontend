@@ -1,19 +1,33 @@
 export interface Property {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   price: number;
-  type: string;
   location: string;
-  photos: string[];
-  status: "available" | "rented" | "sold";
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  type: "sale" | "rent";
+  status: "available" | "sold" | "rented";
+  images?: string[];
+  attachments?: string[];
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  agentId?: number | string;
+  agencyId?: number | string;
+  // Add any other relevant fields
 }
 
 export interface PropertyQueryParams {
-  type?: string;
+  page?: number;
+  limit?: number;
+  type?: "sale" | "rent";
   location?: string;
   minPrice?: number;
   maxPrice?: number;
-  sortBy?: string;
-  order?: "asc" | "desc";
+  bedrooms?: number;
+  bathrooms?: number;
+  sortBy?: "price" | "date" | "area";
+  sortOrder?: "asc" | "desc";
+  // Add any other relevant query parameters
 }

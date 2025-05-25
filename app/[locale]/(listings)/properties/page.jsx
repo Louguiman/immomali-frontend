@@ -54,20 +54,33 @@ export default function PropertiesPage() {
     router.push(pathname + "?" + createQueryString("page", newPage));
   };
 
-  if (isError) {
+  let contentToRender;
+
+  if (isLoading && !properties?.data) {
+    contentToRender = (
+      <div className="text-center">
+        <div className="spinner-border text-primary" role="status"></div>
+        <p>{t("Loading")}</p>
+      </div>
+    );
+  } else if (isError) {
     console.log("Error fetching properties:", error);
-    return <div>{error?.data?.message}</div>; // Display an error message
-  }
-  // if (isLoading) {
-  //   return <div>{t("Loading")}</div>; // Display a loading message
-  // }
-  if (!properties) {
-    return <div>{t("No search results")}</div>; // Display a message when no data is available
+    contentToRender = (
+      <div className="text-center">
+        <h2>{t("Error")}</h2>
+        <p>{error?.data?.message || t("errorFetchingProperties_fallback", "An unexpected error occurred while fetching properties. Please try again later.")}</p>
+      </div>
+    );
+  } else if (!properties?.data || properties.data.length === 0) {
+    contentToRender = (
+      <div className="text-center">
+        <h2>{t("No search results")}</h2>
+      </div>
+    );
+  } else {
+    contentToRender = <FeaturedItem properties={properties.data} />;
   }
 
-  {
-    /* <!-- Listing Grid View --> */
-  }
   return (
     <section className="our-listing bgc-f7 pb30-991 mt0 md-mt0">
       <div className="container">
@@ -119,35 +132,21 @@ export default function PropertiesPage() {
               </div>
             </div>
 
-            <div className="row">
-              {!properties && isLoading ? (
-                <div className="text-center">
-                  <div
-                    className="spinner-border text-primary"
-                    role="status"
-                  ></div>
-                  <p>{t("Loading")}</p>
-                </div>
-              ) : properties?.data?.length === 0 ? (
-                <div className="text-center">
-                  <h2>{t("No search results")}</h2>
-                </div>
-              ) : (
-                <FeaturedItem properties={properties?.data} />
-              )}
-            </div>
+            <div className="row">{contentToRender}</div>
 
-            <div className="row">
-              <div className="col-lg-12 mt20">
-                <div className="mbp_pagination">
-                  <Pagination
-                    currentPage={page}
-                    onPageChange={handlePageChange}
-                    totalPages={properties?.totalPage}
-                  />
+            {properties?.data && properties.data.length > 0 && (
+              <div className="row">
+                <div className="col-lg-12 mt20">
+                  <div className="mbp_pagination">
+                    <Pagination
+                      currentPage={page}
+                      onPageChange={handlePageChange}
+                      totalPages={properties?.totalPage}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
