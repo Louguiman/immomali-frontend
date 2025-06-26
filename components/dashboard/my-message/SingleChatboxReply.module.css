@@ -1,0 +1,30 @@
+.replyContainer {
+  margin-bottom: 1rem;
+}
+
+.avatarContainer {
+  width: 57px;
+  height: 57px;
+  position: relative;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.messageBubble {
+  display: inline-block;
+  max-width: 80%;
+  margin-bottom: 0;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.sent {
+  background-color: #007bff;
+  color: white;
+}
+
+.received {
+  background-color: #f8f9fa;
+}

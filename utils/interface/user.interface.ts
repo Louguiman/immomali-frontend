@@ -3,6 +3,8 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber?: string;
+  img?: string;
   role: "admin" | "agent" | "tenant";
 }
 

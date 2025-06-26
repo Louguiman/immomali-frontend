@@ -14,7 +14,68 @@ Tag: advanced custom search, agency, agent, business, clean, corporate, director
 @import url(../scss/font-awesome-animation.min.css);
 @import url(../scss/flaticon.css);
 
+/* === Branding: Global Font and Colors === */
+body,
+html {
+  font-family: 'Red Rose', 'Times New Roman', serif !important;
+  color: #0c4836ff;
+}
+
+h1 {
+  font-family: 'Red Rose', 'Times New Roman', serif;
+  font-size: 60px;
+  font-weight: 900;
+}
+
+h2 {
+  font-family: 'Red Rose', 'Times New Roman', serif;
+  font-size: 50px;
+  font-weight: 500;
+}
+
+h3 {
+  font-family: 'Red Rose', 'Times New Roman', serif;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+h4 {
+  font-family: 'Red Rose', 'Times New Roman', serif;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+p,
+.paragraph {
+  font-family: 'Red Rose', 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+:root {
+  --primary-color: #0 c4836ff;
+  --secondary-color: #0c4836ff;
+}
+
 /* Table of contents */
+
+/* Replace old color usages */
+.btn-primary,
+.bg-primary,
+.text-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+a,
+.link {
+  color: var(--primary-color);
+}
+
+/* Remove old font-family declarations */
+[class*="font-family"] {
+  font-family: 'Red Rose', 'Times New Roman', serif !important;
+}
 
 /*== Typography ==*/
 /* Search Overlay */
@@ -13337,6 +13398,7 @@ legend span {
   padding: 12px 16px;
   gap: 12px;
 }
+
 .dropitem .user_set_header img {
   width: 40px;
   height: 40px;

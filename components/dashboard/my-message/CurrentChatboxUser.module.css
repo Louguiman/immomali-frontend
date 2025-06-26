@@ -1,0 +1,32 @@
+.user_heading .user-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  padding: 2px;
+  z-index: 1;
+}
+
+.user_heading .user-status.online {
+  background-color: #198754; /* Bootstrap success color */
+}
+
+.user_heading .user-status.offline {
+  background-color: #6c757d; /* Bootstrap secondary color */
+}
+
+.user_heading .avatar-container {
+  position: relative;
+  width: 45px;
+  height: 45px;
+}
+
+.user_heading .user-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}

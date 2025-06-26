@@ -1,0 +1,11 @@
+.logo-upload-label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.logo-preview {
+  background-image: var(--logo-url);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
