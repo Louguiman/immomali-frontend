@@ -19,6 +19,8 @@ const LogoutPageContent = () => {
       await logout().unwrap();
       dispatch(logoutSuccess());
       localStorage.removeItem("persist:root");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     } catch (error) {
       console.log("Logout failed:", error);
     } finally {

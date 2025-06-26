@@ -33,9 +33,9 @@ const Header = () => {
           <Image
             src="/assets/images/logo/logo-ikasow.svg"
             alt="Ikasow Logo"
-            width={220}
-            style={{ height: "auto", maxWidth: 220, display: "block" }}
-            0c4836ff
+            width={230}
+            height={0}
+            style={{ height: "auto", maxWidth: 250, display: "block" }}
             priority
           />
         </Link>

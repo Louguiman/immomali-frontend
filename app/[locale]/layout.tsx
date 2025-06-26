@@ -8,6 +8,7 @@ import I18nProvider from "@/providers/I18nProvider";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import BootstrapClientScript from "./components/BootstrapClientScript";
+import TokenRehydrate from "./TokenRehydrate";
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
@@ -53,6 +54,7 @@ export default async function RootLayout({ children, params }) {
       <body>
         <I18nProvider>
           <StoreProvider>
+            <TokenRehydrate />
             <AuthProvider>{children}</AuthProvider>
           </StoreProvider>
           <ToastContainer position="top-right" autoClose={3000} />
