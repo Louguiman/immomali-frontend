@@ -52,7 +52,7 @@ const MyAccount = () => {
             className="dropdown-item"
             style={
               isSinglePageActive(`${item.routerPath}`, pathname)
-                ? { color: "#ff5a5f" }
+                ? { color: "gb(6, 120, 18)" }
                 : undefined
             }
           >

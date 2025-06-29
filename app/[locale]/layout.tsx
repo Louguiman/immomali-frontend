@@ -17,7 +17,14 @@ export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "fr" }];
 }
 
-export default async function RootLayout({ children, params }) {
+import { ReactNode } from "react";
+
+interface RootLayoutProps {
+  children: ReactNode;
+  params: { locale: string };
+}
+
+export default async function RootLayout({ children, params }: RootLayoutProps) {
   const { locale } = await params;
   console.log("root locale: ", locale);
   if (!routing.locales.includes(locale)) {
@@ -27,10 +34,7 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={locale}>
       <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Nunito:400,400i,500,600,700&display=swap"
-        />
+        {/* Font link moved to _document.tsx for proper Next.js usage */}
         <link rel="icon" href="/assets/favicon.ico" />
         <link
           rel="apple-touch-icon"

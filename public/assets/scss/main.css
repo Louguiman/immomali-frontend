@@ -1347,7 +1347,7 @@ header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing a {
 
 header.header-nav.menu_style_home_one.stricky-fixed .ace-responsive-menu li.add_listing {
   background-color: var(--color-primary);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
 }
 
 header.header-nav.menu_style_home_one.stricky-fixed .ace-responsive-menu li.add_listing a {
@@ -1787,18 +1787,18 @@ header.header-nav.menu_style_home_one.style2.home10 ul.ace-responsive-menu li.li
 
 header.header-nav.menu_style_home_one.style2 ul.ace-responsive-menu li.add_listing {
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
 }
 
 header.header-nav.menu_style_home_one.style2 ul.ace-responsive-menu li.add_listing.home2 {
   background-color: rgb(36, 50, 74);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
 }
 
 header.header-nav.menu_style_home_one.style3 ul.ace-responsive-menu li.add_listing.home6 {
@@ -3058,10 +3058,10 @@ header.header-nav.menu_style_home_seven .ace-responsive-menu>li.last {
 .home1-advnc-search ul li .search_option_button button {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   color: #ffffff;
   font-weight: bold;
@@ -4191,7 +4191,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .home3_home_content .popup_video_btn {
-  background: rgb(255, 90, 95);
+  background: rgb(6, 120, 18, );
   border-radius: 50%;
   color: #ffffff;
   font-size: 30px;
@@ -4221,7 +4221,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .home3_home_content .popup_video_btn:after {
-  background-color: rgba(255, 90, 95, 0.5);
+  background-color: rgba(6, 120, 18, , 0.5);
   border-radius: 100%;
   content: "";
   height: 89px;
@@ -4245,7 +4245,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .home-four .banner-style-one .slide:before {
-  background-image: linear-gradient(to right, rgba(6, 62, 165, 0.7) 0%, rgba(6, 120, 18, 0.8) 100%);
+  background-image: linear-gradient(to right, rgba(6, 165, 38, 0.3) 0%, rgba(6, 120, 18, 0.5) 100%);
   left: 0;
   opacity: 0.902;
   position: absolute;
@@ -5588,7 +5588,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 
 .status_tag.badge {
   border-radius: 3px;
-  background-color: rgb(255, 90, 95);
+  background-color: rgb(6, 120, 18, );
   font-size: 14px;
   font-family: "Nunito";
   color: rgb(254, 254, 254);
@@ -6302,10 +6302,10 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 .modern_apertment .booking_btn {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   color: #ffffff;
@@ -6628,7 +6628,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .property_video .thumb .overlay_icon .video_popup_btn {
-  background-color: rgb(255, 90, 95);
+  background-color: rgb(6, 120, 18, );
   border-radius: 50%;
   color: #ffffff;
   font-size: 22px;
@@ -6645,7 +6645,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .property_video .thumb .overlay_icon a:after {
-  background-color: rgb(255, 90, 95, 0.2);
+  background-color: rgb(6, 120, 18, , 0.2);
   border-radius: 100%;
   content: "";
   height: 90px;
@@ -6690,12 +6690,12 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 
   70% {
     transform: scale(1);
-    box-shadow: 0 0 0 15px rgba(255, 90, 95, 0);
+    box-shadow: 0 0 0 15px rgba(6, 120, 18, , 0);
   }
 
   100% {
     transform: scale(0.9);
-    box-shadow: 0 0 0 0 rgba(255, 90, 95, 0);
+    box-shadow: 0 0 0 0 rgba(6, 120, 18, , 0);
   }
 }
 
@@ -7540,10 +7540,10 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 .parner_reg_btn a.btn {
   border-radius: 8px;
   background-color: rgb(6, 120, 18);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   height: 60px;
   line-height: 50px;
   width: 200px;
@@ -7846,16 +7846,16 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .my_profile_setting_input .btn1 {
-  background-color: rgba(255, 90, 95, 0);
-  border: 2px solid rgb(255, 90, 95);
+  background-color: rgba(6, 120, 18, , 0);
+  border: 2px solid rgb(6, 120, 18);
   border-radius: 8px;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, 0.3);
   font-size: 16px;
   font-family: "Nunito";
-  color: rgb(255, 90, 95);
+  color: rgb(6, 120, 18);
   font-weight: bold;
   line-height: 1.2;
   height: 50px;
@@ -7864,18 +7864,18 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .my_profile_setting_input .btn1:hover {
-  background-color: rgb(255, 90, 95);
+  background-color: rgb(6, 120, 18, );
   color: #ffffff;
 }
 
 .my_profile_setting_input .btn2 {
-  background-color: rgb(255, 90, 95);
-  border: 2px solid rgb(255, 90, 95);
+  background-color: rgb(6, 120, 18, );
+  border: 2px solid rgb(6, 120, 18, );
   border-radius: 8px;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   color: rgb(255, 255, 255);
@@ -7886,19 +7886,19 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 
 .my_profile_setting_input .btn2:hover {
-  color: rgb(255, 90, 95);
+  color: rgb(6, 120, 18, );
   background-color: #ffffff;
-  border: 2px solid rgb(255, 90, 95);
+  border: 2px solid rgb(6, 120, 18, );
 }
 
 .my_profile_setting_input .btn3 {
   background-color: rgb(29, 41, 62);
   border: 2px solid rgb(29, 41, 62);
   border-radius: 8px;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   color: rgb(255, 255, 255);
@@ -9079,7 +9079,7 @@ ul.ab_counting li:last-child {
 }
 
 .about_thumb .popup-youtube:after {
-  background-color: rgba(255, 90, 95, 0.2);
+  background-color: rgba(6, 120, 18, , 0.2);
   border-radius: 100%;
   content: "";
   height: 87px;
@@ -9405,7 +9405,7 @@ ul.ab_counting li:last-child {
 }
 
 .team_member .thumb .overylay {
-  background-color: rgba(255, 90, 95, 0.8);
+  background-color: rgba(6, 120, 18, , 0.8);
   bottom: 0;
   left: 0;
   opacity: 0;
@@ -9423,10 +9423,10 @@ ul.ab_counting li:last-child {
 }
 
 .team_member.home4:hover .thumb .overylay {
-  background-image: -moz-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(255, 90, 95) 100%);
-  background-image: -webkit-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(255, 90, 95) 100%);
-  background-image: -ms-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(255, 90, 95) 100%);
-  background-image: linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(255, 90, 95) 100%);
+  background-image: -moz-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(6, 120, 18, ) 100%);
+  background-image: -webkit-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(6, 120, 18, ) 100%);
+  background-image: -ms-linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(6, 120, 18, ) 100%);
+  background-image: linear-gradient(-36deg, rgb(62, 62, 165) 0%, rgb(6, 120, 18, ) 100%);
   opacity: 0.902;
 }
 
@@ -10563,10 +10563,10 @@ a.btn.btn_error {
   height: 50px;
   line-height: 35px;
   width: 200px;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
 }
 
 /*== Service Pages Style Code ==*/
@@ -10876,10 +10876,10 @@ a.btn.btn_error {
 .login_form .btn-log {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   color: #ffffff;
   font-family: "Nunito";
   font-size: 16px;
@@ -10936,10 +10936,10 @@ a.btn.btn_error {
 .sign_up_form .btn-log {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   color: #ffffff;
   font-size: 16px;
   font-family: "Nunito";
@@ -12215,14 +12215,14 @@ legend span {
 
 .sidebar_recent_product .media .media-body .post_title a:hover,
 .sidebar_feature_listing .media .media-body .post_title a:hover {
-  color: rgb(255, 90, 95);
+  color: rgb(6, 120, 18, );
 }
 
 .sidebar_recent_product .media .media-body a,
 .sidebar_feature_listing .media .media-body a {
   font-size: 16px;
   font-family: "Nunito";
-  color: rgb(255, 90, 95);
+  color: rgb(6, 120, 18, );
   font-weight: bold;
   line-height: 1.2;
 }
@@ -12843,7 +12843,7 @@ legend span {
 .mbp_pagination_comments a.write_review {
   font-size: 14px;
   font-family: "Nunito";
-  color: rgb(255, 90, 95);
+  color: rgb(6, 120, 18, );
   position: absolute;
   right: 30px;
 }
@@ -13113,11 +13113,11 @@ legend span {
 
 .pck_chng_btn .btn {
   border-radius: 8px;
-  background-color: rgb(255, 90, 95);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  background-color: rgb(6, 120, 18, );
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   color: #ffffff;
@@ -14579,7 +14579,7 @@ legend span {
 }
 
 .ff_one.style3 .icon {
-  background-color: rgba(255, 90, 95, 0.149);
+  background-color: rgba(6, 120, 18, , 0.149);
 }
 
 .ff_one.style4 .icon {
@@ -14743,14 +14743,15 @@ legend span {
 }
 
 .sidebar-menu li.header {
-  background-color: rgb(6, 120, 18);
+  background-color: #fff;
   color: #ffffff;
   font-family: "Nunito";
   font-size: 25px;
   font-weight: bold;
   line-height: 1.2;
+  border-radius: 8px;
   padding: 10px 0 10px 20px;
-  text-align: left;
+  text-align: center;
 }
 
 .sidebar-menu li a .fa-angle-down {
@@ -15104,7 +15105,7 @@ legend span {
 
 .portfolio_item .edu_stats_list {
   border-radius: 8px;
-  background-color: rgb(255, 90, 95);
+  background-color: rgb(6, 120, 18, );
   cursor: pointer;
   height: 35px;
   line-height: 35px;
@@ -15459,10 +15460,10 @@ legend span {
 .form_grid .contact_form button {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   color: #ffffff;
@@ -18501,7 +18502,7 @@ canvas {
   top: 38px;
   width: 170px;
   z-index: 2;
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
 }
 
 #main2 .filter_open_btn {
@@ -18677,10 +18678,10 @@ canvas {
 
 .shop_grid .details .add_to_cart {
   border-radius: 8px;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   font-weight: bold;
@@ -18879,10 +18880,10 @@ canvas {
   background-color: var(--color-primary);
   border-radius: 8px;
   color: #ffffff;
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   font-size: 16px;
   font-family: "Nunito";
   font-weight: bold;
@@ -19308,10 +19309,10 @@ canvas {
 
 .shop_single_product_details .cart_btns button.btn {
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   border-radius: 8px;
   font-size: 16px;
   font-family: "Nunito";
@@ -19631,10 +19632,10 @@ ul.total_reivew_view .star_list li:last-child a {
 .bsp_reveiw_wrt .comments_form button.btn {
   border-radius: 8px;
   background-color: var(--color-primary);
-  -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -moz-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  -o-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
-  box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  -o-box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
+  box-shadow: 0px 1px 4px 0px rgba(6, 120, 18, , 0.3);
   color: #ffffff;
   font-size: 16px;
   font-family: "Nunito";
@@ -19916,7 +19917,7 @@ button.gm-ui-hover-effect:focus {
 }
 
 .gallery_item .gallery_overlay {
-  background-color: rgba(255, 90, 95, 0.8);
+  background-color: rgba(6, 120, 18, , 0.8);
   border-radius: 5px;
   bottom: 0;
   left: 0;

@@ -16,7 +16,7 @@ const LogoutPageContent = () => {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      await logout({}).unwrap();
       dispatch(logoutSuccess());
       localStorage.removeItem("persist:root");
       localStorage.removeItem("token");

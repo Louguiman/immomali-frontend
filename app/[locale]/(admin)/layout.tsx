@@ -6,7 +6,9 @@ if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
 }
 
-export default function AdminLayout({ children }) {
+import { PropsWithChildren } from "react";
+
+export default function AdminLayout({ children }: PropsWithChildren) {
   return (
     <ProtectedRoute>
       {/* <!-- Main Header Nav --> */}
@@ -18,7 +20,7 @@ export default function AdminLayout({ children }) {
       <div className="dashboard_sidebar_menu">
         <div
           className="offcanvas offcanvas-dashboard offcanvas-start"
-          tabIndex="-1"
+          tabIndex={-1}
           id="DashboardOffcanvasMenu"
           data-bs-scroll="true"
         >

@@ -2,36 +2,28 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { useRefreshTokenMutation } from "../api/auth.api";
 import { loadFromStorage } from "../properties/propertiesSlice";
 import { setAuthToken } from "./authSlice";
+import { RootState } from "@/store/store";
 
-export default function AuthProvider({ children }) {
+import { ReactNode } from "react";
+
+export default function AuthProvider({ children }: { children: ReactNode }) {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const auth = useSelector((state) => state.auth);
-  const [refreshToken] = useRefreshTokenMutation();
+  const auth = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    dispatch(loadFromStorage());
+    dispatch(loadFromStorage({}));
   }, [dispatch]);
 
   useEffect(() => {
     if (!auth.isAuthenticated && auth.accessToken) {
-      // router.push("/login");
       const token = localStorage.getItem("token");
       if (token) {
         dispatch(setAuthToken({ accessToken: token }));
-        refreshToken()
-          .unwrap()
-          .catch(() => {
-            router.push("/login");
-          });
       }
-      // dispatch(setAuthToken({ accessToken: token }));
     }
-  }, [auth.isAuthenticated, refreshToken, router]);
+  }, [auth.isAuthenticated, dispatch, auth.accessToken]);
 
   return <>{children}</>;
 }

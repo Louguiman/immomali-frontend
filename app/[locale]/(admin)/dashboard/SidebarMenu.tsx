@@ -4,16 +4,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { isSinglePageActive } from "@/utils/daynamicNavigation";
 import { useTranslations } from "next-intl";
+import { RootState } from "@/store/store";
+import { log } from "console";
 
 const SidebarMenu = () => {
   const t = useTranslations("sidebar"); // Chargement des traductions
   const pathname = usePathname();
-  const { user } = useSelector((state) => state.auth); // Récupérer l'utilisateur connecté
+  const { user } = useSelector((state: RootState) => state.auth); // Récupérer l'utilisateur connecté
+
+  // Définition des types pour les rôles et les routes
+  type RouteItem = { name: string; route: string; icon: string };
+  type RoutesType = {
+    admin: RouteItem[];
+    agency: RouteItem[];
+    agent: RouteItem[];
+    user: RouteItem[];
+    common: RouteItem[];
+  };
 
   // Définition des routes avec des clés de traduction
-  const routes = {
+  const routes: RoutesType = {
     admin: [
       { name: t("Dashboard"), route: "/dashboard", icon: "flaticon-layers" },
       { name: t("Users"), route: "/dashboard/users", icon: "flaticon-user" },
@@ -178,7 +189,22 @@ const SidebarMenu = () => {
   };
 
   // Extraire les rôles depuis l'utilisateur connecté
-  const userRoles = user?.roles?.map((role) => role.name) || [];
+  const userRoles =
+    user?.roles?.map((role: { name: string }) => role.name) || [];
+
+  // Helper to determine if a route is active (React way)
+  const isActivePage = (route: string) => {
+    // Handles exact and partial matches for nested routes
+    // Remove locale prefix (e.g., /fr, /en) from pathname for comparison
+    const normalizedPath = pathname.replace(/^\/[a-zA-Z-]+(\/|$)/, "/");
+    console.log("Checking active page for route:", route);
+    console.log("Current pathname:", pathname);
+    console.log("Normalized pathname:", normalizedPath);
+    return normalizedPath === route || normalizedPath.startsWith(route + "/");
+  };
+
+  // Always use 'active' class for active menu items
+  const getLiClass = (route: string) => (isActivePage(route) ? "active" : "");
 
   return (
     <ul className="sidebar-menu">
@@ -188,33 +214,20 @@ const SidebarMenu = () => {
           <Image
             src="/assets/images/logo/logo-ikasow.svg"
             alt="Ikasow Logo"
-            width={220}
+            width={250}
             height={0}
-            style={{
-              height: "auto",
-              width: "100%",
-              maxWidth: 220,
-              display: "block",
-            }}
-            priority
+            style={{ height: "auto" }}
           />
         </Link>
       </li>
-
-      {/* Sections basées sur les rôles */}
       {userRoles.map(
-        (role) =>
-          routes[role] && (
+        (role: string) =>
+          (routes as any)[role] && (
             <li className="title" key={role}>
               <span>{role === "admin" ? t("AdminPanel") : t("Dashboard")}</span>
               <ul>
-                {routes[role].map((item) => (
-                  <li
-                    key={item.route}
-                    className={
-                      isSinglePageActive(item.route, pathname) ? "active" : ""
-                    }
-                  >
+                {(routes as any)[role]?.map((item: RouteItem) => (
+                  <li key={item.route} className={getLiClass(item.route)}>
                     <Link href={item.route}>
                       <i className={item.icon}></i> <span>{item.name}</span>
                     </Link>
@@ -232,9 +245,7 @@ const SidebarMenu = () => {
           {routes.common.map((item) => (
             <li
               key={item.route}
-              className={
-                isSinglePageActive(item.route, pathname) ? "active" : ""
-              }
+              className={isActivePage(item.route) ? "active" : ""}
             >
               <Link href={item.route}>
                 <i className={item.icon}></i> <span>{item.name}</span>

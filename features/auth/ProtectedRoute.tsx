@@ -51,6 +51,8 @@ const ProtectedRoute = ({
   const router = useRouter();
 
   useEffect(() => {
+    console.log("ProtectedRoute: isAuthenticated:", isAuthenticated);
+
     if (!isAuthenticated) {
       router.push("/login");
     }
@@ -64,7 +66,9 @@ const ProtectedRoute = ({
     return null; // or a loading spinner
   }
 
-  return hasAccess ? <>{children}</> : (
+  return hasAccess ? (
+    <>{children}</>
+  ) : (
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-red-600 mb-4">Access Denied</h1>

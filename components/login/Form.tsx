@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
+import { RootState } from "@/store/store";
 
 const Form = () => {
   const [login, { isLoading }] = useLoginMutation();
-  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user, isAuthenticated } = useAppSelector(
+    (state: RootState) => state.auth
+  );
   const router = useRouter();
-  const userRoles = user?.roles?.map((role) => role.name) || [];
   const [rememberMe, setRememberMe] = useState(false);
   const t = useTranslations("LoginForm");
 
@@ -21,14 +23,28 @@ const Form = () => {
     }
   }, [isAuthenticated, user, router]);
 
-  const handleSubmit = async (e) => {
+  interface LoginFormElements extends HTMLFormControlsCollection {
+    email: HTMLInputElement;
+    password: HTMLInputElement;
+  }
+
+  interface LoginFormElement extends HTMLFormElement {
+    readonly elements: LoginFormElements;
+  }
+
+  interface LoginResponse {
+    accessToken: string;
+    user: Record<string, unknown>;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<LoginFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     try {
-      const data = await login({ email, password }).unwrap();
+      const data = (await login({ email, password }).unwrap()) as LoginResponse;
       localStorage.setItem("token", data.accessToken);
 
       if (rememberMe) {
@@ -133,7 +149,7 @@ const Form = () => {
         <div className="col-lg-6">
           <button
             type="button"
-            className="btn btn2 btn-block color-white bgc-gogle mb0 w-100"
+            className="btn btn2 btn-block color-white bgc-google mb0 w-100"
             // onClick={handleGoogleLogin}
           >
             <i className="fa fa-google float-start mt5"></i> {t("loginGoogle")}
