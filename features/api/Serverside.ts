@@ -3,11 +3,11 @@ export const fetchProperties = async (page = 1, limit = 10, filters = {}) => {
     page: page.toString(),
     limit: limit.toString(),
     ...filters, // Spread filters into query
-  }).toString();
+  } as Record<string, string>).toString();
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/properties?${queryParams}`,
+      `${process.env["NEXT_PUBLIC_API_URL"]}/properties?${queryParams}`,
       {
         cache: "no-store", // Ensure fresh data every request
       }
@@ -30,11 +30,11 @@ export const searchProperties = async (page = 1, limit = 10, filters = {}) => {
     page: page.toString(),
     limit: limit.toString(),
     ...filters, // Spread filters into query
-  }).toString();
+  } as Record<string, string>).toString();
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/properties/search?${queryParams}`,
+      `${process.env["NEXT_PUBLIC_API_URL"]}/properties/search?${queryParams}`,
       {
         cache: "no-store", // Ensure fresh data every request
       }
@@ -50,10 +50,10 @@ export const searchProperties = async (page = 1, limit = 10, filters = {}) => {
 };
 
 // utils/getSignedUrl.js
-export async function getSignedUrl(imageUrl) {
+export async function getSignedUrl(imageUrl: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/properties/signed-url`,
+      `${process.env["NEXT_PUBLIC_API_URL"]}/properties/signed-url`,
       {
         method: "POST",
         headers: {

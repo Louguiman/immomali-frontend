@@ -9,12 +9,12 @@ import {
 } from "../api/notification.api";
 
 // Define notification types as a union of possible notification types
-export type NotificationType = 
-  | 'new_message' 
-  | 'property_update' 
-  | 'system_alert' 
-  | 'payment_received' 
-  | 'booking_confirmed' 
+export type NotificationType =
+  | "new_message"
+  | "property_update"
+  | "system_alert"
+  | "payment_received"
+  | "booking_confirmed"
   | string; // Fallback for any other types
 
 interface Notification {
@@ -41,18 +41,18 @@ interface NotificationDropdownProps {
   className?: string;
 }
 
-export default function NotificationDropdown({ 
-  maxNotifications = 10, 
-  className = "" 
+export default function NotificationDropdown({
+  maxNotifications = 10,
+  className = "",
 }: NotificationDropdownProps) {
   const t = useTranslations("notifications");
   // Destructure the query result
-  const { 
-    data: notifications = [], 
+  const {
+    data: notifications = [],
     isLoading,
-    isError
-  } = useGetUnreadNotificationsQuery() as NotificationsResponse;
-  
+    isError,
+  } = useGetUnreadNotificationsQuery(undefined) as NotificationsResponse;
+
   const [markRead] = useMarkNotificationReadMutation();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -62,7 +62,7 @@ export default function NotificationDropdown({
   const unreadNotifications = (notifications as Notification[]).filter(
     (notification) => !notification.read
   );
-  
+
   const unreadCount = unreadNotifications.length;
 
   // Handle click outside to close dropdown
@@ -77,20 +77,23 @@ export default function NotificationDropdown({
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-    
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, handleClickOutside]);
 
   // Handle marking a notification as read
-  const handleMarkAsRead = useCallback((notificationId: string) => {
-    try {
-      markRead(notificationId);
-    } catch (error) {
-      console.error("Failed to mark notification as read:", error);
-    }
-  }, [markRead]);
+  const handleMarkAsRead = useCallback(
+    (notificationId: string) => {
+      try {
+        markRead(notificationId);
+      } catch (error) {
+        console.error("Failed to mark notification as read:", error);
+      }
+    },
+    [markRead]
+  );
 
   // Toggle dropdown visibility
   const toggleDropdown = useCallback((e: React.MouseEvent) => {
@@ -100,8 +103,8 @@ export default function NotificationDropdown({
   }, []);
 
   return (
-    <li 
-      className={`dropitem relative ${className}`} 
+    <li
+      className={`dropitem relative ${className}`}
       ref={ref}
       data-testid="notification-dropdown"
     >
@@ -110,45 +113,47 @@ export default function NotificationDropdown({
         className="user_set_header p-2 cursor-pointer relative focus:outline-none"
         onClick={toggleDropdown}
         aria-label={t("toggle")}
-        aria-expanded={isOpen as unknown as string}
+        aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span role="img" aria-hidden="true">🔔</span>
+        <span role="img" aria-hidden="true">
+          🔔
+        </span>
         {unreadCount > 0 && (
-          <span 
+          <span
             className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
             aria-label={`${unreadCount} unread notifications`}
             aria-live="polite"
           >
-            {unreadCount > 9 ? '9+' : unreadCount}
+            {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div 
+        <div
           className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-50"
           role="dialog"
           aria-modal="true"
           aria-labelledby="notifications-title"
         >
           <div className="px-4 py-2 border-b border-gray-200 bg-gray-50">
-            <h2 
-              id="notifications-title" 
+            <h2
+              id="notifications-title"
               className="text-lg font-medium text-gray-900 m-0"
             >
               {t("title")}
             </h2>
           </div>
-          
-          <div 
+
+          <div
             className="max-h-96 overflow-y-auto"
             role="region"
             aria-live="polite"
             aria-atomic="false"
           >
             {isLoading ? (
-              <div 
+              <div
                 className="p-4 text-center text-gray-500"
                 role="status"
                 aria-label={t("loading")}
@@ -156,7 +161,7 @@ export default function NotificationDropdown({
                 {t("loading")}
               </div>
             ) : isError ? (
-              <div 
+              <div
                 className="p-4 text-center text-red-500"
                 role="alert"
                 aria-live="assertive"
@@ -164,31 +169,28 @@ export default function NotificationDropdown({
                 {t("error_loading")}
               </div>
             ) : notifications.length === 0 ? (
-              <div 
-                className="p-4 text-center text-gray-500"
-                aria-live="polite"
-              >
+              <div className="p-4 text-center text-gray-500" aria-live="polite">
                 {t("none")}
               </div>
             ) : (
-              <ul 
+              <ul
                 className="divide-y divide-gray-200"
                 role="listbox"
-                aria-label={t('notifications_list')}
+                aria-label={t("notifications_list")}
               >
                 {(notifications as Notification[])
                   .slice(0, maxNotifications)
                   .map((notification) => (
-                    <li 
+                    <li
                       key={notification.id}
                       className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                        notification.read ? 'bg-gray-50' : 'bg-white'
+                        notification.read ? "bg-gray-50" : "bg-white"
                       }`}
                       role="option"
                       aria-selected="false"
                       onClick={() => handleMarkAsRead(notification.id)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           handleMarkAsRead(notification.id);
                         }
@@ -197,7 +199,7 @@ export default function NotificationDropdown({
                     >
                       <div className="flex items-start">
                         <div className="flex-shrink-0 pt-0.5">
-                          <div 
+                          <div
                             className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
                             aria-hidden="true"
                           >
@@ -208,14 +210,16 @@ export default function NotificationDropdown({
                         </div>
                         <div className="ml-3 flex-1">
                           <p className="text-sm font-medium text-gray-900">
-                            {t(`types.${notification.type}`, { 
-                              default: formatNotificationType(notification.type) 
+                            {t(`types.${notification.type}`, {
+                              default: formatNotificationType(
+                                notification.type
+                              ),
                             })}
                           </p>
                           <p className="text-sm text-gray-500 mt-1">
                             {notification.message}
                           </p>
-                          <time 
+                          <time
                             dateTime={notification.createdAt}
                             className="text-xs text-gray-400 mt-1 block"
                           >
@@ -224,9 +228,9 @@ export default function NotificationDropdown({
                         </div>
                         {!notification.read && (
                           <div className="flex-shrink-0 ml-2">
-                            <span 
+                            <span
                               className="h-2 w-2 bg-blue-500 rounded-full inline-block"
-                              aria-label={t('unread_notification')}
+                              aria-label={t("unread_notification")}
                             ></span>
                           </div>
                         )}
@@ -236,18 +240,18 @@ export default function NotificationDropdown({
               </ul>
             )}
           </div>
-          
+
           {notifications.length > maxNotifications && (
             <div className="px-4 py-2 border-t border-gray-200 bg-gray-50 text-center">
-              <button 
+              <button
                 type="button"
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 onClick={() => {
                   // Navigate to notifications page
-                  router.push('/notifications');
+                  router.push("/notifications");
                   setIsOpen(false);
                 }}
-                aria-label={t('view_all_notifications')}
+                aria-label={t("view_all_notifications")}
               >
                 {t("view_all")} ({notifications.length})
               </button>
@@ -262,36 +266,36 @@ export default function NotificationDropdown({
 // Helper function to get appropriate icon for notification type
 function getNotificationIcon(type: NotificationType): string {
   switch (type) {
-    case 'new_message':
-      return '💬';
-    case 'property_update':
-      return '🏠';
-    case 'system_alert':
-      return '⚠️';
-    case 'payment_received':
-      return '💰';
-    case 'booking_confirmed':
-      return '✅';
+    case "new_message":
+      return "💬";
+    case "property_update":
+      return "🏠";
+    case "system_alert":
+      return "⚠️";
+    case "payment_received":
+      return "💰";
+    case "booking_confirmed":
+      return "✅";
     default:
-      return '🔔';
+      return "🔔";
   }
 }
 
 // Helper function to format notification type for display
 function formatNotificationType(type: NotificationType): string {
   return type
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // Helper function to format date
 function formatDate(dateString: string): string {
   return new Date(dateString).toLocaleString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }

@@ -3,8 +3,10 @@
 import { Gallery, Item } from "react-photoswipe-gallery";
 import Image from "next/image";
 import FavoriteButton from "../common/FavoriteBtn";
+import type { Property } from "@/types/property";
+import type { PropertyImage } from "@/types/property-image";
 
-export default function ListingOne({ property }) {
+export default function ListingOne({ property }: { property: Property }) {
   return (
     <section className="listing-title-area mt85 md-mt0">
       <div className="container">
@@ -38,7 +40,7 @@ export default function ListingOne({ property }) {
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <FavoriteButton />
+                      <FavoriteButton propertyId={property.id} />
                     </li>
                     <li className="list-inline-item">
                       <a href="#">
@@ -63,24 +65,34 @@ export default function ListingOne({ property }) {
               <div className="row">
                 <div className="col-lg-12">
                   <div className="spls_style_two mb30-520">
-                    <Item
-                      original={property?.img}
-                      thumbnail={property?.img}
-                      width={752}
-                      height={450}
-                    >
-                      {({ ref, open }) => (
-                        <div role="button" ref={ref} onClick={open}>
-                          <Image
-                            width={752}
-                            height={450}
-                            className="img-fluid w100 cover lds-1"
-                            src={property.img}
-                            alt="1.jpg"
-                          />
-                        </div>
-                      )}
-                    </Item>
+                    {property.images && property.images.length > 0 && (
+                      <Item
+                        original={property.images[0]?.imageUrl}
+                        thumbnail={property.images[0]?.imageUrl}
+                        width={752}
+                        height={450}
+                      >
+                        {({
+                          ref,
+                          open,
+                        }: {
+                          ref: React.Ref<HTMLDivElement>;
+                          open: (
+                            e: React.MouseEvent<Element, MouseEvent>
+                          ) => void;
+                        }) => (
+                          <div role="button" ref={ref} onClick={open}>
+                            <Image
+                              width={752}
+                              height={450}
+                              className="img-fluid w100 cover lds-1"
+                              src={property.images[0]?.imageUrl || ""}
+                              alt={property.title}
+                            />
+                          </div>
+                        )}
+                      </Item>
+                    )}
                   </div>
                 </div>
               </div>
@@ -89,30 +101,40 @@ export default function ListingOne({ property }) {
 
             <div className="col-sm-5 col-lg-4">
               <div className="row">
-                {property?.imgList?.map((val, i) => (
-                  <div className="col-6" key={i}>
-                    <div className="spls_style_two img-gallery-box mb24">
-                      <Item
-                        original={val}
-                        thumbnail={val}
-                        width={752}
-                        height={450}
-                      >
-                        {({ ref, open }) => (
-                          <div role="button" ref={ref} onClick={open}>
-                            <Image
-                              width={170}
-                              height={133}
-                              className="img-fluid w100 cover"
-                              src={val}
-                              alt="2.jpg"
-                            />
-                          </div>
-                        )}
-                      </Item>
+                {property.images
+                  ?.slice(1)
+                  .map((img: PropertyImage, i: number) => (
+                    <div className="col-6" key={img.id || i}>
+                      <div className="spls_style_two img-gallery-box mb24">
+                        <Item
+                          original={img.imageUrl}
+                          thumbnail={img.imageUrl}
+                          width={752}
+                          height={450}
+                        >
+                          {({
+                            ref,
+                            open,
+                          }: {
+                            ref: React.Ref<HTMLDivElement>;
+                            open: (
+                              e: React.MouseEvent<Element, MouseEvent>
+                            ) => void;
+                          }) => (
+                            <div role="button" ref={ref} onClick={open}>
+                              <Image
+                                width={170}
+                                height={133}
+                                className="img-fluid w100 cover"
+                                src={img.imageUrl}
+                                alt={property.title}
+                              />
+                            </div>
+                          )}
+                        </Item>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
             {/* End  col-sm-5 col-lg-4 */}

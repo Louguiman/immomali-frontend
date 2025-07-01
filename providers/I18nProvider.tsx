@@ -3,24 +3,26 @@
 import { locales } from "@/i18n";
 import { loadTranslations } from "@/utils/loadTranslation";
 import { NextIntlClientProvider } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, ReactNode } from "react";
 
-export default function I18nProvider({ children }) {
+export default function I18nProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   // Extract locale from the URL (e.g., /en/home -> "en")
-  const pathLocale = pathname.split("/")[1];
+  const pathLocale = (pathname.split("/")[1] || "en") as string;
 
   // Ensure it's a supported locale, fallback to "en"
   const locale = locales.includes(pathLocale) ? pathLocale : "en";
 
-  const [messages, setMessages] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<Record<string, unknown> | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Load messages dynamically
   useEffect(() => {
-    async function loadMessages(locale) {
+    async function loadMessages(locale: string) {
       setIsLoading(true);
       try {
         const messages = await loadTranslations(locale);

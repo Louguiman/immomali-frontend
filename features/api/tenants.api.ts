@@ -1,8 +1,6 @@
-import { User } from "@/utils/interface/user.interface";
 import { apiSlice } from "./api";
 
 export const tenantApi = apiSlice.injectEndpoints({
-  tagTypes: ["Tenants"],
   endpoints: (builder) => ({
     /** 🔹 Get All Tenants */
     getTenants: builder.query({
@@ -82,7 +80,7 @@ export const tenantApi = apiSlice.injectEndpoints({
     uploadLeaseDocuments: builder.mutation({
       query: ({ leaseId, files }) => {
         const formData = new FormData();
-        files.forEach((file) => formData.append("files", file));
+        files.forEach((file: File) => formData.append("files", file));
 
         return {
           url: `/files/upload?entityType=lease&entityId=${leaseId}`,

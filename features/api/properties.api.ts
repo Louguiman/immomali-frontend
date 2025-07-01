@@ -1,34 +1,9 @@
-import {
-  Property,
-  PropertyQueryParams,
-} from "@/utils/interface/property.interface";
 import { apiSlice } from "./api";
-// TS
-// export const extendedApiSlice = apiSlice.injectEndpoints({
-//   endpoints: (builder) => ({
-//     fetchProperties: builder.query<Property[], PropertyQueryParams>({
-//       query: (params) => ({
-//         url: "/properties",
-//         params,
-//       }),
-//     }),
-//     fetchPropertyById: builder.query<Property, number>({
-//       query: (id) => `/properties/${id}`,
-//     }),
-//     createProperty: builder.mutation<Property, Partial<Property>>({
-//       query: (property) => ({
-//         url: "/properties",
-//         method: "POST",
-//         body: property,
-//       }),
-//     }),
-//   }),
-// });
+import type { Property, PropertyFormData } from "../../types/property";
 
-export const extendedApiSlice = apiSlice.injectEndpoints({
-  tagTypes: ["Properties", "userProperties"],
+export const propertiesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getSignedUrl: builder.mutation({
+    getSignedUrl: builder.mutation<string, string>({
       query: (imageUrl) => ({
         url: "properties/signed-url",
         method: "POST",
@@ -38,10 +13,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         body: { imageUrl },
       }),
     }),
-    uploadImages: builder.mutation({
+    uploadImages: builder.mutation<
+      { success: boolean; urls: string[] },
+      { propertyId: string; images: File[] }
+    >({
       query: ({ propertyId, images }) => {
         const formData = new FormData();
-        images.forEach((image) => formData.append("photos", image));
+        images.forEach((image: File) => formData.append("photos", image));
         return {
           url: `/properties/${propertyId}/upload-photos`,
           method: "POST",
@@ -49,16 +27,19 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-    deletePropertyImage: builder.mutation({
+    deletePropertyImage: builder.mutation<void, string>({
       query: (id) => ({
         url: `/property-images/${id}`,
         method: "DELETE",
       }),
     }),
-    uploadAttachments: builder.mutation({
+    uploadAttachments: builder.mutation<
+      { success: boolean; urls: string[] },
+      { propertyId: string; attachments: File[] }
+    >({
       query: ({ propertyId, attachments }) => {
         const formData = new FormData();
-        attachments.forEach((attachment) =>
+        attachments.forEach((attachment: File) =>
           formData.append("attachments", attachment)
         );
         return {
@@ -68,90 +49,96 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-    deleteAttachment: builder.mutation({
+    deleteAttachment: builder.mutation<void, string>({
       query: (id) => ({
         url: `/attachments/${id}`,
         method: "DELETE",
       }),
     }),
-    fetchProperties: builder.query({
-      query: (params) => ({
+    fetchProperties: builder.query<Property[], Record<string, unknown>>({
+      query: (params: Record<string, unknown>) => ({
         url: "/properties",
         params,
       }),
-      //   providesTags: (result) =>
-      //     result
-      //       ? [
-      //           ...result.map(({ id }) => ({ type: "Properties", id })),
-      //           { type: "Properties", id: "LIST" },
-      //         ]
-      //       : [{ type: "Properties", id: "LIST" }],
     }),
-    getPropertiesByAgency: builder.query({
+    getPropertiesByAgency: builder.query<Property[], void>({
       query: () => `/properties/by-agency`,
     }),
-    fetchPropertyById: builder.query({
-      query: (id) => `/properties/${id}`,
-      providesTags: (result, error, id) => [{ type: "Properties", id }],
+    fetchPropertyById: builder.query<Property | undefined, string>({
+      query: (id: string) => `/properties/${id}`,
+      providesTags: (_result, _error, id: string) => [
+        { type: "Properties", id },
+      ],
     }),
-    fetchPropertyByUserId: builder.query({
-      query: (id) => `/properties/user/${id}`,
+    fetchPropertyByUserId: builder.query<Property[], string>({
+      query: (id: string) => `/properties/user/${id}`,
     }),
-    createProperty: builder.mutation({
-      query: (property) => ({
+    createProperty: builder.mutation<Property, PropertyFormData>({
+      query: (property: PropertyFormData) => ({
         url: "/properties",
         method: "POST",
         body: property,
       }),
       invalidatesTags: ["Properties"],
     }),
-    searchProperties: builder.query({
+    searchProperties: builder.query<
+      Property[],
+      { [key: string]: string | number | boolean }
+    >({
       query: (params) => ({
         url: `properties/search`,
         method: "GET",
-        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+        params,
       }),
-      keepUnusedDataFor: 60, // Cache for 60 seconds
+      keepUnusedDataFor: 60,
     }),
-    getRentalProperties: builder.query({
+    getRentalProperties: builder.query<
+      Property[],
+      { [key: string]: string | number | boolean }
+    >({
       query: (params) => ({
         url: `/properties/search?page=1&limit=16&type=rent`,
         method: "GET",
-        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+        params,
       }),
-      keepUnusedDataFor: 60, // Cache for 60 seconds
+      keepUnusedDataFor: 60,
     }),
-    getSaleProperties: builder.query({
+    getSaleProperties: builder.query<
+      Property[],
+      { [key: string]: string | number | boolean }
+    >({
       query: (params) => ({
         url: `/properties/search?page=1&limit=16&type=sale`,
         method: "GET",
-        params, // ✅ Ensure we pass an object, NOT URLSearchParams
+        params,
       }),
-      keepUnusedDataFor: 60, // Cache for 60 seconds
+      keepUnusedDataFor: 60,
     }),
-    getTopCities: builder.query({
+    getTopCities: builder.query<{ city: string; count: number }[], void>({
       query: () => "statistics/top-cities",
     }),
-    updateProperty: builder.mutation({
-      query: ({ id, ...updateData }) => ({
+    updateProperty: builder.mutation<
+      Property,
+      { id: string; updateData: Partial<PropertyFormData> }
+    >({
+      query: ({ id, updateData }) => ({
         url: `/properties/${id}`,
         method: "PATCH",
         body: updateData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Properties", id }],
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Properties", id },
+      ],
     }),
-
-    deleteProperty: builder.mutation({
+    deleteProperty: builder.mutation<void, string>({
       query: (id) => ({
         url: `/properties/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Properties", id }],
+      invalidatesTags: (_result, _error, id) => [{ type: "Properties", id }],
     }),
-
-    searchAgencyProperties: builder.query({
-      query: ({ query, agencyId }) =>
-        `/properties/search-agency?query=${query} `,
+    searchAgencyProperties: builder.query<Property[], { query: string }>({
+      query: ({ query }) => `/properties/search-agency?query=${query} `,
     }),
   }),
 });
@@ -173,4 +160,4 @@ export const {
   useGetTopCitiesQuery,
   useDeleteAttachmentMutation,
   useDeletePropertyImageMutation,
-} = extendedApiSlice;
+} = propertiesApi;

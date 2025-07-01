@@ -1,15 +1,16 @@
-const fs = require('fs');
-const path = require('path');
+import fs from "fs";
+import path from "path";
 
-const EXCLUDE_DIRS = ['node_modules', '.next', '.vercel', 'public', '.git'];
-const JS_EXTENSIONS = ['.js', '.jsx'];
+const EXCLUDE_DIRS = ["node_modules", ".next", ".vercel", "public", ".git"];
 
-function shouldExclude(filePath) {
-  return EXCLUDE_DIRS.some(dir => filePath.includes(path.sep + dir + path.sep));
+function shouldExclude(filePath: string) {
+  return EXCLUDE_DIRS.some((dir) =>
+    filePath.includes(path.sep + dir + path.sep)
+  );
 }
 
-function migrateDir(dir) {
-  fs.readdirSync(dir).forEach(file => {
+function migrateDir(dir: string) {
+  fs.readdirSync(dir).forEach((file: string) => {
     const fullPath = path.join(dir, file);
     if (shouldExclude(fullPath)) return;
 
@@ -17,14 +18,19 @@ function migrateDir(dir) {
     if (stat.isDirectory()) {
       migrateDir(fullPath);
     } else if (stat.isFile()) {
-      if (file.endsWith('.jsx')) {
-        const newPath = fullPath.replace(/\.jsx$/, '.tsx');
+      if (file.endsWith(".jsx")) {
+        const newPath = fullPath.replace(/\.jsx$/, ".tsx");
         fs.renameSync(fullPath, newPath);
         console.log(`Renamed: ${fullPath} -> ${newPath}`);
-      } else if (file.endsWith('.js')) {
+      } else if (file.endsWith(".js")) {
         // Skip config files
-        if (/(next\.config\.js|jsconfig\.json|\.eslintrc\.js|babel\.config\.js)$/.test(file)) return;
-        const newPath = fullPath.replace(/\.js$/, '.ts');
+        if (
+          /(next\.config\.js|jsconfig\.json|\.eslintrc\.js|babel\.config\.js)$/.test(
+            file
+          )
+        )
+          return;
+        const newPath = fullPath.replace(/\.js$/, ".ts");
         fs.renameSync(fullPath, newPath);
         console.log(`Renamed: ${fullPath} -> ${newPath}`);
       }

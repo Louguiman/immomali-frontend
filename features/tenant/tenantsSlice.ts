@@ -1,27 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// interface Tenant {
-//   id?: number;
-//   userId: number;
-//   propertyId: number;
-//   agentId?: number;
-//   leaseStartDate: string;
-//   leaseEndDate: string;
-//   leaseType: string;
-//   autoRenew?: boolean;
-//   securityDeposit: number;
-//   additionalTerms?: string;
-//   monthlyRent: number;
-//   leaseStatus: "pending" | "active" | "terminated";
-//   leaseDocuments: File[];
-// }
+interface TenantDetails {
+  id: number | null;
+  userId: number | null;
+  name: string;
+  email: string;
+  phone: string;
+  agentId: string;
+  propertyId: string;
+}
 
-// interface TenantsState {
-//   createTenant: Tenant;
-//   tenantsList: Tenant[];
-// }
+interface LeaseDetails {
+  tenantId: number | undefined;
+  leaseStartDate: string;
+  leaseEndDate: string;
+  leaseType: string;
+  autoRenew: boolean;
+  securityDeposit: string;
+  monthlyRent: string;
+  leaseStatus: string;
+  additionalTerms: string;
+  leaseDocuments: any[];
+}
 
-const initialState = {
+interface TenantsState {
+  tenantDetails: TenantDetails;
+  leaseDetails: LeaseDetails;
+  tenantsList: any[];
+}
+
+const initialState: TenantsState = {
   tenantDetails: {
     id: null,
     userId: null,
@@ -51,32 +59,38 @@ const tenantsSlice = createSlice({
   initialState,
   reducers: {
     /** 🔹 Tenant Actions */
-    setTenantField: (state, action) => {
-      state.tenantDetails[action.payload.field] = action.payload.value;
+    setTenantField: (
+      state,
+      action: { payload: { field: string; value: any } }
+    ) => {
+      (state.tenantDetails as any)[action.payload.field] = action.payload.value;
     },
 
-    setTenant: (state, action) => {
+    setTenant: (state, action: { payload: Partial<TenantDetails> }) => {
       state.tenantDetails = { ...state.tenantDetails, ...action.payload };
     },
 
     /** 🔹 Lease Actions */
-    setLeaseField: (state, action) => {
-      state.leaseDetails[action.payload.field] = action.payload.value;
+    setLeaseField: (
+      state,
+      action: { payload: { field: string; value: any } }
+    ) => {
+      (state.leaseDetails as any)[action.payload.field] = action.payload.value;
     },
 
-    setLease: (state, action) => {
+    setLease: (state, action: { payload: LeaseDetails }) => {
       state.leaseDetails = action.payload;
     },
 
     /** 🔹 Lease Document Management */
-    addTenantDocument: (state, action) => {
+    addTenantDocument: (state, action: { payload: any }) => {
       state.leaseDetails.leaseDocuments.push(action.payload);
     },
 
-    removeTenantDocument: (state, action) => {
+    removeTenantDocument: (state, action: { payload: string }) => {
       state.leaseDetails.leaseDocuments =
         state.leaseDetails.leaseDocuments.filter(
-          (doc) => doc.name !== action.payload
+          (doc: any) => doc.name !== action.payload
         );
     },
 

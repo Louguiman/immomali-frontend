@@ -1,15 +1,11 @@
-import { PropertyType, PropertyCategory } from './property-enums';
-
-export interface PropertyImage {
-  id?: string;
-  url: string;
-  file?: File;
-  isNew?: boolean;
-  isMarkedForDeletion?: boolean;
-  originalName?: string;
-  name?: string;
-  imageUrl?: string; // Alias for url for backward compatibility
-}
+import { PropertyType, PropertyCategory } from "./property-enums";
+import { Tenant } from "./tenant";
+import { MaintenanceRequest } from "./maintenance-request";
+import { User } from "./user";
+import { Agency } from "./agency";
+import { Review } from "./review";
+import { Amenities } from "./amenities";
+import { PropertyImage } from "./property-image";
 
 export interface PropertyAttachment {
   id?: string;
@@ -53,3 +49,40 @@ export type PropertiesState = {
   createListing: CreateListingState;
 };
 
+// Removed local placeholder interfaces for related entities
+
+export interface Property {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  type: string;
+  category: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  longitude?: number;
+  latitude?: number;
+  tenants: Tenant[];
+  neighborhood: string;
+  maintenanceRequests: MaintenanceRequest[];
+  attachments: string[];
+  saleTag: string[];
+  garages: number | string;
+  builtYear?: number;
+  isFeatured: boolean;
+  isRented: boolean;
+  beds: number;
+  baths: number;
+  sqFt: number;
+  images: PropertyImage[];
+  amenities: Amenities;
+  owner: User;
+  reviews: Review[];
+  agency?: Agency;
+  createdAt: Date;
+  updatedAt: Date;
+  invoices?: Record<string, unknown>;
+  ads?: Record<string, unknown>;
+}

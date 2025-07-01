@@ -1,6 +1,5 @@
 import { apiSlice } from "./api";
 export const invoicesApi = apiSlice.injectEndpoints({
-  tagTypes: ["Invoices"],
   endpoints: (builder) => ({
     // 🔹 Create Invoice
     createInvoice: builder.mutation({
@@ -22,13 +21,13 @@ export const invoicesApi = apiSlice.injectEndpoints({
     // 🔹 Get Invoice by ID
     getInvoicesByTenant: builder.query({
       query: (id) => `/invoices/tenant/${id}`,
-      providesTags: (result, error, id) => [{ type: "Invoices", id }],
+      providesTags: (_result, _error, id) => [{ type: "Invoices", id }],
     }),
 
     // 🔹 Get Invoice by ID
     getInvoiceById: builder.query({
       query: (id) => `/invoices/${id}`,
-      providesTags: (result, error, id) => [{ type: "Invoices", id }],
+      providesTags: (_result, _error, id) => [{ type: "Invoices", id }],
     }),
 
     // 🔹 Update Invoice
@@ -38,7 +37,7 @@ export const invoicesApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Invoices", id }],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Invoices", id }],
     }),
 
     // 🔹 Delete Invoice
@@ -47,7 +46,7 @@ export const invoicesApi = apiSlice.injectEndpoints({
         url: `/invoices/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Invoices"],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Invoices", id }],
     }),
 
     // 🔹 export Invoice to Pdf file
@@ -56,7 +55,6 @@ export const invoicesApi = apiSlice.injectEndpoints({
         url: `/invoices/${id}/pdf`,
         method: "GET",
       }),
-      invalidatesTags: ["Invoices"],
     }),
 
     getSentInvoices: builder.query({

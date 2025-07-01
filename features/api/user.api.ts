@@ -1,7 +1,6 @@
 import { apiSlice } from "./api";
 
 export const userApi = apiSlice.injectEndpoints({
-  tagTypes: ["Users", "User"],
   endpoints: (builder) => ({
     /** 🔹 Get All Users with Pagination & Search */
     getAllUsers: builder.query({
@@ -74,9 +73,10 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 });
 
+// Ensure all exported hooks match endpoint names in user.api.ts
 export const {
   useGetAllUsersQuery,
-  useGetUserByIdQuery,
+  useGetUserByIdMutation, // Corrected to match endpoint name
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,

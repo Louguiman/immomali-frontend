@@ -1,7 +1,6 @@
 import { apiSlice } from "./api";
 
 export const maintenanceApi = apiSlice.injectEndpoints({
-  tagTypes: ["Maintenance"],
   endpoints: (builder) => ({
     getAllRequests: builder.query({
       query: () => "/maintenance-requests",
@@ -9,7 +8,7 @@ export const maintenanceApi = apiSlice.injectEndpoints({
     }),
     getRequestById: builder.query({
       query: (id) => `/maintenance-requests/${id}`,
-      providesTags: (result, error, id) => [{ type: "Maintenance", id }],
+      providesTags: (_result, _error, id) => [{ type: "Maintenance", id }],
     }),
     getRequestsByAgency: builder.query({
       query: (agencyId) =>
@@ -39,7 +38,9 @@ export const maintenanceApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updatedRequest,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Maintenance", id }],
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Maintenance", id },
+      ],
     }),
   }),
 });

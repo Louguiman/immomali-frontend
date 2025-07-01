@@ -33,11 +33,9 @@ import { apiSlice } from "./api";
 //       }),
 //       invalidatesTags: ["Reviews"],
 //     }),
-//   }),
 // });
 
 export const reviewsApi = apiSlice.injectEndpoints({
-  tagTypes: ["Reviews"],
   endpoints: (builder) => ({
     getAllUserReviews: builder.query({
       query: (userId) => `/reviews/user/${userId}`,
@@ -83,17 +81,6 @@ export const reviewsApi = apiSlice.injectEndpoints({
     getReceivedReviews: builder.query({
       query: (userID) => `/reviews/received/${userID}`,
       providesTags: ["Reviews"],
-    }),
-    // 🔹 Delete a Review
-    deleteReview: builder.mutation({
-      query: (id) => ({
-        url: `/reviews/${id}`,
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Ensure user is authenticated
-        },
-      }),
-      invalidatesTags: ["Reviews"],
     }),
   }),
 });

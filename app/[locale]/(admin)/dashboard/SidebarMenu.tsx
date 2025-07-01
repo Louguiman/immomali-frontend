@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
 import { RootState } from "@/store/store";
-import { log } from "console";
 
 const SidebarMenu = () => {
   const t = useTranslations("sidebar"); // Chargement des traductions
@@ -220,23 +219,28 @@ const SidebarMenu = () => {
           />
         </Link>
       </li>
-      {userRoles.map(
-        (role: string) =>
-          (routes as any)[role] && (
-            <li className="title" key={role}>
-              <span>{role === "admin" ? t("AdminPanel") : t("Dashboard")}</span>
-              <ul>
-                {(routes as any)[role]?.map((item: RouteItem) => (
-                  <li key={item.route} className={getLiClass(item.route)}>
-                    <Link href={item.route}>
-                      <i className={item.icon}></i> <span>{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          )
-      )}
+      {/* Render sidebar sections for each user role */}
+      {userRoles
+        .filter((role): role is keyof RoutesType => role in routes)
+        .map(
+          (role) =>
+            routes[role] && (
+              <li className="title" key={role}>
+                <span>
+                  {role === "admin" ? t("AdminPanel") : t("Dashboard")}
+                </span>
+                <ul>
+                  {routes[role].map((item: RouteItem) => (
+                    <li key={item.route} className={getLiClass(item.route)}>
+                      <Link href={item.route}>
+                        <i className={item.icon}></i> <span>{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )
+        )}
 
       {/* Section commune à tous les utilisateurs */}
       <li className="title">

@@ -7,7 +7,8 @@ export default function selectedFiles(
     const files = (e.target as HTMLInputElement).files;
     if (!files) return false;
     for (let x = 0; x < files.length; x++) {
-      store.push(files[x]);
+      const file = files[x];
+      if (file instanceof File) store.push(file);
     }
     return store;
   }

@@ -4,8 +4,40 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
+// @ts-expect-error: propertiesData is a CommonJS export, not a module. This import is intentional for legacy data compatibility.
+import propertiesData from "../../../data/properties";
+import type { RootState } from "../../../store/store";
 import Image from "next/image";
+
+type ItemDetail = {
+  name: string;
+  number: string | number;
+};
+
+type PropertyItem = {
+  id: number;
+  img: string;
+  price: string | number;
+  type: string;
+  title: string;
+  location: string;
+  saleTag: string[];
+  garages: string;
+  itemDetails: ItemDetail[];
+  posterAvatar: string;
+  posterName: string;
+  postedYear: string;
+  imgList: string[];
+  imgList2?: string[];
+  built: string;
+  amenities: string;
+  featured: string;
+  created_at: number;
+};
+
+const properties: PropertyItem[] = Array.isArray(propertiesData)
+  ? propertiesData
+  : [];
 
 const FeaturedItem = () => {
   const {
@@ -20,77 +52,85 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state) => state.properties);
-  const { statusType, featured, isGridOrList } = useSelector(
-    (state) => state.filter
+  } = useSelector((state: RootState) => state.properties);
+  const { statusType, featured } = useSelector(
+    (state: RootState) => state.filter
   );
 
   const dispatch = useDispatch();
 
   // keyword filter
-  const keywordHandler = (item) =>
+  const keywordHandler = (item: PropertyItem) =>
     item.title.toLowerCase().includes(keyword?.toLowerCase());
 
   // location handler
-  const locationHandler = (item) => {
+  const locationHandler = (item: PropertyItem) => {
     return item.location.toLowerCase().includes(location.toLowerCase());
   };
 
   // status handler
-  const statusHandler = (item) =>
+  const statusHandler = (item: PropertyItem) =>
     item.type.toLowerCase().includes(status.toLowerCase());
 
   // properties handler
-  const propertiesHandler = (item) =>
+  const propertiesHandler = (item: PropertyItem) =>
     item.type.toLowerCase().includes(type.toLowerCase());
 
   // price handler
-  const priceHandler = (item) =>
-    item.price < price?.max && item.price > price?.min;
+  const priceHandler = (item: PropertyItem) =>
+    Number(item.price) < price?.max && Number(item.price) > price?.min;
 
   // bathroom handler
-  const bathroomHandler = (item) => {
-    if (bathrooms !== "") {
+  const bathroomHandler = (item: PropertyItem) => {
+    if (bathrooms !== "" && item.itemDetails && item.itemDetails[1]) {
       return item.itemDetails[1].number == bathrooms;
     }
     return true;
   };
 
   // bedroom handler
-  const bedroomHandler = (item) => {
-    if (bedrooms !== "") {
+  const bedroomHandler = (item: PropertyItem) => {
+    if (bedrooms !== "" && item.itemDetails && item.itemDetails[0]) {
       return item.itemDetails[0].number == bedrooms;
     }
     return true;
   };
 
   // garages handler
-  const garagesHandler = (item) =>
+  const garagesHandler = (item: PropertyItem) =>
     garages !== ""
       ? item.garages?.toLowerCase().includes(garages.toLowerCase())
       : true;
 
   // built years handler
-  const builtYearsHandler = (item) =>
+  const builtYearsHandler = (item: PropertyItem) =>
     yearBuilt !== "" ? item?.built == yearBuilt : true;
 
   // area handler
-  const areaHandler = (item) => {
-    if (area.min !== 0 && area.max !== 0) {
-      if (area.min !== "" && area.max !== "") {
-        return (
-          parseInt(item.itemDetails[2].number) > area.min &&
-          parseInt(item.itemDetails[2].number) < area.max
-        );
-      }
+  const areaHandler = (item: PropertyItem) => {
+    const min = typeof area.min === "string" ? parseInt(area.min) : area.min;
+    const max = typeof area.max === "string" ? parseInt(area.max) : area.max;
+    const itemArea =
+      item.itemDetails && item.itemDetails[2]
+        ? Number(item.itemDetails[2].number)
+        : undefined;
+    if (
+      min !== 0 &&
+      max !== 0 &&
+      !isNaN(min) &&
+      !isNaN(max) &&
+      itemArea !== undefined &&
+      !isNaN(itemArea)
+    ) {
+      return itemArea > min && itemArea < max;
     }
     return true;
   };
 
   // advanced option handler
-  const advanceHandler = (item) => {
+  const advanceHandler = (item: PropertyItem) => {
     if (amenities.length !== 0) {
-      return amenities.find((item2) =>
+      return amenities.find((item2: string) =>
         item2.toLowerCase().includes(item.amenities.toLowerCase())
       );
     }
@@ -98,18 +138,17 @@ const FeaturedItem = () => {
   };
 
   // status filter
-  const statusTypeHandler = (a, b) => {
-    if (statusType === "recent") {
-      return a.created_at + b.created_at;
+  const statusTypeHandler = (a: PropertyItem, b: PropertyItem): number => {
+    if (statusType === "recent" || statusType === "all-status") {
+      return b.created_at - a.created_at;
     } else if (statusType === "old") {
       return a.created_at - b.created_at;
-    } else if (statusType === "all-status") {
-      return a.created_at + b.created_at;
     }
+    return 0;
   };
 
   // featured handler
-  const featuredHandler = (item) => {
+  const featuredHandler = (item: PropertyItem) => {
     if (featured !== "") {
       if (featured === "featured-all") {
         return item;
@@ -120,7 +159,7 @@ const FeaturedItem = () => {
   };
 
   // status handler
-  let content = properties
+  const content = properties
     ?.slice(0, 9)
     ?.filter(keywordHandler)
     ?.filter(locationHandler)
@@ -135,7 +174,7 @@ const FeaturedItem = () => {
     ?.filter(advanceHandler)
     ?.sort(statusTypeHandler)
     ?.filter(featuredHandler)
-    .map((item) => (
+    .map((item: PropertyItem) => (
       <div className="col-lg-12" key={item.id}>
         <div className="feat_property list">
           <div className="thumb">
@@ -148,7 +187,7 @@ const FeaturedItem = () => {
             />
             <div className="thmb_cntnt">
               <ul className="tag mb0">
-                {item.saleTag.map((val, i) => (
+                {item.saleTag.map((val: string, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">{val}</a>
                   </li>
@@ -190,7 +229,7 @@ const FeaturedItem = () => {
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val, i) => (
+                {item.itemDetails?.map((val: ItemDetail, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">
                       {val.name}: {val.number}

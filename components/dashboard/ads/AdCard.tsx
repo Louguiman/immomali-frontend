@@ -1,22 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Advertisement } from "@/types/advertisement";
 
 type AdCardProps = {
-  ad: {
-    id: string | number;
-    adType: string;
-    status: "active" | "pending" | "inactive" | string;
-    views: number;
-    clicks: number;
-    property: {
-      title: string;
-      images: { imageUrl: string }[];
-    };
-    owner: {
-      name: string;
-    };
-  };
+  ad: Advertisement;
   onManage: () => void;
 };
 
@@ -27,8 +15,8 @@ const AdCard: React.FC<AdCardProps> = ({ ad, onManage }) => {
       <div className="card shadow-sm">
         <div className="position-relative">
           <Image
-            src={ad.property.images[0]?.imageUrl}
-            alt={ad.property.title}
+            src={ad.property.images[0]?.imageUrl || "/placeholder.jpg"}
+            alt={ad.property.title || "Property image"}
             width={350}
             height={200}
             className="card-img-top"
@@ -40,14 +28,14 @@ const AdCard: React.FC<AdCardProps> = ({ ad, onManage }) => {
 
         <div className="card-body">
           <h5 className="card-title">{ad.property.title}</h5>
-          <p className="card-text">Owner: {ad.owner.name}</p>
+          <p className="card-text">Owner: {ad.advertiser?.email ?? "N/A"}</p>
           <p
             className={`badge bg-${
               ad.status === "active"
                 ? "success"
                 : ad.status === "pending"
-                ? "warning"
-                : "danger"
+                  ? "warning"
+                  : "danger"
             }`}
           >
             {ad.status}

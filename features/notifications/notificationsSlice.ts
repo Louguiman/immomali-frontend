@@ -1,24 +1,30 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// interface NotificationState {
-//   notifications: NotificationEntity[];
-// }
+interface NotificationEntity {
+  id: string;
+  read: boolean;
+  [key: string]: any;
+}
 
-const initialState = {
+interface NotificationState {
+  notifications: NotificationEntity[];
+}
+
+const initialState: NotificationState = {
   notifications: [],
 };
 
 const notificationSlice = createSlice({
   name: "notifications",
   initialState,
-  reducers: { 
-    addNotification: (state, action) => {
+  reducers: {
+    addNotification: (state, action: { payload: NotificationEntity }) => {
       state.notifications.unshift(action.payload);
     },
-    setNotifications: (state, action) => {
+    setNotifications: (state, action: { payload: NotificationEntity[] }) => {
       state.notifications = action.payload;
     },
-    markAsRead: (state, action) => {
+    markAsRead: (state, action: { payload: string }) => {
       const notification = state.notifications.find(
         (n) => n.id === action.payload
       );

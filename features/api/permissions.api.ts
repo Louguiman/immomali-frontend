@@ -1,7 +1,6 @@
 import { apiSlice } from "./api";
 
 export const permissionsApi = apiSlice.injectEndpoints({
-  tagTypes: ["Permissions"],
   endpoints: (builder) => ({
     getPermissions: builder.query({ query: () => "/permissions" }),
     assignPermission: builder.mutation({
