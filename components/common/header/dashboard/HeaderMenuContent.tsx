@@ -62,14 +62,14 @@ const navItems = {
 
 const HeaderMenuContentV4 = ({ float = "" }) => {
   const t = useTranslations("navbar");
-  const user = useSelector((state) => state.auth?.user);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
   const userRoles = useMemo(
     () => user?.roles?.map((role) => role.name) || [],
     [user]
   );
 
   navItems.account = useMemo(() => getAccountMenu(userRoles), [user]);
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const isAuthenticated = useSelector((state: import("@/store/store").RootState) => state.auth?.isAuthenticated);
   const pathname = usePathname();
 
   return (

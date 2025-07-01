@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useSelector } from "@/store/store";
 
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import Header from "@/components/common/header/dashboard/Header";
@@ -35,7 +35,7 @@ const EditPropertyPage = () => {
   const router = useRouter();
   const { id } = useParams();
   const propertyId = Number(id);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // RTK Query hooks
   const {

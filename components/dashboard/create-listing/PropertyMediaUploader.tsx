@@ -26,7 +26,7 @@ interface PropertyMediaUploaderProps {
 interface PropertyMediaFormData {
   images: FileList | null;
   attachment: FileList | null;
-  [key: string]: FileList | null | undefined; // More specific index signature
+  // Remove index signature for stricter typing; add explicit fields as needed
 }
 
 const PropertyMediaUploader: React.FC<PropertyMediaUploaderProps> = ({

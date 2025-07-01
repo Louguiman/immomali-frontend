@@ -42,7 +42,7 @@ const ClientReview = () => {
   type Role = { name: string };
   
   // Safely extract user data from Redux state
-  const { id: userId = '', roles = [] } = useAppSelector((state: RootState) => ({
+  const { id: userId = '', roles = [] } = useAppSelector((state: import("@/store/store").RootState) => ({
     id: state.auth?.user?.id ?? '',
     roles: (state.auth?.user?.roles as Role[]) ?? []
   }));

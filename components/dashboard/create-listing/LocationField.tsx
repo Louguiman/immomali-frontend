@@ -36,7 +36,7 @@ const LocationField: React.FC<LocationFieldProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // Store the user's current coordinates (unused in the UI but kept for potential future use)
   const [, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-  const property = useAppSelector((state: RootState) => state.properties.createListing);
+  const property = useAppSelector((state: import("@/store/store").RootState) => state.properties.createListing);
 
   // Validation schema using Yup
   const validationSchema = yup.object().shape({

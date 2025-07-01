@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/store/store";
 import { useLogoutMutation } from "@/features/api/auth.api";
 import { useEffect } from "react";
 import { logoutSuccess } from "@/features/auth/authSlice";
@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 const LogoutPageContent = () => {
   const t = useTranslations("logout");
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
   const handleLogout = async () => {

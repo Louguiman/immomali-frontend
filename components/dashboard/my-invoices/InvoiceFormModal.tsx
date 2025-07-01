@@ -45,7 +45,7 @@ const InvoiceFormModal: React.FC<InvoiceFormModalProps> = ({
   onClose,
 }) => {
   const isEditing = Boolean(invoice);
-  const user = useAppSelector((state: RootState) => state.auth.user);
+  const user = useAppSelector((state: import("@/store/store").RootState) => state.auth.user);
   const t = useTranslations("dashboard.invoiceList");
 
   const initialFormData = useMemo<InvoiceFormData>(

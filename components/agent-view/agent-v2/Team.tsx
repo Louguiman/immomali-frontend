@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const Team = () => {
   const { name, category, city, listen } =
-    useSelector((state) => state.agent) || {};
+    useSelector((state: import("@/store/store").RootState) => state.agent) || {};
   const dispatch = useDispatch();
 
   // name

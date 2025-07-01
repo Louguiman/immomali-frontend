@@ -1,4 +1,4 @@
-module.exports = [
+const findProperties = [
   {
     id: 1,
     img: "/assets/images/property/pc1.jpg",
@@ -168,3 +168,5 @@ module.exports = [
     column: "",
   },
 ];
+
+export default findProperties;

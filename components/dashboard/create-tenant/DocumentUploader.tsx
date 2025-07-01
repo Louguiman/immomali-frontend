@@ -1,6 +1,7 @@
 "use client";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/store/store";
 import selectedFiles from "../../../utils/selectedFiles";
 import {
   addTenantDocument,
@@ -10,9 +11,9 @@ import { useTranslations } from "next-intl";
 
 const TenantDocumentUploader = ({ activeStep, onNext, onPrevious }) => {
   const t = useTranslations("dashboard.TenantProfile");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const leaseDocuments = useSelector(
-    (state) => state.tenants.leaseDetails.leaseDocuments
+    (state: import("@/store/store").RootState) => state.tenants.leaseDocuments
   );
 
   // Handle document upload

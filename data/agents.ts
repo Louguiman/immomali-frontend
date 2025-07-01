@@ -1,4 +1,4 @@
-module.exports = [
+const agents = [
   {
     id: 1,
     img: "/assets/images/team/5.jpg",
@@ -338,3 +338,5 @@ module.exports = [
     city: "Orlando",
   },
 ];
+
+export default agents;

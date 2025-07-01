@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import agencyContent from "../../../data/agency";
+import agency from "../../../data/agency";
 import { addAgentItemLength } from "../../../features/agent/agentSlice";
 import Image from "next/image";
 

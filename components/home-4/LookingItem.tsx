@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import find from "../../data/find";
+// REMOVED: Sample/demo component using static data
+// import find from "../../data/find";
 import { useTranslations } from "next-intl";
 
 const LookingItem = () => {

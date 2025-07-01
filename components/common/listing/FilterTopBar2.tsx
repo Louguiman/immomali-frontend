@@ -9,8 +9,8 @@ import {
 } from "../../../features/filter/filterSlice";
 
 const FilterTopBar2 = () => {
-  const { length } = useSelector((state) => state.properties);
-  const { statusType, featured } = useSelector((state) => state.filter);
+  const { length } = useSelector((state: import("@/store/store").RootState) => state.properties);
+  const { statusType, featured } = useSelector((state: import("@/store/store").RootState) => state.filter);
   const [getStatus, setStatus] = useState(statusType);
   const [getFeatured, setFeatured] = useState(featured);
 

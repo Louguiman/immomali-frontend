@@ -67,7 +67,7 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
   // Form Handling with react-hook-form - using errors and form state
   const { formState: { errors } } = useForm<FileUploadFormData>({
     // @ts-expect-error - Yup and react-hook-form have some type incompatibilities
-    resolver: yupResolver(schema as any),
+    resolver: yupResolver(schema as unknown as Yup.ObjectSchema<FileUploadFormData>),
     defaultValues: {
       images: undefined,
       attachment: undefined,

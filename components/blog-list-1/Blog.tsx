@@ -1,5 +1,6 @@
 import Link from "next/link";
-import blogContent from "../../data/blogs";
+// REMOVED: Sample/demo component using static data
+// import blogContent from "../../data/blogs";
 import Image from "next/image";
 
 const Blog = () => {

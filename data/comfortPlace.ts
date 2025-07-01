@@ -1,4 +1,4 @@
-module.exports = [
+const comfortPlace = [
   {
     id: 1,
     bgImg: "/assets/images/service/4.jpg",
@@ -28,3 +28,5 @@ module.exports = [
     number: "07",
   },
 ];
+
+export default comfortPlace;

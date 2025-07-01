@@ -1,4 +1,4 @@
-module.exports = [
+const agency = [
   {
     id: 1,
     img: "/assets/images/agency/1.jpg",
@@ -114,3 +114,5 @@ module.exports = [
     email: "pakulla@findhouse.com",
   },
 ];
+
+export default agency;

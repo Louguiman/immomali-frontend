@@ -36,7 +36,7 @@ const PropertyManagementPage = () => {
   const t = useTranslations("property");
 
   // Get the logged-in user from Redux with proper typing
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: import("@/store/store").RootState) => state.auth);
 
   // Local state for pagination & filtering
   const [page, setPage] = useState<number>(1);

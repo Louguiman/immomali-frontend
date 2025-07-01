@@ -1,5 +1,6 @@
 import Link from "next/link";
-import relatedPostContent from "../../data/blogs";
+// REMOVED: Sample/demo component using static data
+// import relatedPostContent from "../../data/blogs";
 import Image from "next/image";
 
 const RelatedPost = () => {

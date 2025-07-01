@@ -104,7 +104,7 @@ const index = () => {
 
               <div
                 className="offcanvas offcanvas-start offcanvas-listing-sidebar"
-                tabIndex="-1"
+                tabIndex={-1}
                 id="sidebarListing"
               >
                 <div className="offcanvas-header">

@@ -19,7 +19,7 @@ interface ChatboxContentProps {
 
 const ChatboxContent: React.FC<ChatboxContentProps> = ({ inquiry }) => {
   const t = useTranslations("dashboard.message.chatbox");
-  const user = useSelector((state: RootState) => state.auth.user as User | null);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user as User | null);
   
   const { 
     data: replies = [], 

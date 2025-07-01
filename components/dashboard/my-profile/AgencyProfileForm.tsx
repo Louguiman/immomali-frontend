@@ -20,7 +20,7 @@ type AgencyProfileFormProps = {
 type Agency = {
   id: string | number;
   logoUrl?: string;
-  [key: string]: any; // Add index signature for dynamic fields
+  // Add more explicit dynamic fields as needed, or use a generic type if truly dynamic.
 };
 
 const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
@@ -54,7 +54,7 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
     }
   }, [agency]);
 
-  const handleLogoChange = (e) => {
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
     if (file) {
       setLogoFile(file);
@@ -138,12 +138,12 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
                 className="form-control"
                 id={key}
                 disabled={!editMode}
-                defaultValue={agency[key]}
+                defaultValue={agency ? (agency as Record<string, unknown>)[key] as string : ''}
                 {...register(key)}
                 onChange={handleChange(key)}
               />
               {errors[key] && (
-                <p className="text-danger">{errors[key]?.message}</p>
+                <p className="text-danger">{errors[key]?.message as string}</p>
               )}
             </div>
           </div>

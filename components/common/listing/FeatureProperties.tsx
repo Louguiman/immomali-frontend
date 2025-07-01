@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import featureProContent from "../../../data/properties";
+import properties from "../../../data/properties";
 import Slider from "react-slick";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";

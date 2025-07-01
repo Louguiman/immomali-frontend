@@ -1,6 +1,7 @@
 'use client'
 
-import agentsTeam from "../../data/agents";
+// REMOVED: Sample/demo component using static data
+// import agentsTeam from "../../data/agents";
 import Slider from "react-slick";
 import Link from "next/link";
 import Image from "next/image";

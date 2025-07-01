@@ -64,8 +64,8 @@ const MobileMenuContent = () => {
   const router = useRouter();
   const t = useTranslations("navbar");
 
-  const user = useSelector((state) => state.auth?.user);
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
+  const isAuthenticated = useSelector((state: import("@/store/store").RootState) => state.auth?.isAuthenticated);
   const userRoles = useMemo(
     () => user?.roles?.map((role) => role.name) || [],
     [user]

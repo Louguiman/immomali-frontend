@@ -2,10 +2,38 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
 import properties from "../../../data/properties";
 import Image from "next/image";
+
+import { Property } from "@/types/property";
+
+interface ItemDetails {
+  name: string;
+  number: string | number;
+}
+
+interface PropertyListItem {
+  id: number;
+  img: string;
+  price: string | number;
+  type: string;
+  title: string;
+  location: string;
+  saleTag: string[];
+  garages: string;
+  itemDetails: ItemDetails[];
+  posterAvatar: string;
+  posterName: string;
+  postedYear: string;
+  imgList: string[];
+  imgList2: string[];
+  built: string;
+  amenities: string;
+  featured: string;
+  created_at: number;
+}
 
 const FeaturedItem = () => {
   const {
@@ -20,62 +48,62 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state) => state.properties);
+  } = useSelector((state: import("@/store/store").RootState) => state.properties);
   const { statusType, featured, isGridOrList } = useSelector(
-    (state) => state.filter
+    (state: import("@/store/store").RootState) => state.filter
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // keyword filter
-  const keywordHandler = (item) =>
+  const keywordHandler = (item: PropertyListItem) =>
     item.title.toLowerCase().includes(keyword?.toLowerCase());
 
   // location handler
-  const locationHandler = (item) => {
+  const locationHandler = (item: PropertyListItem) => {
     return item.location.toLowerCase().includes(location.toLowerCase());
   };
 
   // status handler
-  const statusHandler = (item) =>
+  const statusHandler = (item: PropertyListItem) =>
     item.type.toLowerCase().includes(status.toLowerCase());
 
   // properties handler
-  const propertiesHandler = (item) =>
+  const propertiesHandler = (item: PropertyListItem) =>
     item.type.toLowerCase().includes(type.toLowerCase());
 
   // price handler
-  const priceHandler = (item) =>
-    item.price < price?.max && item.price > price?.min;
+  const priceHandler = (item: PropertyListItem) =>
+    Number(item.price) < price?.max && Number(item.price) > price?.min;
 
   // bathroom handler
-  const bathroomHandler = (item) => {
+  const bathroomHandler = (item: PropertyListItem) => {
     if (bathrooms !== "") {
-      return item.itemDetails[1].number == bathrooms;
+      return item.itemDetails[1]?.number == bathrooms;
     }
     return true;
   };
 
   // bedroom handler
-  const bedroomHandler = (item) => {
+  const bedroomHandler = (item: PropertyListItem) => {
     if (bedrooms !== "") {
-      return item.itemDetails[0].number == bedrooms;
+      return item.itemDetails[0]?.number == bedrooms;
     }
     return true;
   };
 
   // garages handler
-  const garagesHandler = (item) =>
+  const garagesHandler = (item: PropertyListItem) =>
     garages !== ""
       ? item.garages?.toLowerCase().includes(garages.toLowerCase())
       : true;
 
   // built years handler
-  const builtYearsHandler = (item) =>
+  const builtYearsHandler = (item: PropertyListItem) =>
     yearBuilt !== "" ? item?.built == yearBuilt : true;
 
   // area handler
-  const areaHandler = (item) => {
+  const areaHandler = (item: PropertyListItem) => {
     if (area.min !== 0 && area.max !== 0) {
       if (area.min !== "" && area.max !== "") {
         return (
@@ -148,7 +176,7 @@ const FeaturedItem = () => {
             />
             <div className="thmb_cntnt">
               <ul className="tag mb0">
-                {item.saleTag.map((val, i) => (
+                {item.saleTag.map((val: string, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">{val}</a>
                   </li>
@@ -190,7 +218,7 @@ const FeaturedItem = () => {
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val, i) => (
+                {item.itemDetails.map((val: ItemDetails, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">
                       {val.name}: {val.number}

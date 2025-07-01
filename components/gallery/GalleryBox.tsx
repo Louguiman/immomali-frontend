@@ -2,7 +2,8 @@
 
 import { Gallery, Item } from "react-photoswipe-gallery";
 import "photoswipe/dist/photoswipe.css";
-import galleryContent from "../../data/gallery.js";
+// REMOVED: Sample/demo component using static data
+// import galleryContent from "../../data/gallery.js";
 import Image from "next/image.js";
 
 const GalleryBox = () => {

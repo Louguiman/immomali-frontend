@@ -7,7 +7,7 @@ import { Pagination } from "./Pagination";
 import SearchBox from "./SearchBox";
 import { useTranslations } from "next-intl";
 import { setCurrentPage } from "@/features/properties/propertiesSlice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/store/store";
 import { useMemo, useCallback, useState } from "react";
 
 // Define the shape of a favorite item
@@ -30,14 +30,14 @@ interface RootState {
 
 const FavoritesPage: React.FC = () => {
   const t = useTranslations("dashboard.favourite");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   // Get data from Redux store
   const { 
     favorites, 
     currentPage, 
     itemsPerPage 
-  } = useAppSelector((state: RootState) => state.properties);
+  } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
 
   // Local state for search and filter
   const [searchQuery, setSearchQuery] = useState('');

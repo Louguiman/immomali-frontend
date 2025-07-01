@@ -69,8 +69,8 @@ const navItems = {
 };
 
 const HeaderMenuContentv2 = ({ float = "" }) => {
-  const user = useSelector((state) => state.auth?.user);
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
+  const isAuthenticated = useSelector((state: import("@/store/store").RootState) => state.auth?.isAuthenticated);
   const pathname = usePathname();
 
   return (

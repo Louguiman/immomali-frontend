@@ -1,5 +1,6 @@
-import Image from "next/image";
-import serviceContent from "../../data/service";
+// REMOVED: Sample/demo component using static data
+// import Image from "next/image";
+// import serviceContent from "../../data/service";
 
 const SingleService = () => {
   return (

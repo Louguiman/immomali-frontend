@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/store/store";
 import { useMemo } from "react";
 import { removeFromFavorites } from "@/features/properties/propertiesSlice";
 import { useTranslations } from "next-intl";
@@ -15,7 +15,7 @@ interface FavouritProductsProps {
 }
 
 const FavouritProducts: React.FC<FavouritProductsProps> = ({ favouritesProperties }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const t = useTranslations("dashboard.favourite");
 
   const handleDelete = (id) => {

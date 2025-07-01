@@ -9,7 +9,7 @@ const CheckBoxFilter: React.FC = () => {
   const t = useTranslations("property.amenities");
   const dispatch = useDispatch();
   const amenities: { [key: string]: boolean } = useSelector(
-    (state: any) => state.properties.createListing.amenities
+    (state: import("@/store/store").RootState) => state.properties.createListing.amenities
   );
 
   const handleToggle = (amenity: string, value: boolean) => {

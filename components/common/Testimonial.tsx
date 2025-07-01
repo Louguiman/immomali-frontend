@@ -1,7 +1,8 @@
 'use client'
 
 import Image from "next/image";
-import testimonials from "../../data/testimonial";
+// REMOVED: Sample/demo component using static data
+// import testimonials from "../../data/testimonial";
 import Slider from "react-slick";
 
 const Testimonial = () => {

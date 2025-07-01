@@ -1,4 +1,4 @@
-module.exports = [
+const service = [
   {
     id: 1,
     img: "/assets/images/service/1.jpg",
@@ -45,3 +45,5 @@ module.exports = [
     title: "12 Walkable Cities Where You Can Live Affordably",
   },
 ];
+
+export default service;

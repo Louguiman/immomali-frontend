@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleGridAndList } from "../../../features/filter/filterSlice";
 
 const GridListButton = () => {
-  const { isGridOrList } = useSelector((state) => state.filter);
+  const { isGridOrList } = useSelector((state: import("@/store/store").RootState) => state.filter);
   const dispatch = useDispatch();
 
   return (

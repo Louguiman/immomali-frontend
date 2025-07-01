@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
-// @ts-expect-error: propertiesData is a CommonJS export, not a module. This import is intentional for legacy data compatibility.
-import propertiesData from "../../../data/properties";
+import properties from "../../../data/properties";
 import type { RootState } from "../../../store/store";
 import Image from "next/image";
 
@@ -52,12 +51,12 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state: RootState) => state.properties);
+  } = useSelector((state: import("@/store/store").RootState) => state.properties);
   const { statusType, featured } = useSelector(
-    (state: RootState) => state.filter
+    (state: import("@/store/store").RootState) => state.filter
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // keyword filter
   const keywordHandler = (item: PropertyItem) =>

@@ -4,7 +4,13 @@ import { Gallery, Item } from "react-photoswipe-gallery";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-export default function ListingTwo({ property }) {
+import { Property } from "@/types/property";
+
+interface ListingTwoProps {
+  property: Property;
+}
+
+export default function ListingTwo({ property }: ListingTwoProps) {
   const t = useTranslations("property");
   return (
     <section className="single_page_listing_style p0 mt85 md-mt0">

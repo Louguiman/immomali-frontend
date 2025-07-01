@@ -47,7 +47,7 @@ const FilteringItem = () => {
     area,
     amenities,
     price,
-  } = useSelector((state) => state.properties);
+  } = useSelector((state: import("@/store/store").RootState) => state.properties);
 
   // input state
   const [getKeyword, setKeyword] = useState(searchParams.get("keyword") || "");

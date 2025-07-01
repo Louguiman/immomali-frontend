@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
 import Image from "next/image";
 import FavoriteButton from "@/components/common/FavoriteBtn";
@@ -11,7 +11,7 @@ import { useFormatter } from "next-intl";
 import CompareButton from "@/components/common/CompareBtn";
 
 const FeaturedItem = ({ properties }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { statusType, featured, isGridOrList } = useSelector(
     (state) => state.filter
   );

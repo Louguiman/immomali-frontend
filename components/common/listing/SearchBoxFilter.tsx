@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 const SearchBoxFilter = () => {
-  const { keyword } = useSelector((state) => state.properties);
+  const { keyword } = useSelector((state: import("@/store/store").RootState) => state.properties);
 
   // input state
   const [getKeyword, setKeyword] = useState(keyword);

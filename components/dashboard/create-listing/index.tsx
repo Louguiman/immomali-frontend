@@ -94,11 +94,11 @@ const CreateListing = () => {
   const router = useRouter();
   const t = useTranslations("property");
   
-  const propertyDetails = useSelector<RootState, CreateListingState>(
+  const propertyDetails = useSelector<import("@/store/store").RootState, CreateListingState>(
     (state) => state.properties.createListing
   );
   
-  const user = useSelector<RootState, User | null>((state) => state.auth.user);
+  const user = useSelector<import("@/store/store").RootState, User | null>((state) => state.auth.user);
   
   const [draftId, setDraftId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

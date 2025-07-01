@@ -1,4 +1,4 @@
-module.exports = [
+const comparePricing = [
   {
     id: 1,
     img: "/assets/images/pricing/1.jpg",
@@ -42,3 +42,5 @@ module.exports = [
     status: "Active",
   },
 ];
+
+export default comparePricing;

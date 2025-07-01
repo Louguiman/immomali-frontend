@@ -35,7 +35,7 @@ interface SingleChatboxReplyProps {
 }
 
 const SingleChatboxReply: FC<SingleChatboxReplyProps> = ({ reply }) => {
-  const authState = useSelector((state: { auth: AuthState }) => state.auth);
+  const authState = useSelector((state: import("@/store/store").RootState) => state.auth);
   const currentUserEmail = authState.user?.email || '';
   const isSender = reply.user?.email === currentUserEmail;
 

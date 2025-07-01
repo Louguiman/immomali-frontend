@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const MyAccount = () => {
   const pathname = usePathname();
-  const user = useSelector((state) => state.auth?.user);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
 
   const profileMenuItems = [
     { id: 1, name: "Dashboard", routerPath: "/dashboard" },

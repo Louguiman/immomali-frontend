@@ -1,5 +1,6 @@
 import Link from "next/link";
-import blogs from "../../data/blogs";
+// REMOVED: Sample/demo component using static data
+// import blogs from "../../data/blogs";
 import Image from "next/image";
 import React from "react";
 

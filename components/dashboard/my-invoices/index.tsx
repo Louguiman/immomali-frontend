@@ -13,7 +13,7 @@ interface InvoiceManagementProps {
 }
 
 export const InvoiceManagement: React.FC<InvoiceManagementProps> = () => {
-  const user = useSelector((state: RootState) => state.auth.user as User | null);
+  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user as User | null);
   
   // Use proper type for the query result
   const { 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
 import properties from "../../../data/properties";
 import Image from "next/image";
@@ -20,12 +20,12 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state) => state.properties);
+  } = useSelector((state: import("@/store/store").RootState) => state.properties);
   const { statusType, featured, isGridOrList } = useSelector(
-    (state) => state.filter
+    (state: import("@/store/store").RootState) => state.filter
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // keyword filter
   const keywordHandler = (item) =>
@@ -199,7 +199,7 @@ const FeaturedItem = () => {
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val, i) => (
+                {item.itemDetails.map((val: ItemDetails, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">
                       {val.name}: {val.number}

@@ -12,7 +12,7 @@ type CompareButtonProps = {
 const CompareButton: React.FC<CompareButtonProps> = ({ propertyId }) => {
   const dispatch = useDispatch();
   const compareList: (string | number)[] = useSelector(
-    (state: any) => state.properties?.compareList ?? []
+    (state: import("@/store/store").RootState) => state.properties?.compareList ?? []
   );
 
   const isCompared = compareList.includes(propertyId);

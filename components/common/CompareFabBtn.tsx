@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import React from "react";
 const CompareFabBtn: React.FC = () => {
   const compareCount: number = useSelector(
-    (state: any) => state.properties.compareList.length
+    (state: import("@/store/store").RootState) => state.properties.compareList.length
   );
 
   return (

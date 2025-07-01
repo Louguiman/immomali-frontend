@@ -40,7 +40,7 @@ interface UpdatedReviewState {
 
 const AuthorReview = () => {
   const t = useTranslations("dashboard.reviews");
-  const user = useAppSelector((state: RootState) => state.auth?.user);
+  const user = useAppSelector((state: import("@/store/store").RootState) => state.auth?.user);
   const userId = user?.id || "";
   const { data: reviews, isLoading } = useGetAllUserReviewsQuery(userId, {
     skip: !user?.id,

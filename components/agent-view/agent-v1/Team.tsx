@@ -16,7 +16,7 @@ const Team = () => {
   const t = useTranslations("home.agents");
   const dispatch = useDispatch();
   const { name, category, city, page, pageSize } =
-    useSelector((state) => state.agent) || {};
+    useSelector((state: import("@/store/store").RootState) => state.agent) || {};
 
   const { data: agents, isLoading, isError } = useGetAllAgentsQuery();
 

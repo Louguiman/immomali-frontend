@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const FilteringItem2 = () => {
   const { status, bathrooms, bedrooms, yearBuilt } = useSelector(
-    (state) => state.properties
+    (state: import("@/store/store").RootState) => state.properties
   );
 
   // input state

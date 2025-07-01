@@ -1,4 +1,4 @@
-module.exports = [
+const gallery = [
   { id: 1, img: "/assets/images/property/fp1.jpg" },
   { id: 2, img: "/assets/images/property/fp2.jpg" },
   { id: 3, img: "/assets/images/property/fp3.jpg" },
@@ -9,3 +9,5 @@ module.exports = [
   { id: 8, img: "/assets/images/property/fp8.jpg" },
   { id: 9, img: "/assets/images/property/fp9.jpg" },
 ];
+
+export default gallery;

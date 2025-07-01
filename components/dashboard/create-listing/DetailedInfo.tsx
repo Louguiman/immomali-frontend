@@ -30,7 +30,7 @@ interface DetailedInfoFormData {
 const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevious }) => {
   const t = useTranslations("property");
   const dispatch = useAppDispatch();
-  const property = useAppSelector((state: RootState) => state.properties.createListing);
+  const property = useAppSelector((state: import("@/store/store").RootState) => state.properties.createListing);
 
   // Form validation rules
   const validateNumber = (value: string) => {

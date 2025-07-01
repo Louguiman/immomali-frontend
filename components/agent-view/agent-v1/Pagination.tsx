@@ -3,7 +3,7 @@ import { setPage } from "../../../features/agent/agentSlice";
 
 const Pagination = ({ totalItems }) => {
   const dispatch = useDispatch();
-  const { page, pageSize } = useSelector((state) => state.agent);
+  const { page, pageSize } = useSelector((state: import("@/store/store").RootState) => state.agent);
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handlePageChange = (newPage) => {

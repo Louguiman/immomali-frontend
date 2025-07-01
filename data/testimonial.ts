@@ -1,4 +1,4 @@
-module.exports = [
+const testimonial = [
   {
     id: 1,
     img: "/assets/images/testimonial/1.png",
@@ -96,3 +96,5 @@ module.exports = [
     feedback: "Good job!",
   },
 ];
+
+export default testimonial;
