@@ -5,7 +5,7 @@ import Header from "../common/header/DefaultHeader";
 import MobileMenu from "../common/header/MobileMenu";
 import PopupSignInUp from "../common/PopupSignInUp";
 import BreadCrumbBanner from "./BreadCrumbBanner";
-import SingleService from "./SingleService";
+// import SingleService from "./SingleService";
 
 const index = () => {
   return (
@@ -26,7 +26,7 @@ const index = () => {
       <section className="our-service pb30">
         <div className="container">
           <div className="row">
-            <SingleService />
+            
           </div>
         </div>
       </section>

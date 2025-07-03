@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
-import type { RootState } from "../../../store/store";
+
+
 import Image from "next/image";
 
 type ItemDetail = {
@@ -34,9 +34,6 @@ type PropertyItem = {
   created_at: number;
 };
 
-const properties: PropertyItem[] = Array.isArray(propertiesData)
-  ? propertiesData
-  : [];
 
 const FeaturedItem = () => {
   const {
@@ -51,8 +48,8 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured } = useSelector(
+  } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
+  const { statusType, featured } = useAppSelector(
     (state: import("@/store/store").RootState) => state.filter
   );
 

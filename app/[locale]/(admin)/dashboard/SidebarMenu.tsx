@@ -175,8 +175,7 @@ const SidebarMenu = () => {
         name: t("MyFavourites"),
         route: "/dashboard/my-favourites",
         icon: "flaticon-magnifying-glass",
-      },
-    ],
+      },    ],
     common: [
       {
         name: t("Profile"),

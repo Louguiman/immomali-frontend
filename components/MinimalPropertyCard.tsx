@@ -1,13 +1,13 @@
-import { getSignedUrl } from "@/features/api/Serverside";
-import { cleanUrl } from "@/utils/splitDescription";
+
+
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
-const MinimalPropertyCard = ({ item }) => {
-  const { statusType, featured, isGridOrList } = useSelector(
-    (state) => state.filter
-  );
+import { Property } from "@/types/property";
+
+const MinimalPropertyCard = ({ item }: { item: Property }) => {
+  const { isGridOrList } = useAppSelector((state: import("@/store/store").RootState) => state.filter);
   return (
     <div
       className={`feat_property home7 style4 ${
@@ -20,7 +20,7 @@ const MinimalPropertyCard = ({ item }) => {
             width={342}
             height={220}
             className="img-whp w-100 h-100 cover"
-            src={item?.images[0]?.imageUrl}
+            src={item?.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
             alt="fp1.jpg"
           />
         )}
@@ -31,7 +31,7 @@ const MinimalPropertyCard = ({ item }) => {
             </li>
             <li className="list-inline-item">
               <a href="#" className="text-capitalize">
-                {item?.featured}
+                {(item as any).isFeatured ? "Featured" : ""}
               </a>
             </li>
           </ul>
@@ -62,7 +62,7 @@ const MinimalPropertyCard = ({ item }) => {
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
-            {item.address} {item?.neighborhood}, {item?.state}, {item?.country}
+            {item.address ?? ""} {item?.neighborhood ?? ""}, {item?.state ?? ""}, {item?.country ?? ""}
           </p>
 
           <ul className="prop_details mb0">

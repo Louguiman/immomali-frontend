@@ -5,13 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations, useFormatter } from "next-intl";
 
+import { Tenant } from "@/types/tenant";
+
+interface TenantCardProps {
+  tenant: Tenant;
+  isUser?: boolean;
+  onRequestMaintenance?: (tenant: Tenant) => void;
+  onRequestExtension?: (tenant: Tenant) => void;
+  onRequestTermination?: (tenant: Tenant) => void;
+}
+
 const TenantCard = ({
   tenant,
   isUser = false,
-  onRequestMaintenance = null,
-  onRequestExtension = null,
-  onRequestTermination = null,
-}) => {
+  onRequestMaintenance = () => {},
+  onRequestExtension = () => {},
+  onRequestTermination = () => {},
+}: TenantCardProps) => {
   const pathname = usePathname();
   const format = useFormatter();
 
@@ -34,7 +44,7 @@ const TenantCard = ({
         <div className="col-md-5 position-relative">
           <Image
             src={propertyImage}
-            alt={tenant.property.title}
+            alt={tenant.property?.title ?? "Property image"}
             fill
             className="img-fluid rounded-start object-fit-cover"
           />

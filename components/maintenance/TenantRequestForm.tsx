@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
-const TenantRequestForm = ({ propertyId, tenantId, onClose }) => {
+const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: number; tenantId: number; onClose: () => void }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("general");

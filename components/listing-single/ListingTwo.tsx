@@ -44,8 +44,8 @@ export default function ListingTwo({ property }: ListingTwoProps) {
                             height={569}
                             priority
                             className="img w100 cover lds-2"
-                            src={property?.images[0]?.imageUrl}
-                            alt={property?.images[0]?.imageUrl}
+                            src={property?.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
+                            alt={property?.title ?? "Property image"}
                           />
                         </>
                       )}

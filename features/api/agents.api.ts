@@ -20,7 +20,7 @@ export const agentsApi = apiSlice.injectEndpoints({
 
     getAgentById: builder.query({
       query: (id) => `/agents/${id}`,
-      providesTags: (result, error, id) => [{ type: "Agents", id }],
+      providesTags: (_result, _error, id) => [{ type: "Agents", id }],
     }),
     createAgent: builder.mutation({
       query: (agent) => ({
@@ -38,7 +38,7 @@ export const agentsApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Agents"],
 
-      // invalidatesTags: (result, error, { id }) => [{ type: "Agents", id }],
+      // invalidatesTags: (_result, _error, { id }) => [{ type: "Agents", id }],
     }),
     deleteAgent: builder.mutation({
       query: (id) => ({

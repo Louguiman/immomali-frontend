@@ -12,7 +12,9 @@ const STATUS_COLORS = {
   pending: "bg-danger",
 };
 
-const MaintenanceRequestCard = ({ request }) => {
+// import { MaintenanceRequest } from "@/types/maintenance";
+
+const MaintenanceRequestCard = ({ request }: { request: any }) => {
   const t = useTranslations("dashboard.maintenance");
   const pathname = usePathname();
   // const imageUrl = ;

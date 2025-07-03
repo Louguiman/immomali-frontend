@@ -1,5 +1,6 @@
 import { apiSlice } from "./api";
 
+// Cleaned unused variables and fixed providesTags/invalidatesTags parameter names
 export const agenciesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllAgencies: builder.query({
@@ -8,7 +9,7 @@ export const agenciesApi = apiSlice.injectEndpoints({
     }),
     getAgencyById: builder.query({
       query: (id) => `/agencies/${id}`,
-      providesTags: (result, error, id) => [{ type: "Agencies", id }],
+      providesTags: (_result, _error, id) => [{ type: "Agencies", id }],
     }),
     createAgency: builder.mutation({
       query: (agency) => ({
@@ -24,7 +25,7 @@ export const agenciesApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: agency,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_result, _error, { id }) => [
         { type: "Agencies", id },
         "User",
       ],

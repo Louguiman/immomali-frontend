@@ -2,38 +2,13 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
+
 import Image from "next/image";
 
 import { Property } from "@/types/property";
 
-interface ItemDetails {
-  name: string;
-  number: string | number;
-}
-
-interface PropertyListItem {
-  id: number;
-  img: string;
-  price: string | number;
-  type: string;
-  title: string;
-  location: string;
-  saleTag: string[];
-  garages: string;
-  itemDetails: ItemDetails[];
-  posterAvatar: string;
-  posterName: string;
-  postedYear: string;
-  imgList: string[];
-  imgList2: string[];
-  built: string;
-  amenities: string;
-  featured: string;
-  created_at: number;
-}
 
 const FeaturedItem = () => {
   const {
@@ -48,36 +23,36 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured, isGridOrList } = useSelector(
+  } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
+  const { statusType, featured, isGridOrList } = useAppSelector(
     (state: import("@/store/store").RootState) => state.filter
   );
 
   const dispatch = useAppDispatch();
 
   // keyword filter
-  const keywordHandler = (item: PropertyListItem) =>
+  const keywordHandler = (item: Property) =>
     item.title.toLowerCase().includes(keyword?.toLowerCase());
 
   // location handler
-  const locationHandler = (item: PropertyListItem) => {
-    return item.location.toLowerCase().includes(location.toLowerCase());
+  const locationHandler = (item: Property) => {
+    return (item.address ?? "").toLowerCase().includes(location.toLowerCase());
   };
 
   // status handler
-  const statusHandler = (item: PropertyListItem) =>
+  const statusHandler = (item: Property) =>
     item.type.toLowerCase().includes(status.toLowerCase());
 
   // properties handler
-  const propertiesHandler = (item: PropertyListItem) =>
+  const propertiesHandler = (item: Property) =>
     item.type.toLowerCase().includes(type.toLowerCase());
 
   // price handler
-  const priceHandler = (item: PropertyListItem) =>
+  const priceHandler = (item: Property) =>
     Number(item.price) < price?.max && Number(item.price) > price?.min;
 
   // bathroom handler
-  const bathroomHandler = (item: PropertyListItem) => {
+  const bathroomHandler = (item: Property) => {
     if (bathrooms !== "") {
       return item.itemDetails[1]?.number == bathrooms;
     }
@@ -85,7 +60,7 @@ const FeaturedItem = () => {
   };
 
   // bedroom handler
-  const bedroomHandler = (item: PropertyListItem) => {
+  const bedroomHandler = (item: Property) => {
     if (bedrooms !== "") {
       return item.itemDetails[0]?.number == bedrooms;
     }
@@ -93,17 +68,17 @@ const FeaturedItem = () => {
   };
 
   // garages handler
-  const garagesHandler = (item: PropertyListItem) =>
+  const garagesHandler = (item: Property) =>
     garages !== ""
       ? item.garages?.toLowerCase().includes(garages.toLowerCase())
       : true;
 
   // built years handler
-  const builtYearsHandler = (item: PropertyListItem) =>
+  const builtYearsHandler = (item: Property) =>
     yearBuilt !== "" ? item?.built == yearBuilt : true;
 
   // area handler
-  const areaHandler = (item: PropertyListItem) => {
+  const areaHandler = (item: Property) => {
     if (area.min !== 0 && area.max !== 0) {
       if (area.min !== "" && area.max !== "") {
         return (
@@ -148,8 +123,9 @@ const FeaturedItem = () => {
   };
 
   // status handler
-  let content = properties
-    ?.slice(0, 9)
+  const properties = useAppSelector((state: import("@/store/store").RootState) => state.properties.items);
+  let content = (properties || [])
+    .slice(0, 9)
     ?.filter(keywordHandler)
     ?.filter(locationHandler)
     ?.filter(statusHandler)
@@ -171,7 +147,7 @@ const FeaturedItem = () => {
               width={342}
               height={220}
               className="img-whp w-100 h-100 cover"
-              src={item.img}
+              src={item.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
               alt="fp1.jpg"
             />
             <div className="thmb_cntnt">
@@ -214,17 +190,19 @@ const FeaturedItem = () => {
               </h4>
               <p>
                 <span className="flaticon-placeholder"></span>
-                {item.location}
+                {item.address ?? ""}
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val: ItemDetails, i: number) => (
-                  <li className="list-inline-item" key={i}>
-                    <a href="#">
-                      {val.name}: {val.number}
-                    </a>
-                  </li>
-                ))}
+                <li className="list-inline-item">
+  <a href="#">Beds: {item.beds ?? 0}</a>
+</li>
+<li className="list-inline-item">
+  <a href="#">Baths: {item.baths ?? 0}</a>
+</li>
+<li className="list-inline-item">
+  <a href="#">SqFt: {item.sqFt ?? 0}</a>
+</li>
               </ul>
             </div>
             {/* End .tc_content */}
@@ -236,16 +214,16 @@ const FeaturedItem = () => {
                     <Image
                       width={40}
                       height={40}
-                      src={item.posterAvatar}
+                      src={item.owner?.img || "/assets/images/team/e1.png"}
                       alt="pposter1.png"
                     />
                   </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link href="/agent-v1">{item.posterName}</Link>
+                  <Link href="/agent-v1">{item.owner?.name || "Unknown"}</Link>
                 </li>
               </ul>
-              <div className="fp_pdate float-end">{item.postedYear}</div>
+              <div className="fp_pdate float-end">{item.createdAt ? new Date(item.createdAt).getFullYear() : ""}</div>
             </div>
             {/* End .fp_footer */}
           </div>

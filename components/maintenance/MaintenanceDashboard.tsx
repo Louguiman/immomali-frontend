@@ -3,12 +3,14 @@
 import { useGetUserMaintenanceRequestsQuery } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MaintenanceRequestCard from "./MaintenanceRequestCard";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
+
+import { RootState } from "@/store/store";
 
 const TenantMaintenanceDashboard = () => {
   const t = useTranslations("dashboard.maintenance");
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state: RootState) => state.auth.user);
 
   const {
     data: requests,
@@ -26,7 +28,7 @@ const TenantMaintenanceDashboard = () => {
         <div className="row">
           {isLoading && <LoadingSpinner />}
           {!isLoading &&
-            requests?.map((request) => (
+            requests?.map((request: any) => (
               <div key={request.id} className="col-md-6">
                 <MaintenanceRequestCard request={request} />
               </div>

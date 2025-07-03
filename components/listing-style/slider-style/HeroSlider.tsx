@@ -1,5 +1,6 @@
 'use client'
 
+// @ts-ignore
 import Slider from "react-slick";
 
 const HeroSlider = () => {

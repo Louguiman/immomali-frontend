@@ -1,15 +1,15 @@
-import { getSignedUrl } from "@/features/api/Serverside";
-import { cleanUrl } from "@/utils/splitDescription";
+
+
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 
-const PropertyCard = ({ item }) => {
+import { Property } from "@/types/property";
+
+const PropertyCard = ({ item }: { item: Property }) => {
   const t = useTranslations("property.PropertyCard");
-  const { statusType, featured, isGridOrList } = useSelector(
-    (state) => state.filter
-  );
+  const { isGridOrList } = useAppSelector((state: import("@/store/store").RootState) => state.filter);
 
   return (
     <div
@@ -23,7 +23,7 @@ const PropertyCard = ({ item }) => {
             width={342}
             height={220}
             className="img-whp w-100 h-100 cover"
-            src={item?.images[0]?.imageUrl}
+            src={item?.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
             alt="fp1.jpg"
           />
         )}
@@ -34,7 +34,7 @@ const PropertyCard = ({ item }) => {
             </li>
             <li className="list-inline-item">
               <a href="#" className="text-capitalize">
-                {item?.featured}
+                {(item as any).isFeatured ? "Featured" : ""}
               </a>
             </li>
           </ul>
@@ -65,8 +65,7 @@ const PropertyCard = ({ item }) => {
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
-            {item.address} {item.neighborhood}, {item?.city}, {item?.state},{" "}
-            {item?.country}
+            {item.address ?? ""} {item.neighborhood ?? ""}, {item?.city ?? ""}, {item?.state ?? ""}, {item?.country ?? ""}
           </p>
 
           <ul className="prop_details mb0">
@@ -96,11 +95,11 @@ const PropertyCard = ({ item }) => {
             </li>
             <li className="list-inline-item">
               <Link href={`/agent-details/${item?.owner?.id}`}>
-                {item?.owner?.name || t("unknown")}
+                {item?.owner?.name ?? t("unknown")}
               </Link>
             </li>
           </ul>
-          <div className="fp_pdate float-end">{item.postedYear}</div>
+          <div className="fp_pdate float-end">{item.createdAt ? new Date(item.createdAt).getFullYear() : ""}</div>
         </div>
       </div>
     </div>

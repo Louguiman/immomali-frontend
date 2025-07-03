@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useCreateManualPaymentMutation } from "@/features/api/payments.api";
 import { toast } from "react-toastify";
 
-const ManualPaymentModal = ({ invoiceId, onClose }) => {
+const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose: () => void }) => {
   const [formData, setFormData] = useState({
     amount: "",
     method: "Cash",
@@ -14,12 +14,12 @@ const ManualPaymentModal = ({ invoiceId, onClose }) => {
 
   const [createPayment, { isLoading }] = useCreateManualPaymentMutation();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createPayment({
@@ -54,7 +54,7 @@ const ManualPaymentModal = ({ invoiceId, onClose }) => {
                   name="amount"
                   className="form-control"
                   value={formData.amount}
-                  onChange={handleChange}
+                  onChange={handleChange as any}
                   required
                 />
               </div>

@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
+
 import Image from "next/image";
+import { Property } from "@/types/property";
 
 const FeaturedItem = () => {
   const {
@@ -18,121 +19,114 @@ const FeaturedItem = () => {
     bedrooms,
     garages,
     yearBuilt,
-    area,
-    amenities,
-  } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured, isGridOrList } = useSelector(
+  } = useAppSelector(
+    (state: import("@/store/store").RootState) => state.properties
+  );
+  const { statusType, featured, isGridOrList } = useAppSelector(
     (state: import("@/store/store").RootState) => state.filter
   );
 
   const dispatch = useAppDispatch();
 
   // keyword filter
-  const keywordHandler = (item) =>
-    item.title.toLowerCase().includes(keyword?.toLowerCase());
+
+  const keywordHandler = (item: Property): boolean =>
+    item.title.toLowerCase().includes(keyword?.toLowerCase() ?? "");
 
   // location handler
-  const locationHandler = (item) => {
-    return item.location.toLowerCase().includes(location.toLowerCase());
+  const locationHandler = (item: Property): boolean => {
+    return (item.address ?? "")
+      .toLowerCase()
+      .includes(location?.toLowerCase() ?? "");
   };
 
   // status handler
-  const statusHandler = (item) =>
-    item.type.toLowerCase().includes(status.toLowerCase());
+  const statusHandler = (item: Property): boolean =>
+    item.type.toLowerCase().includes(status?.toLowerCase() ?? "");
 
   // properties handler
-  const propertiesHandler = (item) =>
-    item.type.toLowerCase().includes(type.toLowerCase());
+  const propertiesHandler = (item: Property): boolean =>
+    item.type.toLowerCase().includes(type?.toLowerCase() ?? "");
 
   // price handler
-  const priceHandler = (item) =>
-    item.price < price?.max && item.price > price?.min;
+  const priceHandler = (item: Property): boolean =>
+    Number(item.price) < Number(price?.max ?? Infinity) &&
+    Number(item.price) > Number(price?.min ?? 0);
 
   // bathroom handler
-  const bathroomHandler = (item) => {
+  const bathroomHandler = (item: Property): boolean => {
     if (bathrooms !== "") {
-      return item.itemDetails[1].number == bathrooms;
+      return String(item.baths ?? "") === String(bathrooms);
     }
     return true;
   };
 
   // bedroom handler
-  const bedroomHandler = (item) => {
+  const bedroomHandler = (item: Property): boolean => {
     if (bedrooms !== "") {
-      return item.itemDetails[0].number == bedrooms;
+      return String(item.beds ?? "") === String(bedrooms);
     }
     return true;
   };
 
   // garages handler
-  const garagesHandler = (item) =>
+  const garagesHandler = (item: Property): boolean =>
     garages !== ""
-      ? item.garages?.toLowerCase().includes(garages.toLowerCase())
+      ? String(item.garages ?? "")
+          .toLowerCase()
+          .includes(garages?.toLowerCase() ?? "")
       : true;
 
   // built years handler
-  const builtYearsHandler = (item) =>
-    yearBuilt !== "" ? item?.built == yearBuilt : true;
-
-  // area handler
-  const areaHandler = (item) => {
-    if (area.min !== 0 && area.max !== 0) {
-      if (area.min !== "" && area.max !== "") {
-        return (
-          parseInt(item.itemDetails[2].number) > area.min &&
-          parseInt(item.itemDetails[2].number) < area.max
-        );
-      }
-    }
-    return true;
-  };
-
-  // advanced option handler
-  const advanceHandler = (item) => {
-    if (amenities.length !== 0) {
-      return amenities.find((item2) =>
-        item2.toLowerCase().includes(item.amenities.toLowerCase())
-      );
-    }
-    return true;
-  };
+  const builtYearsHandler = (item: Property): boolean =>
+    yearBuilt !== ""
+      ? String(item?.builtYear ?? "") === String(yearBuilt)
+      : true;
 
   // status filter
-  const statusTypeHandler = (a, b) => {
+  const statusTypeHandler = (a: Property, b: Property): number => {
     if (statusType === "recent") {
-      return a.created_at + b.created_at;
+      return (
+        (b.createdAt ? new Date(b.createdAt).getTime() : 0) -
+        (a.createdAt ? new Date(a.createdAt).getTime() : 0)
+      );
     } else if (statusType === "old") {
-      return a.created_at - b.created_at;
-    } else if (statusType === "") {
-      return a.created_at + b.created_at;
+      return (
+        (a.createdAt ? new Date(a.createdAt).getTime() : 0) -
+        (b.createdAt ? new Date(b.createdAt).getTime() : 0)
+      );
+    } else {
+      return 0;
     }
   };
 
   // featured handler
-  const featuredHandler = (item) => {
+  const featuredHandler = (item: Property): boolean => {
     if (featured !== "") {
-      return item.featured === featured;
+      return String(item.isFeatured) === String(featured);
     }
     return true;
   };
 
   // status handler
-  let content = properties
-    ?.slice(0, 10)
-    ?.filter(keywordHandler)
-    ?.filter(locationHandler)
-    ?.filter(statusHandler)
-    ?.filter(propertiesHandler)
-    ?.filter(priceHandler)
-    ?.filter(bathroomHandler)
-    ?.filter(bedroomHandler)
-    ?.filter(garagesHandler)
-    ?.filter(builtYearsHandler)
-    ?.filter(areaHandler)
-    ?.filter(advanceHandler)
-    ?.sort(statusTypeHandler)
-    ?.filter(featuredHandler)
-    .map((item) => (
+  const properties = useAppSelector(
+    (state: import("@/store/store").RootState) =>
+      ((state.properties as any).items as Property[]) || []
+  );
+  const content = (properties || [])
+    .slice(0, 10)
+    .filter(keywordHandler)
+    .filter(locationHandler)
+    .filter(statusHandler)
+    .filter(propertiesHandler)
+    .filter(priceHandler)
+    .filter(bathroomHandler)
+    .filter(bedroomHandler)
+    .filter(garagesHandler)
+    .filter(builtYearsHandler)
+    .sort(statusTypeHandler)
+    .filter(featuredHandler)
+    .map((item: Property) => (
       <div
         className={`${
           isGridOrList ? "col-12 feature-list" : "col-md-6 col-lg-6"
@@ -149,28 +143,34 @@ const FeaturedItem = () => {
               width={342}
               height={220}
               className="img-whp w-100 h-100 cover"
-              src={item.img}
+              src={item.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
               alt="fp1.jpg"
             />
             <div className="thmb_cntnt">
               <ul className="tag mb0">
                 <li className="list-inline-item">
-                  <a href="#">Featured</a>
+                  <a href="#" title="Featured">
+                    Featured
+                  </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#" className="text-capitalize">
-                    {item.featured}
+                  <a
+                    href="#"
+                    className="text-capitalize"
+                    title={String(item.isFeatured)}
+                  >
+                    {item.isFeatured ? "Featured" : ""}
                   </a>
                 </li>
               </ul>
               <ul className="icon mb0">
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="#" title="Transfer">
                     <span className="flaticon-transfer-1"></span>
                   </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="#" title="Favorite">
                     <span className="flaticon-heart"></span>
                   </a>
                 </li>
@@ -179,6 +179,7 @@ const FeaturedItem = () => {
               <Link
                 href={`/listing-details-v1/${item.id}`}
                 className="fp_price"
+                title="View Details"
               >
                 ${item.price}
                 <small>/mo</small>
@@ -195,17 +196,19 @@ const FeaturedItem = () => {
               </h4>
               <p>
                 <span className="flaticon-placeholder"></span>
-                {item.location}
+                {item.address ?? ""}
               </p>
 
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val, i) => (
-                  <li className="list-inline-item" key={i}>
-                    <a href="#">
-                      {val.name}: {val.number}
-                    </a>
-                  </li>
-                ))}
+                <li className="list-inline-item">
+                  <a href="#">Beds: {item.beds ?? 0}</a>
+                </li>
+                <li className="list-inline-item">
+                  <a href="#">Baths: {item.baths ?? 0}</a>
+                </li>
+                <li className="list-inline-item">
+                  <a href="#">SqFt: {item.sqFt ?? 0}</a>
+                </li>
               </ul>
             </div>
             {/* End .tc_content */}
@@ -217,16 +220,18 @@ const FeaturedItem = () => {
                     <Image
                       width={40}
                       height={40}
-                      src={item.posterAvatar}
+                      src={item.owner?.img || "/assets/images/team/e1.png"}
                       alt="pposter1.png"
                     />
                   </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link href="/agent-v2">{item.posterName}</Link>
+                  <Link href="/agent-v2">{item.owner?.name || "Unknown"}</Link>
                 </li>
               </ul>
-              <div className="fp_pdate float-end">{item.postedYear}</div>
+              <div className="fp_pdate float-end">
+                {item.createdAt ? new Date(item.createdAt).getFullYear() : ""}
+              </div>
             </div>
             {/* End .fp_footer */}
           </div>

@@ -1,7 +1,9 @@
-import { api } from "../api/api";
+import { apiSlice } from "../api/api";
 
-export const agentApi = api.injectEndpoints({
-    endpoints: (builder) => ({
+export const agentApi = apiSlice.injectEndpoints<{
+    getAgents: any;
+}>({
+    endpoints: (builder: any) => ({
         getAgents: builder.query({
             query: () => ({
                 url: "/agents",

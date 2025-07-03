@@ -1,6 +1,6 @@
 // RTK Query API slice for advertisements
 import { apiSlice } from "./api";
-import { Advertisement, AdStatus, AdType } from "@/types/advertisement";
+import { Advertisement, AdStatus } from "@/types/advertisement";
 
 export const adsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

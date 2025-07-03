@@ -1,39 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
-import properties from "../../../data/properties";
+import { Property } from "@/types/property";
 import Image from "next/image";
 
-import { Property } from "@/types/property";
-
-interface ItemDetails {
-  name: string;
-  number: string | number;
-}
-
-interface PropertyListItem {
-  id: number;
-  img: string;
-  price: string | number;
-  type: string;
-  title: string;
-  location: string;
-  saleTag: string[];
-  garages: string;
-  itemDetails: ItemDetails[];
-  posterAvatar: string;
-  posterName: string;
-  postedYear: string;
-  imgList: string[];
-  imgList2: string[];
-  built: string;
-  amenities: string;
-  featured: string;
-  created_at: number;
-}
 
 const FeaturedItem = () => {
   const {
@@ -48,67 +20,65 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured, isGridOrList } = useSelector(
-    (state: import("@/store/store").RootState) => state.filter
-  );
+  } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
+  const { statusType, featured, isGridOrList } = useAppSelector(
 
   const dispatch = useAppDispatch();
 
   // keyword filter
-  const keywordHandler = (item: PropertyListItem) =>
-    item.title.toLowerCase().includes(keyword?.toLowerCase());
+  const keywordHandler = (item: Property) =>
+    item.title?.toLowerCase().includes(keyword?.toLowerCase() ?? "");
 
   // location handler
-  const locationHandler = (item: PropertyListItem) => {
-    return item.location.toLowerCase().includes(location.toLowerCase());
+  const locationHandler = (item: Property) => {
+    return (item.address ?? "").toLowerCase().includes(location?.toLowerCase() ?? "");
   };
 
   // status handler
-  const statusHandler = (item: PropertyListItem) =>
-    item.type.toLowerCase().includes(status.toLowerCase());
+  const statusHandler = (item: Property) =>
+    item.type?.toLowerCase().includes(status?.toLowerCase() ?? "");
 
   // properties handler
-  const propertiesHandler = (item: PropertyListItem) =>
-    item.type.toLowerCase().includes(type.toLowerCase());
+  const propertiesHandler = (item: Property) =>
+    item.type?.toLowerCase().includes(type?.toLowerCase() ?? "");
 
   // price handler
-  const priceHandler = (item: PropertyListItem) =>
-    Number(item.price) < price?.max && Number(item.price) > price?.min;
+  const priceHandler = (item: Property) =>
+    Number(item.price) < (price?.max ?? Infinity) && Number(item.price) > (price?.min ?? -Infinity);
 
   // bathroom handler
-  const bathroomHandler = (item: PropertyListItem) => {
+  const bathroomHandler = (item: Property) => {
     if (bathrooms !== "") {
-      return item.itemDetails[1]?.number == bathrooms;
+      return String(item.baths ?? "") === String(bathrooms);
     }
     return true;
   };
 
   // bedroom handler
-  const bedroomHandler = (item: PropertyListItem) => {
+  const bedroomHandler = (item: Property) => {
     if (bedrooms !== "") {
-      return item.itemDetails[0]?.number == bedrooms;
+      return String(item.beds ?? "") === String(bedrooms);
     }
     return true;
   };
 
   // garages handler
-  const garagesHandler = (item: PropertyListItem) =>
+  const garagesHandler = (item: Property) =>
     garages !== ""
-      ? item.garages?.toLowerCase().includes(garages.toLowerCase())
+      ? String(item.garages ?? "").toLowerCase().includes(garages.toLowerCase())
       : true;
 
   // built years handler
-  const builtYearsHandler = (item: PropertyListItem) =>
-    yearBuilt !== "" ? item?.built == yearBuilt : true;
+  const builtYearsHandler = (item: Property) =>
+    yearBuilt !== "" ? String(item.builtYear ?? "") === String(yearBuilt) : true;
 
   // area handler
-  const areaHandler = (item: PropertyListItem) => {
+  const areaHandler = (item: Property) => {
     if (area.min !== 0 && area.max !== 0) {
       if (area.min !== "" && area.max !== "") {
         return (
-          parseInt(item.itemDetails[2].number) > area.min &&
-          parseInt(item.itemDetails[2].number) < area.max
+          Number(item.sqFt ?? 0) > Number(area.min) &&
+          Number(item.sqFt ?? 0) < Number(area.max)
         );
       }
     }
@@ -116,40 +86,41 @@ const FeaturedItem = () => {
   };
 
   // advanced option handler
-  const advanceHandler = (item) => {
+  const advanceHandler = (item: Property) => {
     if (amenities.length !== 0) {
-      return amenities.find((item2) =>
-        item2.toLowerCase().includes(item.amenities.toLowerCase())
+      return amenities.find((item2: string) =>
+        (item.amenities ?? "").toLowerCase().includes(item2.toLowerCase())
       );
     }
     return true;
   };
 
   // status filter
-  const statusTypeHandler = (a, b) => {
+  const statusTypeHandler = (a: Property, b: Property) => {
     if (statusType === "recent") {
-      return a.created_at + b.created_at;
+      return (a.createdAt ?? 0) + (b.createdAt ?? 0);
     } else if (statusType === "old") {
-      return a.created_at - b.created_at;
+      return (a.createdAt ?? 0) - (b.createdAt ?? 0);
     } else if (statusType === "all-status") {
-      return a.created_at + b.created_at;
+      return (a.createdAt ?? 0) + (b.createdAt ?? 0);
     }
+    return 0;
   };
 
   // featured handler
-  const featuredHandler = (item) => {
+  const featuredHandler = (item: Property) => {
     if (featured !== "") {
       if (featured === "featured-all") {
         return item;
       }
-      return item.featured === featured;
+      return item.isFeatured === featured;
     }
     return true;
   };
 
-  // status handler
-  let content = properties
-    ?.slice(0, 10)
+  const properties = useAppSelector((state: import("@/store/store").RootState) => state.properties.items) as Property[];
+  const content = (properties || [])
+    .slice(0, 6)
     ?.filter(keywordHandler)
     ?.filter(locationHandler)
     ?.filter(statusHandler)
@@ -163,29 +134,20 @@ const FeaturedItem = () => {
     ?.filter(advanceHandler)
     ?.sort(statusTypeHandler)
     ?.filter(featuredHandler)
-    .map((item) => (
-      <div
-        className={`${
-          isGridOrList ? "col-12 feature-list" : "col-md-6 col-lg-6"
-        } `}
-        key={item.id}
-      >
-        <div
-          className={`feat_property home7 style4 ${
-            isGridOrList && "d-flex align-items-center"
-          }`}
-        >
+    .map((item: Property) => (
+      <div className={isGridOrList ? "col-12 feature-list" : "col-md-6 col-lg-6"} key={item.id}>
+        <div className={`feat_property home7 style5 ${isGridOrList ? "d-flex align-items-center" : ""}`}>
           <div className="thumb">
             <Image
-              width={342}
+              width={364}
               height={220}
               className="img-whp w-100 h-100 cover"
-              src={item.img}
-              alt="fp1.jpg"
+              src={item.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
+              alt={item.title ?? "Property image"}
             />
             <div className="thmb_cntnt">
               <ul className="tag mb0">
-                {item.saleTag.map((val: string, i: number) => (
+                {(item.saleTag ?? []).map((val: string, i: number) => (
                   <li className="list-inline-item" key={i}>
                     <a href="#">{val}</a>
                   </li>
@@ -193,69 +155,66 @@ const FeaturedItem = () => {
               </ul>
               <ul className="icon mb0">
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="#" title="Transfer">
                     <span className="flaticon-transfer-1"></span>
                   </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="#" title="Favorite">
                     <span className="flaticon-heart"></span>
                   </a>
                 </li>
               </ul>
-
               <Link
                 href={`/listing-details-v1/${item.id}`}
                 className="fp_price"
+                title="View Details"
               >
                 ${item.price}
                 <small>/mo</small>
               </Link>
             </div>
           </div>
-
           <div className="details">
             <div className="tc_content">
               <p className="text-thm">{item.type}</p>
               <h4>
-                <Link href={`/listing-details-v1/${item.id}`}>
-                  {item.title}
-                </Link>
+                <Link href={`/listing-details-v3/${item.id}`}>{item.title}</Link>
               </h4>
               <p>
                 <span className="flaticon-placeholder"></span>
-                {item.location}
+                {item.address ?? ""}
               </p>
-
               <ul className="prop_details mb0">
-                {item.itemDetails.map((val: ItemDetails, i: number) => (
-                  <li className="list-inline-item" key={i}>
-                    <a href="#">
-                      {val.name}: {val.number}
-                    </a>
-                  </li>
-                ))}
+                <li className="list-inline-item">
+                  <a href="#">Beds: {item.beds ?? 0}</a>
+                </li>
+                <li className="list-inline-item">
+                  <a href="#">Baths: {item.baths ?? 0}</a>
+                </li>
+                <li className="list-inline-item">
+                  <a href="#">SqFt: {item.sqFt ?? 0}</a>
+                </li>
               </ul>
             </div>
             {/* End .tc_content */}
-
             <div className="fp_footer">
               <ul className="fp_meta float-start mb0">
                 <li className="list-inline-item">
-                  <Link href="/agent-v2">
+                  <Link href="/agent-v1">
                     <Image
                       width={40}
                       height={40}
-                      src={item.posterAvatar}
-                      alt="pposter1.png"
+                      src={item.owner?.img || "/assets/images/team/e1.png"}
+                      alt="Agent avatar"
                     />
                   </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link href="/agent-v2">{item.posterName}</Link>
+                  <Link href="/agent-v1">{item.owner?.name || "Unknown"}</Link>
                 </li>
               </ul>
-              <div className="fp_pdate float-end">{item.postedYear}</div>
+              <div className="fp_pdate float-end">{item.createdAt ? new Date(item.createdAt).getFullYear() : ""}</div>
             </div>
             {/* End .fp_footer */}
           </div>

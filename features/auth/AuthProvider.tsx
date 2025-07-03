@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { loadFromStorage } from "../properties/propertiesSlice";
 import { setAuthToken } from "./authSlice";
 import { RootState } from "@/store/store";
@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useAppSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     dispatch(
