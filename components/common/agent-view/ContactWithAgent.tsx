@@ -2,13 +2,27 @@
 
 import { useCreateInquiryMutation } from "@/features/api/inquiries.api";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
-const ContactWithAgent = ({ agentId, propertyId }) => {
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  message?: string;
+  [key: string]: string | undefined;
+}
+
+const ContactWithAgent = ({
+  agentId,
+  propertyId,
+}: {
+  agentId: string;
+  propertyId: string;
+}) => {
   const t = useTranslations("property.sidebar.contactAgent");
-  const user = useSelector((state) => state.auth?.user);
+  const user = useAppSelector((state) => state.auth?.user);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -19,7 +33,7 @@ const ContactWithAgent = ({ agentId, propertyId }) => {
     propertyId,
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [createInquiry, { isLoading }] = useCreateInquiryMutation();
 
   useEffect(() => {
@@ -32,27 +46,31 @@ const ContactWithAgent = ({ agentId, propertyId }) => {
     }
   }, [user]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validateForm = () => {
-    let errors = {};
+    const errors: FormErrors = {};
 
-    if (!formData.name.trim()) errors.name = t("validation.nameRequired");
+    if (!formData.name.trim()) errors["name"] = t("validation.nameRequired");
     if (!formData.email.trim()) {
-      errors.email = t("validation.emailRequired");
+      errors["email"] = t("validation.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = t("validation.emailInvalid");
+      errors["email"] = t("validation.emailInvalid");
     }
     if (!formData.message.trim())
-      errors.message = t("validation.messageRequired");
+      errors["message"] = t("validation.messageRequired");
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -74,15 +92,15 @@ const ContactWithAgent = ({ agentId, propertyId }) => {
           <div className="form-group mb-3">
             <input
               type="text"
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
+              className={`form-control ${errors["name"] ? "is-invalid" : ""}`}
               placeholder={t("namePlaceholder")}
               name="name"
               value={formData.name}
               onChange={handleChange}
               disabled={!!user}
             />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
+            {errors["name"] && (
+              <div className="invalid-feedback">{errors["name"]}</div>
             )}
           </div>
         </li>
@@ -98,8 +116,8 @@ const ContactWithAgent = ({ agentId, propertyId }) => {
               onChange={handleChange}
               disabled={!!user}
             />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
+            {errors["email"] && (
+              <div className="invalid-feedback">{errors["email"]}</div>
             )}
           </div>
         </li>
@@ -121,7 +139,7 @@ const ContactWithAgent = ({ agentId, propertyId }) => {
           <div className="form-group mb-3">
             <textarea
               className={`form-control ${errors.message ? "is-invalid" : ""}`}
-              rows="5"
+              rows={5}
               placeholder={t("messagePlaceholder")}
               name="message"
               value={formData.message}

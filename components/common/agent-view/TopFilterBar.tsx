@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import { addListen } from "../../../features/agent/agentSlice";
 
 const TopFilterBar = () => {
   const t = useTranslations("home.agents.topBar");
-  const dispatch = useDispatch();
-  const { length = 0, listen } = useSelector((state) => state.agent) || {};
+  const dispatch = useAppDispatch();
+  const { length = 0, listen } = useAppSelector((state) => state.agent) || {};
 
   const [getListen, setListen] = useState(listen || "");
 
@@ -51,6 +51,7 @@ const TopFilterBar = () => {
                 onChange={(e) => setListen(e.target.value)}
                 className="selectpicker show-tick form-select"
                 value={getListen}
+                aria-label={t("sort_by")}
               >
                 <option value="">{t("select_type")}</option>
                 {[1, 2, 3, 4].map((num) => (

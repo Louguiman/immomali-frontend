@@ -2,20 +2,20 @@
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useTranslations } from "next-intl"; // Import the useTranslations hook
 import {
   addFeatured,
   addStatusType,
 } from "../../../features/filter/filterSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 const FilterTopBar = () => {
-  const { length } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured } = useSelector((state: import("@/store/store").RootState) => state.filter);
+  const { length } = useAppSelector((state) => state.properties);
+  const { statusType, featured } = useAppSelector((state) => state.filter);
   const [getStatus, setStatus] = useState(statusType);
   const [getFeatured, setFeatured] = useState(featured);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Translate the strings using useTranslations hook
   const t = useTranslations("common");
@@ -58,11 +58,12 @@ const FilterTopBar = () => {
         <div className="right_area text-end tac-xsd">
           <ul>
             <li className="list-inline-item">
-              <span className="stts">{t("status")}:</span>
+              <span id="status-label" className="stts">{t("status")}:</span>
               <select
                 className="selectpicker show-tick"
                 onChange={(e) => setStatus(e.target.value)}
                 value={getStatus}
+                aria-labelledby="status-label"
               >
                 <option value="">{t("allStatus")}</option>
                 <option value="old">{t("old")}</option>
@@ -75,6 +76,7 @@ const FilterTopBar = () => {
                 className="selectpicker show-tick"
                 onChange={(e) => setFeatured(e.target.value)}
                 value={getFeatured}
+                aria-label={t("sortBy")}
               >
                 <option value="">{t("featuredAll")}</option>
                 <option value="sale">{t("sale")}</option>

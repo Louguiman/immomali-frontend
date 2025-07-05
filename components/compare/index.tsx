@@ -1,13 +1,13 @@
 "use client";
-import { useDispatch } from "react-redux";
+
 import { clearCompareList } from "@/features/properties/propertiesSlice";
 
 import ComparePricing from "./ComparePricing";
-import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 const index = () => {
-  const dispatch = useDispatch();
-  const compareList = useSelector((state) => state.properties.compareList);
+  const dispatch = useAppDispatch();
+  const compareList = useAppSelector((state) => state.properties.compareList);
 
   // if (compareList.length === 0)
   //   return <p>No properties selected for comparison.</p>;
@@ -24,12 +24,12 @@ const index = () => {
                 <p>We provide full service at every step</p>
               </div>
             </div>
-            {/* <button
+            <button
               onClick={() => dispatch(clearCompareList())}
               className="btn btn-warning mb-3"
             >
               Clear Comparison
-            </button> */}
+            </button>
           </div>
           <div className="row">
             <div className="col-lg-12">

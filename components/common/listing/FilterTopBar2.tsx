@@ -2,19 +2,19 @@
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addFeatured,
   addStatusType,
 } from "../../../features/filter/filterSlice";
+import { useAppDispatch,  useAppSelector } from "@/store/store";
 
 const FilterTopBar2 = () => {
-  const { length } = useSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured } = useSelector((state: import("@/store/store").RootState) => state.filter);
+  const { length } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
+  const { statusType, featured } = useAppSelector((state: import("@/store/store").RootState) => state.filter);
   const [getStatus, setStatus] = useState(statusType);
   const [getFeatured, setFeatured] = useState(featured);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // add status
   useEffect(() => {

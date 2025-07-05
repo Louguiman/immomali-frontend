@@ -47,7 +47,7 @@ export default function PropertiesPage() {
 
   useEffect(() => {
     refetch();
-  }, [searchParams]);
+  }, [refetch, searchParams]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -93,7 +93,7 @@ export default function PropertiesPage() {
 
             <div
               className="offcanvas offcanvas-start offcanvas-listing-sidebar"
-              tabIndex="-1"
+              tabIndex={-1}
               id="sidebarListing"
             >
               <div className="offcanvas-header">

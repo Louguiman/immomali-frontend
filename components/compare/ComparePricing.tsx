@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "@/store/store";
 import { removeFromCompare as removeFromCompareList } from "@/features/properties/propertiesSlice";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
-import { useState } from "react";
+import { Property } from "@/types/property";
 
 const ComparePricing = () => {
-  const dispatch = useDispatch();
-  const compareList = useSelector((state) => state.properties.compareList);
+  const dispatch = useAppDispatch();
+  const compareList = useAppSelector((state) => state.properties.compareList);
   console.log("compareList", compareList);
 
   if (!compareList.length) {
@@ -23,7 +23,7 @@ const ComparePricing = () => {
     <>
       {compareList.map((item) => (
         <li className="list-inline-item" key={item}>
-          <ComparePricingCard property={{ id: item }} />
+          <ComparePricingCard property={item} />
         </li>
       ))}
     </>
@@ -32,8 +32,8 @@ const ComparePricing = () => {
 
 export default ComparePricing;
 
-function ComparePricingCard({ property }) {
-  const dispatch = useDispatch();
+function ComparePricingCard({ property }: { property: Property }) {
+  const dispatch = useAppDispatch();
   const { data: item, isLoading } = useFetchPropertyByIdQuery(property.id, {
     skip: !property.id, // Skip the query if item.id is not available
     refetchOnMountOrArgChange: true, // Refetch when the component mounts or when item.id changes
@@ -59,9 +59,9 @@ function ComparePricingCard({ property }) {
         <div className="membership_header">
           <div className="thumb">
             <a
-              onMouseDown={() => dispatch(removeFromCompareList(item.id))}
+              onMouseDown={() => dispatch(removeFromCompareList(property.id))}
               href="#"
-              aria-label={`Remove ${item.title} from comparison`}
+              aria-label={`Remove ${property.title} from comparison`}
             >
               <span className="flaticon-close"></span>
             </a>
@@ -69,60 +69,60 @@ function ComparePricingCard({ property }) {
               width={260}
               height={180}
               className="img-fluid w100 h-100 cover"
-              src={item.images?.[0]?.imageUrl}
-              alt="1.jpg"
+              src={property.images?.[0]?.imageUrl || '/images/placeholder-property.jpg'}
+              alt={property.title || 'Property image'}
             />
             <div className="price">
-              {item.price} FCFA
+              {property.price} FCFA
               <span className="mnth">/mo</span>
             </div>
           </div>
           <div className="details">
-            <h4>{item.title}</h4>
-            <p>{item.type}</p>
+            <h4>{property.title}</h4>
+            <p>{property.type}</p>
           </div>
         </div>
       </li>
 
       {/* HEADERS MATCH BELOW */}
-      <li>{item.city}</li>
-      <li>{item.beds}</li>
-      <li>{item.baths}</li>
-      <li>{item.garages}</li>
-      <li>{item.builtYear || "N/A"}</li>
-      <li>{item.amenities?.laundry ? "Yes" : "No"}</li>
-      <li>{item.isRented ? "Rented" : "Available"}</li>
+      <li>{property.city}</li>
+      <li>{property.beds}</li>
+      <li>{property.baths}</li>
+      <li>{property.garages}</li>
+      <li>{property.builtYear || "N/A"}</li>
+      <li>{property.amenities?.laundry ? "Yes" : "No"}</li>
+      <li>{property.isRented ? "Rented" : "Available"}</li>
 
       {/* ADDITIONAL FIELDS BELOW */}
-      <li>{item.state}</li>
-      <li>{item.country}</li>
-      <li>{item.address}</li>
-      <li>{item.neighborhood || "N/A"}</li>
-      <li>{item.category}</li>
-      <li>{item.type}</li>
-      <li>{item.saleTag?.join(", ") || "None"}</li>
-      <li>{item.sqFt} sqFt</li>
-      <li>{item.attachments?.length ?? 0} file(s)</li>
-      <li>{item.isFeatured ? "Yes" : "No"}</li>
-      <li>{item.owner?.name || "N/A"}</li>
-      <li>{item.agency?.name || "N/A"}</li>
-      <li>{item.tenants?.length ?? 0} tenants</li>
+      <li>{property.state}</li>
+      <li>{property.country}</li>
+      <li>{property.address}</li>
+      <li>{property.neighborhood || "N/A"}</li>
+      <li>{property.category}</li>
+      <li>{property.type}</li>
+      <li>{property.saleTag?.join(", ") || "None"}</li>
+      <li>{property.sqFt} sqFt</li>
+      <li>{property.attachments?.length ?? 0} file(s)</li>
+      <li>{property.isFeatured ? "Yes" : "No"}</li>
+      <li>{property.owner?.name || "N/A"}</li>
+      <li>{property.agency?.name || "N/A"}</li>
+      <li>{property.tenants?.length ?? 0} tenants</li>
 
       {/* All Amenities */}
-      <li>{item.amenities?.airConditioning ? "✓" : "✗"}</li>
-      <li>{item.amenities?.barbeque ? "✓" : "✗"}</li>
-      <li>{item.amenities?.dryer ? "✓" : "✗"}</li>
-      <li>{item.amenities?.gym ? "✓" : "✗"}</li>
-      <li>{item.amenities?.lawn ? "✓" : "✗"}</li>
-      <li>{item.amenities?.microwave ? "✓" : "✗"}</li>
-      <li>{item.amenities?.outdoorShower ? "✓" : "✗"}</li>
-      <li>{item.amenities?.refrigerator ? "✓" : "✗"}</li>
-      <li>{item.amenities?.sauna ? "✓" : "✗"}</li>
-      <li>{item.amenities?.swimmingPool ? "✓" : "✗"}</li>
-      <li>{item.amenities?.tvCable ? "✓" : "✗"}</li>
-      <li>{item.amenities?.washer ? "✓" : "✗"}</li>
-      <li>{item.amenities?.wifi ? "✓" : "✗"}</li>
-      <li>{item.amenities?.windowCoverings ? "✓" : "✗"}</li>
+      <li>{property.amenities?.airConditioning ? "✓" : "✗"}</li>
+      <li>{property.amenities?.barbeque ? "✓" : "✗"}</li>
+      <li>{property.amenities?.dryer ? "✓" : "✗"}</li>
+      <li>{property.amenities?.gym ? "✓" : "✗"}</li>
+      <li>{property.amenities?.lawn ? "✓" : "✗"}</li>
+      <li>{property.amenities?.microwave ? "✓" : "✗"}</li>
+      <li>{property.amenities?.outdoorShower ? "✓" : "✗"}</li>
+      <li>{property.amenities?.refrigerator ? "✓" : "✗"}</li>
+      <li>{property.amenities?.sauna ? "✓" : "✗"}</li>
+      <li>{property.amenities?.swimmingPool ? "✓" : "✗"}</li>
+      <li>{property.amenities?.tvCable ? "✓" : "✗"}</li>
+      <li>{property.amenities?.washer ? "✓" : "✗"}</li>
+      <li>{property.amenities?.wifi ? "✓" : "✗"}</li>
+      <li>{property.amenities?.windowCoverings ? "✓" : "✗"}</li>
 
       {/* Action */}
       <li>

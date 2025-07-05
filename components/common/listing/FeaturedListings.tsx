@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
+import { Property } from "@/types/property";
+import { FaBed, FaBath, FaRulerCombined } from "react-icons/fa";
 
 const FeaturedListings = () => {
   const recentlyViewedList = useAppSelector(
@@ -12,8 +14,8 @@ const FeaturedListings = () => {
   );
   return (
     <div>
-      {recentlyViewedList.map((item) => (
-        <PropertyItem id={item} key={item} />
+      {recentlyViewedList.map((item: Property) => (
+        <PropertyItem id={item.id} key={item.id} />
       ))}
     </div>
   );
@@ -21,7 +23,11 @@ const FeaturedListings = () => {
 
 export default FeaturedListings;
 
-export function PropertyItem({ id }) {
+interface PropertyItemProps {
+  id: number;
+}
+
+export function PropertyItem({ id }: PropertyItemProps) {
   // Translation hook
   const t = useTranslations("property");
   const { number: formatNumber } = useFormatter(); // Hook for number formatting
@@ -74,14 +80,20 @@ export function PropertyItem({ id }) {
           </Link>
 
           <ul className="mb0">
-            <li className="list-inline-item">
-              {t("beds")}: {item?.beds} &nbsp;
+            <li className="list-inline-item d-flex align-items-center">
+              <FaBed className="me-1" aria-hidden="true" />
+              <span className="visually-hidden">{t("beds")}: </span>
+              {item?.beds}
             </li>
-            <li className="list-inline-item">
-              {t("baths")}: {item?.baths} &nbsp;
+            <li className="list-inline-item d-flex align-items-center">
+              <FaBath className="me-1" aria-hidden="true" />
+              <span className="visually-hidden">{t("baths")}: </span>
+              {item?.baths}
             </li>
-            <li className="list-inline-item">
-              {t("sqft")}: {item?.sqFt} &nbsp;
+            <li className="list-inline-item d-flex align-items-center">
+              <FaRulerCombined className="me-1" aria-hidden="true" />
+              <span className="visually-hidden">{t("sqft")}: </span>
+              {item?.sqFt}
             </li>
           </ul>
         </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Social from "./Social";
-import SubscribeForm from "./SubscribeForm";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const Footer = () => {
   const t = useTranslations("Footer");
@@ -45,7 +45,7 @@ const Footer = () => {
           <h4>{t("contactUs")}</h4>
           <ul className="list-unstyled">
             <li>
-              <a href="mailto:info@findhouse.com">info@findhouse.com</a>
+              <a href="mailto:info@ikasow.com">info@ikasow.com</a>
             </li>
             <li>
               <a href="#">{t("address")}</a>
@@ -54,10 +54,10 @@ const Footer = () => {
               <a href="#">{t("addressCityCountry")}</a>
             </li>
             <li>
-              <a href="tel:+4733378901">+1 246-345-0699</a>
+              <a href="tel:+212655555555">+212655555555</a>
             </li>
             <li>
-              <a href="tel:+4733378901">+1 246-345-0695</a>
+              <a href="tel:+212655555555">+212655555555</a>
             </li>
           </ul>
         </div>
@@ -70,8 +70,23 @@ const Footer = () => {
           <ul className="mb30">
             <Social />
           </ul>
-          <h4>{t("subscribe")}</h4>
-          <SubscribeForm />
+          <div className="mt-8 p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="p-4 bg-white/90 rounded-xl border border-gray-100 w-full flex justify-center items-center">
+                  <Image
+                    width={400} 
+                    height={400}
+                    className="max-w-full h-auto object-contain mx-auto"
+                    src="/assets/images/logo/logo-ikasow.webp"
+                    alt="Ikasow Logo"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

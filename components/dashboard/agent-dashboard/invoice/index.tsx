@@ -4,23 +4,18 @@ import {
   useDeleteInvoiceMutation,
   useGetInvoicesByAgentQuery,
 } from "@/features/api/invoices.api";
-import { useSelector } from "react-redux";
-import InvoiceTable from "../../my-invoices/InvoiceTable";
+import { useAppSelector } from "@/store/store";
 import Pagination from "../../my-properties/Pagination";
-import Header from "@/components/common/header/dashboard/Header";
-import MobileMenu from "@/components/common/header/MobileMenu";
-import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
-import { usePathname } from "next/navigation";
+import { AgencyInvoice } from "@/components/dashboard/my-invoices/AgencyInvoiceTable";
 
 export const AgentInvoicesPage = () => {
-  const pathname = usePathname();
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState(null);
+  const [editingInvoice, setEditingInvoice] = useState<AgencyInvoice | null>(null);
 
   const { data, isLoading } = useGetInvoicesByAgentQuery(
     {
@@ -29,16 +24,16 @@ export const AgentInvoicesPage = () => {
       page,
       limit: 10,
     },
-    { skip: !user.id }
+    { skip: !user?.id }
   );
 
   const [deleteInvoice] = useDeleteInvoiceMutation();
 
   // if (isLoading) return <LoadingSpinner />;
 
-  const handleDelete = async (invoiceId) => {
+  const handleDelete = (invoiceId: string | number): void => {
     if (confirm("Are you sure you want to delete this invoice?")) {
-      await deleteInvoice(invoiceId);
+      deleteInvoice(invoiceId).catch(console.error);
     }
   };
 
@@ -58,6 +53,7 @@ export const AgentInvoicesPage = () => {
                 </button>
                 {/* Filter */}
                 <select
+                  aria-label="Filter invoices by status"
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
@@ -73,7 +69,7 @@ export const AgentInvoicesPage = () => {
                 ) : (
                   <AgencyInvoiceTable
                     invoices={data}
-                    onEdit={(invoice) => {
+                    onEdit={(invoice: AgencyInvoice) => {
                       setEditingInvoice(invoice);
                       setShowModal(true);
                     }}
@@ -95,7 +91,21 @@ export const AgentInvoicesPage = () => {
       {/* Invoice Form Modal */}
       {showModal && (
         <InvoiceFormModal
-          invoice={editingInvoice}
+          invoice={editingInvoice ? {
+            id: Number(editingInvoice.id), // Ensure id is a number
+            tenantId: Number(editingInvoice.tenantId),
+            amount: editingInvoice.amount,
+            totalAmount: editingInvoice.totalAmount,
+            status: (editingInvoice.status === 'paid' || editingInvoice.status === 'overdue') 
+              ? editingInvoice.status 
+              : 'unpaid', // Default to 'unpaid' for any other status
+            type: editingInvoice.type,
+            dueDate: editingInvoice.dueDate,
+            // Set default values for required fields
+            tax: 0,
+            discount: 0,
+            notes: editingInvoice.tenant?.user?.name ? `Tenant: ${editingInvoice.tenant.user.name}` : ''
+          } : undefined}
           onClose={() => {
             setShowModal(false);
             setEditingInvoice(null);

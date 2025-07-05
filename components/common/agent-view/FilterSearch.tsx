@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import {
   addCategory,
@@ -12,8 +12,8 @@ import {
 
 const FilterSearch = () => {
   const t = useTranslations("home.agents.sidebar.search");
-  const dispatch = useDispatch();
-  const { name, category, city } = useSelector((state) => state.agent) || {};
+  const dispatch = useAppDispatch();
+  const { name, category, city } = useAppSelector((state) => state.agent) || {};
 
   const [getName, setName] = useState(name || "");
   const [getCategory, setCategory] = useState(category || "");
@@ -58,10 +58,15 @@ const FilterSearch = () => {
       <li>
         <div className="search_option_two mb-3">
           <div className="candidate_revew_select">
+            <label htmlFor="category-select" className="visually-hidden">
+              {t("category")}
+            </label>
             <select
+              id="category-select"
               onChange={(e) => setCategory(e.target.value)}
               value={getCategory}
               className="selectpicker w100 show-tick form-select"
+              aria-label={t("select_category")}
             >
               <option value="">{t("all_categories")}</option>
               <option value="broker">{t("broker")}</option>
@@ -79,6 +84,7 @@ const FilterSearch = () => {
               onChange={(e) => setCity(e.target.value)}
               value={getCity}
               className="selectpicker w100 show-tick form-select"
+              aria-label={t("select_city")}
             >
               <option value="">{t("all_cities")}</option>
               {[

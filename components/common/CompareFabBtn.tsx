@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
 import React from "react";
 const CompareFabBtn: React.FC = () => {
-  const compareCount: number = useSelector(
-    (state: import("@/store/store").RootState) => state.properties.compareList.length
+  const compareCount: number = useAppSelector(
+    (state) => state.properties.compareList.length
   );
 
   return (

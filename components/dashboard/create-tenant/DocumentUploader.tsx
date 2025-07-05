@@ -1,7 +1,6 @@
 "use client";
 
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/store/store";
+import { useAppSelector, useAppDispatch } from "@/store/store";
 import selectedFiles from "../../../utils/selectedFiles";
 import {
   addTenantDocument,
@@ -9,21 +8,33 @@ import {
 } from "@/features/tenant/tenantsSlice";
 import { useTranslations } from "next-intl";
 
-const TenantDocumentUploader = ({ activeStep, onNext, onPrevious }) => {
+interface TenantDocumentUploaderProps {
+  activeStep: number;
+  onNext: () => void;
+  onPrevious: () => void;
+}
+
+const TenantDocumentUploader = ({
+  activeStep,
+  onNext,
+  onPrevious,
+}: TenantDocumentUploaderProps) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
-  const leaseDocuments = useSelector(
-    (state: import("@/store/store").RootState) => state.tenants.leaseDocuments
+  const leaseDocuments = useAppSelector(
+    (state) => state.tenants.leaseDocuments
   );
 
   // Handle document upload
-  const handleDocumentUpload = (e) => {
+  const handleDocumentUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = selectedFiles(e);
-    files.forEach((file) => dispatch(addTenantDocument(file)));
+    if (files) {
+      files.forEach((file: File) => dispatch(addTenantDocument(file)));
+    }
   };
 
   // Delete document
-  const deleteDocument = (name) => {
+  const deleteDocument = (name: string) => {
     dispatch(removeTenantDocument(name));
   };
 

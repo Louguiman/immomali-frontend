@@ -2,15 +2,17 @@
 
 import { useState, FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
 import {
   useGetInquiryRepliesQuery,
   useSendInquiryReplyMutation,
 } from "@/features/api/inquiries.api";
 import SingleChatboxReply from "./SingleChatboxReply";
 import PropertyCardWithQuery from "@/components/common/cards/PropertyCardWithQuery";
-import type { Inquiry, InquiryReply } from "@/utils/interface/inquiry.interface";
-import type { RootState } from "@/store/store";
+import type {
+  Inquiry,
+  InquiryReply,
+} from "@/utils/interface/inquiry.interface";
+import { RootState, useAppSelector } from "@/store/store";
 import type { User } from "@/utils/interface/user.interface";
 
 interface ChatboxContentProps {
@@ -19,17 +21,19 @@ interface ChatboxContentProps {
 
 const ChatboxContent: React.FC<ChatboxContentProps> = ({ inquiry }) => {
   const t = useTranslations("dashboard.message.chatbox");
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user as User | null);
-  
-  const { 
-    data: replies = [], 
-    isLoading, 
-    isError 
-  } = useGetInquiryRepliesQuery(inquiry?.id || 0, {
+  const user = useAppSelector(
+    (state: RootState) => state.auth.user as User | null
+  );
+
+  const {
+    data: replies = [],
+    isLoading,
+    isError,
+  } = useGetInquiryRepliesQuery(inquiry?.id?.toString() || '', {
     skip: !inquiry?.id,
     refetchOnMountOrArgChange: true,
   });
-  
+
   const [createReply, { isLoading: isSending }] = useSendInquiryReplyMutation();
   const [message, setMessage] = useState("");
 
@@ -45,9 +49,7 @@ const ChatboxContent: React.FC<ChatboxContentProps> = ({ inquiry }) => {
 
   if (isError) {
     return (
-      <div className="alert alert-danger">
-        {t("error_loading_messages")}
-      </div>
+      <div className="alert alert-danger">{t("error_loading_messages")}</div>
     );
   }
 
@@ -76,7 +78,7 @@ const ChatboxContent: React.FC<ChatboxContentProps> = ({ inquiry }) => {
           <div>
             <h5 className="name fw-bold mb-1">
               <i className="flaticon-user me-2"></i>
-              {inquiry?.user?.firstName && inquiry?.user?.lastName 
+              {inquiry?.user?.firstName && inquiry?.user?.lastName
                 ? `${inquiry.user.firstName} ${inquiry.user.lastName}`
                 : t("unknown_sender")}
             </h5>
@@ -161,7 +163,11 @@ const ChatboxContent: React.FC<ChatboxContentProps> = ({ inquiry }) => {
             >
               {isSending ? (
                 <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
                   {t("sending")}
                 </>
               ) : (

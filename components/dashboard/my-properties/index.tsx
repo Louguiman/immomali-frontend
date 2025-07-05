@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useTranslations } from "next-intl";
 
@@ -17,9 +16,7 @@ import {
   useDeletePropertyMutation,
   useFetchPropertyByUserIdQuery,
 } from "@/features/api/properties.api";
-
-// Types
-import type { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/store";
 
 // Define filter types
 interface PropertyFilters {
@@ -36,7 +33,7 @@ const PropertyManagementPage = () => {
   const t = useTranslations("property");
 
   // Get the logged-in user from Redux with proper typing
-  const { user } = useSelector((state: import("@/store/store").RootState) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   // Local state for pagination & filtering
   const [page, setPage] = useState<number>(1);

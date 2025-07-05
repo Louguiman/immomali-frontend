@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useParams, useRouter } from "next/navigation";
+
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import {
@@ -10,14 +10,16 @@ import {
   useUpdateRequestMutation,
 } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { useAppSelector } from "@/store/store";
 
-const MaintenanceRequestDetail = ({ params }) => {
+const MaintenanceRequestDetail = () => {
+  const params = useParams();
   const t = useTranslations("dashboard.maintenance"); // Namespace "Maintenance"
   const { id } = params;
   const router = useRouter();
   const { data: request, isLoading, isError } = useGetRequestByIdQuery(id);
   const [updateRequest, { isLoading: isUpdating }] = useUpdateRequestMutation();
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
 
   // Vérifier si l'utilisateur peut modifier la requête
   const canEdit = user?.roles?.some((role) =>
@@ -47,12 +49,12 @@ const MaintenanceRequestDetail = ({ params }) => {
   if (isError || !request)
     return <p className="alert alert-danger">{t("Error.loading")}</p>;
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await updateRequest({ id: request.id, ...formData }).unwrap();
@@ -90,8 +92,8 @@ const MaintenanceRequestDetail = ({ params }) => {
                 request.status === "resolved"
                   ? "bg-success"
                   : request.status === "in-progress"
-                  ? "bg-warning"
-                  : "bg-danger"
+                    ? "bg-warning"
+                    : "bg-danger"
               }`}
             >
               {t(`status.${request.status}`)}
@@ -121,8 +123,9 @@ const MaintenanceRequestDetail = ({ params }) => {
             {isEditing ? (
               <form onSubmit={handleUpdate}>
                 <div className="mb-3">
-                  <label className="form-label">{t("label.status")}</label>
+                  <label htmlFor="status-select" className="form-label">{t("label.status")}</label>
                   <select
+                    id="status-select"
                     className="form-select"
                     name="status"
                     value={formData.status}
@@ -138,15 +141,18 @@ const MaintenanceRequestDetail = ({ params }) => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">
+                  <label htmlFor="estimatedCost" className="form-label">
                     {t("label.estimatedCost")}
                   </label>
                   <input
+                    id="estimatedCost"
                     type="number"
                     className="form-control"
                     name="estimatedCost"
                     value={formData.estimatedCost}
                     onChange={handleInputChange}
+                    placeholder={t("placeholder.enterEstimatedCost") || "Enter estimated cost"}
+                    aria-label={t("label.estimatedCost")}
                   />
                 </div>
                 <div className="mb-3">
@@ -155,15 +161,19 @@ const MaintenanceRequestDetail = ({ params }) => {
                     type="number"
                     className="form-control"
                     name="actualCost"
+                    id="actualCost"
+                    aria-label={t("label.actualCost")}
+                    placeholder={t("label.actualCost")}
                     value={formData.actualCost}
                     onChange={handleInputChange}
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">
+                  <label htmlFor="resolutionNotes" className="form-label">
                     {t("label.resolutionNotes")}
                   </label>
                   <textarea
+                    id="resolutionNotes"
                     className="form-control"
                     name="resolutionNotes"
                     rows={3}

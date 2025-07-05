@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run type-check && next build",
+    "build": "pnpm run type-check && next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
-    "postinstall": "tsc --noEmit || exit 0"
+    "postinstall": "tsc --noEmit || exit 0",
+    "knip": "knip",
+    "analyze:unused": "knip",
+    "archive:unused": "ts-node scripts/archive-unused-components.ts && ts-node scripts/archive-unused-data.ts",
+    "cleanup:unused": "npm run analyze:unused && npm run archive:unused"
   },
   "dependencies": {
     "@faker-js/faker": "^9.4.0",
@@ -34,7 +38,7 @@
     "react-photoswipe-gallery": "^3.0.2",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-redux": "^9.2.0",
-    "react-slick": "^0.30.0",
+    "react-slick": "^0.30.3",
     "react-toastify": "^11.0.3",
     "redux-persist": "^6.0.0",
     "sass": "^1.68.0",
@@ -48,6 +52,7 @@
   "devDependencies": {
     "@types/node": "22.14.0",
     "@types/react": "^19.1.6",
+    "@types/react-slick": "^0.23.13",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "depcheck": "^1.4.7",
@@ -60,7 +65,9 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "knip": "^5.61.3",
     "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
     "ts-prune": "^0.10.3",
     "typescript": "^5.8.3"
   }

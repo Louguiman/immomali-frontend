@@ -4,18 +4,18 @@ import {
   useDeleteReviewMutation,
   useGetReviewsQuery,
 } from "@/features/api/reviews.api";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
-const ReviewsList = ({ propertyId }) => {
+const ReviewsList = ({ propertyId }: { propertyId: string }) => {
   const { data: reviews, isLoading } = useGetReviewsQuery(propertyId);
-  const user = useSelector((state) => state.auth?.user);
+  const user = useAppSelector((state) => state.auth?.user);
   const [deleteReview] = useDeleteReviewMutation();
 
   if (isLoading) return <p>Loading reviews...</p>;
   if (!reviews?.length) return <p>No reviews yet.</p>;
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       await deleteReview(id).unwrap();
       toast.success("Review deleted!");

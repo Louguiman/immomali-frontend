@@ -1,18 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
 import Image from "next/image";
 import FavoriteButton from "@/components/common/FavoriteBtn";
 import { useTranslations } from "next-intl"; // Import useTranslations
 import { useFormatter } from "next-intl";
 import CompareButton from "@/components/common/CompareBtn";
+import { Property } from "@/types/property";
+import {
+  HiOutlineBuildingOffice,
+  HiOutlineHome,
+  HiOutlineMapPin,
+  HiOutlineSquare3Stack3D,
+} from "react-icons/hi2";
 
-const FeaturedItem = ({ properties }) => {
+const FeaturedItem = ({ properties }: { properties: Property[] }) => {
   const dispatch = useAppDispatch();
-  const { statusType, featured, isGridOrList } = useSelector(
+  const { statusType, featured, isGridOrList } = useAppSelector(
     (state) => state.filter
   );
 
@@ -21,7 +28,7 @@ const FeaturedItem = ({ properties }) => {
   const { number: formatNumber } = useFormatter(); // Hook for number formatting
 
   // Status handler
-  let content = properties?.map((item) => (
+  const content = properties?.map((item) => (
     <div
       className={`${
         isGridOrList ? "col-12 feature-list" : "col-md-6 col-lg-6"
@@ -38,7 +45,7 @@ const FeaturedItem = ({ properties }) => {
             width={342}
             height={220}
             className="img-whp w-100 h-100 cover"
-            src={item?.images[0]?.imageUrl}
+            src={item?.images[0]?.imageUrl || "/assets/images/property/1.jpg"}
             alt="fp1.jpg"
           />
           <div className="thmb_cntnt">
@@ -78,20 +85,40 @@ const FeaturedItem = ({ properties }) => {
               <Link href={`/listing-details-v2/${item.id}`}>{item.title}</Link>
             </h4>
             <p>
-              <span className="flaticon-placeholder"></span>
-              {item.address} {item.neighborhood}, {item.city}, {item.country}
+              <HiOutlineMapPin
+                size={25}
+                className="inline-block mr-4 cursor-help"
+                title={t("location")}
+              />{" "}
+              {item.address} {item.neighborhood},{item.city}, {item.country}
             </p>
 
             <ul className="prop_details mb0">
-              <li className="list-inline-item">
-                {t("beds")}: {item?.beds} &nbsp; {/* Translation for 'Beds' */}
+              <li className="list-inline-item flex items-center">
+                <HiOutlineHome
+                  size={30}
+                  className="mr-1 cursor-help"
+                  title={t("beds")}
+                />{" "}
+                <span>{item?.beds}</span>
               </li>
-              <li className="list-inline-item">
-                {t("baths")}: {item?.baths} &nbsp;{" "}
-                {/* Translation for 'Baths' */}
+              <li className="list-inline-item flex items-center">
+                <HiOutlineBuildingOffice
+                  size={30}
+                  className="mr-1 cursor-help"
+                  title={t("baths")}
+                />{" "}
+                <span>{item?.baths}</span>
               </li>
-              <li className="list-inline-item">
-                {t("sqft")}: {item?.sqFt} &nbsp; {/* Translation for 'SqFt' */}
+              <li className="list-inline-item flex items-center">
+                <HiOutlineSquare3Stack3D
+                  size={30}
+                  className="mr-1 cursor-help"
+                  title={t("area")}
+                />{" "}
+                <span>
+                  {item?.sqFt} {t("PropertyCard.sqFt")}
+                </span>
               </li>
             </ul>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { useAppDispatch } from "@/store/store";
 import { resetTenantForm, setLeaseField } from "@/features/tenant/tenantsSlice";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
-  const leaseDetails = useSelector((state) => state.tenants.leaseDetails);
+  const leaseDetails = useAppSelector((state) => state.tenants.leaseDetails);
 
   // 📌 Validation Schema using Yup
   const schema = yup.object().shape({

@@ -2,9 +2,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "@/features/properties/propertiesSlice";
-import { useAppSelector } from "@/store/hooks";
-import { RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState, useAppDispatch, useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
 type FavoriteButtonProps = {
@@ -12,7 +10,7 @@ type FavoriteButtonProps = {
 };
 
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({ propertyId }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const favorites: (string | number)[] = useAppSelector(
     (state: RootState) => state.properties?.favorites ?? []
   );

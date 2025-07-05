@@ -1,0 +1,34 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "app/**/page.tsx",
+    "app/**/layout.tsx",
+    "app/**/template.tsx",
+    "pages/**/*.{ts,tsx}",
+    "src/pages/**/*.{ts,tsx}",
+    "src/app/**/page.tsx",
+    "src/app/**/layout.tsx",
+    "src/app/**/template.tsx"
+  ],
+  "ignore": [
+    "**/*.test.{ts,tsx}",
+    "**/*.spec.{ts,tsx}",
+    "**/__tests__/**",
+    "**/*.stories.{ts,tsx}",
+    "**/*.mdx"
+  ],
+  "project": [
+    "components/**/*.{ts,tsx}",
+    "lib/**/*.{ts,tsx}",
+    "hooks/**/*.{ts,tsx}",
+    "utils/**/*.{ts,tsx}",
+    "app/**/*.{ts,tsx}",
+    "src/**/*.{ts,tsx}"
+  ],
+  "ignoreDependencies": [],
+  "ignoreBinaries": [],
+  "extensions": [".ts", ".tsx"],
+  "aliases": {
+    "@/*": ["src/*"]
+  }
+}

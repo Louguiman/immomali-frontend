@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
-import { RootState } from "@/store/store";
+import { RootState, useAppSelector } from "@/store/store";
 
 const SidebarMenu = () => {
   const t = useTranslations("sidebar"); // Chargement des traductions
   const pathname = usePathname();
-  const { user } = useSelector((state: RootState) => state.auth); // Récupérer l'utilisateur connecté
+  const { user } = useAppSelector((state: RootState) => state.auth); // Récupérer l'utilisateur connecté
 
   // Définition des types pour les rôles et les routes
   type RouteItem = { name: string; route: string; icon: string };
@@ -175,7 +174,8 @@ const SidebarMenu = () => {
         name: t("MyFavourites"),
         route: "/dashboard/my-favourites",
         icon: "flaticon-magnifying-glass",
-      },    ],
+      },
+    ],
     common: [
       {
         name: t("Profile"),

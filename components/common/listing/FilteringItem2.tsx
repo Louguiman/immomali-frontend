@@ -1,8 +1,7 @@
-'use client'
+"use client";
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { addStatusType } from "../../../features/filter/filterSlice";
 import {
   addAmenities,
@@ -13,11 +12,11 @@ import {
   resetAmenities,
 } from "../../../features/properties/propertiesSlice";
 import { v4 as uuidv4 } from "uuid";
-
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 const FilteringItem2 = () => {
-  const { status, bathrooms, bedrooms, yearBuilt } = useSelector(
-    (state: import("@/store/store").RootState) => state.properties
+  const { status, bathrooms, bedrooms, yearBuilt } = useAppSelector(
+    (state) => state.properties
   );
 
   // input state
@@ -45,9 +44,7 @@ const FilteringItem2 = () => {
     { id: uuidv4(), name: "Window Coverings" },
   ]);
 
-  const dispath = useDispatch();
-
-
+  const dispath = useAppDispatch();
 
   // status
   useEffect(() => {

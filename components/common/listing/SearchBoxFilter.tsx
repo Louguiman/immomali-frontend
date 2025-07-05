@@ -1,14 +1,13 @@
-'use client'
+"use client";
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addKeyword } from "../../../features/properties/propertiesSlice";
 import { v4 as uuidv4 } from "uuid";
 
-
 const SearchBoxFilter = () => {
-  const { keyword } = useSelector((state: import("@/store/store").RootState) => state.properties);
+  const { keyword } = useAppSelector((state) => state.properties);
 
   // input state
   const [getKeyword, setKeyword] = useState(keyword);
@@ -32,13 +31,12 @@ const SearchBoxFilter = () => {
     { id: uuidv4(), name: "Window Coverings" },
   ]);
 
-  const dispath = useDispatch();
-
+  const dispatch = useAppDispatch();
 
   // keyword
   useEffect(() => {
-    dispath(addKeyword(getKeyword));
-  }, [dispath, getKeyword]);
+    dispatch(addKeyword(getKeyword));
+  }, [dispatch, getKeyword]);
 
   // clear filter
   const clearHandler = () => {

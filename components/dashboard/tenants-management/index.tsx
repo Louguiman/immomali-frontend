@@ -9,10 +9,10 @@ import { useState } from "react";
 import TenantCard from "@/components/TenantCard";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
 const TenantManagement = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
   const canEdit = user?.roles.some((role) =>

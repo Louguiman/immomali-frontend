@@ -5,16 +5,15 @@ import {
 } from "@/features/api/invoices.api";
 import { useGetTenantsQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import type { Invoice as BaseInvoice } from "@/utils/interface/payment.interface";
-import type { RootState } from "@/store/store";
-``
+
 interface InvoiceFormData {
   tenantId: string;
   amount: string;
   dueDate: string;
-  status: "unpaid" | "paid" | "overdue";
+  status: InvoiceStatus;
   issuedBy: string;
   totalAmount: string;
   type: string;
@@ -23,6 +22,17 @@ interface InvoiceFormData {
   notes: string;
   attachments: string[];
 }
+
+// Define the valid status values for the form
+type InvoiceStatus = "unpaid" | "paid" | "overdue";
+
+// Helper type to map from any status to the allowed status values
+const mapToValidStatus = (status?: string): InvoiceStatus => {
+  if (status === 'paid' || status === 'overdue') {
+    return status;
+  }
+  return 'unpaid'; // Default to 'unpaid' for any other status
+};
 
 interface InvoiceFormModalProps {
   invoice?: Partial<BaseInvoice> & {
@@ -33,7 +43,7 @@ interface InvoiceFormModalProps {
     tax?: number | string;
     discount?: number | string;
     notes?: string;
-    status?: string;
+    status?: InvoiceStatus;
     type?: string;
     dueDate?: string;
   };
@@ -45,30 +55,21 @@ const InvoiceFormModal: React.FC<InvoiceFormModalProps> = ({
   onClose,
 }) => {
   const isEditing = Boolean(invoice);
-  const user = useAppSelector((state: import("@/store/store").RootState) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const t = useTranslations("dashboard.invoiceList");
 
   const initialFormData = useMemo<InvoiceFormData>(
     () => ({
       tenantId: invoice?.tenantId?.toString() || "",
-      amount: (typeof invoice?.amount === "number"
-        ? invoice.amount
-        : 0
-      ).toString(),
+      amount: (invoice?.amount || 0).toString(),
       dueDate: invoice?.dueDate?.toString() || "",
-      status: invoice?.status || "unpaid",
+      status: invoice?.status ? mapToValidStatus(invoice.status) : "unpaid",
       issuedBy: user?.id?.toString() || "",
-      totalAmount: (typeof invoice?.amount === "number"
-        ? invoice.amount
-        : 0
-      ).toString(),
-      type: "rent", // Default type
-      tax: (typeof invoice?.tax === "number" ? invoice.tax : 0).toString(),
-      discount: (typeof invoice?.discount === "number"
-        ? invoice.discount
-        : 0
-      ).toString(),
-      notes: invoice?.notes?.toString() || "",
+      totalAmount: (invoice?.amount || 0).toString(),
+      type: invoice?.type || "rent",
+      tax: (invoice?.tax || 0).toString(),
+      discount: (invoice?.discount || 0).toString(),
+      notes: invoice?.notes || "",
       attachments: [],
     }),
     [invoice, user?.id]
@@ -116,15 +117,22 @@ const InvoiceFormModal: React.FC<InvoiceFormModalProps> = ({
     }
 
     try {
-      const invoiceData: Omit<BaseInvoice, "id" | "createdAt" | "updatedAt"> = {
+      // Create a base invoice object with required fields
+      const baseInvoice: Omit<BaseInvoice, "id" | "createdAt" | "updatedAt"> = {
         tenantId: Number(formData.tenantId),
         amount: Number(formData.amount),
         dueDate: formData.dueDate,
         status: formData.status,
-        type: formData.type,
+      };
+
+      // Create an extended invoice object with additional fields if needed
+      const invoiceData = {
+        ...baseInvoice,
+        // Include additional fields that might be needed by the API
+        type: formData.type || 'rent', // Default to 'rent' if not provided
         tax: Number(formData.tax) || 0,
         discount: Number(formData.discount) || 0,
-        notes: formData.notes,
+        notes: formData.notes || '',
       };
 
       if (isEditing && invoice?.id) {

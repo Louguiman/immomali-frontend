@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   useGetRequestByIdQuery,
@@ -10,13 +9,14 @@ import {
 } from "@/features/api/maintenance.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
+import { useAppSelector } from "@/store/store";
 
 const MaintenanceRequestDetail = () => {
   const { id } = useParams();
   const router = useRouter();
   const { data: request, isLoading, isError } = useGetRequestByIdQuery(id);
   const [updateRequest, { isLoading: isUpdating }] = useUpdateRequestMutation();
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
   const canEdit = user?.roles.some((role) =>

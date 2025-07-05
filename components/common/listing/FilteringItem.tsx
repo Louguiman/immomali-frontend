@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 import {
   addFeatured,
@@ -28,6 +27,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { addCategory } from "@/features/agent/agentSlice";
 import { useTranslations } from "next-intl";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 const FilteringItem = () => {
   const searchParams = useSearchParams();
@@ -47,7 +47,7 @@ const FilteringItem = () => {
     area,
     amenities,
     price,
-  } = useSelector((state: import("@/store/store").RootState) => state.properties);
+  } = useAppSelector((state) => state.properties);
 
   // input state
   const [getKeyword, setKeyword] = useState(searchParams.get("keyword") || "");
@@ -91,7 +91,7 @@ const FilteringItem = () => {
     { id: uuidv4(), name: t("amenities.windowCoverings") },
   ]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // keyword
   useEffect(() => {

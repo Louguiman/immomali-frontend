@@ -4,11 +4,11 @@ import Link from "next/link";
 import { isSinglePageActive } from "../../../../utils/daynamicNavigation";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
 const MyAccount = () => {
   const pathname = usePathname();
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
+  const user = useAppSelector((state) => state.auth?.user);
 
   const profileMenuItems = [
     { id: 1, name: "Dashboard", routerPath: "/dashboard" },

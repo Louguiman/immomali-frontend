@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Swal from "sweetalert2";
-import { useAppDispatch, useSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import Header from "@/components/common/header/dashboard/Header";
@@ -62,13 +62,13 @@ const EditPropertyPage = () => {
     };
   }, [property, dispatch]);
 
-  const listing = useSelector((state) => state.properties.createListing);
-  const newImages = useSelector((state) => state.properties.newImages);
-  const deletedImages = useSelector((state) => state.properties.deletedImages);
-  const newAttachments = useSelector(
+  const listing = useAppSelector((state) => state.properties.createListing);
+  const newImages = useAppSelector((state) => state.properties.newImages);
+  const deletedImages = useAppSelector((state) => state.properties.deletedImages);
+  const newAttachments = useAppSelector(
     (state) => state.properties.newAttachments
   );
-  const deletedAttachment = useSelector(
+  const deletedAttachment = useAppSelector(
     (state) => state.properties.deletedAttachment
   );
 

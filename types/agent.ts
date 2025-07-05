@@ -1,4 +1,11 @@
 export interface Agent {
+  img: string;
+  noOfListings: ReactNode;
+  type: ReactNode;
+  office: ReactNode;
+  mobile: any;
+  fax: ReactNode;
+  socialList: any;
   id: string;
   name: string;
   email: string;

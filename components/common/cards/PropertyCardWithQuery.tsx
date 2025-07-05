@@ -1,10 +1,10 @@
 import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
+import { useAppSelector } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 
 const PropertyCardWithQuery = ({ id }) => {
-  const { statusType, featured, isGridOrList } = useSelector(
+  const { statusType, featured, isGridOrList } = useAppSelector(
     (state) => state.filter
   );
   const { data: item, isLoading } = useFetchPropertyByIdQuery(id, {

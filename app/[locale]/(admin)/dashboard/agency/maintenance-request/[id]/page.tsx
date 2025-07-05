@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+
 import { toast } from "react-toastify";
 import {
   useGetRequestByIdQuery,
@@ -11,14 +11,15 @@ import {
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
 import { removeEmptyValues } from "@/utils/getValidParams";
+import { RootState, useAppSelector } from "@/store/store";
 
-const MaintenanceRequestDetail = ({ params }) => {
+const MaintenanceRequestDetail = () => {
   const { id } = useParams();
 
   const router = useRouter();
   const { data: request, isLoading, isError } = useGetRequestByIdQuery(id);
   const [updateRequest, { isLoading: isUpdating }] = useUpdateRequestMutation();
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state: RootState) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
   const canEdit = user?.roles.some((role) =>
@@ -26,7 +27,14 @@ const MaintenanceRequestDetail = ({ params }) => {
   );
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
+  interface FormData {
+    status: string;
+    estimatedCost: string;
+    actualCost: string;
+    resolutionNotes: string;
+  }
+
+  const [formData, setFormData] = useState<FormData>({
     status: "",
     estimatedCost: "",
     actualCost: "",
@@ -52,12 +60,12 @@ const MaintenanceRequestDetail = ({ params }) => {
       </p>
     );
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("request data: ", formData);
 
@@ -101,8 +109,8 @@ const MaintenanceRequestDetail = ({ params }) => {
                 request.status === "resolved"
                   ? "bg-success"
                   : request.status === "in-progress"
-                  ? "bg-warning"
-                  : "bg-danger"
+                    ? "bg-warning"
+                    : "bg-danger"
               }`}
             >
               {request.status.toUpperCase()}
@@ -134,13 +142,17 @@ const MaintenanceRequestDetail = ({ params }) => {
             {isEditing ? (
               <form onSubmit={handleUpdate}>
                 <div className="mb-3">
-                  <label className="form-label">Status</label>
+                  <label htmlFor="status" className="form-label">
+                    Status
+                  </label>
                   <select
+                    id="status"
                     className="form-select"
                     name="status"
                     value={formData.status}
                     onChange={handleInputChange}
                     required
+                    aria-required="true"
                   >
                     <option value="pending">Pending</option>
                     <option value="in-progress">In Progress</option>
@@ -149,31 +161,46 @@ const MaintenanceRequestDetail = ({ params }) => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Estimated Cost (FCFA)</label>
+                  <label htmlFor="estimatedCost" className="form-label">
+                    Estimated Cost (FCFA)
+                  </label>
                   <input
                     type="number"
+                    id="estimatedCost"
                     className="form-control"
                     name="estimatedCost"
                     value={formData.estimatedCost}
                     onChange={handleInputChange}
+                    placeholder="Enter estimated cost"
+                    aria-label="Estimated cost in FCFA"
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Actual Cost (FCFA)</label>
+                  <label htmlFor="actualCost" className="form-label">
+                    Actual Cost (FCFA)
+                  </label>
                   <input
                     type="number"
+                    id="actualCost"
                     className="form-control"
                     name="actualCost"
                     value={formData.actualCost}
                     onChange={handleInputChange}
+                    placeholder="Enter actual cost"
+                    aria-label="Actual cost in FCFA"
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Resolution Notes</label>
+                  <label htmlFor="resolutionNotes" className="form-label">
+                    Resolution Notes
+                  </label>
                   <textarea
+                    id="resolutionNotes"
                     className="form-control"
                     name="resolutionNotes"
                     rows={3}
+                    aria-label="Resolution notes"
+                    placeholder="Enter resolution notes"
                     value={formData.resolutionNotes}
                     onChange={handleInputChange}
                   ></textarea>

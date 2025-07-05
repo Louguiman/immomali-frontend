@@ -4,7 +4,7 @@ import {
   useUpdateUserProfileMutation,
   useUploadProfileImageMutation,
 } from "@/features/api/user.api";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useEffect, useState, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

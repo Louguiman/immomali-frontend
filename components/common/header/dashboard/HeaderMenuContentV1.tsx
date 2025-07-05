@@ -5,11 +5,11 @@ import Link from "next/link";
 import MyAccount from "./MyAccount";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
 const HeaderMenuContent = ({ float = "" }) => {
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
-  const isAuthenticated = useSelector((state: import("@/store/store").RootState) => state.auth?.isAuthenticated);
+  const user = useAppSelector((state) => state.auth?.user);
+  const isAuthenticated = useAppSelector((state) => state.auth?.isAuthenticated);
 
   const pathname = usePathname();
 

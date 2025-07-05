@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { useAppDispatch } from "@/store/store";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
@@ -16,14 +16,15 @@ import LeaseDetails from "./LeaseDetails";
 import DocumentUploader from "./DocumentUploader";
 import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
 import Stepper from "../create-listing/Stepper";
+import { Tenant } from "@/types/tenant";
 
-const TenantManagement = ({ tenant }) => {
+const TenantManagement = ({ tenant }: { tenant: Tenant }) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user);
-  const tenantDetails = useSelector((state: import("@/store/store").RootState) => state.tenants.tenantDetails);
-  const leaseDetails = useSelector((state: import("@/store/store").RootState) => state.tenants.leaseDetails);
+  const user = useAppSelector((state) => state.auth.user);
+  const tenantDetails = useAppSelector((state) => state.tenants.tenantDetails);
+  const leaseDetails = useAppSelector((state) => state.tenants.leaseDetails);
 
   const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);

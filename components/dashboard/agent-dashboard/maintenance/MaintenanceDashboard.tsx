@@ -5,16 +5,17 @@ import {
   useGetRequestsByAgencyQuery,
   useGetRequestsByAgentQuery,
 } from "@/features/api/maintenance.api";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
+import { MaintenanceRequest } from "@/types/maintenance-request";
 
 const MaintenanceDashboard = () => {
-  const user = useSelector((state) => state.auth.user);
-  const isAgency = user?.roles.some(
-    (r) => r.name === "agency" || r.name === "admin"
-  );
+  const user = useAppSelector((state) => state.auth.user);
+  const isAgency =
+    user?.roles?.some((r) => r.name === "agency" || r.name === "admin") ??
+    false;
 
   const { data: agencyRequests, isLoading: agencyLoading } =
-    useGetRequestsByAgencyQuery(user?.agencyId, { skip: !user?.agencyId });
+    useGetRequestsByAgencyQuery(user?.agency?.id, { skip: !user?.agency?.id });
   const { data: agentRequests, isLoading: agentLoading } =
     useGetRequestsByAgentQuery(user?.id);
 
@@ -28,7 +29,7 @@ const MaintenanceDashboard = () => {
               {agencyLoading ? (
                 <LoadingSpinner />
               ) : (
-                agencyRequests?.map((req) => (
+                agencyRequests?.map((req: MaintenanceRequest) => (
                   <div key={req.id} className="col-md-6">
                     <MaintenanceRequestCard request={req} />
                   </div>
@@ -44,7 +45,7 @@ const MaintenanceDashboard = () => {
           {agentLoading ? (
             <LoadingSpinner />
           ) : (
-            agentRequests?.map((req) => (
+            agentRequests?.map((req: MaintenanceRequest) => (
               <div key={req.id} className="col-md-6">
                 <MaintenanceRequestCard request={req} />
               </div>

@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { RootState, useAppDispatch, useAppSelector } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import CheckBoxFilter from "../../common/CheckBoxFilter";
 import {
   setBeds,
@@ -27,10 +27,14 @@ interface DetailedInfoFormData {
   builtYear: string;
 }
 
-const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevious }) => {
+const DetailedInfo: React.FC<DetailedInfoProps> = ({
+  activeStep,
+  onNext,
+  onPrevious,
+}) => {
   const t = useTranslations("property");
   const dispatch = useAppDispatch();
-  const property = useAppSelector((state: import("@/store/store").RootState) => state.properties.createListing);
+  const property = useAppSelector((state) => state.properties.createListing);
 
   // Form validation rules
   const validateNumber = (value: string) => {
@@ -41,7 +45,10 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
   const validateYear = (value: string) => {
     if (!value) return t("validation.required");
     const year = Number(value);
-    return (!isNaN(year) && year >= 1800 && year <= new Date().getFullYear() + 1) || t("validation.number");
+    return (
+      (!isNaN(year) && year >= 1800 && year <= new Date().getFullYear() + 1) ||
+      t("validation.number")
+    );
   };
 
   type FormData = DetailedInfoFormData;
@@ -85,7 +92,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
             className="form-control"
             id="beds"
             {...register("beds", {
-              validate: validateNumber
+              validate: validateNumber,
             })}
           />
           {errors.beds && (
@@ -103,7 +110,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
             className="form-control"
             id="baths"
             {...register("baths", {
-              validate: validateNumber
+              validate: validateNumber,
             })}
           />
           {errors.baths && (
@@ -121,7 +128,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
             className="form-control"
             id="garages"
             {...register("garages", {
-              validate: validateNumber
+              validate: validateNumber,
             })}
           />
           {errors.garages && (
@@ -139,7 +146,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
             className="form-control"
             id="sqFt"
             {...register("sqFt", {
-              validate: validateNumber
+              validate: validateNumber,
             })}
           />
           {errors.sqFt && (
@@ -157,7 +164,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({ activeStep, onNext, onPrevi
             className="form-control"
             id="builtYear"
             {...register("builtYear", {
-              validate: validateYear
+              validate: validateYear,
             })}
           />
           {errors.builtYear && (

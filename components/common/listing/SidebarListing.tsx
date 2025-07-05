@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl";
 import Categorie from "./Categorie";
 import FeaturedListings from "./FeaturedListings";
-import FeatureProperties from "./FeatureProperties";
 import FilteringItem from "./FilteringItem";
+import FeaturedProperties from "@/components/home-4/FeaturedProperties";
 
 const SidebarListing = () => {
   const t = useTranslations("property.sidebar");
@@ -19,7 +19,7 @@ const SidebarListing = () => {
       <div className="terms_condition_widget">
         <h4 className="title">{t("featuredProperties")}</h4>
         <div className="sidebar_feature_property_slider">
-          <FeatureProperties />
+          <FeaturedProperties />
         </div>
       </div>
       {/* End .Featured Properties */}

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { getAccountMenu } from "@/utils/lib";
 import { useMemo } from "react";
 
@@ -64,8 +64,10 @@ const MobileMenuContent = () => {
   const router = useRouter();
   const t = useTranslations("navbar");
 
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth?.user);
-  const isAuthenticated = useSelector((state: import("@/store/store").RootState) => state.auth?.isAuthenticated);
+  const user = useAppSelector((state) => state.auth?.user);
+  const isAuthenticated = useAppSelector(
+    (state) => state.auth?.isAuthenticated
+  );
   const userRoles = useMemo(
     () => user?.roles?.map((role) => role.name) || [],
     [user]
@@ -77,13 +79,12 @@ const MobileMenuContent = () => {
       <div className="sidebar-header">
         <Link href="/" className="sidebar-header-inner">
           <Image
-            width={40}
-            height={45}
-            className="nav_logo_img img-fluid mt20"
-            src="/assets/images/header-logo2.png"
-            alt="header-logo.png"
+            width={250}
+            height={80}
+            className="nav_logo_img contain mt20"
+            src="/assets/images/logo/logo-ikasow.webp"
+            alt="logo-ikasow.webp"
           />
-          <span className="brand-text">IKASOWI</span>
         </Link>
         <div
           role="button"

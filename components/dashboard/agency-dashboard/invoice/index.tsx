@@ -4,38 +4,42 @@ import {
   useDeleteInvoiceMutation,
   useGetInvoicesByAgencyQuery,
 } from "@/features/api/invoices.api";
-import { useSelector } from "react-redux";
-import InvoiceTable from "../../my-invoices/InvoiceTable";
-import Pagination from "../../my-properties/Pagination";
-import Header from "@/components/common/header/dashboard/Header";
-import MobileMenu from "@/components/common/header/MobileMenu";
-import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
+import { useAppSelector } from "@/store/store";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
-import { usePathname } from "next/navigation";
-import Swal from "sweetalert2"; // Import SweetAlert2
-import { useTranslations } from "next-intl"; // Import useTranslations hook
+import { useTranslations } from "next-intl";
+import Swal from "sweetalert2";
+import { Invoice, InvoiceStatus } from "@/types/invoice";
 
 export const AgencyInvoicesPage = () => {
   const t = useTranslations("dashboard.invoiceList"); // Initialize useTranslations hook for accessing translations
-  const pathname = usePathname();
-  const { user } = useSelector((state) => state.auth);
-  const [page, setPage] = useState(1);
+  const { user } = useAppSelector((state) => state.auth);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState(null);
+  const [editingInvoice, setEditingInvoice] = useState<{
+    id?: string | number;
+    tenantId?: string | number;
+    amount?: string | number;
+    totalAmount?: string | number;
+    tax?: string | number;
+    discount?: string | number;
+    notes?: string;
+    status?: "unpaid" | "paid" | "overdue" | "pending";
+    type?: string;
+    dueDate?: string;
+  } | null>(null);
 
   const { data, isLoading } = useGetInvoicesByAgencyQuery({
     agencyId: user?.agency?.id,
     status,
-    page,
+    page: 1,
     limit: 10,
   });
 
   const [deleteInvoice] = useDeleteInvoiceMutation();
 
   // Function to handle invoice deletion with SweetAlert2
-  const handleDelete = async (invoiceId) => {
+  const handleDelete = async (invoiceId: string | number) => {
     const result = await Swal.fire({
       title: t("deleteInvoice.title"),
       text: t("deleteInvoice.text"),
@@ -67,12 +71,23 @@ export const AgencyInvoicesPage = () => {
             {t("addInvoice")}
           </button>
           {/* Filter */}
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">{t("filter")}</option>
-            <option value="pending">Pending</option>
-            <option value="paid">Paid</option>
-            <option value="overdue">Overdue</option>
-          </select>
+          <div className="d-flex align-items-center ms-3">
+            <label htmlFor="status-filter" className="me-2 mb-0">
+              {t("filter")}:
+            </label>
+            <select
+              id="status-filter"
+              className="form-select form-select-sm"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              aria-label={t("filterByStatus")}
+            >
+              <option value="">{t("all")}</option>
+              <option value="pending">{t("pending")}</option>
+              <option value="paid">{t("paid")}</option>
+              <option value="overdue">{t("overdue")}</option>
+            </select>
+          </div>
         </div>
       </div>
       {/* Table */}
@@ -82,16 +97,41 @@ export const AgencyInvoicesPage = () => {
         <AgencyInvoiceTable
           invoices={data}
           onEdit={(invoice) => {
-            setEditingInvoice(invoice);
+            // Create a properly typed invoice object
+            const editedInvoice = {
+              ...invoice,
+              id: invoice.id,
+              amount: invoice.amount,
+              totalAmount: invoice.totalAmount,
+              status:
+                (invoice.status as "unpaid" | "paid" | "overdue" | "pending") ||
+                "unpaid",
+              notes: invoice.notes || "",
+            };
+
+            setEditingInvoice(editedInvoice);
             setShowModal(true);
           }}
           onDelete={handleDelete}
         />
       )}
 
-      {showModal && (
+      {showModal && editingInvoice && (
         <InvoiceFormModal
-          invoice={editingInvoice}
+          invoice={
+            editingInvoice as Partial<Invoice> & {
+              id?: number | string;
+              tenantId?: number | string;
+              amount?: number | string;
+              totalAmount?: number | string;
+              tax?: number | string;
+              discount?: number | string;
+              notes?: string;
+              status?: InvoiceStatus;
+              type?: string;
+              dueDate?: string;
+            }
+          }
           onClose={() => {
             setShowModal(false);
             setEditingInvoice(null);

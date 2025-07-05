@@ -2,7 +2,7 @@ import {
   addToCompare,
   removeFromCompare,
 } from "@/features/properties/propertiesSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
 type CompareButtonProps = {
@@ -10,9 +10,9 @@ type CompareButtonProps = {
 };
 
 const CompareButton: React.FC<CompareButtonProps> = ({ propertyId }) => {
-  const dispatch = useDispatch();
-  const compareList: (string | number)[] = useSelector(
-    (state: import("@/store/store").RootState) => state.properties?.compareList ?? []
+  const dispatch = useAppDispatch();
+  const compareList: (string | number)[] = useAppSelector(
+    (state) => state.properties?.compareList ?? []
   );
 
   const isCompared = compareList.includes(propertyId);

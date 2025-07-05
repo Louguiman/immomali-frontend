@@ -6,10 +6,19 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   output: "standalone",
   images: {
-    domains: [
-      "images.unsplash.com",
-      "r2.cloudflarestorage.com",
-      "8edf5348d3294520cc7f4ca5ee20cca1.r2.cloudflarestorage.com",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'r2.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '8edf5348d3294520cc7f4ca5ee20cca1.r2.cloudflarestorage.com',
+      },
     ],
   },
 };

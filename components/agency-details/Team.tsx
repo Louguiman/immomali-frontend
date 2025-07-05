@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "@/store/store";
 import Image from "next/image";
 import { addAgentItemLength } from "@/features/agent/agentSlice";
+import type { Agent } from "@/types/agent";
 
-const Team = ({ agents }) => {
-  const dispatch = useDispatch();
+const Team = ({ agents }: { agents: Agent[] }) => {
+  const dispatch = useAppDispatch();
 
-  let content = agents.map((item) => (
+  const content = agents.map((item) => (
     <div className="col-lg-12" key={item.id}>
       <div className="feat_property list style2 agent">
         <div className="thumb">

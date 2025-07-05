@@ -24,6 +24,8 @@ interface LeaseDetails {
 }
 
 interface TenantsState {
+  leaseDocuments: any;
+  leaseDocuments: any;
   tenantDetails: TenantDetails;
   leaseDetails: LeaseDetails;
   tenantsList: any[];

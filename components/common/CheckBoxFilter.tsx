@@ -2,14 +2,14 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "@/store/store";
 import { toggleAmenity } from "features/properties/propertiesSlice";
 
 const CheckBoxFilter: React.FC = () => {
   const t = useTranslations("property.amenities");
-  const dispatch = useDispatch();
-  const amenities: { [key: string]: boolean } = useSelector(
-    (state: import("@/store/store").RootState) => state.properties.createListing.amenities
+  const dispatch = useAppDispatch();
+  const amenities = useAppSelector(
+    (state) => state.properties.createListing.amenities
   );
 
   const handleToggle = (amenity: string, value: boolean) => {

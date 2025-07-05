@@ -1,7 +1,7 @@
 "use client";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import { useAppSelector } from "@/store/store";
 // Define the auth state shape
 interface AuthState {
   user: User | null;
@@ -45,9 +45,7 @@ const ProtectedRoute = ({
   children,
   allowedRoles = ["user", "admin", "agent", "agency"],
 }: ProtectedRouteProps) => {
-  const { user, isAuthenticated } = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  );
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   useEffect(() => {

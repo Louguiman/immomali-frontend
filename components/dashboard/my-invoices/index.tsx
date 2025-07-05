@@ -1,8 +1,7 @@
 "use client";
 
 import { useGetInvoicesByTenantQuery } from "@/features/api/invoices.api";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/store";
 import type { User } from "@/utils/interface/user.interface";
 import type { Invoice } from "./InvoiceTable";
 import InvoiceTable from "./InvoiceTable";
@@ -13,19 +12,19 @@ interface InvoiceManagementProps {
 }
 
 export const InvoiceManagement: React.FC<InvoiceManagementProps> = () => {
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user as User | null);
-  
+  const user = useAppSelector((state) => state.auth.user as User | null);
+
   // Use proper type for the query result
-  const { 
-    data: invoices = [], 
-    isLoading, 
-    isError, 
-    error 
+  const {
+    data: invoices = [],
+    isLoading,
+    isError,
+    error,
   } = useGetInvoicesByTenantQuery(user?.id, {
     skip: !user?.id,
     refetchOnMountOrArgChange: true,
-  }) as { 
-    data: Invoice[]; 
+  }) as {
+    data: Invoice[];
     isLoading: boolean;
     isError: boolean;
     error?: unknown;

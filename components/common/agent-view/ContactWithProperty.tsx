@@ -2,11 +2,11 @@
 
 import { useCreateInquiryMutation } from "@/features/api/inquiries.api";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
-const ContactWithProperty = ({ propertyId }) => {
-  const user = useSelector((state) => state.auth?.user); // Get logged-in user
+const ContactWithProperty = ({ propertyId }: { propertyId: string }) => {
+  const user = useAppSelector((state) => state.auth?.user); // Get logged-in user
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,11 +28,15 @@ const ContactWithProperty = ({ propertyId }) => {
     }
   }, [user]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createInquiry(formData).unwrap();
@@ -79,7 +83,7 @@ const ContactWithProperty = ({ propertyId }) => {
         <li className="search_area">
           <div className="form-group mb-3">
             <input
-              type="number"
+              type="tel"
               className="form-control"
               placeholder="Phone Number"
               name="phoneNumber"
@@ -96,7 +100,7 @@ const ContactWithProperty = ({ propertyId }) => {
               id="form_message"
               name="message"
               className="form-control"
-              rows="5"
+              rows={5}
               placeholder="Your Message"
               value={formData.message}
               onChange={handleChange}

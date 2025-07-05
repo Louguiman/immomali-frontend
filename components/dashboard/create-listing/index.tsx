@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -11,7 +11,6 @@ import {
   useUploadAttachmentsMutation,
   useUploadImagesMutation,
 } from "@/features/api/properties.api";
-import { RootState } from "@/store/store";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import Header from "../../common/header/dashboard/Header";
 import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
@@ -77,7 +76,7 @@ interface User {
   // Add other user fields as needed
 }
 
-interface CreateListingState extends Omit<Property, 'id'> {
+interface CreateListingState extends Omit<Property, "id"> {
   propertyImages: PropertyImage[];
   attachments: PropertyAttachment[];
   // Add other create listing specific fields
@@ -93,13 +92,13 @@ const DRAFT_KEY = "draftPropertyId";
 const CreateListing = () => {
   const router = useRouter();
   const t = useTranslations("property");
-  
-  const propertyDetails = useSelector<import("@/store/store").RootState, CreateListingState>(
+
+  const propertyDetails = useAppSelector(
     (state) => state.properties.createListing
   );
-  
-  const user = useSelector<import("@/store/store").RootState, User | null>((state) => state.auth.user);
-  
+
+  const user = useAppSelector((state) => state.auth.user);
+
   const [draftId, setDraftId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -142,7 +141,11 @@ const CreateListing = () => {
       return;
     }
 
-    const { propertyImages = [], attachments = [], ...propertyData } = propertyDetails;
+    const {
+      propertyImages = [],
+      attachments = [],
+      ...propertyData
+    } = propertyDetails;
 
     Swal.fire({
       title: t("creatingProperty"),
@@ -161,7 +164,7 @@ const CreateListing = () => {
           ...propertyData,
           userId: user.id,
         }).unwrap();
-        
+
         if (created?.id) {
           propertyId = created.id;
           localStorage.setItem(DRAFT_KEY, propertyId.toString());
@@ -177,17 +180,17 @@ const CreateListing = () => {
         Swal.update({ title: t("uploadingImages") });
         try {
           const imagesToUpload = propertyImages
-            .filter(img => img.file)
-            .map(img => ({
+            .filter((img) => img.file)
+            .map((img) => ({
               file: img.file!,
               name: img.name || `image-${Date.now()}`,
-              preview: img.preview || img.url
+              preview: img.preview || img.url,
             }));
-          
+
           if (imagesToUpload.length > 0) {
             await uploadImages({
               propertyId,
-              images: imagesToUpload
+              images: imagesToUpload,
             } as UploadImagesPayload).unwrap();
           }
           toast.success(t("imageUploadSuccess"), { autoClose: 2000 });
@@ -203,18 +206,18 @@ const CreateListing = () => {
         Swal.update({ title: t("uploadingAttachments") });
         try {
           const attachmentsToUpload = attachments
-            .filter(attachment => attachment.file)
-            .map(attachment => ({
+            .filter((attachment) => attachment.file)
+            .map((attachment) => ({
               file: attachment.file!,
               name: attachment.name,
               type: attachment.type,
-              size: attachment.size
+              size: attachment.size,
             }));
-          
+
           if (attachmentsToUpload.length > 0) {
             await uploadAttachments({
               propertyId,
-              attachments: attachmentsToUpload
+              attachments: attachmentsToUpload,
             } as UploadAttachmentsPayload).unwrap();
           }
           toast.success(t("attachmentsUploadSuccess"), { autoClose: 2000 });
@@ -228,22 +231,22 @@ const CreateListing = () => {
       // ✅ All done
       Swal.close();
       clearDraft();
-      
+
       await Swal.fire({
         icon: "success",
         title: t("propertyCreated"),
         timer: 2000,
         showConfirmButton: false,
       });
-      
+
       if (propertyId) {
         router.push(`/listing-details-v2/${propertyId}`);
       } else {
-        router.push('/dashboard/my-properties');
+        router.push("/dashboard/my-properties");
       }
     } catch (error) {
       console.error("Property creation error:", error);
-      
+
       Swal.close();
       await Swal.fire({
         icon: "error",

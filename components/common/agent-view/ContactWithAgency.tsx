@@ -2,11 +2,11 @@
 
 import { useCreateInquiryMutation } from "@/features/api/inquiries.api";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
-const ContactWithAgency = ({ agencyId }) => {
-  const user = useSelector((state) => state.auth?.user); // Get logged-in user
+const ContactWithAgency = ({ agencyId }: { agencyId: string }) => {
+  const user = useAppSelector((state) => state.auth?.user); // Get logged-in user
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,11 +28,15 @@ const ContactWithAgency = ({ agencyId }) => {
     }
   }, [user]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createInquiry(formData).unwrap();
@@ -96,7 +100,7 @@ const ContactWithAgency = ({ agencyId }) => {
               id="form_message"
               name="message"
               className="form-control"
-              rows="5"
+              rows={5}
               placeholder="Your Message"
               value={formData.message}
               onChange={handleChange}

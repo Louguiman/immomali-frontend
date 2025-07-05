@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,12 +11,14 @@ import {
 } from "../../../features/agent/agentSlice";
 import { useGetAllAgentsQuery } from "@/features/api/agents.api";
 import Pagination from "./Pagination"; // Import Pagination component
+import { Agent } from "@/types/agent";
+import { FaBuilding, FaEnvelope, FaFax, FaPhoneAlt } from "react-icons/fa";
 
 const Team = () => {
   const t = useTranslations("home.agents");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name, category, city, page, pageSize } =
-    useSelector((state: import("@/store/store").RootState) => state.agent) || {};
+    useAppSelector((state) => state.agent) || {};
 
   const { data: agents, isLoading, isError } = useGetAllAgentsQuery();
 
@@ -27,7 +29,7 @@ const Team = () => {
   }, [isLoading, agents]);
 
   // Filtering logic
-  const filteredAgents = agents?.filter((agent) =>
+  const filteredAgents = agents?.filter((agent: Agent) =>
     agent.name.toLowerCase().includes(name.toLowerCase())
   );
 
@@ -49,7 +51,7 @@ const Team = () => {
     <>
       <div className="row">
         {paginatedAgents.length > 0 ? (
-          paginatedAgents.map((item) => (
+          paginatedAgents.map((item: Agent) => (
             <div className="col-md-6 col-lg-6" key={item.id}>
               <div className="feat_property home7 agent">
                 <div className="thumb">
@@ -82,17 +84,21 @@ const Team = () => {
                     </h4>
                     <p className="text-thm">{item.type}</p>
                     <ul className="prop_details mb0">
-                      <li>
-                        <a href="#">Office: {item.office}</a>
+                      <li className="d-flex align-items-center">
+                        <FaBuilding className="me-2" />
+                        <a href="#">{item.office}</a>
                       </li>
-                      <li>
-                        <a href="#">Mobile: {item.mobile}</a>
+                      <li className="d-flex align-items-center">
+                        <FaPhoneAlt className="me-2" />
+                        <a href={`tel:${item.mobile}`}>{item.mobile}</a>
                       </li>
-                      <li>
-                        <a href="#">Fax: {item.fax}</a>
+                      <li className="d-flex align-items-center">
+                        <FaFax className="me-2" />
+                        <a href="#">{item.fax}</a>
                       </li>
-                      <li>
-                        <a href="#">Email: {item.email}</a>
+                      <li className="d-flex align-items-center">
+                        <FaEnvelope className="me-2" />
+                        <a href={`mailto:${item.email}`}>{item.email}</a>
                       </li>
                     </ul>
                   </div>

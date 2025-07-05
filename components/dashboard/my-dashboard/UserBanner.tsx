@@ -1,5 +1,5 @@
 "use client";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import React from "react";
 

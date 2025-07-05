@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { addAgentItemLength } from "../../../features/agent/agentSlice";
 import Image from "next/image";
 import { useGetAllAgenciesQuery } from "@/features/api/agencies.api";
 import { useTranslations } from "next-intl";
+import { useAppDispatch } from "@/store/store";
+import type { Agency } from "@/types/agency";
 
 const Agency = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const t = useTranslations("home.agents");
 
   const { data: agencies, isLoading, isError } = useGetAllAgenciesQuery();
@@ -18,12 +19,12 @@ const Agency = () => {
     if (!isLoading && agencies !== null) {
       dispatch(addAgentItemLength(agencies.length));
     }
-  }, [agencies]);
+  }, [agencies, dispatch, isLoading]);
 
   if (isLoading) return <p>{t("loading_agents")}</p>;
   if (isError) return <p>{t("error_fetching_agents")}</p>;
 
-  let content = agencies.map((item) => (
+  const content = agencies.map((item: Agency) => (
     <div className="col-md-6 col-lg-6" key={item.id}>
       <div className="feat_property home7 agency">
         <div className="thumb">
@@ -39,14 +40,14 @@ const Agency = () => {
               alt="bh1.jpg"
             />
           </Link>
-          <div className="thmb_cntnt">
+          {/* <div className="thmb_cntnt">
             <ul className="tag mb0">
               <li className="list-inline-item dn"></li>
               <li className="list-inline-item">
                 <a href="#">{item?.noOfListings} Listings</a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         {/* End .thumb */}
 
@@ -55,29 +56,34 @@ const Agency = () => {
             <h4>
               <Link href={`/agency-details/${item.id}`}>{item.name}</Link>
             </h4>
-            <p className="text-thm">{item.type}</p>
+            <p className="text-thm">{item.createdAt.toLocaleDateString()}</p>
             <ul className="prop_details mb0">
               <li>
-                <a href="#">Office: {item.office}</a>
+                <a href="#">
+                  <i className="fa fa-mobile"></i> {item.phoneNumber}
+                </a>
               </li>
               <li>
-                <a href="#">Mobile: {item.phoneNumber}</a>
+                <a href="#">
+                  <i className="fa fa-envelope-o"></i> {item.email}
+                </a>
               </li>
               <li>
-                <a href="#">Email: {item.email}</a>
+                <a href="#">
+                  <i className="fa fa-globe"></i> {item.website}
+                </a>
               </li>
               <li>
-                <a href="#">Web: {item.website}</a>
-              </li>
-              <li>
-                <a href="#">Address: {item.address}</a>
+                <a href="#">
+                  <i className="fa fa-map-marker"></i> {item.address}
+                </a>
               </li>
             </ul>
           </div>
           {/* End .tc_content */}
 
           <div className="fp_footer">
-            <ul className="fp_meta float-start mb0">
+            {/* <ul className="fp_meta float-start mb0">
               {item?.socialList?.map((social, i) => (
                 <li className="list-inline-item" key={i}>
                   <a
@@ -89,7 +95,7 @@ const Agency = () => {
                   </a>
                 </li>
               ))}
-            </ul>
+            </ul> */}
             <div className="fp_pdate float-end text-thm">
               <Link href={`/agency-details/${item.id}`} className="text-thm">
                 {t("view_my_listings")} <i className="fa fa-angle-right"></i>

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { useTranslations } from "next-intl";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useUpdateUserProfileMutation } from "@/features/api/user.api";
 
 const SocialMedia = () => {

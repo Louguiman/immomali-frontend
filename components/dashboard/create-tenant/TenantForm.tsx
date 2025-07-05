@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/store/store";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setLeaseField, setTenantField } from "@/features/tenant/tenantsSlice";
 import SearchableUserSelect from "./SearchableUserSelect";
 import SearchablePropertySelect from "./SearchablePropertySelect";
@@ -14,8 +13,12 @@ import { useTranslations } from "next-intl";
 const TenantForm = ({ tenantToEdit, activeStep, onNext, onPrevious }) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
-  const tenant = useSelector((state: import("@/store/store").RootState) => state.tenants.tenantDetails);
-  const user = useSelector((state: import("@/store/store").RootState) => state.auth.user);
+  const tenant = useAppSelector(
+    (state: import("@/store/store").RootState) => state.tenants.tenantDetails
+  );
+  const user = useAppSelector(
+    (state: import("@/store/store").RootState) => state.auth.user
+  );
   const [selectedTenant, setSelectedTenant] = useState(
     tenantToEdit?.user || null
   );

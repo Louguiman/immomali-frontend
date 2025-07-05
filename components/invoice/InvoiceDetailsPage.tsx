@@ -9,7 +9,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
 import { useState } from "react";
 import ManualPaymentModal from "@/components/payments/ManualPaymentModal";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
 

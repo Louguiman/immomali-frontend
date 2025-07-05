@@ -1,11 +1,13 @@
-'use client'
+"use client";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { toggleGridAndList } from "../../../features/filter/filterSlice";
 
 const GridListButton = () => {
-  const { isGridOrList } = useSelector((state: import("@/store/store").RootState) => state.filter);
-  const dispatch = useDispatch();
+  const { isGridOrList } = useAppSelector(
+    (state: import("@/store/store").RootState) => state.filter
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <ul className="mb-3">

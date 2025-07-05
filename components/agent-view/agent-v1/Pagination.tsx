@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setPage } from "../../../features/agent/agentSlice";
 
-const Pagination = ({ totalItems }) => {
-  const dispatch = useDispatch();
-  const { page, pageSize } = useSelector((state: import("@/store/store").RootState) => state.agent);
+const Pagination = ({ totalItems }: { totalItems: number }) => {
+  const dispatch = useAppDispatch();
+  const { page, pageSize } = useAppSelector((state) => state.agent);
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handlePageChange = (newPage) => {
