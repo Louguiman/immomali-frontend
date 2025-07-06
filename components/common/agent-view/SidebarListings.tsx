@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import Categorie from "../listing/Categorie";
 import FeaturedListings from "../listing/FeaturedListings";
-import FeatureProperties from "../listing/FeatureProperties";
 import FilterSearch from "./FilterSearch";
 
 const SidebarListings = () => {
@@ -17,10 +16,10 @@ const SidebarListings = () => {
       </div>
       {/* End filter and search area */}
 
-      <div className="terms_condition_widget style_two-pro">
+      {/* <div className="terms_condition_widget style_two-pro">
         <h4 className="title">{t("featured_properties")}</h4>
         <FeatureProperties />
-      </div>
+      </div> */}
       {/* End Featured Properties widget */}
 
       <div className="terms_condition_widget">

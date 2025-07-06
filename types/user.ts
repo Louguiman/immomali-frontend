@@ -5,6 +5,8 @@ import { Review } from "./review";
 import { Tenant } from "./tenant";
 
 export interface User {
+  img: string;
+  name: string;
   id: number;
   email: string;
   agency?: Agency;

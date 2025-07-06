@@ -1,10 +1,13 @@
-import ContactWithAgent from "../../components/common/agent-view/ContactWithAgent";
+import ContactWithAgency from "../common/agent-view/ContactWithAgency";
 import Categorie from "../../components/common/listing/Categorie";
 import FeaturedListings from "../../components/common/listing/FeaturedListings";
-import FeatureProperties from "../../components/common/listing/FeatureProperties";
-import ContactWithAgency from "../common/agent-view/ContactWithAgency";
+import FeaturedProperties from "../home-4/FeaturedProperties";
+import { useAppSelector } from "@/store/store";
 
-const SidebarListings = ({ agencyId }) => {
+const SidebarListings = ({ agencyId }: { agencyId: string }) => {
+  const recentlyViewedProperties = useAppSelector(
+    (state) => state.properties.recentlyViewed
+  );
   return (
     <div className="sidebar_listing_grid1">
       <div className="sidebar_listing_list">
@@ -17,7 +20,7 @@ const SidebarListings = ({ agencyId }) => {
 
       <div className="terms_condition_widget style_two-pro">
         <h4 className="title">Featured Properties</h4>
-        <FeatureProperties />
+        <FeaturedProperties properties={recentlyViewedProperties} />
       </div>
       {/* End Featured Properties widget */}
 

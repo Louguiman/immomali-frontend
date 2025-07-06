@@ -56,7 +56,9 @@ const Agency = () => {
             <h4>
               <Link href={`/agency-details/${item.id}`}>{item.name}</Link>
             </h4>
-            <p className="text-thm">{item.createdAt.toLocaleDateString()}</p>
+            <p className="text-thm">
+              {new Date(item?.createdAt)?.toLocaleDateString()}
+            </p>
             <ul className="prop_details mb0">
               <li>
                 <a href="#">

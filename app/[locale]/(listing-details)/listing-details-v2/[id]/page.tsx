@@ -1,6 +1,4 @@
 "use client";
-
-import properties from "@/data/properties";
 import DetailsContent from "@/components/listing-details-v1/DetailsContent";
 import Sidebar from "@/components/listing-details-v1/Sidebar";
 import ListingTwo from "@/components/listing-single/ListingTwo";

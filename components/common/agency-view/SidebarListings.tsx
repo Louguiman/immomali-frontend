@@ -1,11 +1,15 @@
+"use client";
 import { useTranslations } from "next-intl";
 import Categorie from "../listing/Categorie";
 import FeaturedListings from "../listing/FeaturedListings";
-import FeatureProperties from "../listing/FeatureProperties";
+import FeaturedProperties from "@/components/home-4/FeaturedProperties";
+import { useAppSelector } from "@/store/store";
 
 const SidebarListings = () => {
   const t = useTranslations("property.sidebar");
-
+  const recentlyViewedProperties = useAppSelector(
+    (state) => state.properties.recentlyViewed
+  );
   return (
     <div className="sidebar_listing_grid1">
       <div className="terms_condition_widget">
@@ -22,7 +26,7 @@ const SidebarListings = () => {
       <div className="terms_condition_widget style_two-pro">
         <h4 className="title">{t("featuredProperties")}</h4>
 
-        <FeatureProperties />
+        <FeaturedProperties properties={recentlyViewedProperties} />
       </div>
       {/* End Featured Properties widget */}
 

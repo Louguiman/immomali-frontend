@@ -37,7 +37,7 @@ export function PropertyItem({ id }: PropertyItemProps) {
     isLoading,
     error,
     isError,
-  } = useFetchPropertyByIdQuery(id, { skip: !id });
+  } = useFetchPropertyByIdQuery(id.toString(), { skip: !id });
 
   if (isLoading)
     return (

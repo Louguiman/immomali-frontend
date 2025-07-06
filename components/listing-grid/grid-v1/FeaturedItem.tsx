@@ -96,7 +96,7 @@ const FeaturedItem = ({ properties }: { properties: Property[] }) => {
             <ul className="prop_details mb0">
               <li className="list-inline-item flex items-center">
                 <HiOutlineHome
-                  size={30}
+                  size={25}
                   className="mr-1 cursor-help"
                   title={t("beds")}
                 />{" "}
@@ -104,7 +104,7 @@ const FeaturedItem = ({ properties }: { properties: Property[] }) => {
               </li>
               <li className="list-inline-item flex items-center">
                 <HiOutlineBuildingOffice
-                  size={30}
+                  size={25}
                   className="mr-1 cursor-help"
                   title={t("baths")}
                 />{" "}
@@ -112,7 +112,7 @@ const FeaturedItem = ({ properties }: { properties: Property[] }) => {
               </li>
               <li className="list-inline-item flex items-center">
                 <HiOutlineSquare3Stack3D
-                  size={30}
+                  size={25}
                   className="mr-1 cursor-help"
                   title={t("area")}
                 />{" "}
