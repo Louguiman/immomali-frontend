@@ -208,6 +208,7 @@
       "reviewSubmitted": "Avis soumis !",
       "reviewFailed": "Échec de la soumission de l'avis.",
       "leaveReview": "Laisser un avis",
+      "selectRating": "Sélectionner une note",
       "rating": "Note :",
       "stars": "{num} étoiles",
       "comment": "Commentaire :",

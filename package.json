@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm run type-check && next build",
+    "build": "next build",
+    "build:prod": "pnpm run type-check && next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

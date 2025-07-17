@@ -14,9 +14,11 @@ const FeaturedListings = () => {
   );
   return (
     <div>
-      {recentlyViewedList.map((item: Property) => (
-        <PropertyItem id={item.id} key={item.id} />
-      ))}
+      {recentlyViewedList
+        .filter((item: Property) => item.id !== undefined && item.id !== null)
+        .map((item: Property) => (
+          <PropertyItem id={item.id} key={item.id} />
+        ))}
     </div>
   );
 };
@@ -47,10 +49,22 @@ export function PropertyItem({ id }: PropertyItemProps) {
     );
 
   if (isError) {
+    let errorMessage = t("errorMessage");
+    if (
+      error &&
+      typeof error === "object" &&
+      "data" in error &&
+      error.data &&
+      typeof error.data === "object" &&
+      "message" in error.data
+    ) {
+      errorMessage =
+        (error.data as { message?: string }).message || errorMessage;
+    }
     return (
       <div className="text-center mt-5">
         <p className="text-danger">{t("errorLoading")}</p>
-        <p>{error?.data?.message || t("errorMessage")}</p>
+        <p>{errorMessage}</p>
       </div>
     );
   }
