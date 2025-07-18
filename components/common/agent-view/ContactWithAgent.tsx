@@ -19,7 +19,7 @@ const ContactWithAgent = ({
   propertyId,
 }: {
   agentId: string;
-  propertyId: string;
+  propertyId?: string;
 }) => {
   const t = useTranslations("property.sidebar.contactAgent");
   const user = useAppSelector((state) => state.auth?.user);

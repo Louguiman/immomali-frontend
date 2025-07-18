@@ -52,8 +52,12 @@
         "categories_property": "Catégories de propriétés",
         "recently_viewed": "Récemment consulté",
         "search": {
+          "select_city": "Sélectionner une ville",
+          "select_category": "Sélectionner une catégorie",
           "enter_agent_name": "Saisissez le nom de l'agent",
           "all_categories": "Toutes les catégories",
+          "category": " Catégorie",
+          "search": "Rechercher",
           "broker": "Courtier",
           "agent": "Agent",
           "all_cities": "Toutes les villes",
