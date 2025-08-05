@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/store";
 import { useLogoutMutation } from "@/features/api/auth.api";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { logoutSuccess } from "@/features/auth/authSlice";
 import Swal from "sweetalert2";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,9 @@ const LogoutPageContent = () => {
   const dispatch = useAppDispatch();
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
-  const handleLogout = async () => {
+
+
+  const handleLogout = useCallback(async () => {
     try {
       await logout({}).unwrap();
       dispatch(logoutSuccess());
@@ -33,11 +35,11 @@ const LogoutPageContent = () => {
 
       router.push("/");
     }
-  };
+  }, [logout, dispatch, t, router]);
 
   useEffect(() => {
     handleLogout();
-  }, []);
+  }, [handleLogout]);
 
   return (
     <div className="error_page footer_apps_widget text-center">

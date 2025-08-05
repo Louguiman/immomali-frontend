@@ -22,7 +22,7 @@ const MaintenanceRequestDetail = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
-  const canEdit = user?.roles.some((role) =>
+  const canEdit = user?.roles?.some((role) =>
     ["agent", "agency", "admin"].includes(role.name)
   );
 
@@ -60,7 +60,9 @@ const MaintenanceRequestDetail = () => {
       </p>
     );
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -76,10 +78,11 @@ const MaintenanceRequestDetail = () => {
       setIsEditing(false);
       router.refresh(); // refresh data if needed
     } catch (error) {
-      toast.error(
-        "Failed to update maintenance request." +
-          error?.data?.message?.toString()
-      );
+      const errorMessage =
+        (error as any)?.data?.message?.toString() ||
+        (error as Error)?.message ||
+        "Unknown error";
+      toast.error("Failed to update maintenance request. " + errorMessage);
     }
   };
 

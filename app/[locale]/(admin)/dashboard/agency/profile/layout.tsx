@@ -1,6 +1,6 @@
 import React from "react";
 
-function layout({ children }) {
+function layout({ children }: { children: React.ReactNode }) {
   return (
     <section className="our-dashbord dashbord bgc-f7 pb50">
       <div className="container-fluid ovh">

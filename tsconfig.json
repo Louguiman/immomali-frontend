@@ -10,7 +10,7 @@
     "jsx": "preserve",
     /* Modules */
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -57,6 +57,14 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "build",
+    "archive",
+    "scripts",
+    "public",
+    "next.config.mjs",
+    "next-env.d.ts",
+    "tsconfig.json"
   ]
 }

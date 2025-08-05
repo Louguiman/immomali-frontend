@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { AgencyInvoicesPage } from "@/components/dashboard/agency-dashboard/invoice";
 import MaintenanceDashboard from "@/components/dashboard/agency-dashboard/maintenance/MaintenanceDashboard";
 
 export const metadata = {
@@ -7,7 +6,7 @@ export const metadata = {
   description: "IKASOWi - Real Estate",
 };
 
-const index = () => {
+const Index = () => {
   return (
     <>
       <MaintenanceDashboard />
@@ -15,4 +14,4 @@ const index = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(index));
+export default dynamic(() => Promise.resolve(Index));

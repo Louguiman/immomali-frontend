@@ -5,7 +5,7 @@ import { clearCompareList } from "@/features/properties/propertiesSlice";
 import ComparePricing from "./ComparePricing";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 
-const index = () => {
+const Index = () => {
   const dispatch = useAppDispatch();
   const compareList = useAppSelector((state) => state.properties.compareList);
 
@@ -96,4 +96,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

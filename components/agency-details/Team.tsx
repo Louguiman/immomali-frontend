@@ -86,7 +86,7 @@ const Team = ({ agents }: { agents: Agent[] }) => {
   // agent item length
   useEffect(() => {
     dispatch(addAgentItemLength(agents.length));
-  }, [dispatch, content]);
+  }, [dispatch, content, agents.length]);
   return <>{content}</>;
 };
 

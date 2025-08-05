@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Agent {
   img: string;
   noOfListings: ReactNode;

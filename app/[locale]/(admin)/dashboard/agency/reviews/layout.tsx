@@ -1,7 +1,9 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
-function layout({ children }) {
+import { ReactNode } from "react";
+
+function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations("dashboard.reviews");
 
   return (
@@ -45,4 +47,4 @@ function layout({ children }) {
   );
 }
 
-export default layout;
+export default Layout;

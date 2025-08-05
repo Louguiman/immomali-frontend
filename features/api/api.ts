@@ -60,27 +60,32 @@ const baseQueryWithReauth: BaseQueryFn<
   return result;
 };
 
+// Define tag types for cache invalidation
+export const tagTypes = [
+  "User",
+  "Users",
+  "Tenancies",
+  "Inquiries",
+  "Properties",
+  "UserProperties",
+  "Notifications",
+  "Complaints",
+  "Payments",
+  "Tenants",
+  "Permissions",
+  "Reviews",
+  "Agencies",
+  "Agents",
+  "InquiryReplies",
+  "Invoices",
+  "Maintenance",
+] as const;
+
+export type TagType = (typeof tagTypes)[number];
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  tagTypes: [
-    "User",
-    "Users",
-    "Tenancies",
-    "Inquiries",
-    "Properties",
-    "UserProperties",
-    "Notifications",
-    "Complaints",
-    "Payments",
-    "Tenants",
-    "Permissions",
-    "Reviews",
-    "Agencies",
-    "Agents",
-    "InquiryReplies",
-    "Invoices",
-    "Maintenance",
-  ],
+  tagTypes: tagTypes,
   endpoints: () => ({}),
 });

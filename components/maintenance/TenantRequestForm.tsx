@@ -4,16 +4,24 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
-const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: number; tenantId: number; onClose: () => void }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("general");
-  const [priority, setPriority] = useState("medium");
+const TenantRequestForm = ({
+  propertyId,
+  tenantId,
+  onClose,
+}: {
+  propertyId: number;
+  tenantId: number;
+  onClose: () => void;
+}) => {
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [category, setCategory] = useState<string>("general");
+  const [priority, setPriority] = useState<string>("medium");
   const [createRequest, { isLoading }] = useCreateRequestMutation();
 
   const t = useTranslations("dashboard.maintenance");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createRequest({
@@ -27,6 +35,8 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
       toast.success(t("maintenance_request_submitted"));
       setTitle("");
       setDescription("");
+      setCategory("general");
+      setPriority("medium");
       onClose();
     } catch (error) {
       toast.error(t("error_submitting_request"));
@@ -34,13 +44,15 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
   };
 
   return (
-    <div className="modal show d-block" tabIndex="-1">
+    <div className="modal show d-block" tabIndex={-1}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{t("new_maintenance_request")}</h5>
             <button
               type="button"
+              name="close"
+              title="Close"
               className="btn-close"
               onClick={onClose}
             ></button>
@@ -52,7 +64,9 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
                 <label className="form-label">{t("title")}</label>
                 <input
                   type="text"
+                  name="title"
                   className="form-control"
+                  placeholder={t("title")}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -61,8 +75,10 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
               <div className="mb-3">
                 <label className="form-label">{t("description")}</label>
                 <textarea
+                  name="description"
                   className="form-control"
-                  rows="3"
+                  placeholder={t("description")}
+                  rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   required
@@ -71,6 +87,7 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
               <div className="mb-3">
                 <label className="form-label">{t("category")}</label>
                 <select
+                  name="category"
                   className="form-select"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -85,6 +102,7 @@ const TenantRequestForm = ({ propertyId, tenantId, onClose }: { propertyId: numb
               <div className="mb-3">
                 <label className="form-label">{t("priority")}</label>
                 <select
+                  name="priority"
                   className="form-select"
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}

@@ -19,9 +19,7 @@ import {
 
 const FeaturedItem = ({ properties }: { properties: Property[] }) => {
   const dispatch = useAppDispatch();
-  const { statusType, featured, isGridOrList } = useAppSelector(
-    (state) => state.filter
-  );
+  const { isGridOrList } = useAppSelector((state) => state.filter);
 
   // Translation hook
   const t = useTranslations("property");

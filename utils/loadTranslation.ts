@@ -12,6 +12,7 @@ async function loadTranslations(locale: string): Promise<Record<string, any>> {
   const dashboardMessages = await import(
     `@/public/locales/${locale}/dashboard.json`
   );
+  const agencyMessages = await import(`@/public/locales/${locale}/agency.json`); // Fallback to English for agency messages
   const messages = {
     ...homeMessages.default,
     ...navbarMessages.default,
@@ -20,6 +21,7 @@ async function loadTranslations(locale: string): Promise<Record<string, any>> {
     ...propertyMessages.default,
     ...sidebarMessages.default,
     ...dashboardMessages.default,
+    ...agencyMessages.default,
   };
   return messages;
 }

@@ -1,16 +1,13 @@
 // EditPropertyPage.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Swal from "sweetalert2";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
-import Header from "@/components/common/header/dashboard/Header";
-import MobileMenu from "@/components/common/header/MobileMenu";
-import SidebarMenu from "@/app/[locale]/(admin)/dashboard/SidebarMenu";
-
+import { Property } from "@/types/property";
 import {
   useFetchPropertyByIdQuery,
   useUpdatePropertyMutation,
@@ -64,7 +61,9 @@ const EditPropertyPage = () => {
 
   const listing = useAppSelector((state) => state.properties.createListing);
   const newImages = useAppSelector((state) => state.properties.newImages);
-  const deletedImages = useAppSelector((state) => state.properties.deletedImages);
+  const deletedImages = useAppSelector(
+    (state) => state.properties.deletedImages
+  );
   const newAttachments = useAppSelector(
     (state) => state.properties.newAttachments
   );

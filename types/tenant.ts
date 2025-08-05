@@ -7,7 +7,6 @@ import { MaintenanceRequest } from "./maintenance-request";
 import { Property } from "./property";
 import { User } from "./user";
 
-
 export interface Tenant {
   id: number;
   user: User;
@@ -24,5 +23,3 @@ export interface Tenant {
   updatedAt: Date;
   deletedAt?: Date;
 }
-
-

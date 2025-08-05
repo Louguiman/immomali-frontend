@@ -9,8 +9,28 @@ import SearchableAgentSelect from "./SearchableAgentSelect";
 import UserCard from "@/components/common/cards/UserCard";
 import MinimalPropertyCard from "@/components/MinimalPropertyCard";
 import { useTranslations } from "next-intl";
+import { Property } from "@/types/property";
+import { User } from "@/types/user";
+import { Agent } from "@/types/agent";
 
-const TenantForm = ({ tenantToEdit, activeStep, onNext, onPrevious }) => {
+interface TenantFormProps {
+  tenantToEdit?: {
+    user?: User;
+    property?: Property;
+    agent?: Agent;
+    // Add other fields as needed
+  };
+  activeStep: number;
+  onNext: () => void;
+  onPrevious: () => void;
+}
+
+const TenantForm: React.FC<TenantFormProps> = ({
+  tenantToEdit,
+  activeStep,
+  onNext,
+  onPrevious,
+}) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
   const tenant = useAppSelector(
@@ -25,7 +45,7 @@ const TenantForm = ({ tenantToEdit, activeStep, onNext, onPrevious }) => {
   const [selectedProperty, setSelectedProperty] = useState(
     tenantToEdit?.property || null
   );
-  const [selectedAgent, setSelectedAgent] = useState(
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(
     tenantToEdit?.agent || null
   );
 
@@ -35,12 +55,12 @@ const TenantForm = ({ tenantToEdit, activeStep, onNext, onPrevious }) => {
     dispatch(setTenantField({ field: id, value }));
   };
 
-  const handleTenantSelection = (user) => {
+  const handleTenantSelection = (user: User) => {
     setSelectedTenant(user);
     dispatch(setTenantField({ field: "userId", value: user.id }));
   };
 
-  const handlePropertySelection = (property) => {
+  const handlePropertySelection = (property: Property) => {
     setSelectedProperty(property);
     dispatch(setLeaseField({ field: "monthlyRent", value: property.price }));
     dispatch(

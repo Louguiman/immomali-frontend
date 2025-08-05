@@ -19,9 +19,10 @@ const MaintenanceRequestDetail = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
-  const canEdit = user?.roles.some((role) =>
-    ["agent", "agency", "admin"].includes(role.name)
-  );
+  const canEdit =
+    !!user &&
+    Array.isArray(user.roles) &&
+    user.roles.some((role) => ["agent", "agency", "admin"].includes(role.name));
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -50,12 +51,14 @@ const MaintenanceRequestDetail = () => {
       </p>
     );
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await updateRequest({ id: request.id, ...formData }).unwrap();
@@ -63,10 +66,19 @@ const MaintenanceRequestDetail = () => {
       setIsEditing(false);
       router.refresh(); // refresh data if needed
     } catch (error) {
-      toast.error(
-        "Failed to update maintenance request." +
-          error?.data?.message?.toString()
-      );
+      let message = "Failed to update maintenance request.";
+      if (
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+      ) {
+        // // @ts-expect-error
+        message += error.data.message?.toString();
+      }
+      toast.error(message);
     }
   };
 
@@ -96,8 +108,8 @@ const MaintenanceRequestDetail = () => {
                 request.status === "resolved"
                   ? "bg-success"
                   : request.status === "in-progress"
-                  ? "bg-warning"
-                  : "bg-danger"
+                    ? "bg-warning"
+                    : "bg-danger"
               }`}
             >
               {request.status.toUpperCase()}
@@ -149,6 +161,7 @@ const MaintenanceRequestDetail = () => {
                     type="number"
                     className="form-control"
                     name="estimatedCost"
+                    placeholder="Enter estimated cost"
                     value={formData.estimatedCost}
                     onChange={handleInputChange}
                   />
@@ -159,6 +172,7 @@ const MaintenanceRequestDetail = () => {
                     type="number"
                     className="form-control"
                     name="actualCost"
+                    placeholder="Enter actual cost"
                     value={formData.actualCost}
                     onChange={handleInputChange}
                   />
@@ -166,6 +180,7 @@ const MaintenanceRequestDetail = () => {
                 <div className="mb-3">
                   <label className="form-label">Resolution Notes</label>
                   <textarea
+                    placeholder="Enter resolution notes"
                     className="form-control"
                     name="resolutionNotes"
                     rows={3}

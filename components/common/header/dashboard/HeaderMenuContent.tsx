@@ -8,7 +8,6 @@ import NotificationDropdown from "@/features/notifications/NotificationDropdown"
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { getAccountMenu } from "@/utils/lib";
-import { Role } from "@/types/role";
 
 const navItems = {
   home: { name: "home", routerPath: "/" },
@@ -67,7 +66,7 @@ const HeaderMenuContentV4 = ({ float = "" }) => {
     [user]
   );
 
-  navItems.account = useMemo(() => getAccountMenu(userRoles), [user]);
+  navItems.account = useMemo(() => getAccountMenu(userRoles), [userRoles]);
   const isAuthenticated = useAppSelector(
     (state) => state.auth?.isAuthenticated
   );

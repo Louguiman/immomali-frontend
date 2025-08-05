@@ -1,12 +1,16 @@
 import React from "react";
 
-// interface PaginationProps {
-//   currentPage: number;
-//   totalPages: number;
-//   onPageChange: (page: number) => void;
-// }
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   const maxVisiblePages = 5; // Number of visible pages before showing "..."
   const pageNumbers = [];
 
@@ -25,8 +29,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     }
 
     // Show a range of pages around the currentPage
-    let startPage = Math.max(2, currentPage - 1);
-    let endPage = Math.min(totalPages - 1, currentPage + 1);
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
 
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(i);
@@ -49,8 +53,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           className="page-link"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
+          aria-label="Previous page"
         >
-          <span className="flaticon-left-arrow"></span>
+          <span className="flaticon-left-arrow" aria-hidden="true"></span>
         </button>
       </li>
 
@@ -80,8 +85,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           className="page-link"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
+          aria-label="Next page"
         >
-          <span className="flaticon-right-arrow"></span>
+          <span className="flaticon-right-arrow" aria-hidden="true"></span>
         </button>
       </li>
     </ul>

@@ -51,6 +51,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.20",
     "@types/node": "22.14.0",
     "@types/react": "^19.1.6",
     "@types/react-slick": "^0.23.13",

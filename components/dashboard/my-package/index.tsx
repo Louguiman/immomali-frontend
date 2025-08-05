@@ -1,6 +1,3 @@
-import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
-import MobileMenu from "../../common/header/MobileMenu";
 import PackageData from "./PackageData";
 import SearchBox from "./SearchBox";
 

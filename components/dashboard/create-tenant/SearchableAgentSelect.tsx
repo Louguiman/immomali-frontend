@@ -1,8 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
-import { useSearchUsersQuery } from "@/features/api/user.api";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import _ from "lodash"; // Import lodash
 import { useSearchAgentsByAgencyQuery } from "@/features/api/agents.api";
+import { User } from "@/types/user";
+
+interface SearchableAgentSelectProps {
+  placeholder: string;
+  onSelect: (user: Partial<User>) => void;
+  agencyId: string;
+  isAgency: boolean;
+  user: { name: string; email: string; phoneNumber: string };
+}
 
 const SearchableAgentSelect = ({
   placeholder,
@@ -10,7 +18,7 @@ const SearchableAgentSelect = ({
   agencyId,
   isAgency,
   user,
-}) => {
+}: SearchableAgentSelectProps) => {
   const [query, setQuery] = useState(
     isAgency ? "" : `${user.name} | ${user.email} | ${user.phoneNumber}`
   );
@@ -23,7 +31,7 @@ const SearchableAgentSelect = ({
     }
   );
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
@@ -37,11 +45,14 @@ const SearchableAgentSelect = ({
     };
   });
 
-  const handleSelect = (user) => {
-    // setSelectedUser(user);
-    onSelect(user);
-    setQuery(""); // Reset input after selection
-  };
+  const handleSelect = useCallback(
+    (user: Partial<User>) => {
+      // setSelectedUser(user);
+      onSelect(user);
+      setQuery(""); // Reset input after selection
+    },
+    [onSelect, setQuery]
+  );
 
   useEffect(() => {
     if (!isAgency) {
@@ -49,7 +60,7 @@ const SearchableAgentSelect = ({
     }
 
     return () => {};
-  }, [user, isAgency]);
+  }, [user, isAgency, handleSelect]);
 
   return (
     <div className="searchable-select position-relative my_profile_setting_input">
@@ -73,7 +84,7 @@ const SearchableAgentSelect = ({
 
       {showDropdown && users?.length > 0 && (
         <ul className="dropdown-menu show w-100">
-          {users.map((user) => (
+          {users.map((user: Partial<User>) => (
             <li
               key={user.id}
               className="dropdown-item d-flex align-items-center"
@@ -82,15 +93,16 @@ const SearchableAgentSelect = ({
             >
               <Image
                 src={user.img || "/assets/images/default-user.png"} // Fallback image
-                alt={user.name}
+                alt={user.name || "user name"}
                 width={35}
                 height={35}
                 className="rounded-circle me-2"
               />
               <div>
-                <p className="mb-0 fw-bold">{user.name}</p>
+                <p className="mb-0 fw-bold">{user.name || "user name"}</p>
                 <small className="text-muted">
-                  {user.email} | {user.phoneNumber}
+                  {user.email || "user email"} |{" "}
+                  {user.phoneNumber || "user phone number"}
                 </small>
               </div>
             </li>

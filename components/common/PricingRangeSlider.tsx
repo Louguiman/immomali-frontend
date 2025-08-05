@@ -14,8 +14,17 @@ const RangeSlider = () => {
   });
   const dispatch = useDispatch();
 
-  const handleOnChange = (value) => {
-    setPrice({ value });
+  interface PriceRange {
+    min: number;
+    max: number;
+  }
+
+  const handleOnChange = (value: number | PriceRange) => {
+    if (typeof value === "number") {
+      setPrice({ value: { min: value, max: value } });
+    } else {
+      setPrice({ value });
+    }
   };
 
   // price add to state

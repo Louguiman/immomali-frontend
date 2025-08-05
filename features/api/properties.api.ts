@@ -79,7 +79,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
         method: "POST",
         body: property,
       }),
-      invalidatesTags: ["Properties"],
+      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
     }),
     searchProperties: builder.query<
       Property[],
@@ -126,16 +126,14 @@ export const propertiesApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updateData,
       }),
-      invalidatesTags: (_result, _error, { id }) => [
-        { type: "Properties", id },
-      ],
+      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
     }),
     deleteProperty: builder.mutation<void, string>({
       query: (id) => ({
         url: `/properties/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (_result, _error, id) => [{ type: "Properties", id }],
+      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
     }),
     searchAgencyProperties: builder.query<Property[], { query: string }>({
       query: ({ query }) => `/properties/search-agency?query=${query} `,

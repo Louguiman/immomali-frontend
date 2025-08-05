@@ -15,9 +15,7 @@ export default function I18nProvider({ children }: { children: ReactNode }) {
   // Ensure it's a supported locale, fallback to "en"
   const locale = locales.includes(pathLocale) ? pathLocale : "en";
 
-  const [messages, setMessages] = useState<any | null>(
-    null
-  );
+  const [messages, setMessages] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Load messages dynamically

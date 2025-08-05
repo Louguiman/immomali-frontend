@@ -49,7 +49,11 @@ const MaintenanceRequestDetail = () => {
   if (isError || !request)
     return <p className="alert alert-danger">{t("Error.loading")}</p>;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -123,7 +127,9 @@ const MaintenanceRequestDetail = () => {
             {isEditing ? (
               <form onSubmit={handleUpdate}>
                 <div className="mb-3">
-                  <label htmlFor="status-select" className="form-label">{t("label.status")}</label>
+                  <label htmlFor="status-select" className="form-label">
+                    {t("label.status")}
+                  </label>
                   <select
                     id="status-select"
                     className="form-select"
@@ -151,7 +157,10 @@ const MaintenanceRequestDetail = () => {
                     name="estimatedCost"
                     value={formData.estimatedCost}
                     onChange={handleInputChange}
-                    placeholder={t("placeholder.enterEstimatedCost") || "Enter estimated cost"}
+                    placeholder={
+                      t("placeholder.enterEstimatedCost") ||
+                      "Enter estimated cost"
+                    }
                     aria-label={t("label.estimatedCost")}
                   />
                 </div>

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/store/store";
 import { useAppDispatch } from "@/store/store";
-import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -18,7 +17,7 @@ import { setLease, setTenant } from "@/features/tenant/tenantsSlice";
 import Stepper from "../create-listing/Stepper";
 import { Tenant } from "@/types/tenant";
 
-const TenantManagement = ({ tenant }: { tenant: Tenant }) => {
+const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
   const t = useTranslations("dashboard.TenantProfile");
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -39,7 +38,7 @@ const TenantManagement = ({ tenant }: { tenant: Tenant }) => {
       dispatch(setTenant(tenantDetails));
       dispatch(setLease(lease));
     }
-  }, [tenant]);
+  }, [dispatch, tenant]);
 
   const handleNext = () => {
     setActiveStep((prev) => prev + 1);

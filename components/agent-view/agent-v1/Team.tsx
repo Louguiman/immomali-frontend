@@ -26,7 +26,7 @@ const Team = () => {
     if (!isLoading && agents) {
       dispatch(addAgentItemLength(agents.length));
     }
-  }, [isLoading, agents]);
+  }, [isLoading, agents, dispatch]);
 
   // Filtering logic
   const filteredAgents = agents?.filter((agent: Agent) =>

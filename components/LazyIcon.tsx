@@ -1,7 +1,6 @@
-import dynamic from "next/dynamic";
 import Image from "next/image";
 
-const LazyIcon = ({ iconName, alt }) => {
+const LazyIcon = ({ iconName, alt }: { iconName: string; alt: string }) => {
   const imagePath = `/assets/images/icons/${iconName}.png`;
 
   return (

@@ -8,10 +8,10 @@ export interface User {
   img: string;
   name: string;
   id: number;
+  phoneNumber: string;
   email: string;
   agency?: Agency;
   properties?: Property[];
   reviews?: Review[];
   tenancies?: Tenant[];
-  // Add other user fields as needed
 }

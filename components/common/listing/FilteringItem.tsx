@@ -193,7 +193,7 @@ const FilteringItem = () => {
   };
 
   // add advanced
-  const advancedHandler = (id) => {
+  const advancedHandler = (id: string) => {
     const data = getAdvanced.map((feature) => {
       if (feature.id === id) {
         if (feature.isChecked) {
@@ -247,6 +247,7 @@ const FilteringItem = () => {
     getMaxPrice,
     price,
     router,
+    handleSearch,
   ]);
 
   return (

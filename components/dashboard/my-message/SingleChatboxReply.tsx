@@ -22,14 +22,6 @@ interface Reply {
   user?: User;
 }
 
-interface AuthState {
-  user: {
-    email: string;
-    // Add other user properties as needed
-    [key: string]: unknown;
-  } | null;
-}
-
 interface SingleChatboxReplyProps {
   reply: Reply;
 }

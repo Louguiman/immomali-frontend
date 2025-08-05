@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 type BreadCrumbProps = {
@@ -10,7 +11,7 @@ const BreadCrumb = ({ title = "" }: BreadCrumbProps) => {
     <>
       <ol className="breadcrumb">
         <li className="breadcrumb-item">
-          <a href="/">{t("home")}</a>
+          <Link href="/">{t("home")}</Link>
         </li>
         <li className="breadcrumb-item active" aria-current="page">
           {title}

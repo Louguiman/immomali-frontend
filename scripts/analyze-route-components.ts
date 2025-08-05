@@ -80,7 +80,7 @@ function findComponentsForRoute(route: string) {
     }
   }
   
-  return components;
+  return components.filter((x): x is string => x !== undefined);
 }
 
 // Analyze all active routes

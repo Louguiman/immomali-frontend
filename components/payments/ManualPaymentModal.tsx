@@ -3,18 +3,35 @@
 import { useState } from "react";
 import { useCreateManualPaymentMutation } from "@/features/api/payments.api";
 import { toast } from "react-toastify";
+import { Payment } from "@/types/payment";
 
-const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose: () => void }) => {
-  const [formData, setFormData] = useState({
-    amount: "",
-    method: "Cash",
+const ManualPaymentModal = ({
+  invoiceId,
+  onClose,
+}: {
+  invoiceId: string;
+  onClose: () => void;
+}) => {
+  const [formData, setFormData] = useState<Payment>({
+    amount: 0,
+    paymentDate: new Date(),
+    tenant: {
+      id: 0,
+    },
+    invoice: {
+      id: invoiceId,
+    },
+    type: "Manual",
+    amountPaid: 0,
     reference: "",
-    paymentDate: new Date().toISOString().split("T")[0], // Default to today
+    paymentMethod: "",
   });
 
   const [createPayment, { isLoading }] = useCreateManualPaymentMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -24,7 +41,18 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
     try {
       await createPayment({
         ...formData,
-        invoiceId,
+        invoiceId: invoiceId.toString(),
+        tenant: {
+          id: 0,
+        },
+        invoice: {
+          id: Number(invoiceId),
+        },
+        type: "Manual",
+        amountPaid: Number(formData.amount),
+        paymentDate: new Date(),
+        reference: formData.reference,
+        paymentMethod: formData.paymentMethod,
       }).unwrap();
       toast.success("Payment recorded successfully!");
       onClose();
@@ -34,7 +62,7 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
   };
 
   return (
-    <div className="modal show d-block" tabIndex="-1">
+    <div className="modal show d-block" tabIndex={-1}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -42,8 +70,11 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
             <button
               type="button"
               className="btn-close"
+              aria-label="Close"
               onClick={onClose}
-            ></button>
+            >
+              <span className="visually-hidden">Close</span>
+            </button>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
@@ -54,7 +85,8 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
                   name="amount"
                   className="form-control"
                   value={formData.amount}
-                  onChange={handleChange as any}
+                  placeholder="Amount Paid"
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -62,9 +94,9 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
               <div className="mb-3">
                 <label className="form-label">Payment Method</label>
                 <select
-                  name="method"
+                  name="paymentMethod"
                   className="form-select"
-                  value={formData.method}
+                  value={formData.paymentMethod}
                   onChange={handleChange}
                 >
                   <option value="Cash">Cash</option>
@@ -80,6 +112,7 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
                   name="reference"
                   className="form-control"
                   value={formData.reference}
+                  placeholder="Reference"
                   onChange={handleChange}
                 />
               </div>
@@ -88,9 +121,10 @@ const ManualPaymentModal = ({ invoiceId, onClose }: { invoiceId: number; onClose
                 <label className="form-label">Payment Date</label>
                 <input
                   type="date"
+                  placeholder="Payment Date"
                   name="paymentDate"
                   className="form-control"
-                  value={formData.paymentDate}
+                  value={formData.paymentDate.toISOString().split("T")[0]}
                   onChange={handleChange}
                 />
               </div>

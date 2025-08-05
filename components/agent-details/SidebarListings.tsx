@@ -1,7 +1,6 @@
 import ContactWithAgent from "../../components/common/agent-view/ContactWithAgent";
 import Categorie from "../../components/common/listing/Categorie";
 import FeaturedListings from "../../components/common/listing/FeaturedListings";
-import FeatureProperties from "../../components/common/listing/FeatureProperties";
 
 const SidebarListings = ({ agentId }) => {
   return (
@@ -16,7 +15,7 @@ const SidebarListings = ({ agentId }) => {
 
       <div className="terms_condition_widget style_two-pro">
         <h4 className="title">Featured Properties</h4>
-        <FeatureProperties />
+        <FeaturedListings />
       </div>
       {/* End Featured Properties widget */}
 

@@ -113,7 +113,7 @@ const FeaturedProperties = ({ properties }: { properties: Property[] }) => {
                     <HiOutlineMapPin
                       size={25}
                       className="inline-block mr-4 cursor-help"
-                      title={t("common.location")}
+                      title={t("location")}
                     />{" "}
                     {item.address} {item?.city} {item?.country}
                   </p>

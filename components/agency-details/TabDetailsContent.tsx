@@ -1,12 +1,18 @@
-import agency from "@/data/agency";
 import Team from "./Team";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
 import ReviewBox from "../blog-details/ReviewBox";
 import DescriptionsText from "./DescriptionsText";
 import Listings from "./Listings";
+import { Agency } from "@/types/agency";
+import { useTranslations } from "next-intl";
 
-const TabDetailsContent = ({ agency }) => {
+interface TabDetailsContentProps {
+  agency: Agency;
+}
+
+const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
+  const t = useTranslations("agency.details");
   return (
     <>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -19,7 +25,7 @@ const TabDetailsContent = ({ agency }) => {
             aria-controls="description"
             aria-selected="true"
           >
-            Description
+            {t("descriptionTab", { defaultValue: "Description" })}
           </a>
         </li>
         {/* End Description tab */}
@@ -33,7 +39,7 @@ const TabDetailsContent = ({ agency }) => {
             aria-controls="listing"
             aria-selected="false"
           >
-            Listing
+            {t("listingTab", { defaultValue: "Listing" })}
           </a>
         </li>
         {/* End Listing tab */}
@@ -47,7 +53,7 @@ const TabDetailsContent = ({ agency }) => {
             aria-controls="listing"
             aria-selected="false"
           >
-            Agents
+            {t("agentsTab", { defaultValue: "Agents" })}
           </a>
         </li>
         {/* End Listing tab */}
@@ -61,7 +67,7 @@ const TabDetailsContent = ({ agency }) => {
             aria-controls="review"
             aria-selected="false"
           >
-            Reviews
+            {t("reviewsTab", { defaultValue: "Reviews" })}
           </a>
         </li>
         {/* End Reviews tab */}
@@ -110,15 +116,24 @@ const TabDetailsContent = ({ agency }) => {
           <div className="product_single_content">
             <div className="mbp_pagination_comments">
               <div className="total_review">
-                <h4>896 Reviews</h4>
+                <h4>
+                  {t("reviewsCount", {
+                    count: 896,
+                    defaultValue: "{count} Reviews",
+                  })}
+                </h4>
                 <ul className="review_star_list mb0 pl10">
                   <Ratings />
                 </ul>
                 <a className="tr_outoff pl10" href="#">
-                  ( 4.5 out of 5 )
+                  {t("outOf", {
+                    value: 4.5,
+                    max: 5,
+                    defaultValue: "( {value} out of {max} )",
+                  })}
                 </a>
                 <a className="write_review float-end fn-xsd" href="#">
-                  Write a Review
+                  {t("writeReview", { defaultValue: "Write a Review" })}
                 </a>
               </div>
               {/* End .total_review */}
@@ -126,7 +141,7 @@ const TabDetailsContent = ({ agency }) => {
               <div className="custom_hr"></div>
 
               <div className="mbp_comment_form style2">
-                <h4>Write a Review</h4>
+                <h4>{t("writeReview", { defaultValue: "Write a Review" })}</h4>
                 <ul className="review_star">
                   <li className="list-inline-item">
                     <span className="sspd_review">
@@ -136,7 +151,11 @@ const TabDetailsContent = ({ agency }) => {
                     </span>
                   </li>
                   <li className="list-inline-item pr15">
-                    <p>Your Rating & Review</p>
+                    <p>
+                      {t("yourRatingReview", {
+                        defaultValue: "Your Rating & Review",
+                      })}
+                    </p>
                   </li>
                 </ul>
                 <ReviewBox />

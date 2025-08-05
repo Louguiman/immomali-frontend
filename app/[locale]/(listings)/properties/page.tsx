@@ -8,7 +8,6 @@ import FilterTopBar from "@/components/common/listing/FilterTopBar";
 import ShowFilter from "@/components/common/listing/ShowFilter";
 import GridListButton from "@/components/common/listing/GridListButton";
 
-import BreadCrumb2 from "@/components/listing-grid/grid-v1/BreadCrumb2";
 import { getValidParams } from "@/utils/getValidParams";
 import FeaturedItem from "@/components/listing-grid/grid-v1/FeaturedItem";
 import { useTranslations } from "next-intl";

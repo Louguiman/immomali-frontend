@@ -18,9 +18,16 @@ const ManageLeasePage = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  const handleSubmit = async (e) => {
+  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {}
+
+  interface ManageLeaseArgs {
+    id: string | string[] | undefined;
+    leaseStatus: string | undefined;
+  }
+
+  const handleSubmit = async (e: HandleSubmitEvent) => {
     e.preventDefault();
-    await manageLease({ id, leaseStatus });
+    await manageLease({ id, leaseStatus } as ManageLeaseArgs);
     router.push(`/tenants/${id}`);
   };
 

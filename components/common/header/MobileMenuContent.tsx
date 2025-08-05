@@ -72,7 +72,7 @@ const MobileMenuContent = () => {
     () => user?.roles?.map((role) => role.name) || [],
     [user]
   );
-  const accountNav = useMemo(() => getAccountMenu(userRoles), [user]);
+  const accountNav = useMemo(() => getAccountMenu(userRoles), [userRoles]);
 
   return (
     <>

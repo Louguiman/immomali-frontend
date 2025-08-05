@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { MaintenanceRequest } from "@/types/maintenance-request";
 
 // Définition des classes de badge pour les statuts
 const STATUS_COLORS = {
@@ -12,9 +13,11 @@ const STATUS_COLORS = {
   pending: "bg-danger",
 };
 
-// import { MaintenanceRequest } from "@/types/maintenance";
-
-const MaintenanceRequestCard = ({ request }: { request: any }) => {
+const MaintenanceRequestCard = ({
+  request,
+}: {
+  request: MaintenanceRequest;
+}) => {
   const t = useTranslations("dashboard.maintenance");
   const pathname = usePathname();
   // const imageUrl = ;
@@ -62,7 +65,8 @@ const MaintenanceRequestCard = ({ request }: { request: any }) => {
               <strong>{t("status")}:</strong>{" "}
               <span
                 className={`badge ${
-                  STATUS_COLORS[request.status] || "bg-secondary"
+                  STATUS_COLORS[request.status as keyof typeof STATUS_COLORS] ||
+                  "bg-secondary"
                 }`}
               >
                 {t(`Status.${request.status}`)}

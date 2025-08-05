@@ -7,11 +7,19 @@ import {
 } from "@/features/api/invoices.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import Link from "next/link";
-import { useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useState,
+} from "react";
 import ManualPaymentModal from "@/components/payments/ManualPaymentModal";
 import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
+import { Payment } from "@/types/payment";
 
 const InvoiceDetailsPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,14 +31,12 @@ const InvoiceDetailsPage = () => {
   const t = useTranslations("dashboard.invoiceList"); // Hook to fetch translations
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
-  const isAdminOrAgent = user?.roles.some((role) =>
+  const isAdminOrAgent = user?.roles?.some((role) =>
     ["agent", "agency", "admin"].includes(role.name)
   );
   const { data: invoice, isLoading, isError } = useGetInvoiceByIdQuery(id);
-  const { refetch: exportToPDF, isExporting } = useExportInvoiceToPDFQuery(
-    invoice?.id,
-    { skip: true }
-  );
+  const { refetch: exportToPDF, isLoading: isExporting } =
+    useExportInvoiceToPDFQuery(invoice?.id, { skip: true });
 
   if (isLoading) return <LoadingSpinner />;
   if (isError)
@@ -137,12 +143,46 @@ const InvoiceDetailsPage = () => {
           <div className="col-md-6">
             <h5 className="fw-bold">{t("status_history")}</h5>
             <ul className="list-group">
-              {invoice?.statusHistory?.map((entry, index) => (
-                <li key={index} className="list-group-item">
-                  <strong>{entry.status.toUpperCase()}</strong>{" "}
-                  <span className="float-end">{entry.date}</span>
-                </li>
-              ))}
+              {invoice?.statusHistory?.map(
+                (
+                  entry: {
+                    status: string;
+                    date:
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | ReactElement<
+                          unknown,
+                          string | JSXElementConstructor<any>
+                        >
+                      | Iterable<ReactNode>
+                      | ReactPortal
+                      | Promise<
+                          | string
+                          | number
+                          | bigint
+                          | boolean
+                          | ReactPortal
+                          | ReactElement<
+                              unknown,
+                              string | JSXElementConstructor<any>
+                            >
+                          | Iterable<ReactNode>
+                          | null
+                          | undefined
+                        >
+                      | null
+                      | undefined;
+                  },
+                  index: Key | null | undefined
+                ) => (
+                  <li key={index} className="list-group-item">
+                    <strong>{entry.status.toUpperCase()}</strong>{" "}
+                    <span className="float-end">{entry.date}</span>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -162,10 +202,10 @@ const InvoiceDetailsPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {invoice.payments.map((payment, index) => (
+                {invoice.payments.map((payment: Payment, index: number) => (
                   <tr key={index}>
                     <td>{payment?.type}</td>
-                    <td>{payment.paymentDate}</td>
+                    <td>{payment.paymentDate.toLocaleDateString()}</td>
                     <td>
                       {formatNumber(payment.amount, {
                         style: "currency",
@@ -188,7 +228,7 @@ const InvoiceDetailsPage = () => {
           <div className="mt-4">
             <h5 className="fw-bold">{t("attachments")}</h5>
             <ul className="list-group">
-              {invoice.attachments.map((url, index) => (
+              {invoice.attachments.map((url: string, index: number) => (
                 <li key={index} className="list-group-item">
                   <a href={url} target="_blank" rel="noopener noreferrer">
                     View Attachment {index + 1}

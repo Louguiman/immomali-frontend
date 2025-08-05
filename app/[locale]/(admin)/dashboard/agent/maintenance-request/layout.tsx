@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const t = useTranslations("dashboard.maintenance");
 
   return (
@@ -17,9 +17,11 @@ function Layout({ children }) {
                   <div className="dropdown">
                     <button
                       className="dropbtn"
-                      data-bs-toggle="offcanvas"
+                      data-bs-toggle="DashboardOffcanvas"
                       data-bs-target="#DashboardOffcanvasMenu"
                       aria-controls="DashboardOffcanvasMenu"
+                      aria-labelledby="DashboardOffcanvasMenuLabel"
+                      type="button"
                     >
                       <i className="fa fa-bars pr10"></i>{" "}
                       {t("dashboard_navigation")}

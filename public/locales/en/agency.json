@@ -1,0 +1,14 @@
+{
+  "agency": {
+    "details": {
+      "descriptionTab": "Description",
+      "listingTab": "Annonces",
+      "agentsTab": "Agents",
+      "reviewsTab": "Avis",
+      "reviewsCount": "{count} avis",
+      "outOf": "({value} sur {max})",
+      "writeReview": "Écrire un avis",
+      "yourRatingReview": "Votre note et avis"
+    }
+  }
+}

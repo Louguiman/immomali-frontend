@@ -1,9 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Header from "../../common/header/dashboard/Header";
-import SidebarMenu from "../../../app/[locale]/(admin)/dashboard/SidebarMenu";
-import MobileMenu from "../../common/header/MobileMenu";
 import ChangePassword from "./ChangePassword";
 import ProfileInfo from "./ProfileInfo";
 import SocialMedia from "./SocialMedia";

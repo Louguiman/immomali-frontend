@@ -17,22 +17,20 @@ type AgencyProfileFormProps = {
   agencyId: string | number;
 };
 
-type Agency = {
-  id: string | number;
-  logoUrl?: string;
-  // Add more explicit dynamic fields as needed, or use a generic type if truly dynamic.
-};
-
 const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
   const t = useTranslations("dashboard"); // Load translations for the "profile" namespace
   const [editMode, setEditMode] = useState(false);
   const { data: agency, isLoading } = useGetAgencyByIdQuery(agencyId, {
     skip: !agencyId,
   });
-  const [logoPreview, setLogoPreview] = useState<string | null>(agency?.logoUrl || null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(
+    agency?.logoUrl || null
+  );
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [updateAgency, { isLoading: isUpdating }] = useUpdateAgencyMutation();
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>(
+    {}
+  );
   // console.log("agency: ", agency);
   const validationSchema = useMemo(() => getAgencyProfileSchema(t), [t]);
   const {
@@ -52,10 +50,11 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
       reset(agency);
       setLogoPreview(agency.logoUrl || null);
     }
-  }, [agency]);
+  }, [agency, reset]);
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    const files = e.target.files;
+    const file = files && files[0];
     if (file) {
       setLogoFile(file);
       setLogoPreview(URL.createObjectURL(file));
@@ -63,17 +62,20 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
   };
 
   // Track edited fields
-  const handleChange = (field: string) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setTouchedFields((prev) => ({ ...prev, [field]: true }));
-    setValue(field, e.target.value);
-  };
-
+  const handleChange =
+    (field: string) =>
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
+    ) => {
+      setTouchedFields((prev) => ({ ...prev, [field]: true }));
+      setValue(field, e.target.value);
+    };
 
   // Submit only modified fields
-  const onSubmit = async (formData: Record<string, any>) => {
-    const updatedFields: Record<string, any> = {};
+  const onSubmit = async (formData: Record<string, never>) => {
+    const updatedFields: Record<string, unknown> = {};
     for (const key of Object.keys(formData)) {
       if (touchedFields[key] && agency && agency[key] !== formData[key]) {
         updatedFields[key] = formData[key];
@@ -83,7 +85,7 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
     if (logoFile) {
       // Suppose your backend accepts base64 or handles uploads via another endpoint
       const base64 = await toBase64(logoFile);
-      updatedFields.logoUrl = base64;
+      updatedFields["logoUrl"] = base64;
     }
 
     if (Object.keys(updatedFields).length === 0) {
@@ -120,7 +122,13 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
             <label
               htmlFor="logo"
               className={`logo-upload-label${logoPreview ? " logo-preview" : ""}`}
-              style={logoPreview ? { '--logo-url': `url(${logoPreview})` } as React.CSSProperties : undefined}
+              style={
+                logoPreview
+                  ? ({
+                      "--logo-url": `url(${logoPreview})`,
+                    } as React.CSSProperties)
+                  : undefined
+              }
             >
               <span>
                 <i className="flaticon-download"></i> {t("profile.uploadPhoto")}
@@ -138,7 +146,11 @@ const AgencyProfileForm: React.FC<AgencyProfileFormProps> = ({ agencyId }) => {
                 className="form-control"
                 id={key}
                 disabled={!editMode}
-                defaultValue={agency ? (agency as Record<string, unknown>)[key] as string : ''}
+                defaultValue={
+                  agency
+                    ? ((agency as Record<string, unknown>)[key] as string)
+                    : ""
+                }
                 {...register(key)}
                 onChange={handleChange(key)}
               />

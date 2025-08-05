@@ -3,8 +3,8 @@
 import { Property } from "./property";
 import { Tenant } from "./tenant";
 import { Review } from "./review";
-import { User } from "./user";
 import { MaintenanceRequest } from "./maintenance-request";
+import { Agent } from "./agent";
 
 export interface Agency {
   id: number;
@@ -15,7 +15,7 @@ export interface Agency {
   phoneNumber?: string;
   email?: string;
   website?: string;
-  agents: User[];
+  agents: Agent[];
   properties: Property[];
   tenancies: Tenant[];
   reviews: Review[];

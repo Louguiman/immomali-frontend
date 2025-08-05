@@ -4,8 +4,18 @@ import Categorie from "../common/listing/Categorie";
 import ListingCreator from "../common/listing/ListingCreator";
 import FeaturedListings from "../common/listing/FeaturedListings";
 import FeaturedProperties from "../home-4/FeaturedProperties";
+import { Property } from "@/types/property";
+import { Agent } from "@/types/agent";
 
-const Sidebar = ({ propertyId, agent }) => {
+const Sidebar = ({
+  propertyId,
+  agent,
+  properties,
+}: {
+  propertyId: number;
+  agent: Agent;
+  properties: Property[];
+}) => {
   const t = useTranslations("property.sidebar");
 
   return (
@@ -17,7 +27,10 @@ const Sidebar = ({ propertyId, agent }) => {
             <ListingCreator owner={agent} />
           </div>
           {/* End .sl_creator */}
-          <ContactWithAgent agentId={agent?.id} propertyId={propertyId} />
+          <ContactWithAgent
+            agentId={agent?.id}
+            propertyId={String(propertyId)}
+          />
         </div>
       </div>
       {/* End .sidebar_listing_list */}
@@ -25,7 +38,7 @@ const Sidebar = ({ propertyId, agent }) => {
       <div className="terms_condition_widget">
         <h4 className="title">{t("featuredProperties")}</h4>
         <div className="sidebar_feature_property_slider">
-          <FeaturedProperties />
+          <FeaturedProperties properties={properties} />
         </div>
       </div>
       {/* End .Featured Properties */}
@@ -36,7 +49,8 @@ const Sidebar = ({ propertyId, agent }) => {
           <ul className="list_details">
             <Categorie />
           </ul>
-        </div>`1`
+        </div>
+        `1`
       </div>
       {/* End .Categories Property */}
 

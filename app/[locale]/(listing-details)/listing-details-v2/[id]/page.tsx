@@ -9,6 +9,7 @@ import { addToRecentlyViewed } from "@/features/properties/propertiesSlice";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
+import LoadingState from "@/components/common/LoadingState";
 
 const ListingDynamicDetailsV2 = () => {
   const t = useTranslations("property");
@@ -23,9 +24,7 @@ const ListingDynamicDetailsV2 = () => {
 
   if (isLoading) {
     return (
-      <div className="container text-center mt-5">
-        <div className="spinner-border text-primary" role="status"></div>
-      </div>
+      <LoadingState />
     );
   }
 

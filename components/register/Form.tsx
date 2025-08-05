@@ -29,12 +29,12 @@ const SignupForm = () => {
   const [createAgent, { isLoading: isCreatingAgent }] =
     useCreateAgentMutation();
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -74,10 +74,18 @@ const SignupForm = () => {
         Swal.fire(t("userRegistered"));
       }
     } catch (err) {
+      let errorMessage = t("registrationFailed");
+      if (err && typeof err === "object") {
+        if ("data" in err && typeof (err as any).data?.message === "string") {
+          errorMessage = (err as any).data.message;
+        } else if ("message" in err && typeof (err as any).message === "string") {
+          errorMessage = (err as any).message;
+        }
+      }
       Swal.fire({
         icon: "error",
         title: t("registrationFailed"),
-        text: err.data?.message || err.message,
+        text: errorMessage,
       });
     }
   };

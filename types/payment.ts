@@ -3,8 +3,9 @@ import { Tenant } from "./tenant";
 // Payment interface matching backend entity for frontend use
 export interface Payment {
   id: number;
-  tenant: Tenant;
-  invoice: Invoice;
+  tenant: Partial<Tenant>;
+  invoiceId?: string;
+  invoice: Partial<Invoice>;
   type: string;
   reference?: string;
   amountPaid: number;

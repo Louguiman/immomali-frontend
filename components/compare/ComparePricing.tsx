@@ -7,7 +7,6 @@ import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
 import { Property } from "@/types/property";
 
 const ComparePricing = () => {
-  const dispatch = useAppDispatch();
   const compareList = useAppSelector((state) => state.properties.compareList);
   console.log("compareList", compareList);
 
@@ -69,8 +68,11 @@ function ComparePricingCard({ property }: { property: Property }) {
               width={260}
               height={180}
               className="img-fluid w100 h-100 cover"
-              src={property.images?.[0]?.imageUrl || '/images/placeholder-property.jpg'}
-              alt={property.title || 'Property image'}
+              src={
+                property.images?.[0]?.imageUrl ||
+                "/images/placeholder-property.jpg"
+              }
+              alt={property.title || "Property image"}
             />
             <div className="price">
               {property.price} FCFA

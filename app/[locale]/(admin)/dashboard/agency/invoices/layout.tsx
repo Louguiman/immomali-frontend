@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const t = useTranslations("dashboard.invoiceList");
 
   return (

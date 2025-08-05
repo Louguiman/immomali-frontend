@@ -1,10 +1,14 @@
 export interface Payment {
   id: number;
   tenantId: number;
+  invoiceId: number;
   amount: number;
-  type: string; // Rent, Maintenance, etc.
+  amountPaid?: number;
+  paymentDate?: string;
+  type?: string; // Rent, Maintenance, Penalty, etc.
   status: "pending" | "completed" | "failed";
-  paymentMethod: string;
+  paymentMethod?: string;
+  transactionId?: string;
   createdAt: string;
 }
 

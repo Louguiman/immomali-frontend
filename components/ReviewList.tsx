@@ -8,6 +8,7 @@ import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import Ratings from "./blog-details/Ratings";
+import { Review } from "@/types/review";
 
 const ReviewsList = ({ propertyId }: { propertyId: string }) => {
   const t = useTranslations("property.ReviewsList");
@@ -19,7 +20,7 @@ const ReviewsList = ({ propertyId }: { propertyId: string }) => {
   if (isLoading) return <p>{t("loading")}</p>;
   if (!reviews?.length) return <p>{t("noReviews")}</p>;
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     try {
       await deleteReview(id).unwrap();
       toast.success(t("deleteSuccess"));
@@ -44,13 +45,13 @@ const ReviewsList = ({ propertyId }: { propertyId: string }) => {
         </a>
       </div>
       <ul className="list-group">
-        {reviews.map((review) => (
+        {reviews.map((review: Review) => (
           <li key={review.id} className="list-group-item">
             <p>
               <strong>{review.user.name}</strong> {t("rated")} {review.rating}/5
             </p>
             <p>{review.comment}</p>
-            {user?.id === review.user.id && (
+            {String(user?.id) === String(review.user.id) && (
               <button
                 className="btn btn-danger btn-sm"
                 onClick={() => handleDelete(review.id)}
