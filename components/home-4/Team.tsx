@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Slider from "react-slick";
 import Image from "next/image";
+import { Agent } from "@/types/agent";
 
 const socialList = [
   { icon: "fa-facebook", liveLink: "https://www.facebook.com/" },
@@ -18,7 +19,7 @@ const socialList = [
   { icon: "fa-dribbble", liveLink: "https://www.dribbble.com/" },
 ];
 
-const Team = ({ data }) => {
+const Team = ({ data }: { data: Agent[] }) => {
   const settings = {
     dots: false,
     arrows: true,
@@ -53,7 +54,7 @@ const Team = ({ data }) => {
 
   return (
     <Slider {...settings} arrows={true}>
-      {data?.map((item) => (
+      {data?.map((item: Agent) => (
         <div className="item" key={item.id}>
           <div className="team_member home4">
             <div className="thumb">
@@ -86,7 +87,7 @@ const Team = ({ data }) => {
               <h4>
                 <Link href={`/agent-details/${item.id}`}>{item.name}</Link>
               </h4>
-              <p>{item?.phone || item?.email}</p>
+              <p>{item?.phoneNumber || item?.email}</p>
               <p>{(item?.agency && item?.agency.name) || "Free Agent"}</p>
             </div>
             {/* End .details */}

@@ -4,15 +4,16 @@ import { useTranslations } from "next-intl";
 import Swal from "sweetalert2"; // Import SweetAlert2
 import { useFormatter } from "next-intl";
 import { useRouter } from "next/navigation";
+import { Lease } from "@/types/lease";
 
-const LeaseDetails = ({ lease }) => {
+const LeaseDetails = ({ lease }: { lease: Lease }) => {
   const t = useTranslations("dashboard.TenantProfile");
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [leaseData, setLeaseData] = useState(lease);
   const { number: formatNumber } = useFormatter(); // Hook for number formatting
 
-  const [updateLease, { isLoading, error }] = useUpdateLeaseMutation();
+  const [updateLease, { isLoading }] = useUpdateLeaseMutation();
 
   useEffect(() => {
     setLeaseData(lease);
@@ -20,7 +21,7 @@ const LeaseDetails = ({ lease }) => {
 
   const handleSave = async () => {
     try {
-      await updateLease({ id: lease.id, ...leaseData }).unwrap();
+      await updateLease({ ...leaseData, id: lease.id }).unwrap();
       setIsEditing(false);
       Swal.fire({
         icon: "success",
@@ -87,6 +88,9 @@ const LeaseDetails = ({ lease }) => {
       {isEditing ? (
         <>
           <input
+            id="monthlyRent"
+            name="monthlyRent"
+            placeholder="Monthly Rent"
             type="number"
             value={leaseData?.monthlyRent || ""}
             onChange={(e) =>

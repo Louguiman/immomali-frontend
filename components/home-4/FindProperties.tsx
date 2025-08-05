@@ -3,17 +3,17 @@ import Image from "next/image";
 import { slugify } from "@/utils/slugify";
 import { useTranslations } from "next-intl";
 
-// interface CityPropertyStat {
-//   city: string;
-//   count: number;
-//   imageUrl: string;
-// }
+interface CityPropertyStat {
+  city: string;
+  count: number;
+  imageUrl: string;
+}
 
-// interface Props {
-//   data: CityPropertyStat[];
-// }
+interface Props {
+  data: CityPropertyStat[];
+}
 
-const FindProperties = ({ data }) => {
+const FindProperties = ({ data }: Props) => {
   const t = useTranslations("property");
   return (
     <>
@@ -21,30 +21,28 @@ const FindProperties = ({ data }) => {
         const slug = slugify(item.city);
 
         return (
-          <div className="col-sm-6 col-lg-4 col-xl-4" key={index}>
+          <div
+            className="col-sm-6 col-lg-4 col-xl-4 d-flex"
+            style={{ height: "241px" }}
+            key={index}
+          >
             <Link
               href={`/properties?location=${slug}`}
-              className="properti_city style2 d-block"
+              className="properti_city style2 d-block w-100 h-100"
             >
-              <div className="thumb">
+              <div className="thumb h-100 w-100">
                 <Image
                   width={342}
                   height={241}
-                  // priority={true}
                   loading="lazy"
-                  // className="img-whp w-100 h-100 cover"
                   className="img-fluid w100 h-100 cover"
-                  objectFit="contain"
-                  objectPosition="center"
+                  objectFit="cover"
                   style={{ maxWidth: "342px", height: "241px" }}
-                  // src={item.imageUrl?.regular || "/assets/images/property/pc3.jpg"}
-                  src={
-                    item.imageUrl?.regular || "/assets/images/property/pc3.jpg"
-                  }
+                  src={item.imageUrl || "/assets/images/property/pc3.jpg"}
                   alt={`Image of ${item.city}`}
                 />
               </div>
-              <div className="details">
+              <div className="details d-flex flex-column justify-content-center h-100">
                 <h4>{item.city}</h4>
                 <p>
                   {item.count} {t("Properties")}

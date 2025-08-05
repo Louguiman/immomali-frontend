@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Slider from "react-slick";
 import Image from "next/image";
+import { Agency } from "@/types/agency";
 
 const socialList = [
   { icon: "fa-facebook", liveLink: "https://www.facebook.com/" },
@@ -18,7 +19,7 @@ const socialList = [
   { icon: "fa-dribbble", liveLink: "https://www.dribbble.com/" },
 ];
 
-const AgenciesAsTeam = ({ data }) => {
+const AgenciesAsTeam = ({ data }: { data: Agency[] }) => {
   const settings = {
     dots: false,
     arrows: true,

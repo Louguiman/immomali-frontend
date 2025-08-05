@@ -6,13 +6,20 @@ import { useTranslations } from "next-intl";
 import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function DiscoverAgents() {
-  const t = useTranslations("home.section");
+  const t = useTranslations("home");
 
-  const { data, isLoading, isError } = useGetAllAgentsQuery();
+  const { data, isLoading, isError } = useGetAllAgentsQuery({
+    page: 1,
+    limit: 10,
+  });
 
   console.log("agents: ", data);
   if (isLoading) {
     return <SkeletonSectionLoader />;
+  }
+
+  if (isError || !data) {
+    return <p>Unable to load agents at the moment.</p>;
   }
 
   return (
@@ -21,13 +28,13 @@ function DiscoverAgents() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center">
-              <h2>{t("agent.title")}</h2>
-              <p>{t("agent.description")}</p>
+              <h2>{t("section.agent.title")}</h2>
+              <p>{t("section.agent.description")}</p>
             </div>
           </div>
         </div>
         <div className="row">
-          {!data && isLoading ? (
+          {isLoading ? (
             <div className="text-center">
               <div className="spinner-border text-primary" role="status"></div>
             </div>

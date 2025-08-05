@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Skeleton from "@/components/common/Skeleton";
 import { useGetTopCitiesQuery } from "@/features/api/properties.api";
 import FindProperties from "./FindProperties";
 import SkeletonSectionLoader from "../common/SkeletonSectionLoader";

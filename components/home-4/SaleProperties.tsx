@@ -9,7 +9,10 @@ import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 function SaleProperties() {
   const t = useTranslations("home");
 
-  const { data: properties, isLoading, refetch } = useGetSalePropertiesQuery();
+  const { data: properties, isLoading } = useGetSalePropertiesQuery({
+    page: 1,
+    limit: 10,
+  });
 
   if (isLoading) {
     return <SkeletonSectionLoader />;
@@ -40,7 +43,7 @@ function SaleProperties() {
           ) : (
             <div className="col-lg-12">
               <div className="best_property_slider gutter-x15">
-                <FeaturedProperties properties={properties?.data} />
+                <FeaturedProperties properties={properties?.data ?? []} />
               </div>
             </div>
           )}

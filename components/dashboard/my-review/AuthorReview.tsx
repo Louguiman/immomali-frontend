@@ -8,8 +8,7 @@ import {
   useDeleteReviewMutation,
   useGetAllUserReviewsQuery,
 } from "@/features/api/reviews.api";
-import { useAppSelector } from "@/store/hooks";
-import { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -40,7 +39,7 @@ interface UpdatedReviewState {
 
 const AuthorReview = () => {
   const t = useTranslations("dashboard.reviews");
-  const user = useAppSelector((state: import("@/store/store").RootState) => state.auth?.user);
+  const user = useAppSelector((state) => state.auth?.user);
   const userId = user?.id || "";
   const { data: reviews, isLoading } = useGetAllUserReviewsQuery(userId, {
     skip: !user?.id,
@@ -61,35 +60,36 @@ const AuthorReview = () => {
   const handleEditClick = (review: Review) => {
     if (!review.id) return;
     setEditingReview(review.id);
-    setUpdatedReview({ 
-      comment: review.comment, 
-      rating: review.rating 
+    setUpdatedReview({
+      comment: review.comment,
+      rating: review.rating,
     });
   };
 
   /** Handle Save Updated Review */
   const handleSave = async (reviewId: string) => {
     if (!reviewId) return;
-    
+
     try {
-      await updateReview({ 
-        id: reviewId, 
-        ...updatedReview 
+      await updateReview({
+        id: reviewId,
+        ...updatedReview,
       }).unwrap();
       toast.success(t("updateSuccess"));
       setEditingReview(null);
     } catch (error: unknown) {
-      const errorMessage = error && 
-        typeof error === 'object' && 
-        'data' in error && 
-        error.data && 
-        typeof error.data === 'object' &&
-        'message' in error.data ? 
-          String(error.data.message) : 
-        error instanceof Error ? 
-          error.message : 
-        t("unknownError");
-      
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+          ? String(error.data.message)
+          : error instanceof Error
+            ? error.message
+            : t("unknownError");
+
       toast.error(t("updateError", { error: errorMessage }));
     }
   };
@@ -102,17 +102,18 @@ const AuthorReview = () => {
       await deleteReview(reviewId).unwrap();
       toast.success(t("deleteSuccess"));
     } catch (error: unknown) {
-      const errorMessage = error && 
-        typeof error === 'object' && 
-        'data' in error && 
-        error.data && 
-        typeof error.data === 'object' &&
-        'message' in error.data ? 
-          String(error.data.message) : 
-        error instanceof Error ? 
-          error.message : 
-        t("unknownError");
-      
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "data" in error &&
+        error.data &&
+        typeof error.data === "object" &&
+        "message" in error.data
+          ? String(error.data.message)
+          : error instanceof Error
+            ? error.message
+            : t("unknownError");
+
       toast.error(t("deleteError", { error: errorMessage }));
     }
   };
@@ -149,8 +150,8 @@ const AuthorReview = () => {
                 ))}
               </span>
             </h5>
-<time 
-              className="review_date text-muted d-inline-block mb-2" 
+            <time
+              className="review_date text-muted d-inline-block mb-2"
               dateTime={item.createdAt}
             >
               {new Date(item.createdAt).toLocaleDateString()}
@@ -219,13 +220,16 @@ const AuthorReview = () => {
                 data-bs-placement="top"
                 title={t("edit")}
               >
-<button
+                <button
                   type="button"
                   className="btn btn-link p-0 border-0 bg-transparent"
-onClick={() => item.id && handleEditClick(item)}
+                  onClick={() => item.id && handleEditClick(item)}
                   aria-label={t("editReview")}
                 >
-                  <span className="flaticon-edit text-primary" aria-hidden="true"></span>
+                  <span
+                    className="flaticon-edit text-primary"
+                    aria-hidden="true"
+                  ></span>
                 </button>
               </li>
               <li
@@ -234,13 +238,16 @@ onClick={() => item.id && handleEditClick(item)}
                 data-bs-placement="top"
                 title={t("delete")}
               >
-<button
+                <button
                   type="button"
                   className="btn btn-link p-0 border-0 bg-transparent"
-onClick={() => item.id && handleDelete(item.id)}
+                  onClick={() => item.id && handleDelete(item.id)}
                   aria-label={t("deleteReview")}
                 >
-                  <span className="flaticon-garbage text-danger" aria-hidden="true"></span>
+                  <span
+                    className="flaticon-garbage text-danger"
+                    aria-hidden="true"
+                  ></span>
                 </button>
               </li>
             </ul>

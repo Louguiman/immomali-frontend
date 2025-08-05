@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { addLength } from "../../../features/properties/propertiesSlice";
 
-
 import Image from "next/image";
 
 type ItemDetail = {
@@ -34,8 +33,7 @@ type PropertyItem = {
   created_at: number;
 };
 
-
-const FeaturedItem = () => {
+const FeaturedItem = ({properties}: {properties: PropertyItem[]}) => {
   const {
     keyword,
     location,
@@ -48,10 +46,8 @@ const FeaturedItem = () => {
     yearBuilt,
     area,
     amenities,
-  } = useAppSelector((state: import("@/store/store").RootState) => state.properties);
-  const { statusType, featured } = useAppSelector(
-    (state: import("@/store/store").RootState) => state.filter
-  );
+  } = useAppSelector((state) => state.properties);
+  const { statusType, featured } = useAppSelector((state) => state.filter);
 
   const dispatch = useAppDispatch();
 

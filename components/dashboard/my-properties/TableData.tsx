@@ -2,9 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
-
-// Define an interface for a Property (adapt as necessary)
-import type { Property } from "@/utils/interface/property.interface";
+import { Property } from "@/types/property";
 
 // // Define the header interface
 interface Header {
@@ -31,7 +29,12 @@ const defaultHeaders = [
   { label: "Action", key: "action" },
 ];
 
-const TableData: React.FC<TableDataProps> = ({ data, headers = defaultHeaders, onEdit, onDelete }) => {
+const TableData: React.FC<TableDataProps> = ({
+  data,
+  headers = defaultHeaders,
+  onEdit,
+  onDelete,
+}) => {
   const t = useTranslations("property"); // Initialize the translations hook
   const { number: formatNumber } = useFormatter(); // Hook for number formatting
 
@@ -87,6 +90,7 @@ const TableData: React.FC<TableDataProps> = ({ data, headers = defaultHeaders, o
                   <button
                     className="btn btn-sm btn-outline-primary"
                     onClick={() => onEdit(item.id)}
+                    type="button"
                   >
                     <i className="fa fa-edit"></i> {t("edit")}
                   </button>
@@ -98,6 +102,7 @@ const TableData: React.FC<TableDataProps> = ({ data, headers = defaultHeaders, o
                   <button
                     className="btn btn-sm btn-outline-danger"
                     onClick={() => onDelete(item.id)}
+                    type="button"
                   >
                     <i className="fa fa-trash"></i> {t("delete")}
                   </button>

@@ -65,7 +65,7 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
       const tenantData = {
         ...tenantDetails,
         leaseDetails,
-        agentId: user.id,
+        agentId: user?.id,
       };
 
       let response;

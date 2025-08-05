@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 export interface Agent {
+  agency: any;
   img: string;
   noOfListings: ReactNode;
   type: ReactNode;

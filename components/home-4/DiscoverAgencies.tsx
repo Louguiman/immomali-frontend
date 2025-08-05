@@ -8,7 +8,7 @@ import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 function DiscoverAgencies() {
   const t = useTranslations("home.section");
 
-  const { data, isLoading, isError } = useGetAllAgenciesQuery();
+  const { data, isLoading } = useGetAllAgenciesQuery();
   console.log("agencies: ", data);
   if (isLoading) {
     return <SkeletonSectionLoader />;

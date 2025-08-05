@@ -1,27 +1,25 @@
 "use client";
 
-import {
-  useDeleteTenantMutation,
-  useGetTenantsQuery,
-} from "@/features/api/tenants.api";
+import { useGetTenantsQuery } from "@/features/api/tenants.api";
 import Link from "next/link";
 import { useState } from "react";
 import TenantCard from "@/components/TenantCard";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useAppSelector } from "@/store/store";
+import { Tenant } from "@/types/tenant";
 
 const TenantManagement = () => {
   const user = useAppSelector((state) => state.auth.user);
 
   // Determine if the logged-in user is allowed to update (agent, agency, admin)
-  const canEdit = user?.roles.some((role) =>
-    ["agent", "agency", "admin"].includes(role.name)
-  );
-  const createQueryString = () => {
+  //   const canEdit = user?.roles?.some((role) =>
+  //   ["agent", "agency", "admin"].includes(role.name)
+  // );
+  const createQueryString = (): string => {
     const params = new URLSearchParams();
     if (user?.agency?.id) params.set("agencyId", user?.agency?.id);
-    else params.set("agentId", user?.id);
+    else params.set("agentId", user?.id || "");
     return params.toString();
   };
 
@@ -33,12 +31,11 @@ const TenantManagement = () => {
   } = useGetTenantsQuery(createQueryString(), {
     skip: !createQueryString,
   });
-  const [deleteTenant] = useDeleteTenantMutation();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const t = useTranslations("dashboard.myTenancies");
   // Filter tenants based on search and status
-  const filteredTenants = tenants?.filter((tenant) => {
+  const filteredTenants = tenants?.filter((tenant: Tenant) => {
     const matchesSearch =
       tenant.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tenant.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -95,7 +92,7 @@ const TenantManagement = () => {
       {/* Translated Error Text */}
       {filteredTenants?.length > 0 ? (
         <div className="row col-lg-12">
-          {filteredTenants.map((tenant) => (
+          {filteredTenants.map((tenant: Tenant) => (
             <div key={tenant.id} className="col-md-12">
               <TenantCard tenant={tenant} />
             </div>

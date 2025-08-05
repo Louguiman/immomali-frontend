@@ -7,7 +7,10 @@ import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function RentalProperties() {
   const t = useTranslations("home");
-  const { data: properties, isLoading } = useGetRentalPropertiesQuery();
+  const { data: properties, isLoading } = useGetRentalPropertiesQuery({
+    page: 1,
+    limit: 10,
+  });
 
   if (isLoading) {
     return <SkeletonSectionLoader />;
@@ -39,7 +42,7 @@ function RentalProperties() {
           ) : (
             <div className="col-lg-12">
               <div className="best_property_slider gutter-x15">
-                <FeaturedProperties properties={properties?.data} />
+                <FeaturedProperties properties={properties?.data ?? []} />
               </div>
             </div>
           )}

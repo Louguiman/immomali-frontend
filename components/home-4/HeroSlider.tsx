@@ -6,7 +6,6 @@ const HeroSlider = () => {
   const settings = {
     dots: false,
     arrow: true,
-    arrow: true,
     speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,

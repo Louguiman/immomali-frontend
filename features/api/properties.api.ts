@@ -79,7 +79,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
         method: "POST",
         body: property,
       }),
-      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
+      invalidatesTags: [{ type: "Properties" as const, id: "LIST" }],
     }),
     searchProperties: builder.query<
       Property[],
@@ -93,7 +93,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 60,
     }),
     getRentalProperties: builder.query<
-      Property[],
+      { data: Property[] },
       { [key: string]: string | number | boolean }
     >({
       query: (params) => ({
@@ -104,7 +104,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 60,
     }),
     getSaleProperties: builder.query<
-      Property[],
+      { data: Property[] },
       { [key: string]: string | number | boolean }
     >({
       query: (params) => ({
@@ -114,7 +114,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 60,
     }),
-    getTopCities: builder.query<{ city: string; count: number }[], void>({
+    getTopCities: builder.query<{ city: string; count: number; imageUrl: string }[], void>({
       query: () => "statistics/top-cities",
     }),
     updateProperty: builder.mutation<
@@ -126,14 +126,14 @@ export const propertiesApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: updateData,
       }),
-      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
+      invalidatesTags: [{ type: "Properties" as const, id: "LIST" }],
     }),
     deleteProperty: builder.mutation<void, string>({
       query: (id) => ({
         url: `/properties/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: 'Properties' as const, id: 'LIST' }],
+      invalidatesTags: [{ type: "Properties" as const, id: "LIST" }],
     }),
     searchAgencyProperties: builder.query<Property[], { query: string }>({
       query: ({ query }) => `/properties/search-agency?query=${query} `,

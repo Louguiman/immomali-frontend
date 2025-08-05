@@ -1,14 +1,17 @@
+import { Invoice } from "@/types/invoice";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import Swal from "sweetalert2";
+import { useDeleteInvoiceMutation } from "@/features/api/invoices.api";
 
-const InvoiceList = ({ invoices }) => {
+const InvoiceList = ({ invoices }: { invoices: Invoice[] }) => {
   const t = useTranslations("dashboard.invoiceList");
-  const pathname = usePathname();
+  const [deleteInvoice] = useDeleteInvoiceMutation();
+  // const pathname = usePathname();
   if (!invoices.length) return <p>{t("noInvoicesFound")}</p>;
 
-  const handleDelete = (invoiceId) => {
+  const handleDelete = (invoiceId: string) => {
     Swal.fire({
       title: t("confirmDeleteTitle"),
       text: t("confirmDeleteText"),
@@ -20,8 +23,15 @@ const InvoiceList = ({ invoices }) => {
       cancelButtonText: t("cancel"),
     }).then((result) => {
       if (result.isConfirmed) {
-        // Appeler l'API pour supprimer la facture (à implémenter)
-        Swal.fire(t("deleted"), t("invoiceDeleted"), "success");
+        deleteInvoice(invoiceId)
+          .unwrap()
+          .then(() => {
+            Swal.fire(t("deleted"), t("invoiceDeleted"), "success");
+          })
+          .catch((error) => {
+            console.error("Error deleting invoice:", error);
+            Swal.fire(t("error"), t("invoiceDeleteFailed"), "error");
+          });
       }
     });
   };
@@ -66,7 +76,7 @@ const InvoiceList = ({ invoices }) => {
               <td className="col">
                 <ul>
                   <li>{invoice?.issuedBy?.name}</li>
-                  <li>{invoice?.issuedBy?.phone}</li>
+                  <li>{invoice?.issuedBy?.phoneNumber}</li>
                   <li>{invoice?.issuedBy?.email}</li>
                 </ul>
               </td>
@@ -79,7 +89,7 @@ const InvoiceList = ({ invoices }) => {
                 </Link>
                 <button
                   className="btn btn-danger btn-sm ms-2"
-                  onClick={() => handleDelete(invoice.id)}
+                  onClick={() => handleDelete(invoice.id.toString())}
                 >
                   {t("delete")}
                 </button>

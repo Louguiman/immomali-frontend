@@ -6,10 +6,14 @@ import TenantRequestForm from "@/components/maintenance/TenantRequestForm";
 import TenantCard from "@/components/TenantCard";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Tenant } from "@/types/tenant";
 
 const UserTenanciesPage = () => {
-  const { data: tenancies, isLoading, isError } = useGetUserTenanciesQuery();
-  const [maintenanceModal, setMaintenanceModal] = useState({
+  const { data: tenancies, isLoading, isError } = useGetUserTenanciesQuery({});
+  const [maintenanceModal, setMaintenanceModal] = useState<{
+    show: boolean;
+    tenancy: Tenant | null;
+  }>({
     show: false,
     tenancy: null,
   });
@@ -17,17 +21,18 @@ const UserTenanciesPage = () => {
   const t = useTranslations("dashboard.myTenancies");
 
   // Dummy functions for extension and termination actions.
-  const handleRequestExtension = (tenancyId) => {
-    console.log("Request extension for tenancy", tenancyId);
+  const handleRequestExtension = (tenancy: Tenant) => {
+    console.log("Request extension for tenancy", tenancy.id);
     // Integrate extension request logic here
   };
 
-  const handleRequestTermination = (tenancyId) => {
-    console.log("Request termination for tenancy", tenancyId);
+  const handleRequestTermination = (tenancy: Tenant) => {
+    console.log("Request termination for tenancy", tenancy.id);
     // Integrate termination request logic here
   };
 
-  const handleMaintenanceRequest = (tenancy) => {
+  const handleMaintenanceRequest = (tenancy: Tenant) => {
+    if (!tenancy) return;
     setMaintenanceModal({ show: true, tenancy });
   };
 
@@ -41,14 +46,20 @@ const UserTenanciesPage = () => {
           {isLoading && <LoadingSpinner />}
           {tenancies && tenancies.length > 0 ? (
             <div className="row">
-              {tenancies.map((tenancy) => (
+              {tenancies.map((tenancy: Tenant) => (
                 <div key={tenancy.id} className="col-md-12">
                   <TenantCard
                     isUser={true}
                     tenant={tenancy}
-                    onRequestMaintenance={handleMaintenanceRequest}
-                    onRequestExtension={handleRequestExtension}
-                    onRequestTermination={handleRequestTermination}
+                    onRequestMaintenance={(tenancy) =>
+                      handleMaintenanceRequest(tenancy)
+                    }
+                    onRequestExtension={(tenancy) =>
+                      handleRequestExtension(tenancy)
+                    }
+                    onRequestTermination={(tenancy) =>
+                      handleRequestTermination(tenancy)
+                    }
                   />
                 </div>
               ))}
@@ -63,7 +74,7 @@ const UserTenanciesPage = () => {
       </div>
 
       {/* Maintenance Request Modal */}
-      {maintenanceModal.show && (
+      {maintenanceModal.show && maintenanceModal.tenancy && (
         <TenantRequestForm
           tenantId={maintenanceModal.tenancy.id}
           propertyId={maintenanceModal.tenancy.property.id}
