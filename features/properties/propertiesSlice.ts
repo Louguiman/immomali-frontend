@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { WritableDraft } from 'immer';
+import { WritableDraft } from "immer";
 
 interface Amenities {
   id?: number;
@@ -42,8 +42,8 @@ interface Listing {
   neighborhood: string;
   zipCode: string;
   country: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   streetView: string;
   propertyImages: any[];
   attachments: any[];
@@ -108,8 +108,8 @@ const initialListingState: Listing = {
   neighborhood: "",
   zipCode: "",
   country: "Mali",
-  latitude: "",
-  longitude: "",
+  latitude: 0,
+  longitude: 0,
   streetView: "",
   propertyImages: [],
   attachments: [],
@@ -229,170 +229,317 @@ export const propertiesSlice = createSlice({
     clearRecentlyViewed(state) {
       state.recentlyViewed = [];
     },
-    loadFromStorage: (_state: WritableDraft<PropertiesState>, action: { payload: PropertiesState }) => {
+    loadFromStorage: (
+      _state: WritableDraft<PropertiesState>,
+      action: { payload: PropertiesState }
+    ) => {
       return { ...action.payload };
     },
-    addKeyword(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addKeyword(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.keyword = action.payload;
     },
-    addType(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addType(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.type = action.payload;
     },
-    addCategory(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addCategory(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.category = action.payload;
     },
-    addLocation(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addLocation(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.location = action.payload;
     },
-    addPrice(state: WritableDraft<PropertiesState>, action: { payload: PriceRange }) {
+    addPrice(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: PriceRange }
+    ) {
       state.price = action.payload;
     },
-    addAmenities(state: WritableDraft<PropertiesState>, action: { payload: string[] }) {
+    addAmenities(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string[] }
+    ) {
       state.amenities = action.payload;
     },
     resetAmenities(state: WritableDraft<PropertiesState>) {
       state.amenities = [];
     },
-    addStatus(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addStatus(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.status = action.payload;
     },
-    addBathrooms(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addBathrooms(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.bathrooms = action.payload;
     },
-    addBedrooms(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addBedrooms(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.bedrooms = action.payload;
     },
-    addGarages(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addGarages(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.garages = action.payload;
     },
-    addYearBuilt(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addYearBuilt(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.yearBuilt = action.payload;
     },
-    addAreaMin(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addAreaMin(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.area.min = action.payload;
     },
-    addAreaMax(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    addAreaMax(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.area.max = action.payload;
     },
-    addLength(state: WritableDraft<PropertiesState>, action: { payload: number }) {
+    addLength(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: number }
+    ) {
       state.length = action.payload;
     },
-    addProperty(state: WritableDraft<PropertiesState>, action: { payload: Listing }) {
+    addProperty(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: Listing }
+    ) {
       state.createListing = action.payload;
     },
-    setStatus(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setStatus(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.status = action.payload;
     },
-    setError(state: WritableDraft<PropertiesState>, action: { payload: string | null }) {
+    setError(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string | null }
+    ) {
       state.error = action.payload;
     },
-    setPropertyTitle(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setPropertyTitle(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.title = action.payload;
     },
-    setPropertyDescription(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setPropertyDescription(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.description = action.payload;
     },
-    setType(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setType(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.type = action.payload;
     },
-    setCategory(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setCategory(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.category = action.payload;
     },
-    setPrice(state: WritableDraft<PropertiesState>, action: { payload: string | number }) {
+    setPrice(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string | number }
+    ) {
       if (action.payload !== "" && action.payload !== undefined) {
-        state.createListing.price = typeof action.payload === 'string' 
-          ? parseFloat(action.payload) || 0 
-          : action.payload;
+        state.createListing.price =
+          typeof action.payload === "string"
+            ? parseFloat(action.payload) || 0
+            : action.payload;
       }
     },
-    setArea(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setArea(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.area = action.payload;
     },
-    setRooms(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setRooms(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.rooms = action.payload;
     },
-    setAddress(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setAddress(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.address = action.payload;
     },
-    setState(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setState(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.state = action.payload;
     },
-    setCity(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setCity(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.city = action.payload;
     },
-    setNeighborhood(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setNeighborhood(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.neighborhood = action.payload;
     },
-    setZipCode(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setZipCode(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.zipCode = action.payload;
     },
-    setCountry(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setCountry(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.country = action.payload;
     },
-    setLatitude(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setLatitude(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: number }
+    ) {
       state.createListing.latitude = action.payload;
     },
-    setLongitude(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setLongitude(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: number }
+    ) {
       state.createListing.longitude = action.payload;
     },
-    setStreetView(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setStreetView(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.streetView = action.payload;
     },
-    setBeds(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setBeds(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       if (action.payload !== "") state.createListing.beds = action.payload;
     },
-    setBaths(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setBaths(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       if (action.payload !== "") state.createListing.baths = action.payload;
     },
-    setGarages(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setGarages(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       if (action.payload !== "") state.createListing.garages = action.payload;
     },
-    setSqFt(state: WritableDraft<PropertiesState>, action: { payload: string }) {
+    setSqFt(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: string }
+    ) {
       state.createListing.sqFt = action.payload;
     },
-    setBuiltYear(state: WritableDraft<PropertiesState>, action: { payload: number }) {
+    setBuiltYear(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: number }
+    ) {
       state.createListing.builtYear = action.payload;
     },
-    setPropertyImages(state: WritableDraft<PropertiesState>, action: { payload: any[] }) {
+    setPropertyImages(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any[] }
+    ) {
       state.createListing.propertyImages = action.payload;
     },
-    addPropertyImage(state: WritableDraft<PropertiesState>, action: { payload: any }) {
+    addPropertyImage(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any }
+    ) {
       state.createListing.propertyImages.push(action.payload);
     },
-    removePropertyImage(state: WritableDraft<PropertiesState>, action: { payload: any }) {
+    removePropertyImage(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any }
+    ) {
       state.createListing.propertyImages =
         state.createListing.propertyImages.filter(
           (img) => img !== action.payload
         );
     },
-    setAttachments(state: WritableDraft<PropertiesState>, action: { payload: any[] }) {
+    setAttachments(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any[] }
+    ) {
       state.createListing.attachments = action.payload;
     },
-    addAttachment(state: WritableDraft<PropertiesState>, action: { payload: any }) {
+    addAttachment(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any }
+    ) {
       state.createListing.attachments.push(action.payload);
     },
-    removeAttachment(state: WritableDraft<PropertiesState>, action: { payload: any }) {
+    removeAttachment(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: any }
+    ) {
       state.createListing.attachments = state.createListing.attachments.filter(
         (att) => att !== action.payload
       );
     },
-    setAmenities(state: WritableDraft<PropertiesState>, action: { payload: Amenities }) {
+    setAmenities(
+      state: WritableDraft<PropertiesState>,
+      action: { payload: Amenities }
+    ) {
       state.createListing.amenities = action.payload;
     },
-    toggleAmenity: (state: WritableDraft<PropertiesState>, action: { payload: keyof Amenities }) => {
+    toggleAmenity: (
+      state: WritableDraft<PropertiesState>,
+      action: { payload: keyof Amenities }
+    ) => {
       if (action.payload in state.createListing.amenities) {
-        const key = action.payload as keyof typeof state.createListing.amenities;
-        (state.createListing.amenities[key] as boolean) = !state.createListing.amenities[key];
+        const key =
+          action.payload as keyof typeof state.createListing.amenities;
+        (state.createListing.amenities[key] as boolean) =
+          !state.createListing.amenities[key];
       }
     },
-    setCreateListing: (state: WritableDraft<PropertiesState>, action: { payload: Partial<Listing> }) => {
+    setCreateListing: (
+      state: WritableDraft<PropertiesState>,
+      action: { payload: Partial<Listing> }
+    ) => {
       state.createListing = {
         ...state.createListing,
         ...action.payload,
         amenities: {
           ...state.createListing.amenities,
-          ...(action.payload.amenities || {})
-        }
+          ...(action.payload.amenities || {}),
+        },
       } as Listing;
     },
     resetCreateListing(state: WritableDraft<PropertiesState>) {

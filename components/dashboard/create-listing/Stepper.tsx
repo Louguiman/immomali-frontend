@@ -34,8 +34,8 @@ interface StepperProps {
 const Stepper: React.FC<StepperProps> = ({
   steps,
   activeStep,
-  onNext: _onNext,
-  onPrevious: _onPrevious,
+  // onNext,
+  // onPrevious,
   children,
 }) => {
   return (
@@ -48,22 +48,22 @@ const Stepper: React.FC<StepperProps> = ({
               index === activeStep ? "active" : ""
             } ${index < activeStep ? "completed" : ""}`}
             role="progressbar"
-            data-valuenow={index === activeStep ? 100 : index < activeStep ? 100 : 0}
+            data-valuenow={
+              index === activeStep ? 100 : index < activeStep ? 100 : 0
+            }
             data-valuemin={0}
             data-valuemax={100}
             aria-label={step.label}
-            aria-current={index === activeStep ? 'step' : undefined}
+            aria-current={index === activeStep ? "step" : undefined}
           >
             <span className="stepper-step-number">{index + 1}</span>
             <span className="stepper-step-label">{step.label}</span>
           </div>
         ))}
       </div>
-      
-      <div className="stepper-content">
-        {children}
-      </div>
-      
+
+      <div className="stepper-content">{children}</div>
+
       <div className="stepper-footer mt20">
         {/* Uncomment and style these buttons as needed
         {activeStep > 0 && (

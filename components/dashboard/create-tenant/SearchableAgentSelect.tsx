@@ -3,13 +3,14 @@ import Image from "next/image";
 import _ from "lodash"; // Import lodash
 import { useSearchAgentsByAgencyQuery } from "@/features/api/agents.api";
 import { User } from "@/types/user";
+import { Agent } from "@/types/agent";
 
 interface SearchableAgentSelectProps {
   placeholder: string;
-  onSelect: (user: Partial<User>) => void;
+  onSelect: (agent: Partial<Agent>) => void;
   agencyId: string;
   isAgency: boolean;
-  user: { name: string; email: string; phoneNumber: string };
+  user: User;
 }
 
 const SearchableAgentSelect = ({
@@ -46,9 +47,9 @@ const SearchableAgentSelect = ({
   });
 
   const handleSelect = useCallback(
-    (user: Partial<User>) => {
+    (agent: Partial<Agent>) => {
       // setSelectedUser(user);
-      onSelect(user);
+      onSelect(agent);
       setQuery(""); // Reset input after selection
     },
     [onSelect, setQuery]
@@ -56,7 +57,13 @@ const SearchableAgentSelect = ({
 
   useEffect(() => {
     if (!isAgency) {
-      handleSelect(user);
+      handleSelect({
+        id: String(user.id),
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        img: user.img,
+      });
     }
 
     return () => {};
@@ -88,7 +95,12 @@ const SearchableAgentSelect = ({
             <li
               key={user.id}
               className="dropdown-item d-flex align-items-center"
-              onMouseDown={() => handleSelect(user)}
+              onMouseDown={() =>
+                handleSelect({
+                  ...user,
+                  id: user.id !== undefined ? String(user.id) : undefined,
+                })
+              }
               style={{ cursor: "pointer" }}
             >
               <Image

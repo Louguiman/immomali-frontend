@@ -18,7 +18,7 @@ import Stepper from "../create-listing/Stepper";
 import { Tenant } from "@/types/tenant";
 
 const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
-  const t = useTranslations("dashboard.TenantProfile");
+  const t = useTranslations("dashboard");
   const dispatch = useAppDispatch();
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
@@ -36,7 +36,18 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
     if (tenant) {
       const { lease, ...tenantDetails } = tenant;
       dispatch(setTenant(tenantDetails));
-      dispatch(setLease(lease));
+      // Convert lease to LeaseDetails by adding missing properties
+      dispatch(
+        setLease({
+          ...lease,
+          tenantId: tenant.id,
+          autoRenew: lease.autoRenewal ?? false,
+          securityDeposit: lease.securityDeposit?.toString() ?? "",
+          monthlyRent: lease.monthlyRent?.toString() ?? "",
+          leaseDocuments: [], // Add default empty array or map from lease if available
+          additionalTerms: lease.additionalTerms ?? "", // Ensure string type
+        })
+      );
     }
   }, [dispatch, tenant]);
 
@@ -53,7 +64,7 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
     setLoading(true);
 
     Swal.fire({
-      title: t("processing"),
+      title: t("TenantProfile.processing"),
       // didOpen: () => {
       //   Swal.showLoading();
       // },
@@ -77,7 +88,7 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
 
         await Swal.fire({
           icon: "success",
-          title: t("updated"),
+          title: t("TenantProfile.updated"),
           timer: 2000,
           showConfirmButton: false,
         });
@@ -87,7 +98,7 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
 
         await Swal.fire({
           icon: "success",
-          title: t("created"),
+          title: t("TenantProfile.created"),
           timer: 2000,
           showConfirmButton: false,
         });
@@ -95,10 +106,12 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
         router.back();
       }
 
-      if (tenant?.leaseDocuments?.length > 0) {
+      if (tenant?.lease.contractUrl) {
         await uploadLeaseDocuments({
           leaseId,
-          documents: tenant.leaseDocuments,
+          documents: tenant?.lease.contractUrl
+            ? [tenant.lease.contractUrl]
+            : [],
         }).unwrap();
 
         await Swal.fire({
@@ -113,8 +126,17 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
 
       await Swal.fire({
         icon: "error",
-        title: t("error"),
-        text: error?.data?.message || error?.message || "Something went wrong",
+        title: t("TenantProfile.error"),
+        text:
+          (error &&
+            typeof error === "object" &&
+            "data" in error &&
+            (error as any).data?.message) ||
+          (error &&
+            typeof error === "object" &&
+            "message" in error &&
+            (error as any).message) ||
+          "Something went wrong",
       });
     } finally {
       setLoading(false);
@@ -123,17 +145,17 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
 
   const steps = [
     {
-      label: t("editTenant"),
+      label: t("TenantProfile.editTenant"),
       component: (
         <TenantForm
           tenantToEdit={tenant}
-          activeStep={activeStep}
+          // activeStep={activeStep}
           onNext={handleNext}
         />
       ),
     },
     {
-      label: t("leaseDetails"),
+      label: t("TenantProfile.leaseDetails"),
       component: (
         <LeaseDetails
           activeStep={activeStep}
@@ -143,7 +165,7 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
       ),
     },
     {
-      label: t("documentUpload"),
+      label: t("TenantProfile.documentUpload"),
       component: (
         <DocumentUploader
           activeStep={activeStep}
@@ -162,7 +184,9 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
             <div className="col-lg-8 mb10">
               <div className="breadcrumb_content style2">
                 <h2 className="breadcrumb_title">
-                  {tenant?.id ? t("editTenant") : t("addTenant")}
+                  {tenant?.id
+                    ? t("TenantProfile.editTenant")
+                    : t("TenantProfile.addTenant")}
                 </h2>
               </div>
             </div>
@@ -173,10 +197,10 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
                 steps={steps}
                 onNext={handleNext}
                 onPrevious={handleBack}
-                onFinish={handleSubmit}
-                isLoading={loading}
+                // onFinish={handleSubmit}
+                // isLoading={loading}
               >
-                {steps[activeStep].component}
+                {steps[activeStep]?.component}
               </Stepper>
             </div>
             {activeStep === steps.length - 1 && (
@@ -189,10 +213,11 @@ const TenantManagement = ({ tenant }: { tenant?: Tenant }) => {
                   >
                     {loading ? (
                       <span>
-                        <i className="fa fa-spinner fa-spin"></i> {t("saving")}
+                        <i className="fa fa-spinner fa-spin"></i>{" "}
+                        {t("TenantProfile.saving")}
                       </span>
                     ) : (
-                      t("save")
+                      t("TenantProfile.save")
                     )}
                   </button>
                 </div>

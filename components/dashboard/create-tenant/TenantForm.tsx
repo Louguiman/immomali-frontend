@@ -12,33 +12,23 @@ import { useTranslations } from "next-intl";
 import { Property } from "@/types/property";
 import { User } from "@/types/user";
 import { Agent } from "@/types/agent";
+import { Tenant } from "@/types/tenant";
 
 interface TenantFormProps {
-  tenantToEdit?: {
-    user?: User;
-    property?: Property;
-    agent?: Agent;
-    // Add other fields as needed
-  };
-  activeStep: number;
+  tenantToEdit?: Tenant;
   onNext: () => void;
-  onPrevious: () => void;
+  // onPrevious: () => void;
 }
 
 const TenantForm: React.FC<TenantFormProps> = ({
   tenantToEdit,
-  activeStep,
   onNext,
-  onPrevious,
+  // onPrevious,
 }) => {
-  const t = useTranslations("dashboard.TenantProfile");
+  const t = useTranslations("dashboard");
   const dispatch = useAppDispatch();
-  const tenant = useAppSelector(
-    (state: import("@/store/store").RootState) => state.tenants.tenantDetails
-  );
-  const user = useAppSelector(
-    (state: import("@/store/store").RootState) => state.auth.user
-  );
+  const tenant = useAppSelector((state) => state.tenants.tenantDetails);
+  const user = useAppSelector((state) => state.auth.user);
   const [selectedTenant, setSelectedTenant] = useState(
     tenantToEdit?.user || null
   );
@@ -50,7 +40,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
   );
 
   /** 🔹 Handle Input Change */
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     dispatch(setTenantField({ field: id, value }));
   };
@@ -69,9 +59,11 @@ const TenantForm: React.FC<TenantFormProps> = ({
     dispatch(setTenantField({ field: "propertyId", value: property.id }));
   };
 
-  const handleAgentSelection = (user) => {
-    setSelectedAgent(user);
-    dispatch(setTenantField({ field: "agentId", value: user.id }));
+  const handleAgentSelection = (agent: Partial<Agent>) => {
+    if (agent && agent.id) {
+      setSelectedAgent(agent as Agent);
+      dispatch(setTenantField({ field: "agentId", value: agent.id }));
+    }
   };
 
   const userRoles = user?.roles?.map((role) => role.name) || [];
@@ -80,7 +72,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
     <>
       <div className="col-lg-6">
         <SearchableUserSelect
-          placeholder={t("searchUsers")}
+          placeholder={t("TenantProfile.searchUsers")}
           onSelect={handleTenantSelection}
         />
       </div>
@@ -89,7 +81,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
         <>
           <div className="col-lg-6 mt-2">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="name">{t("fullName")}</label>
+              <label htmlFor="name">{t("TenantProfile.fullName")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -101,7 +93,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
           </div>
           <div className="col-lg-6">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="email">{t("email")}</label>
+              <label htmlFor="email">{t("TenantProfile.email")}</label>
               <input
                 type="email"
                 className="form-control"
@@ -113,7 +105,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
           </div>
           <div className="col-lg-6">
             <div className="my_profile_setting_input form-group">
-              <label htmlFor="phone">{t("phone")}</label>
+              <label htmlFor="phone">{t("TenantProfile.phone")}</label>
               <input
                 type="tel"
                 className="form-control"
@@ -128,11 +120,13 @@ const TenantForm: React.FC<TenantFormProps> = ({
 
       <div className="col-lg-6 d-flex align-items-center mt-2">
         <div className="my_profile_setting_input form-group col-lg-6">
-          <label htmlFor="propertyID">{t("propertyToRent")}</label>
+          <label htmlFor="propertyID">
+            {t("TenantProfile.propertyToRent")}
+          </label>
           <SearchablePropertySelect
             agentId={selectedAgent?.id}
-            agencyId={user?.agency?.id}
-            placeholder={t("searchProperties")}
+            agencyId={user?.agency?.id ?? ""}
+            placeholder={t("TenantProfile.searchProperties")}
             onSelect={handlePropertySelection}
           />
         </div>
@@ -140,19 +134,29 @@ const TenantForm: React.FC<TenantFormProps> = ({
 
       <div className="col-lg-6 mt-2">
         <div className="my_profile_setting_input form-group">
-          <SearchableAgentSelect
-            agencyId={user?.agency?.id}
-            user={user}
-            isAgency={userRoles.includes("agency")}
-            placeholder={t("searchAgent")}
-            onSelect={handleAgentSelection}
-          />
+          {user && (
+            <SearchableAgentSelect
+              agencyId={user.agency?.id ? String(user.agency.id) : ""}
+              user={{
+                ...user,
+                id: Number(user.id),
+                img: user?.img ?? "",
+                phoneNumber: user?.phoneNumber ?? "",
+                agency: user?.agency,
+              }}
+              isAgency={userRoles.includes("agency")}
+              placeholder={t("TenantProfile.searchAgent")}
+              onSelect={handleAgentSelection}
+            />
+          )}
         </div>
       </div>
 
       {selectedAgent && (
         <div className="col-lg-6 mt-2">
-          <label htmlFor="selectedTenant">{t("selectedAgent")}</label>
+          <label htmlFor="selectedTenant">
+            {t("TenantProfile.selectedAgent")}
+          </label>
           <div
             id="selectedAgent"
             className="my_profile_setting_input form-group d-flex align-items-center"
@@ -175,7 +179,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
       )}
 
       <div className="position-absolute top-0 end-0 p-3 mt-5 mr-2 bg-light shadow rounded">
-        <p className="fw-bold mt-2">{t("selectedTenant")}</p>
+        <p className="fw-bold mt-2">{t("TenantProfile.selectedTenant")}</p>
         {selectedTenant && (
           <div className="mb-3 d-flex align-items-center">
             <UserCard user={selectedTenant} />
@@ -191,15 +195,15 @@ const TenantForm: React.FC<TenantFormProps> = ({
         )}
         {selectedAgent && (
           <p className="fw-bold mt-2">
-            {t("agent")}: {selectedAgent.name} |{" "}
-            {selectedAgent?.phone || selectedAgent.email}
+            {t("TenantProfile.agent")}: {selectedAgent.name} |{" "}
+            {selectedAgent?.phoneNumber || selectedAgent.email}
           </p>
         )}
       </div>
 
       <div className="col-xl-12">
         <button type="button" onClick={onNext} className="btn btn2 float-end">
-          {t("next")}
+          {t("TenantProfile.next")}
         </button>
       </div>
     </>

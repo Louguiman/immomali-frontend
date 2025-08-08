@@ -82,7 +82,7 @@ const index = () => {
               {/* End .row */}
 
               <div className="row">
-                <FeaturedItem />
+                <FeaturedItem properties={[]} />
               </div>
               {/* End .row */}
 

@@ -31,7 +31,10 @@ export const paymentsApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Payments" as const, id: "LIST" }],
     }),
-    createManualPayment: builder.mutation<Payment, Omit<Payment, "id">>({
+    createManualPayment: builder.mutation<
+      Payment,
+      Omit<Payment, "id" | "createdAt" | "updatedAt">
+    >({
       query: (payment) => ({
         url: "/payments/manual",
         method: "POST",

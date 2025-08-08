@@ -18,8 +18,8 @@ const TenantManagement = () => {
   // );
   const createQueryString = (): string => {
     const params = new URLSearchParams();
-    if (user?.agency?.id) params.set("agencyId", user?.agency?.id);
-    else params.set("agentId", user?.id || "");
+    if (user?.agency?.id) params.set("agencyId", String(user?.agency?.id));
+    else params.set("agentId", String(user?.id || ""));
     return params.toString();
   };
 

@@ -55,13 +55,16 @@ const SocialMedia = () => {
   useEffect(() => {
     if (user?.socialMedia) {
       Object.keys(user.socialMedia).forEach((key) => {
-        setValue(key, user.socialMedia[key] || "");
+        setValue(
+          key as keyof typeof user.socialMedia,
+          user.socialMedia?.[key as keyof typeof user.socialMedia] || ""
+        );
       });
     }
   }, [user, setValue]);
 
   // Handle Form Submission
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: typeof schema.__outputType) => {
     try {
       await updateSocialMedia(data).unwrap();
       Swal.fire({
@@ -88,9 +91,11 @@ const SocialMedia = () => {
           <div className="col-lg-6 col-xl-6" key={key}>
             <div className="my_profile_setting_input form-group">
               <label htmlFor={key}>{t(`fields.${key}`)}</label>
-              <input type="text" className="form-control" {...register(key)} />
-              {errors[key] && (
-                <div className="text-danger">{errors[key]?.message}</div>
+              <input type="text" className="form-control" {...register(key as keyof typeof schema.fields)} />
+              {(errors as Record<string, any>)[key] && (
+                <div className="text-danger">
+                  {(errors as Record<string, any>)[key]?.message}
+                </div>
               )}
             </div>
           </div>

@@ -12,14 +12,14 @@ const ManualPaymentModal = ({
   invoiceId: string;
   onClose: () => void;
 }) => {
-  const [formData, setFormData] = useState<Payment>({
+  const [formData, setFormData] = useState<Partial<Payment>>({
     amount: 0,
     paymentDate: new Date(),
     tenant: {
       id: 0,
     },
     invoice: {
-      id: invoiceId,
+      id: Number(invoiceId),
     },
     type: "Manual",
     amountPaid: 0,
@@ -33,15 +33,32 @@ const ManualPaymentModal = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    if (name === "paymentDate") {
+      setFormData({ ...formData, [name]: new Date(value) });
+    } else if (name === "amount") {
+      setFormData({ ...formData, [name]: Number(value) });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!formData.amount || formData.amount <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
+    if (!formData.paymentMethod) {
+      toast.error("Please select a payment method");
+      return;
+    }
+
     try {
       await createPayment({
-        ...formData,
-        invoiceId: invoiceId.toString(),
+        invoiceId: invoiceId,
         tenant: {
           id: 0,
         },
@@ -49,10 +66,12 @@ const ManualPaymentModal = ({
           id: Number(invoiceId),
         },
         type: "Manual",
+        amount: Number(formData.amount),
         amountPaid: Number(formData.amount),
-        paymentDate: new Date(),
-        reference: formData.reference,
+        paymentDate: formData.paymentDate || new Date(),
+        reference: formData.reference || "",
         paymentMethod: formData.paymentMethod,
+        status: "Pending",
       }).unwrap();
       toast.success("Payment recorded successfully!");
       onClose();
@@ -84,7 +103,7 @@ const ManualPaymentModal = ({
                   type="number"
                   name="amount"
                   className="form-control"
-                  value={formData.amount}
+                  value={formData.amount || ""}
                   placeholder="Amount Paid"
                   onChange={handleChange}
                   required
@@ -96,9 +115,11 @@ const ManualPaymentModal = ({
                 <select
                   name="paymentMethod"
                   className="form-select"
-                  value={formData.paymentMethod}
+                  value={formData.paymentMethod || ""}
                   onChange={handleChange}
+                  required
                 >
+                  <option value="">Select Payment Method</option>
                   <option value="Cash">Cash</option>
                   <option value="Bank Transfer">Bank Transfer</option>
                   <option value="Mobile Money">Mobile Money</option>
@@ -111,7 +132,7 @@ const ManualPaymentModal = ({
                   type="text"
                   name="reference"
                   className="form-control"
-                  value={formData.reference}
+                  value={formData.reference || ""}
                   placeholder="Reference"
                   onChange={handleChange}
                 />
@@ -124,8 +145,13 @@ const ManualPaymentModal = ({
                   placeholder="Payment Date"
                   name="paymentDate"
                   className="form-control"
-                  value={formData.paymentDate.toISOString().split("T")[0]}
+                  value={
+                    formData.paymentDate
+                      ? formData.paymentDate.toISOString().split("T")[0]
+                      : ""
+                  }
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>

@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { RootState } from "@/store/store";
 import {
   setAddress,
   setState,
@@ -20,7 +19,7 @@ import {
 } from "@/features/properties/propertiesSlice";
 
 interface LocationFieldProps {
-  activeStep: number;
+  activeStep?: number;
   onNext?: () => void;
   onPrevious?: () => void;
 }
@@ -35,8 +34,13 @@ const LocationField: React.FC<LocationFieldProps> = ({
   // Location state is used for storing the user's current coordinates
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // Store the user's current coordinates (unused in the UI but kept for potential future use)
-  const [, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-  const property = useAppSelector((state: import("@/store/store").RootState) => state.properties.createListing);
+  const [, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const property = useAppSelector(
+    (state: import("@/store/store").RootState) => state.properties.createListing
+  );
 
   // Validation schema using Yup
   const validationSchema = yup.object().shape({
@@ -45,18 +49,20 @@ const LocationField: React.FC<LocationFieldProps> = ({
     city: yup.string().required(t("validation.required")),
     neighborhood: yup.string(),
     zipCode: yup.string(),
-    latitude: yup.mixed().test('is-number', t("validation.number"), (value) => {
+    latitude: yup.mixed().test("is-number", t("validation.number"), (value) => {
       if (!value) return true; // Optional field
       return !isNaN(Number(value));
     }),
-    longitude: yup.mixed().test('is-number', t("validation.number"), (value) => {
-      if (!value) return true; // Optional field
-      return !isNaN(Number(value));
-    }),
+    longitude: yup
+      .mixed()
+      .test("is-number", t("validation.number"), (value) => {
+        if (!value) return true; // Optional field
+        return !isNaN(Number(value));
+      }),
     country: yup.string().required(t("validation.required")),
     streetView: yup.string(),
   });
-  
+
   type FormData = yup.InferType<typeof validationSchema>;
 
   const {
@@ -81,22 +87,22 @@ const LocationField: React.FC<LocationFieldProps> = ({
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // Ensure all required fields are provided with default empty strings
-    dispatch(setAddress(data.address || ''));
-    dispatch(setState(data.state || ''));
-    dispatch(setCity(data.city || ''));
-    dispatch(setNeighborhood(data.neighborhood || ''));
-    dispatch(setZipCode(data.zipCode || ''));
-    
+    dispatch(setAddress(data.address || ""));
+    dispatch(setState(data.state || ""));
+    dispatch(setCity(data.city || ""));
+    dispatch(setNeighborhood(data.neighborhood || ""));
+    dispatch(setZipCode(data.zipCode || ""));
+
     // Convert string values to numbers for latitude and longitude
     const latitude = data.latitude ? Number(data.latitude) : null;
     const longitude = data.longitude ? Number(data.longitude) : null;
-    
+
     // Convert to strings for Redux store compatibility
-    dispatch(setLatitude(latitude !== null ? latitude.toString() : ''));
-    dispatch(setLongitude(longitude !== null ? longitude.toString() : ''));
-    dispatch(setCountry(data.country || 'Mali'));
-    dispatch(setStreetView(data.streetView || 'Street View v1'));
-    
+    dispatch(setLatitude(latitude !== null ? latitude : 0)); 
+    dispatch(setLongitude(longitude !== null ? longitude : 0));
+    dispatch(setCountry(data.country || "Mali"));
+    dispatch(setStreetView(data.streetView || "Street View v1"));
+
     if (onNext) onNext();
   };
 
@@ -143,7 +149,9 @@ const LocationField: React.FC<LocationFieldProps> = ({
             {...register("address")}
           />
           {errors.address && (
-            <span className="text-danger d-block">{errors.address.message}</span>
+            <span className="text-danger d-block">
+              {errors.address.message}
+            </span>
           )}
         </div>
       </div>
@@ -188,7 +196,9 @@ const LocationField: React.FC<LocationFieldProps> = ({
             {...register("neighborhood")}
           />
           {errors.neighborhood && (
-            <span className="text-danger d-block">{errors.neighborhood.message}</span>
+            <span className="text-danger d-block">
+              {errors.neighborhood.message}
+            </span>
           )}
         </div>
       </div>
@@ -203,7 +213,9 @@ const LocationField: React.FC<LocationFieldProps> = ({
             {...register("zipCode")}
           />
           {errors.zipCode && (
-            <span className="text-danger d-block">{errors.zipCode.message}</span>
+            <span className="text-danger d-block">
+              {errors.zipCode.message}
+            </span>
           )}
         </div>
       </div>
@@ -219,13 +231,15 @@ const LocationField: React.FC<LocationFieldProps> = ({
             <option value="Mali">Mali</option>
             <option value="Burkina Faso">Burkina Faso</option>
             <option value="Senegal">Sénégal</option>
-            <option value="Côte d&apos;Ivoire">Côte d&apos;Ivoire</option>
+            <option value="Côte d'Ivoire">Côte d&apos;Ivoire</option>
             <option value="Guinée">Guinée</option>
             <option value="Niger">Niger</option>
             <option value="Mauritanie">Mauritanie</option>
           </select>
           {errors.country && (
-            <span className="text-danger d-block">{errors.country.message}</span>
+            <span className="text-danger d-block">
+              {errors.country.message}
+            </span>
           )}
         </div>
       </div>
@@ -248,7 +262,9 @@ const LocationField: React.FC<LocationFieldProps> = ({
             {...register("latitude")}
           />
           {errors.latitude && (
-            <span className="text-danger d-block">{errors.latitude.message}</span>
+            <span className="text-danger d-block">
+              {errors.latitude.message}
+            </span>
           )}
         </div>
       </div>
@@ -264,7 +280,9 @@ const LocationField: React.FC<LocationFieldProps> = ({
             {...register("longitude")}
           />
           {errors.longitude && (
-            <span className="text-danger d-block">{errors.longitude.message}</span>
+            <span className="text-danger d-block">
+              {errors.longitude.message}
+            </span>
           )}
         </div>
       </div>
@@ -292,7 +310,7 @@ const LocationField: React.FC<LocationFieldProps> = ({
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">
-          {activeStep > 0 && (
+          {typeof activeStep === "number" && activeStep > 0 && (
             <button
               type="button"
               className="btn btn1 float-start"
@@ -301,13 +319,15 @@ const LocationField: React.FC<LocationFieldProps> = ({
               {t("back")}
             </button>
           )}
-          <button 
-            type="submit" 
-            className="btn btn2 float-end"
-            disabled={Object.keys(errors).length > 0}
-          >
-            {t("next")}
-          </button>
+          {typeof activeStep === "number" ? (
+            <button
+              type="submit"
+              className="btn btn2 float-end"
+              disabled={Object.keys(errors).length > 0}
+            >
+              {t("next")}
+            </button>
+          ) : null}
         </div>
       </div>
     </form>

@@ -7,14 +7,13 @@ import Swal from "sweetalert2";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
-import { Property } from "@/types/property";
 import {
   useFetchPropertyByIdQuery,
   useUpdatePropertyMutation,
   useUploadImagesMutation,
   useUploadAttachmentsMutation,
   useDeletePropertyImageMutation,
-  useDeleteAttachmentMutation,
+  // useDeleteAttachmentMutation,
 } from "@/features/api/properties.api";
 import {
   resetCreateListing,
@@ -24,14 +23,19 @@ import {
 import CreateList from "../create-listing/CreateList";
 import LocationField from "../create-listing/LocationField";
 import DetailedInfo from "../create-listing/DetailedInfo";
-import FloorPlans from "../create-listing/FloorPlans";
+// import FloorPlans from "../create-listing/FloorPlans";
 import PropertyMediaEditor from "../create-listing/PropertyMediaEditor";
+
+type ApiError = {
+  data?: { message?: string };
+  message?: string;
+};
 
 const EditPropertyPage = () => {
   const t = useTranslations("property");
   const router = useRouter();
   const { id } = useParams();
-  const propertyId = Number(id);
+  const propertyId = id;
   const dispatch = useAppDispatch();
 
   // RTK Query hooks
@@ -39,12 +43,12 @@ const EditPropertyPage = () => {
     data: property,
     isLoading,
     isError,
-  } = useFetchPropertyByIdQuery(propertyId, { skip: !propertyId });
+  } = useFetchPropertyByIdQuery(String(propertyId), { skip: !propertyId });
   const [updateProperty] = useUpdatePropertyMutation();
   const [uploadImages] = useUploadImagesMutation();
   const [uploadAttachments] = useUploadAttachmentsMutation();
   const [deleteImage] = useDeletePropertyImageMutation();
-  const [deleteAttachment] = useDeleteAttachmentMutation();
+  // const [deleteAttachment] = useDeleteAttachmentMutation();
 
   // Local loading state
   const [saving, setSaving] = useState(false);
@@ -67,45 +71,46 @@ const EditPropertyPage = () => {
   const newAttachments = useAppSelector(
     (state) => state.properties.newAttachments
   );
-  const deletedAttachment = useAppSelector(
-    (state) => state.properties.deletedAttachment
-  );
 
-  // Supprimer une image existante
-  const handleDeleteImage = async (imageId) => {
-    try {
-      await deleteImage(imageId).unwrap();
+  // const deletedAttachment = useAppSelector(
+  //   (state) => state.properties.deletedAttachment
+  // );
 
-      Swal.fire(t("imageDeleted"), "", "success");
-    } catch {
-      Swal.fire(t("error"), t("imageDeleteError"), "error");
-    }
-  };
+  //   // Supprimer une image existante
+  // const handleDeleteImage = async (imageId: string) => {
+  //   try {
+  //     await deleteImage(imageId).unwrap();
+
+  //     Swal.fire(t("imageDeleted"), "", "success");
+  //   } catch {
+  //     Swal.fire(t("error"), t("imageDeleteError"), "error");
+  //   }
+  // };
 
   // Supprimer une pièce‑jointe existante
-  const handleDeleteAttachment = async (name) => {
-    const { isConfirmed } = await Swal.fire({
-      title: t("confirmDeleteAttachment"),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: t("yes"),
-      cancelButtonText: t("no"),
-    });
-    if (!isConfirmed) return;
+  // const handleDeleteAttachment = async (name) => {
+  //   const { isConfirmed } = await Swal.fire({
+  //     title: t("confirmDeleteAttachment"),
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonText: t("yes"),
+  //     cancelButtonText: t("no"),
+  //   });
+  //   if (!isConfirmed) return;
 
-    try {
-      await deleteAttachment({ propertyId, name }).unwrap();
-      dispatch(
-        setCreateListing({
-          ...listing,
-          attachments: listing.attachments.filter((a) => a.name !== name),
-        })
-      );
-      Swal.fire(t("attachmentDeleted"), "", "success");
-    } catch {
-      Swal.fire(t("error"), t("attachmentDeleteError"), "error");
-    }
-  };
+  //   try {
+  //     await deleteAttachment({ propertyId, name }).unwrap();
+  //     dispatch(
+  //       setCreateListing({
+  //         ...listing,
+  //         attachments: listing.attachments.filter((a) => a.name !== name),
+  //       })
+  //     );
+  //     Swal.fire(t("attachmentDeleted"), "", "success");
+  //   } catch {
+  //     Swal.fire(t("error"), t("attachmentDeleteError"), "error");
+  //   }
+  // };
 
   // Enregistrer toutes les modifications
   const handleSave = async () => {
@@ -119,18 +124,20 @@ const EditPropertyPage = () => {
     try {
       // Étape 1 : Mise à jour des informations générales
       await updateProperty({
-        id: propertyId,
-        data: {
+        id: String(propertyId),
+        updateData: {
           ...listing,
-          propertyImages: undefined, // on ne renvoie pas les fichiers
-          attachments: undefined, // uploader séparément
+          amenities: {
+            ...listing.amenities,
+            id: listing.amenities?.id ?? 0, // Ensure id is a number
+          },
         },
       }).unwrap();
 
       // Étape 2 : Upload des nouvelles images
       if (newImages?.length > 0) {
         await uploadImages({
-          propertyId,
+          propertyId: String(propertyId),
           images: newImages,
         }).unwrap();
       }
@@ -144,12 +151,14 @@ const EditPropertyPage = () => {
             } catch (err) {
               console.warn("Erreur suppression image :", imageId, err);
               Swal.close();
+              const errorObj = err as ApiError;
               Swal.fire(
                 t("error"),
-                err?.data?.message || err.message || t("unknownError"),
+                errorObj?.data?.message ||
+                  errorObj?.message ||
+                  t("unknownError"),
                 "error"
               );
-              // Optionnel : afficher un toast ou stocker les erreurs pour feedback
             }
           })
         );
@@ -158,7 +167,7 @@ const EditPropertyPage = () => {
       // Étape 4 : Upload des nouvelles pièces jointes
       if (newAttachments?.length > 0) {
         await uploadAttachments({
-          propertyId,
+          propertyId: String(propertyId),
           attachments: newAttachments,
         }).unwrap();
       }
@@ -172,9 +181,10 @@ const EditPropertyPage = () => {
       router.back();
     } catch (err) {
       Swal.close();
+      const errorObj = err as ApiError;
       Swal.fire(
         t("error"),
-        err?.data?.message || err.message || t("unknownError"),
+        errorObj?.data?.message || errorObj?.message || t("unknownError"),
         "error"
       );
     } finally {

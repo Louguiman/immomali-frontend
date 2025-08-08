@@ -19,7 +19,7 @@ import {
 import { useAppSelector } from "@/store/store";
 
 // Define filter types
-interface PropertyFilters {
+export interface PropertyFilters {
   status?: string;
   type?: string;
   minPrice?: number;
@@ -47,9 +47,12 @@ const PropertyManagementPage = () => {
   // in the useFetchPropertyByUserIdQuery hook
 
   // Fetch properties using our query hook
-  const { data, isLoading, refetch } = useFetchPropertyByUserIdQuery(user?.id, {
-    skip: !user,
-  });
+  const { data, isLoading, refetch } = useFetchPropertyByUserIdQuery(
+    user?.id?.toString() || "",
+    {
+      skip: !user,
+    }
+  );
 
   const [deleteProperty] = useDeletePropertyMutation();
 
@@ -68,7 +71,7 @@ const PropertyManagementPage = () => {
 
       if (result.isConfirmed) {
         try {
-          await deleteProperty(id).unwrap();
+          await deleteProperty(id.toString()).unwrap();
           await Swal.fire({
             title: t("success"),
             text: t("successDelete"),
@@ -175,14 +178,14 @@ const PropertyManagementPage = () => {
         <div className="my_dashboard_review mb40">
           {isLoading ? (
             <div className="property_table">{t("loading")}</div> // Using translation
-          ) : data && data.length ? (
+          ) : data && data.data && data.data.length ? (
             <div className="property_table">
               <div className="table-responsive mt0">
                 {/* TableData receives property data and dynamic header configuration */}
                 <TableData
                   onEdit={(id) => router.push(`${pathname}/${id}/edit`)}
                   onDelete={handleDelete}
-                  data={data}
+                  data={data.data}
                 />
               </div>
               <div className="mbp_pagination">

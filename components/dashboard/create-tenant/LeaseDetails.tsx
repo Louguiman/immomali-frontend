@@ -9,31 +9,57 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useTranslations } from "next-intl";
 
-const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
-  const t = useTranslations("dashboard.TenantProfile");
+type LeaseDetailsProps = {
+  activeStep: number;
+  onNext: () => void;
+  onPrevious: () => void;
+};
+
+const LeaseDetails: React.FC<LeaseDetailsProps> = ({
+  activeStep,
+  onNext,
+  onPrevious,
+}) => {
+  const t = useTranslations("dashboard");
   const dispatch = useAppDispatch();
   const leaseDetails = useAppSelector((state) => state.tenants.leaseDetails);
 
   // 📌 Validation Schema using Yup
   const schema = yup.object().shape({
-    leaseStartDate: yup.date().required(t("leaseStartDateRequired")),
+    leaseStartDate: yup
+      .string()
+      .required(t("TenantProfile.leaseStartDateRequired")),
     leaseEndDate: yup
-      .date()
-      .min(yup.ref("leaseStartDate"), t("leaseEndDateInvalid"))
-      .required(t("leaseEndDateRequired")),
+      .string()
+      .test(
+        "is-after-start",
+        t("TenantProfile.leaseEndDateInvalid"),
+        function (value) {
+          const { leaseStartDate } = this.parent;
+          return (
+            !value ||
+            !leaseStartDate ||
+            new Date(value) >= new Date(leaseStartDate)
+          );
+        }
+      )
+      .required(t("TenantProfile.leaseEndDateRequired")),
     monthlyRent: yup
       .number()
-      .typeError(t("monthlyRentInvalid"))
-      .min(0, t("monthlyRentPositive"))
-      .required(t("monthlyRentRequired")),
+      .typeError(t("TenantProfile.monthlyRentInvalid"))
+      .min(0, t("TenantProfile.monthlyRentPositive"))
+      .required(t("TenantProfile.monthlyRentRequired")),
     securityDeposit: yup
       .number()
-      .typeError(t("securityDepositInvalid"))
-      .min(0, t("securityDepositPositive"))
-      .required(t("securityDepositRequired")),
-    leaseType: yup.string().required(t("leaseTypeRequired")),
-    autoRenew: yup.boolean().required(t("autoRenewRequired")),
-    leaseStatus: yup.string().required(t("leaseStatusRequired")),
+      .typeError(t("TenantProfile.securityDepositInvalid"))
+      .min(0, t("TenantProfile.securityDepositPositive"))
+      .required(t("TenantProfile.securityDepositRequired")),
+    leaseType: yup.string().required(t("TenantProfile.leaseTypeRequired")),
+    autoRenew: yup
+      .string()
+      .oneOf(["true", "false"], t("TenantProfile.autoRenewRequired"))
+      .required(t("TenantProfile.autoRenewRequired")),
+    leaseStatus: yup.string().required(t("TenantProfile.leaseStatusRequired")),
     additionalTerms: yup.string().optional(),
   });
 
@@ -43,13 +69,36 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<{
+    leaseStartDate: string;
+    leaseEndDate: string;
+    monthlyRent: number;
+    securityDeposit: number;
+    leaseType: string;
+    autoRenew: "true" | "false";
+    leaseStatus: string;
+    additionalTerms?: string;
+  }>({
     resolver: yupResolver(schema),
-    defaultValues: leaseDetails,
+    defaultValues: {
+      ...leaseDetails,
+      monthlyRent: leaseDetails.monthlyRent ? Number(leaseDetails.monthlyRent) : 0,
+      securityDeposit: leaseDetails.securityDeposit ? Number(leaseDetails.securityDeposit) : 0,
+      autoRenew: leaseDetails.autoRenew ? "true" : "false",
+    },
   });
 
   // 📌 Handle form submission
-  const onSubmit = (data) => {
+  const onSubmit = (data: {
+    leaseStartDate: string;
+    leaseEndDate: string;
+    monthlyRent: number;
+    securityDeposit: number;
+    leaseType: string;
+    autoRenew: "true" | "false";
+    leaseStatus: string;
+    additionalTerms?: string;
+  }) => {
     Object.entries(data).forEach(([field, value]) => {
       dispatch(setLeaseField({ field, value }));
     });
@@ -60,7 +109,9 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="col-lg-12 row">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="leaseStartDate">{t("leaseStartDate")}</label>
+          <label htmlFor="leaseStartDate">
+            {t("TenantProfile.leaseStartDate")}
+          </label>
           <input
             type="date"
             className="form-control"
@@ -72,7 +123,9 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
         </div>
 
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="leaseEndDate">{t("leaseEndDate")}</label>
+          <label htmlFor="leaseEndDate">
+            {t("TenantProfile.leaseEndDate")}
+          </label>
           <input
             type="date"
             className="form-control"
@@ -86,7 +139,7 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="monthlyRent">{t("monthlyRent")}</label>
+          <label htmlFor="monthlyRent">{t("TenantProfile.monthlyRent")}</label>
           <input
             type="number"
             className="form-control"
@@ -100,7 +153,9 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="securityDeposit">{t("securityDeposit")}</label>
+          <label htmlFor="securityDeposit">
+            {t("TenantProfile.securityDeposit")}
+          </label>
           <input
             type="number"
             className="form-control"
@@ -116,10 +171,12 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="leaseType">{t("leaseType")}</label>
+          <label htmlFor="leaseType">{t("TenantProfile.leaseType")}</label>
           <select className="form-control" {...register("leaseType")}>
-            <option value="fixed-term">{t("fixedTerm")}</option>
-            <option value="month-to-month">{t("monthToMonth")}</option>
+            <option value="fixed-term">{t("TenantProfile.fixedTerm")}</option>
+            <option value="month-to-month">
+              {t("TenantProfile.monthToMonth")}
+            </option>
           </select>
           {errors.leaseType && (
             <span className="text-danger">{errors.leaseType.message}</span>
@@ -129,11 +186,11 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="autoRenew">{t("autoRenew")}</label>
+          <label htmlFor="autoRenew">{t("TenantProfile.autoRenew")}</label>
           <select className="form-control" {...register("autoRenew")}>
-            <option value="">{t("autoRenewPrompt")}</option>
-            <option value="true">{t("yes")}</option>
-            <option value="false">{t("no")}</option>
+            <option value="">{t("TenantProfile.autoRenewPrompt")}</option>
+            <option value="true">{t("TenantProfile.yes")}</option>
+            <option value="false">{t("TenantProfile.no")}</option>
           </select>
           {errors.autoRenew && (
             <span className="text-danger">{errors.autoRenew.message}</span>
@@ -143,11 +200,11 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="leaseStatus">{t("leaseStatus")}</label>
+          <label htmlFor="leaseStatus">{t("TenantProfile.leaseStatus")}</label>
           <select className="form-control" {...register("leaseStatus")}>
-            <option value="pending">{t("pending")}</option>
-            <option value="active">{t("active")}</option>
-            <option value="terminated">{t("terminated")}</option>
+            <option value="pending">{t("TenantProfile.pending")}</option>
+            <option value="active">{t("TenantProfile.active")}</option>
+            <option value="terminated">{t("TenantProfile.terminated")}</option>
           </select>
           {errors.leaseStatus && (
             <span className="text-danger">{errors.leaseStatus.message}</span>
@@ -157,7 +214,9 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
 
       <div className="col-lg-6">
         <div className="my_profile_setting_input form-group">
-          <label htmlFor="additionalTerms">{t("additionalTerms")}</label>
+          <label htmlFor="additionalTerms">
+            {t("TenantProfile.additionalTerms")}
+          </label>
           <input
             type="text"
             className="form-control"
@@ -176,7 +235,7 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
             reset();
           }}
         >
-          {t("resetForm")}
+          {t("TenantProfile.resetForm")}
         </button>
       </div>
 
@@ -188,11 +247,11 @@ const LeaseDetails = ({ activeStep, onNext, onPrevious }) => {
             className="btn btn1 float-start"
             onClick={onPrevious}
           >
-            {t("back")}
+            {t("TenantProfile.back")}
           </button>
         )}
         <button type="submit" className="btn btn2 float-end">
-          {t("next")}
+          {t("TenantProfile.next")}
         </button>
       </div>
     </form>

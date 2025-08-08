@@ -23,7 +23,7 @@ type CreateListFormData = {
   price: string; // Always handle as string in the form
 };
 
-const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
+const CreateList: React.FC<CreateListProps> = ({ activeStep, onNext }) => {
   const dispatch = useAppDispatch();
   const t = useTranslations("property");
   const property = useAppSelector((state) => state.properties.createListing);
@@ -42,10 +42,11 @@ const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
       title: property.title || "",
       description: property.description || "",
       type: (property.type as PropertyType) || PropertyType.RENT,
-      category: (property.category as PropertyCategory) || PropertyCategory.APARTMENT,
+      category:
+        (property.category as PropertyCategory) || PropertyCategory.APARTMENT,
       price: property.price ? String(property.price) : "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const {
@@ -61,10 +62,10 @@ const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
 
   const onSubmit: SubmitHandler<CreateListFormData> = (data) => {
     try {
-          // Validate price
+      // Validate price
       const priceError = validatePrice(data.price);
       if (priceError !== true) {
-        setError('price', { message: priceError });
+        setError("price", { message: priceError });
         return;
       }
 
@@ -73,14 +74,14 @@ const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
       dispatch(setPropertyDescription(data.description));
       dispatch(setType(data.type));
       dispatch(setCategory(data.category));
-      
+
       // Convert price to number before dispatching
       const priceNumber = parseFloat(data.price);
       dispatch(setPrice(priceNumber));
-      
+
       onNext?.();
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       // Consider showing an error message to the user here
     }
   };
@@ -169,7 +170,7 @@ const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
             className="form-control"
             id="price"
             {...register("price", {
-              validate: (value: string) => validatePrice(value)
+              validate: (value: string) => validatePrice(value),
             })}
           />
           {errors.price && (
@@ -180,16 +181,22 @@ const CreateList: React.FC<CreateListProps> = ({ onNext }) => {
 
       <div className="col-xl-12">
         <div className="my_profile_setting_input">
-          <button 
-            type="submit" 
-            className="btn btn2 float-end"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            ) : null}
-            {t("next")}
-          </button>
+          {typeof activeStep === "number" ? (
+            <button
+              type="submit"
+              className="btn btn2 float-end"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              ) : null}
+              {t("next")}
+            </button>
+          ) : null}
         </div>
       </div>
     </form>

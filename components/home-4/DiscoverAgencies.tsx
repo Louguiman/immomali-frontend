@@ -6,9 +6,12 @@ import { useTranslations } from "next-intl";
 import SkeletonSectionLoader from "../common/SkeletonSectionLoader";
 
 function DiscoverAgencies() {
-  const t = useTranslations("home.section");
+  const t = useTranslations("home");
 
-  const { data, isLoading } = useGetAllAgenciesQuery();
+  const { data, isLoading } = useGetAllAgenciesQuery({
+    page: 1,
+    limit: 10,
+  });
   console.log("agencies: ", data);
   if (isLoading) {
     return <SkeletonSectionLoader />;
@@ -20,8 +23,8 @@ function DiscoverAgencies() {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <div className="main-title text-center">
-              <h2>{t("agency.title")}</h2>
-              <p>{t("agency.description")}</p>
+              <h2>{t("section.agency.title")}</h2>
+              <p>{t("section.agency.description")}</p>
             </div>
           </div>
         </div>

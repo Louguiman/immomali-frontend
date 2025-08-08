@@ -1,7 +1,6 @@
+import FeaturedProperties from "@/components/home-4/FeaturedProperties";
 import Categorie from "./Categorie";
 import FeaturedListings from "./FeaturedListings";
-import FeatureProperties from "./FeatureProperties";
-import MortgageFiltering from "./MortgageFiltering";
 
 const SidebarListing3 = () => {
   return (
@@ -19,7 +18,8 @@ const SidebarListing3 = () => {
       <div className="terms_condition_widget">
         <h4 className="title">Featured Properties</h4>
         <div className="sidebar_feature_property_slider">
-          <FeatureProperties />
+          {/* //TODO add properties */}
+          <FeaturedProperties properties={[]} />
         </div>
       </div>
       {/* End .Featured Properties */}

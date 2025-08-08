@@ -1,8 +1,6 @@
-import { Property } from "./property";
 
 export interface Amenities {
   id: number;
-  property: Property | number;
   airConditioning: boolean;
   barbeque: boolean;
   dryer: boolean;

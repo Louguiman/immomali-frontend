@@ -10,19 +10,19 @@ import { useTranslations } from "next-intl";
 
 interface TenantDocumentUploaderProps {
   activeStep: number;
-  onNext: () => void;
-  onPrevious: () => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
 }
 
 const TenantDocumentUploader = ({
   activeStep,
-  onNext,
+  // onNext,
   onPrevious,
 }: TenantDocumentUploaderProps) => {
-  const t = useTranslations("dashboard.TenantProfile");
+  const t = useTranslations("dashboard");
   const dispatch = useAppDispatch();
   const leaseDocuments = useAppSelector(
-    (state) => state.tenants.leaseDocuments
+    (state) => state.tenants.leaseDetails.leaseDocuments
   );
 
   // Handle document upload
@@ -40,12 +40,12 @@ const TenantDocumentUploader = ({
 
   return (
     <div className="container bg-white p-4 rounded shadow-sm">
-      <h3 className="mb-3">{t("leaseDocumentsTitle")}</h3>
-      <p className="text-muted mb-4">{t("uploadInstructions")}</p>
+      <h3 className="mb-3">{t("TenantProfile.leaseDocumentsTitle")}</h3>
+      <p className="text-muted mb-4">{t("TenantProfile.uploadInstructions")}</p>
 
       <div className="mb-4">
         <label htmlFor="fileInput" className="form-label">
-          {t("selectDocuments")}
+          {t("TenantProfile.selectDocuments")}
         </label>
         <input
           type="file"
@@ -58,7 +58,7 @@ const TenantDocumentUploader = ({
 
       {leaseDocuments?.length > 0 && (
         <div className="mt-4">
-          <h5 className="mb-2">{t("uploadedDocuments")}</h5>
+          <h5 className="mb-2">{t("TenantProfile.uploadedDocuments")}</h5>
           <ul className="list-group">
             {leaseDocuments.map((file, index) => (
               <li
@@ -70,7 +70,7 @@ const TenantDocumentUploader = ({
                   onClick={() => deleteDocument(file.name)}
                   className="btn btn-outline-danger btn-sm"
                 >
-                  {t("delete")}
+                  {t("TenantProfile.delete")}
                 </button>
               </li>
             ))}
@@ -86,7 +86,7 @@ const TenantDocumentUploader = ({
             className="btn btn-secondary"
             onClick={onPrevious}
           >
-            {t("back")}
+            {t("TenantProfile.back")}
           </button>
         )}
       </div>

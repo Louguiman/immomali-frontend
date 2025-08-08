@@ -1,6 +1,7 @@
 // Frontend Tenant interface aligned with backend entity
 
 import { Agency } from "./agency";
+import { Agent } from "./agent";
 import { Invoice } from "./invoice";
 import { Lease } from "./lease";
 import { MaintenanceRequest } from "./maintenance-request";
@@ -11,7 +12,7 @@ export interface Tenant {
   id: number;
   user: User;
   property: Property;
-  agent: User;
+  agent: Agent;
   agency?: Agency;
   maintenanceRequests: MaintenanceRequest[];
   outstandingBalance: number;

@@ -5,30 +5,39 @@ import {
 } from "@/features/api/properties.api";
 import _ from "lodash"; // Import lodash
 import Image from "next/image";
+import { Property } from "@/types/property";
+
+interface SearchablePropertySelectProps {
+  agentId?: string | number;
+  agencyId?: string | number;
+  placeholder?: string;
+  onSelect: (property: Property) => void;
+}
 
 const SearchablePropertySelect = ({
   agentId,
   agencyId,
   placeholder,
   onSelect,
-}) => {
+}: SearchablePropertySelectProps) => {
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
   // Fetch properties only when debouncedQuery is not empty
-  const { data: properties, isLoading } = useSearchAgencyPropertiesQuery(
-    { query: query, agencyId },
-    { skip: !agencyId } // Avoid fetching if query is empty
+  const { data: searchResults, isLoading } = useSearchAgencyPropertiesQuery(
+    { query: query },
+    { skip: !agencyId || !query } // Avoid fetching if query is empty
   );
 
-  const { data, isLoadingAgent, refetch } = useFetchPropertyByUserIdQuery(
-    agentId,
-    {
-      skip: !agentId || agencyId,
-    }
-  );
+  const {
+    data: agentProperties,
+    // isLoading: isLoadingAgent,
+    // refetch,
+  } = useFetchPropertyByUserIdQuery(agentId?.toString() || "", {
+    skip: !agentId || !!agencyId,
+  });
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
@@ -42,7 +51,7 @@ const SearchablePropertySelect = ({
     };
   }, [debouncedResults]);
 
-  const handleSelect = (property) => {
+  const handleSelect = (property: Property) => {
     onSelect(property);
     setQuery(""); // Reset input after selection
   };
@@ -65,7 +74,7 @@ const SearchablePropertySelect = ({
 
       {showDropdown && (
         <RenderPropertyList
-          properties={data || properties}
+          properties={searchResults ? searchResults : agentProperties?.data || []}
           handleSelect={handleSelect}
         />
       )}
@@ -75,9 +84,14 @@ const SearchablePropertySelect = ({
 
 export default SearchablePropertySelect;
 
-const RenderPropertyList = ({ properties, handleSelect }) => {
+interface RenderPropertyListProps {
+  properties?: Property[];
+  handleSelect: (property: Property) => void;
+}
+
+const RenderPropertyList = ({ properties, handleSelect }: RenderPropertyListProps) => {
   return (
-    properties?.length > 0 && (
+    Array.isArray(properties) && properties.length > 0 && (
       <ul className="dropdown-menu show w-100">
         {properties.map((property) => (
           <li
@@ -88,10 +102,10 @@ const RenderPropertyList = ({ properties, handleSelect }) => {
           >
             <Image
               src={
-                property.images[0]?.imageUrl ||
+                property.images?.[0]?.imageUrl ||
                 "/assets/images/default-property.jpg"
               }
-              alt={property.title}
+              alt={property.title || "Property"}
               width={45}
               height={45}
               className="rounded me-2"

@@ -20,7 +20,7 @@ interface LeaseDetails {
   monthlyRent: string;
   leaseStatus: string;
   additionalTerms: string;
-  leaseDocuments: any[];
+  leaseDocuments: File[];
 }
 
 interface TenantsState {

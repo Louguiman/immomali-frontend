@@ -29,7 +29,7 @@ export type PropertyFormData = {
 
 export type CreateListProps = {
   activeStep?: number;
-  onNext: () => void;
+  onNext?: () => void;
   onPrevious?: () => void;
 };
 
@@ -69,13 +69,13 @@ export interface Property {
   maintenanceRequests: MaintenanceRequest[];
   attachments: string[];
   saleTag: string[];
-  garages: number | string;
+  garages: string;
   builtYear?: number;
   isFeatured: boolean;
   isRented: boolean;
-  beds: number;
-  baths: number;
-  sqFt: number;
+  beds: string;
+  baths: string;
+  sqFt: string;
   images: PropertyImage[];
   amenities: Amenities;
   owner: User;

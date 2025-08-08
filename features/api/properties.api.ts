@@ -49,9 +49,12 @@ export const propertiesApi = apiSlice.injectEndpoints({
         };
       },
     }),
-    deleteAttachment: builder.mutation<void, string>({
-      query: (id) => ({
-        url: `/attachments/${id}`,
+    deleteAttachment: builder.mutation<
+      void,
+      { propertyId: number; name: string }
+    >({
+      query: ({ propertyId, name }) => ({
+        url: `/properties/${propertyId}/attachments/${name}`,
         method: "DELETE",
       }),
     }),
@@ -70,7 +73,10 @@ export const propertiesApi = apiSlice.injectEndpoints({
         { type: "Properties", id },
       ],
     }),
-    fetchPropertyByUserId: builder.query<Property[], string>({
+    fetchPropertyByUserId: builder.query<
+      { data: Property[]; totalPage: number },
+      string
+    >({
       query: (id: string) => `/properties/user/${id}`,
     }),
     createProperty: builder.mutation<Property, PropertyFormData>({
@@ -114,12 +120,15 @@ export const propertiesApi = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 60,
     }),
-    getTopCities: builder.query<{ city: string; count: number; imageUrl: string }[], void>({
+    getTopCities: builder.query<
+      { city: string; count: number; imageUrl: string }[],
+      void
+    >({
       query: () => "statistics/top-cities",
     }),
     updateProperty: builder.mutation<
       Property,
-      { id: string; updateData: Partial<PropertyFormData> }
+      { id: string; updateData: Partial<Property> }
     >({
       query: ({ id, updateData }) => ({
         url: `/properties/${id}`,

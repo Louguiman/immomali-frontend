@@ -14,7 +14,7 @@ import {
 } from "@/features/properties/propertiesSlice";
 
 interface DetailedInfoProps {
-  activeStep: number;
+  activeStep?: number;
   onNext?: () => void;
   onPrevious?: () => void;
 }
@@ -183,7 +183,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({
       {/* Navigation Buttons */}
       <div className="col-xl-12">
         <div className="my_profile_setting_input overflow-hidden mt20">
-          {activeStep > 1 && (
+          {typeof activeStep === "number" && activeStep > 1 && (
             <button
               type="button"
               className="btn btn1 float-start"
@@ -192,9 +192,11 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({
               {t("back")}
             </button>
           )}
-          <button type="submit" className="btn btn2 float-end">
-            {t("next")}
-          </button>
+          {typeof activeStep === "number" ? (
+            <button type="submit" className="btn btn2 float-end">
+              {t("next")}
+            </button>
+          ) : null}
         </div>
       </div>
     </form>

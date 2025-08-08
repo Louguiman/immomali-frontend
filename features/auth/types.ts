@@ -1,22 +1,4 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  img?: string;
-  phoneNumber?: string;
-  agency?: {
-    id: string;
-    name: string;
-  };
-  roles?: Array<{
-    id: string;
-    name: string;
-    permissions: Array<{
-      id: string;
-      name: string;
-    }>;
-  }>;
-}
+import { User } from "@/types/user";
 
 export interface AuthState {
   user: User | null;
