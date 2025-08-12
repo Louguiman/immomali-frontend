@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Ratings from "../../blog-details/Ratings";
 
 const WhatsNearby = () => {
   const t = useTranslations("property.WhatsNearby");
@@ -107,7 +106,7 @@ const WhatsNearby = () => {
                 </span>
               </p>
               <ul className="review">
-                <Ratings />
+                {/* <Ratings /> */}
                 <li className="list-inline-item">
                   <span className="total_rive_count">
                     {new Intl.NumberFormat().format(place.totalReview)}{" "}

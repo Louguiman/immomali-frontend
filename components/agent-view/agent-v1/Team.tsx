@@ -5,10 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  addAgentItemLength,
-  setPage,
-} from "../../../features/agent/agentSlice";
+import { addAgentItemLength } from "../../../features/agent/agentSlice";
 import { useGetAllAgentsQuery } from "@/features/api/agents.api";
 import Pagination from "./Pagination"; // Import Pagination component
 import { Agent } from "@/types/agent";
@@ -17,10 +14,16 @@ import { FaBuilding, FaEnvelope, FaFax, FaPhoneAlt } from "react-icons/fa";
 const Team = () => {
   const t = useTranslations("home.agents");
   const dispatch = useAppDispatch();
-  const { name, category, city, page, pageSize } =
-    useAppSelector((state) => state.agent) || {};
+  const { name, page, pageSize } = useAppSelector((state) => state.agent) || {};
 
-  const { data: agents, isLoading, isError } = useGetAllAgentsQuery();
+  const {
+    data: agents,
+    isLoading,
+    isError,
+  } = useGetAllAgentsQuery({
+    page,
+    pageSize,
+  });
 
   useEffect(() => {
     if (!isLoading && agents) {
@@ -111,6 +114,7 @@ const Team = () => {
                             href={social.liveLink}
                             target="_blank"
                             rel="noopener noreferrer"
+                            title={social.name}
                           >
                             <i className={`fa ${social.icon}`}></i>
                           </a>

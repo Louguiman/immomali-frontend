@@ -16,7 +16,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
   return (
     <>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link active"
             data-bs-toggle="tab"
@@ -30,7 +30,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
         </li>
         {/* End Description tab */}
 
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -44,7 +44,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
         </li>
         {/* End Listing tab */}
 
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -58,7 +58,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
         </li>
         {/* End Listing tab */}
 
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -84,7 +84,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
             <div className="mbp_pagination_comments">
               <div className="mbp_first media">
                 <div className="media-body agent-desc">
-                  <DescriptionsText description={agency?.description} />
+                  <DescriptionsText description={agency?.description || ""} />
                 </div>
               </div>
             </div>
@@ -112,7 +112,12 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
         </div>
         {/* End Listing details content*/}
 
-        <div className="tab-pane fade" id="review" role="tabpanel">
+        <div
+          className="tab-pane fade"
+          id="review"
+          role="tabpanel"
+          aria-labelledby="review-tab"
+        >
           <div className="product_single_content">
             <div className="mbp_pagination_comments">
               <div className="total_review">
@@ -123,7 +128,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
                   })}
                 </h4>
                 <ul className="review_star_list mb0 pl10">
-                  <Ratings />
+                  <Ratings rating={agency.rating ?? 0} />
                 </ul>
                 <a className="tr_outoff pl10" href="#">
                   {t("outOf", {
@@ -137,7 +142,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
                 </a>
               </div>
               {/* End .total_review */}
-              <Comments />
+              <Comments reviews={agency.reviews} />
               <div className="custom_hr"></div>
 
               <div className="mbp_comment_form style2">
@@ -146,7 +151,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
                   <li className="list-inline-item">
                     <span className="sspd_review">
                       <ul>
-                        <Ratings />
+                        <Ratings rating={agency.rating} />
                       </ul>
                     </span>
                   </li>
@@ -158,7 +163,7 @@ const TabDetailsContent = ({ agency }: TabDetailsContentProps) => {
                     </p>
                   </li>
                 </ul>
-                <ReviewBox />
+                <ReviewBox agentId={agency.id} />
               </div>
             </div>
           </div>

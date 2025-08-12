@@ -3,7 +3,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-function Layout({ children }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations("dashboard");
 
   return (
@@ -45,6 +45,6 @@ function Layout({ children }) {
       </div>
     </section>
   );
-}
+};
 
 export default Layout;

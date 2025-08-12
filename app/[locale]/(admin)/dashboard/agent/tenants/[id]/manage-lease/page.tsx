@@ -18,7 +18,7 @@ const ManageLeasePage = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await manageLease({ id, leaseStatus });
     router.push(`/tenants/${id}`);

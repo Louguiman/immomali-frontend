@@ -137,7 +137,7 @@ const EditPropertyPage = () => {
       // Étape 2 : Upload des nouvelles images
       if (newImages?.length > 0) {
         await uploadImages({
-          propertyId: String(propertyId),
+          propertyId: Number(propertyId),
           images: newImages,
         }).unwrap();
       }

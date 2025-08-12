@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { splitDescription } from "@/utils/splitDescription";
 
-const PropertyDescriptions = ({ description }) => {
+const PropertyDescriptions = ({ description }: { description: string }) => {
   const [expanded, setExpanded] = useState(false);
   const paragraphs = splitDescription(description);
 

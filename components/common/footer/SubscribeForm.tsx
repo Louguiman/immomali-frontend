@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 const SubscribeForm = () => {
   const t = useTranslations("Footer");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 

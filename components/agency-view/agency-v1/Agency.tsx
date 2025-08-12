@@ -13,7 +13,14 @@ const Agency = () => {
   const dispatch = useAppDispatch();
   const t = useTranslations("home.agents");
 
-  const { data: agencies, isLoading, isError } = useGetAllAgenciesQuery();
+  const {
+    data: agencies,
+    isLoading,
+    isError,
+  } = useGetAllAgenciesQuery({
+    page: 1,
+    pageSize: 10,
+  });
 
   useEffect(() => {
     if (!isLoading && agencies !== null) {

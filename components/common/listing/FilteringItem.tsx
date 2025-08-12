@@ -36,16 +36,15 @@ const FilteringItem = () => {
   const t = useTranslations("property"); // Get the translation function
 
   const {
-    keyword,
-    location,
+    // keyword,
+    // location,
     status,
-    type,
+    // type,
     bathrooms,
     bedrooms,
     garages,
     yearBuilt,
     area,
-    amenities,
     price,
   } = useAppSelector((state) => state.properties);
 
@@ -74,21 +73,21 @@ const FilteringItem = () => {
 
   // advanced state
   const [getAdvanced, setAdvanced] = useState([
-    { id: uuidv4(), name: t("amenities.airConditioning") },
-    { id: uuidv4(), name: t("amenities.barbeque") },
-    { id: uuidv4(), name: t("amenities.gym") },
-    { id: uuidv4(), name: t("amenities.microwave") },
-    { id: uuidv4(), name: t("amenities.tvCable") },
-    { id: uuidv4(), name: t("amenities.lawn") },
-    { id: uuidv4(), name: t("amenities.refrigerator") },
-    { id: uuidv4(), name: t("amenities.swimmingPool") },
-    { id: uuidv4(), name: t("amenities.wifi") },
-    { id: uuidv4(), name: t("amenities.sauna") },
-    { id: uuidv4(), name: t("amenities.dryer") },
-    { id: uuidv4(), name: t("amenities.washer") },
-    { id: uuidv4(), name: t("amenities.laundry") },
-    { id: uuidv4(), name: t("amenities.outdoorShower") },
-    { id: uuidv4(), name: t("amenities.windowCoverings") },
+    { id: uuidv4(), name: t("amenities.airConditioning"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.barbeque"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.gym"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.microwave"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.tvCable"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.lawn"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.refrigerator"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.swimmingPool"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.wifi"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.sauna"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.dryer"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.washer"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.laundry"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.outdoorShower"), isChecked: false },
+    { id: uuidv4(), name: t("amenities.windowCoverings"), isChecked: false },
   ]);
 
   const dispatch = useAppDispatch();
@@ -136,8 +135,8 @@ const FilteringItem = () => {
   useEffect(() => {
     dispatch(
       addPrice({
-        min: getMinPrice,
-        max: getMaxPrice,
+        min: Number(getMinPrice),
+        max: Number(getMaxPrice),
       })
     );
   }, [dispatch, getMinPrice, getMaxPrice]);
@@ -222,8 +221,8 @@ const FilteringItem = () => {
     if (getBuiltYear) params.set("yearBuilt", getBuiltYear);
     if (getAreaMin) params.set("minArea", getAreaMin);
     if (getAreaMax) params.set("maxArea", getAreaMax);
-    if (getMinPrice) params.set("minPrice", getMinPrice);
-    if (getMaxPrice) params.set("maxPrice", getMaxPrice);
+    if (getMinPrice) params.set("minPrice", String(getMinPrice));
+    if (getMaxPrice) params.set("maxPrice", String(getMaxPrice));
 
     router.replace(`${pathname}?${params.toString()}`);
   }, 300);
@@ -487,7 +486,7 @@ const FilteringItem = () => {
                             value={feature.name}
                             checked={feature.isChecked || false}
                             onChange={(e) =>
-                              dispatch(addAmenities(e.target.value))
+                              dispatch(addAmenities([e.target.value]))
                             }
                             onClick={() => advancedHandler(feature.id)}
                           />

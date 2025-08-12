@@ -94,8 +94,8 @@ const DetailsContent = ({ property }: { property: Property }) => {
         </h6>
         <div className="property_video p0">
           <PropertyLocation
-            latitude={property?.latitude}
-            longitude={property?.longitude}
+            latitude={property?.latitude ?? 0}
+            longitude={property?.longitude ?? 0}
           />
         </div>
       </div>
@@ -137,7 +137,7 @@ const DetailsContent = ({ property }: { property: Property }) => {
               <li className="list-inline-item">
                 <span className="sspd_review">
                   <ul>
-                    <Ratings />
+                    <Ratings rating={property?.rating} />
                   </ul>
                 </span>
               </li>

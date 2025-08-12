@@ -58,9 +58,7 @@ const PropertyMediaUploader: React.FC<PropertyMediaUploaderProps> = ({
   };
 
   const customResolver = async (
-    values: PropertyMediaFormData,
-    _context: unknown,
-    _options: unknown
+    values: PropertyMediaFormData
   ): Promise<ResolverResult> => {
     // Validate required images
     if (!values.images || (values.images as FileList).length === 0) {
@@ -68,13 +66,13 @@ const PropertyMediaUploader: React.FC<PropertyMediaUploaderProps> = ({
         values: {} as PropertyMediaFormData,
         errors: {
           images: {
-            type: 'required',
-            message: t('validation.imagesRequired') as string,
+            type: "required",
+            message: t("validation.imagesRequired") as string,
           },
         },
       };
     }
-    
+
     // If validation passes
     return {
       values,
@@ -273,7 +271,7 @@ const PropertyMediaUploader: React.FC<PropertyMediaUploaderProps> = ({
                         e.preventDefault();
                         e.stopPropagation();
                         if (item.id) {
-                          deleteImage(item.id);
+                          deleteImage(item.id.toString());
                         }
                       }}
                       aria-label={t("deleteImage") as string}

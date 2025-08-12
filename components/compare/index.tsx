@@ -1,99 +1,136 @@
 "use client";
 
-import { clearCompareList } from "@/features/properties/propertiesSlice";
+import Image from "next/image";
+import { useAppSelector, useAppDispatch } from "@/store/store";
+import { removeFromCompare as removeFromCompareList } from "@/features/properties/propertiesSlice";
+import { useFetchPropertyByIdQuery } from "@/features/api/properties.api";
+import Link from "next/link";
 
-import ComparePricing from "./ComparePricing";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-
-const Index = () => {
-  const dispatch = useAppDispatch();
+const ComparePricing = () => {
   const compareList = useAppSelector((state) => state.properties.compareList);
 
-  // if (compareList.length === 0)
-  //   return <p>No properties selected for comparison.</p>;
+  if (!compareList.length) {
+    return (
+      <li className="list-inline-item text-center w-100">
+        <p>No properties selected for comparison.</p>
+      </li>
+    );
+  }
 
   return (
     <>
-      {/* <!-- Our Pricing Table --> */}
-      <section className="our-pricing bgc-fa">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 offset-lg-3">
-              <div className="main-title text-center">
-                <h2>Compare Listings</h2>
-                <p>We provide full service at every step</p>
-              </div>
-            </div>
-            <button
-              onClick={() => dispatch(clearCompareList())}
-              className="btn btn-warning mb-3"
-            >
-              Clear Comparison
-            </button>
-          </div>
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="membership_container">
-                <ul className="mc_parent_list">
-                  <li className="list-inline-item">
-                    <ul className="mc_child_list one">
-                      <li>
-                        <div className="">Property</div>
-                      </li>
-                      <li>City</li>
-                      <li>Beds</li>
-                      <li>Bathrooms</li>
-                      <li>Garage</li>
-                      <li>Year of build</li>
-                      <li>Laundry Room</li>
-                      <li>Status</li>
-
-                      {/* Additional fields */}
-                      <li>State</li>
-                      <li>Country</li>
-                      <li>Address</li>
-                      <li>Neighborhood</li>
-                      <li>Category</li>
-                      <li>Type</li>
-                      <li>Sale Tag</li>
-                      <li>Sq. Ft</li>
-                      <li>Attachments</li>
-                      <li>Featured</li>
-                      <li>Owner</li>
-                      <li>Agency</li>
-                      <li>Tenants</li>
-
-                      {/* Amenities */}
-                      <li>Air Conditioning</li>
-                      <li>Barbeque</li>
-                      <li>Dryer</li>
-                      <li>Gym</li>
-                      <li>Lawn</li>
-                      <li>Microwave</li>
-                      <li>Outdoor Shower</li>
-                      <li>Refrigerator</li>
-                      <li>Sauna</li>
-                      <li>Swimming Pool</li>
-                      <li>TV Cable</li>
-                      <li>Washer</li>
-                      <li>WiFi</li>
-                      <li>Window Coverings</li>
-
-                      {/* View Link */}
-                      <li>Action</li>
-                    </ul>
-                  </li>
-
-                  <ComparePricing />
-                </ul>
-                {/* End .mc_parent_list */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {compareList.map((item) => (
+        <li className="list-inline-item" key={item}>
+          <ComparePricingCard propertyId={item} />
+        </li>
+      ))}
     </>
   );
 };
 
-export default Index;
+export default ComparePricing;
+
+function ComparePricingCard({ propertyId }: { propertyId: string }) {
+  const dispatch = useAppDispatch();
+  const { data: property, isLoading } = useFetchPropertyByIdQuery(
+    String(propertyId),
+    {
+      skip: !propertyId, // Skip the query if item.id is not available
+      refetchOnMountOrArgChange: true, // Refetch when the component mounts or when item.id changes
+    }
+  );
+
+  if (isLoading) {
+    return <p>Loading...</p>; // Show loading state while fetching data
+  }
+  if (!property) {
+    return <p>Property not found.</p>; // Handle case when property is not found
+  }
+
+  return (
+    <ul className="mc_child_list two text-center">
+      {/* Thumbnail and Title */}
+      <li>
+        <div className="membership_header">
+          <div className="thumb">
+            <a
+              onMouseDown={() => dispatch(removeFromCompareList(property.id))}
+              href="#"
+              aria-label={`Remove ${property.title} from comparison`}
+            >
+              <span className="flaticon-close"></span>
+            </a>
+            <Image
+              width={260}
+              height={180}
+              className="img-fluid w100 h-100 cover"
+              src={
+                property.images?.[0]?.imageUrl ||
+                "/images/placeholder-property.jpg"
+              }
+              alt={property.title || "Property image"}
+            />
+            <div className="price">
+              {property.price} FCFA
+              <span className="mnth">/mo</span>
+            </div>
+          </div>
+          <div className="details">
+            <h4>{property.title}</h4>
+            <p>{property.type}</p>
+          </div>
+        </div>
+      </li>
+
+      {/* HEADERS MATCH BELOW */}
+      <li>{property.city}</li>
+      <li>{property.beds}</li>
+      <li>{property.baths}</li>
+      <li>{property.garages}</li>
+      <li>{property.builtYear || "N/A"}</li>
+      <li>{property.amenities?.laundry ? "Yes" : "No"}</li>
+      <li>{property.isRented ? "Rented" : "Available"}</li>
+
+      {/* ADDITIONAL FIELDS BELOW */}
+      <li>{property.state}</li>
+      <li>{property.country}</li>
+      <li>{property.address}</li>
+      <li>{property.neighborhood || "N/A"}</li>
+      <li>{property.category}</li>
+      <li>{property.type}</li>
+      <li>{property.saleTag?.join(", ") || "None"}</li>
+      <li>{property.sqFt} sqFt</li>
+      <li>{property.attachments?.length ?? 0} file(s)</li>
+      <li>{property.isFeatured ? "Yes" : "No"}</li>
+      <li>{property.owner?.name || "N/A"}</li>
+      <li>{property.agency?.name || "N/A"}</li>
+      <li>{property.tenants?.length ?? 0} tenants</li>
+
+      {/* All Amenities */}
+      <li>{property.amenities?.airConditioning ? "✓" : "✗"}</li>
+      <li>{property.amenities?.barbeque ? "✓" : "✗"}</li>
+      <li>{property.amenities?.dryer ? "✓" : "✗"}</li>
+      <li>{property.amenities?.gym ? "✓" : "✗"}</li>
+      <li>{property.amenities?.lawn ? "✓" : "✗"}</li>
+      <li>{property.amenities?.microwave ? "✓" : "✗"}</li>
+      <li>{property.amenities?.outdoorShower ? "✓" : "✗"}</li>
+      <li>{property.amenities?.refrigerator ? "✓" : "✗"}</li>
+      <li>{property.amenities?.sauna ? "✓" : "✗"}</li>
+      <li>{property.amenities?.swimmingPool ? "✓" : "✗"}</li>
+      <li>{property.amenities?.tvCable ? "✓" : "✗"}</li>
+      <li>{property.amenities?.washer ? "✓" : "✗"}</li>
+      <li>{property.amenities?.wifi ? "✓" : "✗"}</li>
+      <li>{property.amenities?.windowCoverings ? "✓" : "✗"}</li>
+
+      {/* Action */}
+      <li>
+        <Link
+          className="btn pricing_btn"
+          href={`/listing-details-v2/${property.id}`}
+        >
+          View
+        </Link>
+      </li>
+    </ul>
+  );
+}

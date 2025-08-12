@@ -19,7 +19,7 @@ const Team = ({ agents }: { agents: Agent[] }) => {
               width={286}
               height={220}
               className="img-whp"
-              src={item.img}
+              src={item.img ?? ""}
               alt="bh1.jpg"
             />
           </Link>

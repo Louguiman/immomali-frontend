@@ -6,7 +6,7 @@ const Pagination = ({ totalItems }: { totalItems: number }) => {
   const { page, pageSize } = useAppSelector((state) => state.agent);
   const totalPages = Math.ceil(totalItems / pageSize);
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       dispatch(setPage(newPage));
     }

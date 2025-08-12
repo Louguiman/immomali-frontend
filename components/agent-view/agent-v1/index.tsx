@@ -5,7 +5,6 @@ import MobileMenu from "../../common/header/MobileMenu";
 import PopupSignInUp from "../../common/PopupSignInUp";
 import BreadCrumb2 from "./BreadCrumb2";
 import Team from "./Team";
-import Pagination from "../../common/blog/Pagination";
 import Footer from "../../common/footer/Footer";
 import CopyrightFooter from "../../common/footer/CopyrightFooter";
 

@@ -5,6 +5,7 @@ import {
   useGetReviewsQuery,
 } from "@/features/api/reviews.api";
 import { useAppSelector } from "@/store/store";
+import { Review } from "@/types/review";
 import { toast } from "react-toastify";
 
 const ReviewsList = ({ propertyId }: { propertyId: string }) => {
@@ -15,10 +16,10 @@ const ReviewsList = ({ propertyId }: { propertyId: string }) => {
   if (isLoading) return <p>Loading reviews...</p>;
   if (!reviews?.length) return <p>No reviews yet.</p>;
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       await deleteReview(id).unwrap();
-      toast.success("Review deleted!");
+      toast.success("Review deleted successfully!");
     } catch (error) {
       toast.error("Failed to delete review.");
     }
@@ -28,7 +29,7 @@ const ReviewsList = ({ propertyId }: { propertyId: string }) => {
     <div className="reviews-section">
       <h3>Property Reviews</h3>
       <ul className="list-group">
-        {reviews.map((review) => (
+        {reviews.map((review: Review) => (
           <li key={review.id} className="list-group-item">
             <p>
               <strong>{review.user.name}</strong> rated {review.rating}/5

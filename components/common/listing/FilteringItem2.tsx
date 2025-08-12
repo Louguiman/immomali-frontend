@@ -14,6 +14,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 
+interface AdvancedFilterItem {
+  id: string;
+  name: string;
+  isChecked: boolean;
+}
+
 const FilteringItem2 = () => {
   const { status, bathrooms, bedrooms, yearBuilt } = useAppSelector(
     (state) => state.properties
@@ -26,22 +32,22 @@ const FilteringItem2 = () => {
   const [getBuiltYear, setBuiltYear] = useState(yearBuilt);
 
   // advanced state
-  const [getAdvanced, setAdvanced] = useState([
-    { id: uuidv4(), name: "Air Conditioning" },
-    { id: uuidv4(), name: "Barbeque" },
-    { id: uuidv4(), name: "Gym" },
-    { id: uuidv4(), name: "Microwave" },
-    { id: uuidv4(), name: "TV Cable" },
-    { id: uuidv4(), name: "Lawn" },
-    { id: uuidv4(), name: "Refrigerator" },
-    { id: uuidv4(), name: "Swimming Pool" },
-    { id: uuidv4(), name: "WiFi" },
-    { id: uuidv4(), name: "Sauna" },
-    { id: uuidv4(), name: "Dryer" },
-    { id: uuidv4(), name: "Washer" },
-    { id: uuidv4(), name: "Laundry" },
-    { id: uuidv4(), name: "Outdoor Shower" },
-    { id: uuidv4(), name: "Window Coverings" },
+  const [getAdvanced, setAdvanced] = useState<AdvancedFilterItem[]>([
+    { id: uuidv4(), name: "Air Conditioning", isChecked: false },
+    { id: uuidv4(), name: "Barbeque", isChecked: false },
+    { id: uuidv4(), name: "Gym", isChecked: false },
+    { id: uuidv4(), name: "Microwave", isChecked: false },
+    { id: uuidv4(), name: "TV Cable", isChecked: false },
+    { id: uuidv4(), name: "Lawn", isChecked: false },
+    { id: uuidv4(), name: "Refrigerator", isChecked: false },
+    { id: uuidv4(), name: "Swimming Pool", isChecked: false },
+    { id: uuidv4(), name: "WiFi", isChecked: false },
+    { id: uuidv4(), name: "Sauna", isChecked: false },
+    { id: uuidv4(), name: "Dryer", isChecked: false },
+    { id: uuidv4(), name: "Washer", isChecked: false },
+    { id: uuidv4(), name: "Laundry", isChecked: false },
+    { id: uuidv4(), name: "Outdoor Shower", isChecked: false },
+    { id: uuidv4(), name: "Window Coverings", isChecked: false },
   ]);
 
   const dispath = useAppDispatch();
@@ -91,7 +97,7 @@ const FilteringItem2 = () => {
   };
 
   // add advanced
-  const advancedHandler = (id) => {
+  const advancedHandler = (id: string) => {
     const data = getAdvanced.map((feature) => {
       if (feature.id === id) {
         if (feature.isChecked) {
@@ -122,7 +128,9 @@ const FilteringItem2 = () => {
                         id={feature.id}
                         value={feature.name}
                         checked={feature.isChecked || false}
-                        onChange={(e) => dispath(addAmenities(e.target.value))}
+                        onChange={(e) =>
+                          dispath(addAmenities([e.target.value]))
+                        }
                         onClick={() => advancedHandler(feature.id)}
                       />
                       <label className="form-check-label" htmlFor={feature.id}>

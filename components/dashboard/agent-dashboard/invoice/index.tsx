@@ -8,14 +8,16 @@ import { useAppSelector } from "@/store/store";
 import Pagination from "../../my-properties/Pagination";
 import AgencyInvoiceTable from "../../my-invoices/AgencyInvoiceTable";
 import InvoiceFormModal from "../../my-invoices/InvoiceFormModal";
-import { AgencyInvoice } from "@/components/dashboard/my-invoices/AgencyInvoiceTable";
+import { Invoice } from "@/types/invoice";
 
 export const AgentInvoicesPage = () => {
   const user = useAppSelector((state) => state.auth.user);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState<AgencyInvoice | null>(null);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | undefined>(
+    undefined
+  );
 
   const { data, isLoading } = useGetInvoicesByAgentQuery(
     {
@@ -69,7 +71,7 @@ export const AgentInvoicesPage = () => {
                 ) : (
                   <AgencyInvoiceTable
                     invoices={data}
-                    onEdit={(invoice: AgencyInvoice) => {
+                    onEdit={(invoice: Invoice) => {
                       setEditingInvoice(invoice);
                       setShowModal(true);
                     }}
@@ -80,7 +82,7 @@ export const AgentInvoicesPage = () => {
                 {/* Pagination */}
                 <Pagination
                   currentPage={page}
-                  totalPage={data?.totalPage}
+                  totalPages={1}
                   onPageChange={setPage}
                 />
               </div>
@@ -91,24 +93,10 @@ export const AgentInvoicesPage = () => {
       {/* Invoice Form Modal */}
       {showModal && (
         <InvoiceFormModal
-          invoice={editingInvoice ? {
-            id: Number(editingInvoice.id), // Ensure id is a number
-            tenantId: Number(editingInvoice.tenantId),
-            amount: editingInvoice.amount,
-            totalAmount: editingInvoice.totalAmount,
-            status: (editingInvoice.status === 'paid' || editingInvoice.status === 'overdue') 
-              ? editingInvoice.status 
-              : 'unpaid', // Default to 'unpaid' for any other status
-            type: editingInvoice.type,
-            dueDate: editingInvoice.dueDate,
-            // Set default values for required fields
-            tax: 0,
-            discount: 0,
-            notes: editingInvoice.tenant?.user?.name ? `Tenant: ${editingInvoice.tenant.user.name}` : ''
-          } : undefined}
+          invoice={editingInvoice}
           onClose={() => {
             setShowModal(false);
-            setEditingInvoice(null);
+            setEditingInvoice(undefined);
           }}
         />
       )}

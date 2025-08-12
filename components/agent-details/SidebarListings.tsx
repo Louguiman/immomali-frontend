@@ -2,7 +2,7 @@ import ContactWithAgent from "../../components/common/agent-view/ContactWithAgen
 import Categorie from "../../components/common/listing/Categorie";
 import FeaturedListings from "../../components/common/listing/FeaturedListings";
 
-const SidebarListings = ({ agentId }) => {
+const SidebarListings = ({ agentId }: { agentId: string }) => {
   return (
     <div className="sidebar_listing_grid1">
       <div className="sidebar_listing_list">

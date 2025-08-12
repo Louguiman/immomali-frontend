@@ -1,3 +1,4 @@
+import { User } from "@/types/user";
 import { apiSlice } from "./api";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -26,7 +27,7 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    getUserById: builder.mutation({
+    getUserById: builder.mutation<User, string>({
       query: (userId) => ({
         url: `users/${userId}`,
         method: "GET",

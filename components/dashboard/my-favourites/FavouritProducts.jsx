@@ -11,7 +11,6 @@ import { useFormatter } from "next-intl";
 
 const FavouritProducts = ({ favouritesProperties }) => {
   const dispatch = useDispatch();
-  const t = useTranslations("dashboard.favourite");
 
   const handleDelete = useCallback(
     (id) => {

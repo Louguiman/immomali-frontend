@@ -6,16 +6,16 @@ export interface InquiryMessage {
   content: string;
   createdAt: string;
   updatedAt: string;
-  sender: Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>;
+  sender: Pick<User, "id" | "firstName" | "lastName" | "email">;
   isRead: boolean;
 }
 
 export interface InquiryReply {
   id: number;
-  content: string;
+  message: string;
   createdAt: string;
   updatedAt: string;
-  sender: Pick<User, 'id' | 'firstName' | 'lastName' | 'email'>;
+  sender: Pick<User, "id" | "firstName" | "lastName" | "email">;
   inquiryId: number;
 }
 
@@ -26,7 +26,7 @@ export interface Inquiry {
   userId: number;
   user?: User;
   message: string; // The initial inquiry message
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+  status: "pending" | "in_progress" | "completed" | "cancelled";
   messages: InquiryMessage[];
   replies: InquiryReply[];
   createdAt: string;
@@ -51,5 +51,5 @@ export interface SendReplyDto {
 }
 
 export interface UpdateInquiryStatusDto {
-  status: Inquiry['status'];
+  status: Inquiry["status"];
 }

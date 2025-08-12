@@ -57,7 +57,7 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
   // Validation Schema
   const schema = Yup.object().shape({
     images: Yup.mixed()
-      .test('required', t("validation.imagesRequired"), (value) => {
+      .test("required", t("validation.imagesRequired"), (value) => {
         return value instanceof FileList && value.length > 0;
       })
       .required(t("validation.imagesRequired")),
@@ -65,9 +65,13 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
   });
 
   // Form Handling with react-hook-form - using errors and form state
-  const { formState: { errors } } = useForm<FileUploadFormData>({
+  const {
+    formState: { errors },
+  } = useForm<FileUploadFormData>({
     // @ts-expect-error - Yup and react-hook-form have some type incompatibilities
-    resolver: yupResolver(schema as unknown as Yup.ObjectSchema<FileUploadFormData>),
+    resolver: yupResolver(
+      schema as unknown as Yup.ObjectSchema<FileUploadFormData>
+    ),
     defaultValues: {
       images: undefined,
       attachment: undefined,
@@ -75,137 +79,154 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
   });
 
   // Multiple image select with validation
-  const handleMultipleImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.length) return;
+  const handleMultipleImage = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files?.length) return;
 
-    const files = Array.from(e.target.files);
+      const files = Array.from(e.target.files);
 
-    // Check if any file already exists in the Redux state
-    const isDuplicate = files.some((file1) =>
-      propertyImages.some((file2) => file1.name === file2.name) ||
-      newImages.some((file2) => file1.name === file2.name)
-    );
+      // Check if any file already exists in the Redux state
+      const isDuplicate = files.some(
+        (file1) =>
+          propertyImages.some((file2) => file1.name === file2.name) ||
+          newImages.some((file2) => file1.name === file2.name)
+      );
 
-    if (isDuplicate) {
-      Swal.fire({
-        icon: "warning",
-        title: t("imageAlreadySelected") as string,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      return;
-    }
+      if (isDuplicate) {
+        Swal.fire({
+          icon: "warning",
+          title: t("imageAlreadySelected") as string,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
 
-    // Add all new images to Redux
-    files.forEach((file) => dispatch(addNewImage(file)));
+      // Add all new images to Redux
+      files.forEach((file) => dispatch(addNewImage(file)));
 
-    // Reset the file input to allow selecting the same file again if needed
-    e.target.value = '';
-  }, [dispatch, propertyImages, newImages, t]);
+      // Reset the file input to allow selecting the same file again if needed
+      e.target.value = "";
+    },
+    [dispatch, propertyImages, newImages, t]
+  );
 
   // Delete image with confirmation
-  const deleteImage = useCallback(async (id: string, isFile: boolean) => {
-    const { isConfirmed } = await Swal.fire({
-      title: t("delete") as string,
-      text: t("confirmDeleteImage") as string,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: t("yes") as string,
-      cancelButtonText: t("no") as string,
-      confirmButtonColor: "#00b13c",
-      cancelButtonColor: "#d33",
-    });
+  const deleteImage = useCallback(
+    async (id: string, isFile: boolean) => {
+      const { isConfirmed } = await Swal.fire({
+        title: t("delete") as string,
+        text: t("confirmDeleteImage") as string,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: t("yes") as string,
+        cancelButtonText: t("no") as string,
+        confirmButtonColor: "#00b13c",
+        cancelButtonColor: "#d33",
+      });
 
-    if (!isConfirmed) return;
+      if (!isConfirmed) return;
 
-    try {
-      if (isFile) {
-        dispatch(removeNewImage(id));
-      } else {
-        dispatch(markImageForDeletion(id));
-        if (onDeleteImage) {
-          await onDeleteImage(id);
+      try {
+        if (isFile) {
+          dispatch(removeNewImage(id));
+        } else {
+          dispatch(markImageForDeletion(id));
+          if (onDeleteImage) {
+            await onDeleteImage(id);
+          }
         }
-      }
 
-      await Swal.fire({
-        icon: "success",
-        title: t("imageDeleted") as string,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error deleting image:", error);
-      await Swal.fire({
-        icon: "error",
-        title: t("error") as string,
-        text: t("errorDeletingImage") as string,
-      });
-    }
-  }, [dispatch, onDeleteImage, t]);
+        await Swal.fire({
+          icon: "success",
+          title: t("imageDeleted") as string,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error("Error deleting image:", error);
+        await Swal.fire({
+          icon: "error",
+          title: t("error") as string,
+          text: t("errorDeletingImage") as string,
+        });
+      }
+    },
+    [dispatch, onDeleteImage, t]
+  );
 
   // Handle attachment upload
-  const handleAttachmentUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.length) return;
+  const handleAttachmentUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files?.length) return;
 
-    const files = Array.from(e.target.files);
-    files.forEach((file) => dispatch(addAttachment({
-      name: file.name,
-      file,
-      size: file.size,
-      type: file.type,
-      lastModified: file.lastModified,
-    })));
+      const files = Array.from(e.target.files);
+      files.forEach((file) =>
+        dispatch(
+          addAttachment({
+            name: file.name,
+            file,
+            size: file.size,
+            type: file.type,
+            lastModified: file.lastModified,
+          })
+        )
+      );
 
-    // Reset the file input
-    e.target.value = '';
-  }, [dispatch]);
+      // Reset the file input
+      e.target.value = "";
+    },
+    [dispatch]
+  );
 
   // Delete attachment with confirmation
-  const deleteAttachment = useCallback(async (name: string) => {
-    const { isConfirmed } = await Swal.fire({
-      title: t("delete") as string,
-      text: t("confirmDeleteAttachment") as string,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: t("yes") as string,
-      cancelButtonText: t("no") as string,
-      confirmButtonColor: "#00b13c",
-      cancelButtonColor: "#d33",
-    });
+  const deleteAttachment = useCallback(
+    async (name: string) => {
+      const { isConfirmed } = await Swal.fire({
+        title: t("delete") as string,
+        text: t("confirmDeleteAttachment") as string,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: t("yes") as string,
+        cancelButtonText: t("no") as string,
+        confirmButtonColor: "#00b13c",
+        cancelButtonColor: "#d33",
+      });
 
-    if (!isConfirmed) return;
+      if (!isConfirmed) return;
 
-    try {
-      dispatch(removeAttachment(name));
+      try {
+        dispatch(removeAttachment(name));
 
-      if (onDeleteAttachment) {
-        await onDeleteAttachment(name);
+        if (onDeleteAttachment) {
+          await onDeleteAttachment(name);
+        }
+
+        await Swal.fire({
+          icon: "success",
+          title: t("attachmentDeleted") as string,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        console.error("Error deleting attachment:", error);
+        await Swal.fire({
+          icon: "error",
+          title: t("error") as string,
+          text: t("errorDeletingAttachment") as string,
+        });
       }
-
-      await Swal.fire({
-        icon: "success",
-        title: t("attachmentDeleted") as string,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error deleting attachment:", error);
-      await Swal.fire({
-        icon: "error",
-        title: t("error") as string,
-        text: t("errorDeletingAttachment") as string,
-      });
-    }
-  }, [dispatch, onDeleteAttachment, t]);
+    },
+    [dispatch, onDeleteAttachment, t]
+  );
 
   // Format file size to human readable format
   const formatFileSize = (bytes?: number): string => {
-    if (!bytes && bytes !== 0) return '0 Bytes';
-    if (bytes === 0) return '0 Bytes';
+    if (!bytes && bytes !== 0) return "0 Bytes";
+    if (bytes === 0) return "0 Bytes";
 
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
@@ -217,56 +238,63 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
 
       <div className="col-lg-12">
         <ul className="mb-0">
-          {[...propertyImages, ...newImages]?.map((item: ImageItem | File, index: number) => {
-            const isFile = item instanceof File;
-            const id = isFile ? item.name : (item as PropertyImage).id;
-            const name = isFile ? item.name : (item as PropertyImage).originalName || '';
-            const imageUrl = isFile
-              ? URL.createObjectURL(item)
-              : (item as PropertyImage).imageUrl || '';
+          {[...propertyImages, ...newImages]?.map(
+            (item: ImageItem | File, index: number) => {
+              const isFile = item instanceof File;
+              const id = isFile ? item.name : (item as PropertyImage).id;
+              const name = isFile
+                ? item.name
+                : (item as PropertyImage).originalName || "";
+              const imageUrl = isFile
+                ? URL.createObjectURL(item)
+                : (item as PropertyImage).imageUrl || "";
 
-            return (
-              <li key={`${isFile ? 'file-' : 'image-'}${id || index}`} className="list-inline-item">
-                <div className="portfolio_item position-relative">
-                  <Image
-                    width={200}
-                    height={200}
-                    className="img-fluid cover"
-                    src={imageUrl}
-                    alt={t("propertyImage")}
-                    onLoad={() => {
-                      // Revoke the object URL to avoid memory leaks
-                      if (isFile && imageUrl.startsWith('blob:')) {
-                        URL.revokeObjectURL(imageUrl);
-                      }
-                    }}
-                  />
-                  <div
-                    className="edu_stats_list position-absolute top-0 end-0 m-2"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title={t("delete") as string}
-                  >
-                    <button 
-                      type="button" 
-                      className="btn btn-sm btn-danger p-1"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        deleteImage(id, isFile);
+              return (
+                <li
+                  key={`${isFile ? "file-" : "image-"}${id || index}`}
+                  className="list-inline-item"
+                >
+                  <div className="portfolio_item position-relative">
+                    <Image
+                      width={200}
+                      height={200}
+                      className="img-fluid cover"
+                      src={imageUrl}
+                      alt={t("propertyImage")}
+                      onLoad={() => {
+                        // Revoke the object URL to avoid memory leaks
+                        if (isFile && imageUrl.startsWith("blob:")) {
+                          URL.revokeObjectURL(imageUrl);
+                        }
                       }}
-                      aria-label={t("deleteImage") as string}
+                    />
+                    <div
+                      className="edu_stats_list position-absolute top-0 end-0 m-2"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title={t("delete") as string}
                     >
-                      <i className="flaticon-garbage"></i>
-                    </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger p-1"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          deleteImage(id as string, isFile);
+                        }}
+                        aria-label={t("deleteImage") as string}
+                      >
+                        <i className="flaticon-garbage"></i>
+                      </button>
+                    </div>
+                    <div className="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-50 text-white p-2 small text-truncate">
+                      {name}
+                    </div>
                   </div>
-                  <div className="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-50 text-white p-2 small text-truncate">
-                    {name}
-                  </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            }
+          )}
         </ul>
       </div>
 
@@ -298,13 +326,13 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
       <div className="col-xl-6">
         <div className="resume_uploader mb30 h-auto p-4">
           <h3 className="mb-4">{t("attachments")}</h3>
-          
+
           <div className="mb-4">
             <label className="btn btn-outline-primary w-100">
               {t("selectAttachment")}
-              <input 
-                type="file" 
-                className="d-none" 
+              <input
+                type="file"
+                className="d-none"
                 onChange={handleAttachmentUpload}
                 aria-label={t("selectAttachment") as string}
               />
@@ -318,11 +346,13 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
 
           {attachments.length > 0 && (
             <div className="attachments-list">
-              <h5 className="mb-3">{t("uploadedAttachments")} ({attachments.length})</h5>
+              <h5 className="mb-3">
+                {t("uploadedAttachments")} ({attachments.length})
+              </h5>
               <ul className="list-group">
                 {attachments.map((file, index) => (
-                  <li 
-                    key={`attachment-${index}`} 
+                  <li
+                    key={`attachment-${index}`}
                     className="list-group-item d-flex justify-content-between align-items-center"
                   >
                     <div className="text-truncate me-2 max-w-[70%]">
@@ -333,7 +363,7 @@ const PropertyMediaEditor: React.FC<PropertyMediaEditorProps> = ({
                       <span className="badge bg-secondary me-2">
                         {formatFileSize(file.size)}
                       </span>
-                      <button 
+                      <button
                         type="button"
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => deleteAttachment(file.name)}

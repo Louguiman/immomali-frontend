@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const getIconClass = (ext) => {
+const getIconClass = (ext: string) => {
   switch (ext) {
     case "pdf":
       return "flaticon-pdf";
@@ -19,7 +19,7 @@ const getIconClass = (ext) => {
   }
 };
 
-const Attachments = ({ attachments }) => {
+const Attachments = ({ attachments }: { attachments: string[] }) => {
   if (!attachments || attachments.length === 0) {
     return <p>No attachments available.</p>;
   }
@@ -30,7 +30,7 @@ const Attachments = ({ attachments }) => {
         // Grab everything after the last slash, then decode any %20 etc
         const rawFilename = url.substring(url.lastIndexOf("/") + 1);
         const filename = decodeURIComponent(rawFilename);
-        const ext = filename.split(".").pop().toLowerCase();
+        const ext = filename.split(".").pop()?.toLowerCase() || "";
         const iconClass = getIconClass(ext);
 
         return (

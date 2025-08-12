@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 import BreadCrumb2 from "@/components/agent-details/BreadCrumb2";
 import SidebarListings from "@/components/agency-details/SidebarListings";
 import TabDetailsContent from "@/components/agency-details/TabDetailsContent";
@@ -8,10 +8,12 @@ import TabDetailsContent from "@/components/agency-details/TabDetailsContent";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useGetAgencyByIdQuery } from "@/features/api/agencies.api";
+import { Agency } from "@/types/agency";
 
 const AgencyDetailsDynamic = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: agency, isLoading, error } = useGetAgencyByIdQuery(id);
+  const { data, isLoading, error } = useGetAgencyByIdQuery(id);
+  const agency = data as Agency;
   const router = useRouter();
 
   if (isLoading)
@@ -96,8 +98,15 @@ const AgencyDetailsDynamic = () => {
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              aria-label={`${social.icon || "Social media"} link`}
                             >
-                              <i className={`fa ${social.icon}`}></i>
+                              <i
+                                className={`fa ${social.icon}`}
+                                aria-hidden="true"
+                              ></i>
+                              <span className="visually-hidden">
+                                {social.icon || "Social media"}
+                              </span>
                             </a>
                           </li>
                         ))}
@@ -108,11 +117,7 @@ const AgencyDetailsDynamic = () => {
 
                 {/* Tab Content */}
                 <div className="shop_single_tab_content style2 mt30">
-                  <TabDetailsContent
-                    agency={agency}
-                    isLoading={isLoading}
-                    error={error}
-                  />
+                  <TabDetailsContent agency={agency} />
                 </div>
               </div>
             </div>

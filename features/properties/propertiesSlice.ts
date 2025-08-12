@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { WritableDraft } from "immer";
 
-interface Amenities {
+export interface Amenities {
   id?: number;
   airConditioning: boolean;
   barbeque: boolean;
@@ -84,7 +84,7 @@ interface PropertiesState {
   yearBuilt: string;
   area: AreaRange;
   length: number;
-  compareList: any[];
+  compareList: string[];
 }
 
 const initialListingState: Listing = {

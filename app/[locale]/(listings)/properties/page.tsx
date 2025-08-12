@@ -11,6 +11,7 @@ import GridListButton from "@/components/common/listing/GridListButton";
 import { getValidParams } from "@/utils/getValidParams";
 import FeaturedItem from "@/components/listing-grid/grid-v1/FeaturedItem";
 import { useTranslations } from "next-intl";
+import ErrorState from "@/components/common/ErrorState";
 
 export default function PropertiesPage() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function PropertiesPage() {
 
   // Local state for pagination & filtering
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  // const [limit, setLimit] = useState(10);
 
   // ✅ Extract only params with values
   const validParams = getValidParams(searchParams);
@@ -35,7 +36,7 @@ export default function PropertiesPage() {
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
-    (name, value) => {
+    (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set(name, value);
 
@@ -48,20 +49,33 @@ export default function PropertiesPage() {
     refetch();
   }, [refetch, searchParams]);
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    router.push(pathname + "?" + createQueryString("page", newPage));
+    router.push(pathname + "?" + createQueryString("page", newPage.toString()));
   };
 
   if (isError) {
     console.log("Error fetching properties:", error);
-    return <div>{error?.data?.message}</div>; // Display an error message
+    const errorMessage = error && 'data' in error 
+      ? (error.data as { message?: string })?.message 
+      : 'An error occurred';
+    return (
+      <ErrorState
+        title="Error fetching properties"
+        message={errorMessage}
+      />
+    );
   }
   // if (isLoading) {
   //   return <div>{t("Loading")}</div>; // Display a loading message
   // }
   if (!properties) {
-    return <div>{t("No search results")}</div>; // Display a message when no data is available
+    return (
+      <ErrorState
+        title={t("No search results")}
+        message="No search results found"
+      />
+    );
   }
 
   {

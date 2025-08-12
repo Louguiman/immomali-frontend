@@ -30,10 +30,10 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
   const agencyId = user?.agency?.id || "";
   const [search, setSearch] = useState("");
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
-  
+
   // RTK Query hooks
   const { data: agents = [], isLoading } = useGetAgentsByAgencyQuery(agencyId, {
-    skip: !agencyId
+    skip: !agencyId,
   });
 
   const [createAgent] = useCreateAgentMutation();
@@ -64,10 +64,10 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
   // Handle form submission for create/update agent
   const onSubmit: SubmitHandler<AgentFormData> = async (data) => {
     if (!agencyId) {
-      console.error('No agency ID found');
+      console.error("No agency ID found");
       Swal.fire({
-        title: t('error.agencyNotFound'),
-        icon: 'error',
+        title: t("error.agencyNotFound"),
+        icon: "error",
         timer: 3000,
         showConfirmButton: false,
       });
@@ -81,9 +81,9 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
           id: selectedAgent.id,
           ...data,
           agencyId,
-          isActive: data.isActive === 'true',
+          isActive: data.isActive === "true",
         }).unwrap();
-        
+
         Swal.fire({
           title: t("agent.management.update.success"),
           icon: "success",
@@ -95,9 +95,9 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
         await createAgent({
           ...data,
           agencyId,
-          isActive: data.isActive === 'true',
+          isActive: data.isActive === "true",
         }).unwrap();
-        
+
         Swal.fire({
           title: t("agent.management.create.success"),
           icon: "success",
@@ -105,7 +105,7 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
           showConfirmButton: false,
         });
       }
-      
+
       reset();
       setSelectedAgent(null);
     } catch (error) {
@@ -164,11 +164,10 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
 
   return (
     <>
-
       <div className="dashboard_sidebar_menu">
         <div
           className="offcanvas offcanvas-dashboard offcanvas-start"
-          tabIndex="-1"
+          tabIndex={-1}
           id="DashboardOffcanvasMenu"
           data-bs-scroll="true"
         >
@@ -228,14 +227,16 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                     <button
                       type="button"
                       className="btn btn-success d-flex align-items-center gap-2"
-                      onClick={() => setSelectedAgent({
-                        id: "",
-                        name: "",
-                        email: "",
-                        phoneNumber: "",
-                        isActive: true,
-                        agencyId: user?.agency?.id || ""
-                      })}
+                      onClick={() =>
+                        setSelectedAgent({
+                          id: "",
+                          name: "",
+                          email: "",
+                          phoneNumber: "",
+                          isActive: true,
+                          agencyId: String(user?.agency?.id) || "",
+                        })
+                      }
                       aria-label={t("agent.management.create.ariaLabel")}
                     >
                       <FaPlusCircle />
@@ -260,12 +261,12 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                       </thead>
                       <tbody>
                         {agents
-                          ?.filter((agent) =>
+                          ?.filter((agent: Agent) =>
                             agent.name
                               .toLowerCase()
                               .includes(search.toLowerCase())
                           )
-                          .map((agent) => (
+                          .map((agent: Agent) => (
                             <tr key={agent.id}>
                               <td>{agent.id}</td>
                               <td>{agent.name}</td>
@@ -306,7 +307,7 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
 
                   {/* Create/Edit Agent Modal */}
                   {selectedAgent !== null && (
-                    <div className="modal fade show d-block" tabIndex="-1">
+                    <div className="modal fade show d-block" tabIndex={-1}>
                       <div className="modal-dialog">
                         <div className="modal-content">
                           <div className="modal-header">
@@ -318,7 +319,7 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                             <button
                               type="button"
                               className="btn-close"
-                              aria-label={t('general.close')}
+                              aria-label={t("general.close")}
                               onClick={() => setSelectedAgent(null)}
                             ></button>
                           </div>
@@ -330,7 +331,7 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                               {/* Full Name */}
                               <div className="mb-3">
                                 <label className="form-label">
-                                  {t('general.name')}
+                                  {t("general.name")}
                                 </label>
                                 <input
                                   type="text"
@@ -390,7 +391,9 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                                   defaultValue={
                                     selectedAgent?.isActive ? "true" : "false"
                                   }
-                                  {...register("isActive", { required: t("validation.required") })}
+                                  {...register("isActive", {
+                                    required: t("validation.required"),
+                                  })}
                                 >
                                   <option value="true">
                                     {t("general.active")}
@@ -413,7 +416,11 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
                                   disabled={isSubmitting}
                                 >
                                   {isSubmitting ? (
-                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span
+                                      className="spinner-border spinner-border-sm me-2"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>
                                   ) : null}
                                   {t("general.save")}
                                 </button>
@@ -441,6 +448,6 @@ const AgentManagement: React.FC<AgentManagementProps> = () => {
 };
 
 // Add display name for better debugging
-AgentManagement.displayName = 'AgentManagement';
+AgentManagement.displayName = "AgentManagement";
 
 export default AgentManagement;

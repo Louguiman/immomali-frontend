@@ -1,7 +1,13 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-const PropertyLocation = ({ latitude, longitude }) => {
+const PropertyLocation = ({
+  latitude,
+  longitude,
+}: {
+  latitude: number;
+  longitude: number;
+}) => {
   const t = useTranslations("property");
 
   if (!latitude || !longitude) {
@@ -24,7 +30,7 @@ const PropertyLocation = ({ latitude, longitude }) => {
   if (latitude === undefined || longitude === undefined) {
     return <div className="alert alert-danger">Coordinates are undefined</div>;
   }
-  if (latitude === "" || longitude === "") {
+  if (latitude === 0 || longitude === 0) {
     return <div className="alert alert-danger">Coordinates are empty</div>;
   }
 
@@ -41,13 +47,13 @@ const PropertyLocation = ({ latitude, longitude }) => {
             width="600"
             height="450"
             style={{ border: 0 }}
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
           ></iframe>
         </div>
       </div>
       <div className="overlay_icon">
-        <a href="#">
+        <a href="#" title="map">
           <Image
             width={40}
             height={45}

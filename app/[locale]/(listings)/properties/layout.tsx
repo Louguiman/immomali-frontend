@@ -6,7 +6,7 @@ import PopupSignInUp from "@/components/common/PopupSignInUp";
 import Header from "@/components/home-4/Header";
 import BreadCrumbBanner from "@/components/listing-grid/grid-v1/BreadCrumbBanner";
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* <!-- Main Header Nav --> */}

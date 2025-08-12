@@ -9,12 +9,13 @@ import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
 
 import Image from "next/image";
-import { use } from "react";
+import { useParams } from "next/navigation";
 import { useGetAgentByIdQuery } from "@/features/api/agents.api";
+import { Agent } from "@/types/agent";
 
-const AgentDetailsDynamic = ({ params }) => {
-  const { id } = use(params);
-  const { data: agent, isLoading, error } = useGetAgentByIdQuery(id);
+const AgentDetailsDynamic = () => {
+  const { id } = useParams<{ id: string }>();
+  const { data, isLoading, error } = useGetAgentByIdQuery(id);
 
   if (isLoading)
     return <p className="text-center mt-5">Loading agent details...</p>;
@@ -25,6 +26,7 @@ const AgentDetailsDynamic = ({ params }) => {
       </p>
     );
 
+  const agent = data as Agent;
   // Redirect if agency is not found
   if (!agent) {
     return <p className="text-center mt-5 text-danger">No agent Found@@@.</p>;
@@ -58,8 +60,8 @@ const AgentDetailsDynamic = ({ params }) => {
                         width={286}
                         height={220}
                         className="img-whp w-100 h-100 cover"
-                        src={agent?.img}
-                        alt={agent?.img}
+                        src={agent?.img ?? ""}
+                        alt={agent?.img ?? ""}
                       />
                       <div className="thmb_cntnt">
                         <ul className="tag mb0">
@@ -101,8 +103,13 @@ const AgentDetailsDynamic = ({ params }) => {
                                 href={social.liveLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                aria-label={`${social.icon.split("-")[1]} profile`}
+                                title={`${social.icon.split("-")[1]} profile`}
                               >
-                                <i className={`fa ${social.icon}`}></i>
+                                <i
+                                  className={`fa ${social.icon}`}
+                                  aria-hidden="true"
+                                ></i>
                               </a>
                             </li>
                           ))}
@@ -117,7 +124,7 @@ const AgentDetailsDynamic = ({ params }) => {
                     <TabDetailsContent
                       agent={agent}
                       isLoading={isLoading}
-                      error={error}
+                      error={error || null}
                     />
                   </div>
                 </div>
@@ -127,7 +134,7 @@ const AgentDetailsDynamic = ({ params }) => {
             {/* End .col-md-12 col-lg-8 content left side */}
 
             <div className="col-lg-4 col-xl-4">
-              <SidebarListings agentId={agent?.id} />
+              <SidebarListings agentId={agent?.id ?? null} />
             </div>
             {/* End .col-lg-4 col-xl-4 content left side */}
           </div>

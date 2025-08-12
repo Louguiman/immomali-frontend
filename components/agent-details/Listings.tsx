@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import FavoriteButton from "../common/FavoriteBtn";
+import { Property } from "@/types/property";
+import CompareButton from "../common/CompareBtn";
 
-const Listings = ({ properties }) => {
+const Listings = ({ properties }: { properties: Property[] }) => {
   return (
     <>
       {properties.map((item) => (
@@ -13,15 +15,13 @@ const Listings = ({ properties }) => {
                 width={275}
                 height={240}
                 className="img-whp w-100 cover"
-                src={item.images[0]?.imgUrl}
-                alt={iitem.images[0]?.imgUrl}
+                src={item.images[0]?.imageUrl || ""}
+                alt={item.images[0]?.imageUrl || ""}
               />
               <div className="thmb_cntnt">
                 <ul className="icon mb0">
                   <li className="list-inline-item">
-                    <a href="#">
-                      <span className="flaticon-transfer-1"></span>
-                    </a>
+                    <CompareButton propertyId={item.id} />
                   </li>
                   <li className="list-inline-item">
                     <FavoriteButton propertyId={item.id} />
@@ -80,20 +80,22 @@ const Listings = ({ properties }) => {
               <div className="fp_footer">
                 <ul className="fp_meta float-start mb0">
                   <li className="list-inline-item">
-                    <a href="#">
+                    <a href="#" aria-label="Owner profile">
                       <Image
                         width={40}
                         height={40}
-                        src={item.posterAvatar}
+                        src={item?.owner?.img || ""}
                         alt="pposter1.png"
                       />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a href="#">{item?.owner?.name}</a>
+                    <a href="#" aria-label="Owner">
+                      {item?.owner?.name}
+                    </a>
                   </li>
                 </ul>
-                <div className="fp_pdate float-end">{item?.yearBuilt}</div>
+                <div className="fp_pdate float-end">{item?.builtYear}</div>
               </div>
               {/* End . fp_footer */}
             </div>

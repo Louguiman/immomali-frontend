@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 const SearchBox = () => {
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   return (
-    <form onClick={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="input-group">
         <input
           type="text"
@@ -19,7 +19,8 @@ const SearchBox = () => {
         <div className="input-group-append">
           <button
             className="btn btn-outline-secondary"
-            type="button"
+            type="submit"
+            title="Search"
             id="button-addon2"
           >
             <span className="flaticon-magnifying-glass"></span>

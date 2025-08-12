@@ -6,7 +6,7 @@ import Header from "@/components/common/header/DefaultHeader";
 import MobileMenu from "@/components/common/header/MobileMenu";
 import PopupSignInUp from "@/components/common/PopupSignInUp";
 
-function layout({ children }) {
+function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* <!-- Main Header Nav --> */}

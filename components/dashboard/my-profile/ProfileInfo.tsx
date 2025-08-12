@@ -64,7 +64,7 @@ const getProfileSchema = (t: (key: string) => string) => {
 const ProfileInfo = () => {
   const t = useTranslations("dashboard");
   const { user } = useAppSelector((state) => state.auth);
-  const { refetch } = useGetMeQuery();
+  const { refetch } = useGetMeQuery(undefined);
   const [updateUserProfile, { isLoading: isUpdating }] =
     useUpdateUserProfileMutation();
   const [uploadProfileImage, { isLoading: isUploading }] =
@@ -104,21 +104,21 @@ const ProfileInfo = () => {
   // Pre-fill form with user data
   useEffect(() => {
     if (user) {
-      (Object.keys(user) as Array<keyof UserProfileFormData>).forEach((key) => {
-        if (user[key] !== undefined) {
-          setValue(key, user[key] as string);
+      (Object.keys(getProfileSchema(t).fields) as Array<keyof UserProfileFormData>).forEach((key) => {
+        if (user.hasOwnProperty(key) && user[key as keyof typeof user] !== undefined) {
+          setValue(key, user[key as keyof typeof user] as string);
         }
       });
       if (user?.img) setProfileImageUrl(user.img);
     }
-  }, [user, setValue]);
+  }, [user, setValue, t]);
 
   // Handle file input change
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
-      const file = e.target.files[0];
+      const file = e.target.files[0] ?? null;
       setProfileImage(file);
-      setProfileImageUrl(URL.createObjectURL(file));
+      setProfileImageUrl(file ? URL.createObjectURL(file) : null);
     }
   };
 

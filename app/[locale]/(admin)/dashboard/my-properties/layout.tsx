@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-function Layout({ children }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations("property"); // Use the common translations (common.json)
 
   return (
@@ -41,6 +41,6 @@ function Layout({ children }) {
       </div>
     </section>
   );
-}
+};
 
 export default Layout;

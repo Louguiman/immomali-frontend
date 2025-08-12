@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
+import { Invoice } from "@/types/invoice";
 
-type InvoiceStatus = 'unpaid' | 'paid' | 'overdue' | 'pending' | string;
+type InvoiceStatus = "unpaid" | "paid" | "overdue" | "pending" | string;
 
 interface TenantUser {
   name?: string;
@@ -24,6 +25,7 @@ interface IssuedByUser {
 }
 
 export interface AgencyInvoice {
+  notes: string;
   id: number | string;
   ref: string;
   tenantId: number;
@@ -39,15 +41,15 @@ export interface AgencyInvoice {
 }
 
 interface AgencyInvoiceTableProps {
-  invoices: AgencyInvoice[];
-  onEdit: (invoice: AgencyInvoice) => void;
+  invoices: Invoice[];
+  onEdit: (invoice: Invoice) => void;
   onDelete: (id: number | string) => void;
 }
 
-const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({ 
-  invoices = [], 
-  onEdit, 
-  onDelete 
+const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({
+  invoices = [],
+  onEdit,
+  onDelete,
 }) => {
   const t = useTranslations("dashboard.invoiceList");
   const { number: formatNumber } = useFormatter(); // Hook for number formatting
@@ -108,8 +110,8 @@ const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({
                   invoice.status === "paid"
                     ? "bg-success"
                     : invoice.status === "overdue"
-                    ? "bg-danger"
-                    : "bg-warning"
+                      ? "bg-danger"
+                      : "bg-warning"
                 }`}
               >
                 {t(invoice.status)}
@@ -118,7 +120,7 @@ const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({
             <td>
               <ul>
                 <li> {invoice?.issuedBy?.name}</li>
-                <li>{invoice?.issuedBy?.phone}</li>
+                <li>{invoice?.issuedBy?.phoneNumber}</li>
                 <li> {invoice?.issuedBy?.email}</li>
               </ul>
             </td>
@@ -126,7 +128,7 @@ const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({
               <button
                 onClick={() => router.push(`${pathname}/${invoice.id}`)}
                 className="btn btn-sm btn-primary me-2"
-                aria-label={t('viewInvoice')}
+                aria-label={t("viewInvoice")}
               >
                 {t("view")}
               </button>
@@ -134,14 +136,14 @@ const AgencyInvoiceTable: React.FC<AgencyInvoiceTableProps> = ({
               <button
                 className="btn btn-sm btn-warning me-2"
                 onClick={() => onEdit(invoice)}
-                aria-label={t('editInvoice')}
+                aria-label={t("editInvoice")}
               >
                 {t("edit")}
               </button>
               <button
                 className="btn btn-sm btn-danger"
                 onClick={() => onDelete(invoice.id)}
-                aria-label={t('deleteInvoice')}
+                aria-label={t("deleteInvoice")}
               >
                 {t("delete")}
               </button>

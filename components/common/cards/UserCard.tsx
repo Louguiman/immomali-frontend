@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "@/types/user";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user }: { user: User }) => {
   return (
     <div className="card user-card">
       <div className="card-img-top text-center">

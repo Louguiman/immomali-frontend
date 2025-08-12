@@ -6,7 +6,15 @@ import { Review } from "./review";
 import { MaintenanceRequest } from "./maintenance-request";
 import { Agent } from "./agent";
 
+export interface SocialLink {
+  url: string;
+  icon: string;
+}
+
 export interface Agency {
+  rating: number;
+  office: string;
+  socialLinks?: SocialLink[];
   id: number;
   name: string;
   logoUrl?: string;

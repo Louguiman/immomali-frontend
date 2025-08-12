@@ -7,15 +7,14 @@ import { useGetTenantsQuery } from "@/features/api/tenants.api";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useAppSelector } from "@/store/store";
 import { useTranslations } from "next-intl";
-import type { Invoice as BaseInvoice } from "@/utils/interface/payment.interface";
+import { Invoice, InvoiceStatus } from "@/types/invoice";
 
 interface InvoiceFormData {
   tenantId: string;
-  amount: string;
+  totalAmount: string;
   dueDate: string;
   status: InvoiceStatus;
   issuedBy: string;
-  totalAmount: string;
   type: string;
   tax: string;
   discount: string;
@@ -23,30 +22,20 @@ interface InvoiceFormData {
   attachments: string[];
 }
 
-// Define the valid status values for the form
-type InvoiceStatus = "unpaid" | "paid" | "overdue";
-
-// Helper type to map from any status to the allowed status values
-const mapToValidStatus = (status?: string): InvoiceStatus => {
-  if (status === 'paid' || status === 'overdue') {
-    return status;
-  }
-  return 'unpaid'; // Default to 'unpaid' for any other status
-};
+// // Helper type to map from any status to the allowed status values
+// const mapToValidStatus = (status?: string): InvoiceStatus => {
+//   switch (status) {
+//     case "paid":
+//       return InvoiceStatus.PAID;
+//     case "overdue":
+//       return InvoiceStatus.OVERDUE;
+//     default:
+//       return InvoiceStatus.PENDING;
+//   }
+// };
 
 interface InvoiceFormModalProps {
-  invoice?: Partial<BaseInvoice> & {
-    id?: number | string;
-    tenantId?: number | string;
-    amount?: number | string;
-    totalAmount?: number | string;
-    tax?: number | string;
-    discount?: number | string;
-    notes?: string;
-    status?: InvoiceStatus;
-    type?: string;
-    dueDate?: string;
-  };
+  invoice?: Invoice;
   onClose: () => void;
 }
 
@@ -60,17 +49,16 @@ const InvoiceFormModal: React.FC<InvoiceFormModalProps> = ({
 
   const initialFormData = useMemo<InvoiceFormData>(
     () => ({
-      tenantId: invoice?.tenantId?.toString() || "",
-      amount: (invoice?.amount || 0).toString(),
+      tenantId: invoice?.tenant?.id?.toString() || "",
+      totalAmount: (invoice?.totalAmount || 0).toString(),
       dueDate: invoice?.dueDate?.toString() || "",
-      status: invoice?.status ? mapToValidStatus(invoice.status) : "unpaid",
+      status: invoice?.status || InvoiceStatus.PENDING,
       issuedBy: user?.id?.toString() || "",
-      totalAmount: (invoice?.amount || 0).toString(),
       type: invoice?.type || "rent",
       tax: (invoice?.tax || 0).toString(),
       discount: (invoice?.discount || 0).toString(),
       notes: invoice?.notes || "",
-      attachments: [],
+      attachments: invoice?.attachments || [],
     }),
     [invoice, user?.id]
   );
@@ -111,28 +99,23 @@ const InvoiceFormModal: React.FC<InvoiceFormModalProps> = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.tenantId || !formData.amount || !formData.dueDate) {
+    if (!formData.tenantId || !formData.totalAmount || !formData.dueDate) {
       alert(t("pleaseFillRequiredFields"));
       return;
     }
 
     try {
-      // Create a base invoice object with required fields
-      const baseInvoice: Omit<BaseInvoice, "id" | "createdAt" | "updatedAt"> = {
+      const invoiceData = {
         tenantId: Number(formData.tenantId),
-        amount: Number(formData.amount),
+        issuedBy: Number(formData.issuedBy),
+        totalAmount: Number(formData.totalAmount),
         dueDate: formData.dueDate,
         status: formData.status,
-      };
-
-      // Create an extended invoice object with additional fields if needed
-      const invoiceData = {
-        ...baseInvoice,
-        // Include additional fields that might be needed by the API
-        type: formData.type || 'rent', // Default to 'rent' if not provided
+        type: formData.type,
         tax: Number(formData.tax) || 0,
         discount: Number(formData.discount) || 0,
-        notes: formData.notes || '',
+        notes: formData.notes,
+        attachments: formData.attachments,
       };
 
       if (isEditing && invoice?.id) {

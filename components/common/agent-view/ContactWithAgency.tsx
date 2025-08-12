@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 
-const ContactWithAgency = ({ agencyId }: { agencyId: string }) => {
+const ContactWithAgency = ({ agencyId }: { agencyId: number }) => {
   const user = useAppSelector((state) => state.auth?.user); // Get logged-in user
   const [formData, setFormData] = useState({
     name: "",

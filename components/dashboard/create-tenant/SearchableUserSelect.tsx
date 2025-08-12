@@ -3,15 +3,24 @@ import { useSearchUsersQuery } from "@/features/api/user.api";
 import Image from "next/image";
 import _ from "lodash";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { User } from "@/types/user";
 
-const SearchableUserSelect = ({ placeholder, onSelect }) => {
+interface SearchableUserSelectProps {
+  placeholder: string;
+  onSelect: (user: User) => void;
+}
+
+const SearchableUserSelect = ({
+  placeholder,
+  onSelect,
+}: SearchableUserSelectProps) => {
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const { data: users, isLoading } = useSearchUsersQuery(query, {
     skip: !query,
   });
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
@@ -25,7 +34,7 @@ const SearchableUserSelect = ({ placeholder, onSelect }) => {
     };
   }, [debouncedResults]);
 
-  const handleSelect = (user) => {
+  const handleSelect = (user: User) => {
     // setSelectedUser(user);
     onSelect(user);
     setQuery(""); // Reset input after selection
@@ -57,7 +66,7 @@ const SearchableUserSelect = ({ placeholder, onSelect }) => {
 
       {showDropdown && users?.length > 0 && (
         <ul className="dropdown-menu show w-100">
-          {users.map((user) => (
+          {users.map((user: User) => (
             <li
               key={user.id}
               className="dropdown-item d-flex align-items-center"

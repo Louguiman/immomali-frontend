@@ -1,7 +1,8 @@
 "use client";
+import { Property } from "@/types/property";
 import { useTranslations, useFormatter } from "next-intl";
 
-const PropertyDetails = ({ property }) => {
+const PropertyDetails = ({ property }: { property: Property }) => {
   const t = useTranslations("property");
   const format = useFormatter();
 
@@ -27,9 +28,7 @@ const PropertyDetails = ({ property }) => {
       { label: t("details.garage"), value: property.garages },
       {
         label: t("details.garageSize"),
-        value: property.garageSize
-          ? `${property.garageSize} Sq Ft`
-          : t("details.n/a"),
+        value: property.garages ? `${property.garages} ` : t("details.n/a"),
       },
     ],
     [

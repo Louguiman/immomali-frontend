@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import { useState } from "react";
@@ -10,13 +10,14 @@ const PropertyVideo = () => {
     <>
       <ModalVideo
         channel="youtube"
-        autoplay
+        // isAutoplay={true}
+
         isOpen={isOpen}
         videoId="oqNZOOWF8qM"
         onClose={() => setOpen(false)}
       />
       <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link active"
             data-bs-toggle="tab"
@@ -26,7 +27,7 @@ const PropertyVideo = () => {
             Property video
           </a>
         </li>
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -42,8 +43,8 @@ const PropertyVideo = () => {
       <div className="tab-content" id="myTabContent2">
         <div
           className="tab-pane fade show active"
-          id="description"
           role="tabpanel"
+          id="description"
         >
           <div className="property_video">
             <div className="thumb">

@@ -35,7 +35,14 @@ const ReviewsList = ({ propertyId }: { propertyId: string }) => {
       <div className="total_review">
         <h4>{t("totalReviews", { count: reviews.length || 0 })}</h4>
         <ul className="review_star_list mb0 pl10">
-          <Ratings />
+          <Ratings
+            rating={
+              reviews.reduce(
+                (acc: number, review: Review) => acc + review.rating,
+                0
+              ) / reviews.length
+            }
+          />
         </ul>
         <a className="tr_outoff pl10" href="#">
           ({t("ratingOutOf", { rating: "4.5" })})

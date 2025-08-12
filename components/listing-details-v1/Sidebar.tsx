@@ -24,7 +24,21 @@ const Sidebar = ({
         <div className="sidebar_advanced_search_widget">
           <div className="sl_creator">
             <h4 className="mb25">{t("listedBy")}</h4>
-            <ListingCreator owner={agent} />
+            <ListingCreator
+              owner={{
+                id: parseInt(agent.id, 10) || 0,
+                img: agent.img || "",
+                name: agent.name || "",
+                phoneNumber: agent.phoneNumber || agent.mobile || "",
+                email: agent.email || "",
+                agency: agent.agency,
+                roles: [],
+                properties: [],
+                reviews: [],
+                tenancies: [],
+                socialMedia: {},
+              }}
+            />
           </div>
           {/* End .sl_creator */}
           <ContactWithAgent

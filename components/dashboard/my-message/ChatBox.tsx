@@ -27,7 +27,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
     data: sentInquiries = [],
     isLoading: sentLoading,
     isError: isErrorSent,
-  } = useGetSentInquiriesQuery(userId || 0, { 
+  } = useGetSentInquiriesQuery(userId ? String(userId) : "", { 
     skip: !userId,
     refetchOnMountOrArgChange: true,
   });
@@ -36,7 +36,7 @@ const ChatBox: React.FC<ChatBoxProps> = () => {
     data: receivedInquiries = [],
     isLoading: receivedLoading,
     isError: isErrorReceived,
-  } = useGetReceivedInquiriesQuery(userId || 0, { 
+  } = useGetReceivedInquiriesQuery(userId ? String(userId) : "", { 
     skip: !userId,
     refetchOnMountOrArgChange: true,
   });

@@ -4,7 +4,7 @@ import FeaturedListings from "../../components/common/listing/FeaturedListings";
 import FeaturedProperties from "../home-4/FeaturedProperties";
 import { useAppSelector } from "@/store/store";
 
-const SidebarListings = ({ agencyId }: { agencyId: string }) => {
+const SidebarListings = ({ agencyId }: { agencyId: number }) => {
   const recentlyViewedProperties = useAppSelector(
     (state) => state.properties.recentlyViewed
   );

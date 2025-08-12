@@ -7,7 +7,7 @@ import AuthProvider from "@/features/auth/AuthProvider";
 import I18nProvider from "@/providers/I18nProvider";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import BootstrapClientScript from "./components/BootstrapClientScript";
+import BootstrapClientScript from "../../components/BootstrapClientScript";
 import TokenRehydrate from "./TokenRehydrate";
 if (typeof window !== "undefined") {
   require("bootstrap/dist/js/bootstrap");
@@ -18,13 +18,24 @@ export function generateStaticParams() {
 }
 
 import { ReactNode } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: "/assets/favicon.ico",
+    apple: "/assets/apple-touch-icon.png",
+  },
+};
 
 interface RootLayoutProps {
   children: ReactNode;
   params: { locale: string };
 }
 
-export default async function RootLayout({ children, params }: RootLayoutProps) {
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
   const { locale } = await params;
   console.log("root locale: ", locale);
   if (!routing.locales.includes(locale)) {
@@ -35,23 +46,19 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     <html lang={locale}>
       <head>
         {/* Font link moved to _document.tsx for proper Next.js usage */}
-        <link rel="icon" href="/assets/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/assets/apple-touch-icon.png"
-        />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
           href="/assets/favicon-32x32.png"
+          key="favicon-32x32"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
           href="/assets/favicon-16x16.png"
+          key="favicon-16x16"
         />
         <link rel="manifest" href="/assets/site.webmanifest" />
       </head>

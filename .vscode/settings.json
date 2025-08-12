@@ -4,5 +4,6 @@
         "ikasow",
         "overylay",
         "Toastify"
-    ]
+    ],
+    "CodeGPT.apiKey": "OpenAI"
 }

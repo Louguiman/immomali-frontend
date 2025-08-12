@@ -63,7 +63,9 @@ const RangeSlider = () => {
       </div>
 
       <InputRange
-        formatLabel={(value) => ``}
+        formatLabel={(value) =>
+          `${format.number(value, { style: "currency", currency: "XOF" })}`
+        }
         maxValue={1000000000}
         minValue={10000}
         value={price.value}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-function Layout({ children }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const t = useTranslations("property"); // Hook to fetch translation
 
   return (

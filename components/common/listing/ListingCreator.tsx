@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { User } from "@/types/user";
 
-const Creator = ({ owner }) => {
+const Creator = ({ owner }: { owner: User }) => {
   const t = useTranslations("property.sidebar.creator");
 
   if (!owner) return null; // Prevents rendering if no agent data is available
@@ -14,7 +15,7 @@ const Creator = ({ owner }) => {
         width={90}
         height={90}
         className="me-3 rounded-circle"
-        src={owner.avatarUrl || "/assets/images/team/1.jpg"} // Fallback image
+        src={owner.img || "/assets/images/team/1.jpg"} // Fallback image
         alt={owner.name || t("unknownAgent")}
       />
       <div className="media-body">

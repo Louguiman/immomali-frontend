@@ -6,7 +6,7 @@ import styles from "./SingleUser.module.css";
 import { useCallback } from "react";
 
 // Extend the Inquiry interface to include unreadCount and properly type the user
-interface ExtendedInquiry extends Omit<Inquiry, 'user'> {
+interface ExtendedInquiry extends Omit<Inquiry, "user"> {
   unreadCount: number;
   user?: User & { img?: string };
 }
@@ -16,11 +16,11 @@ const formatDate = (dateString?: string): string => {
   if (!dateString) return "";
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   } catch (error) {
     console.error("Error formatting date:", error);
@@ -34,7 +34,11 @@ interface SingleUserProps {
   onClick: () => void;
 }
 
-const SingleUser: React.FC<SingleUserProps> = ({ isSelected, inquiry, onClick }) => {
+const SingleUser: React.FC<SingleUserProps> = ({
+  isSelected,
+  inquiry,
+  onClick,
+}) => {
   const t = useTranslations("dashboard.message");
 
   // Get user display name
@@ -52,12 +56,15 @@ const SingleUser: React.FC<SingleUserProps> = ({ isSelected, inquiry, onClick })
   }, [inquiry.user]);
 
   // Handle keyboard navigation
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onClick();
-    }
-  }, [onClick]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick();
+      }
+    },
+    [onClick]
+  );
 
   // Get unread count with proper typing and default value
   const unreadCount = (inquiry as ExtendedInquiry).unreadCount || 0;
@@ -65,45 +72,43 @@ const SingleUser: React.FC<SingleUserProps> = ({ isSelected, inquiry, onClick })
 
   return (
     <li
-      className={`${styles['contact']} ${isSelected ? styles['active-inquiry'] : ''}`}
+      className={`${styles["contact"]} ${isSelected ? styles["active-inquiry"] : ""}`}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="listitem"
-      aria-current={isSelected ? 'true' : undefined}
+      aria-current={isSelected ? "true" : undefined}
     >
-      <div className={styles['contactContent']}>
+      <div className={styles["contactContent"]}>
         {/* User Avatar */}
-        <div className={styles['avatarContainer']}>
+        <div className={styles["avatarContainer"]}>
           <Image
             width={50}
             height={50}
-            className={`${styles['avatar']} ${isSelected ? styles['selected'] : ''}`}
+            className={`${styles["avatar"]} ${isSelected ? styles["selected"] : ""}`}
             src={getAvatarUrl()}
             alt={t("user.image_alt")}
             priority={isSelected}
           />
           {hasUnread && (
-            <span className={`${styles['unreadBadge']} unread-badge`}>
+            <span className={`${styles["unreadBadge"]} unread-badge`}>
               {unreadCount}
               <span className="visually-hidden">{t("unread_messages")}</span>
             </span>
           )}
         </div>
 
-        <div className={styles['details']}>
-          <div className={styles['header']}>
-            <h3 className={styles['name']}>
-              {getUserName()}
-            </h3>
-            <span className={styles['timestamp']}>
+        <div className={styles["details"]}>
+          <div className={styles["header"]}>
+            <h3 className={styles["name"]}>{getUserName()}</h3>
+            <span className={styles["timestamp"]}>
               {formatDate(inquiry.updatedAt || inquiry.createdAt)}
             </span>
           </div>
 
-          <p className={styles['preview']}>
+          <p className={styles["preview"]}>
             {inquiry.property?.title && (
-              <span className={styles['propertyTitle']}>
+              <span className={styles["propertyTitle"]}>
                 {inquiry.property.title}:
               </span>
             )}
@@ -111,15 +116,15 @@ const SingleUser: React.FC<SingleUserProps> = ({ isSelected, inquiry, onClick })
             {inquiry.message && inquiry.message.length > 70 ? "..." : ""}
           </p>
 
-          <div className={styles['contactInfo']}>
+          <div className={styles["contactInfo"]}>
             {inquiry.email && (
-              <span className={styles['contactInfoItem']}>
+              <span className={styles["contactInfoItem"]}>
                 <i className="far fa-envelope" aria-hidden="true"></i>
                 {inquiry.email}
               </span>
             )}
             {inquiry.phoneNumber && (
-              <span className={styles['contactInfoItem']}>
+              <span className={styles["contactInfoItem"]}>
                 <i className="fas fa-phone-alt" aria-hidden="true"></i>
                 {inquiry.phoneNumber}
               </span>

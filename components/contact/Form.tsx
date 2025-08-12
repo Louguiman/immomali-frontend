@@ -8,7 +8,7 @@ const Form = () => {
               id="form_name"
               name="form_name"
               className="form-control"
-              required="required"
+              required
               type="text"
               placeholder="Name"
             />
@@ -22,7 +22,7 @@ const Form = () => {
               id="form_email"
               name="form_email"
               className="form-control required email"
-              required="required"
+              required
               type="email"
               placeholder="Email"
             />
@@ -36,7 +36,7 @@ const Form = () => {
               id="form_phone"
               name="form_phone"
               className="form-control required phone"
-              required="required"
+              required
               type="phone"
               placeholder="Phone"
             />
@@ -50,7 +50,7 @@ const Form = () => {
               id="form_subject"
               name="form_subject"
               className="form-control required"
-              required="required"
+              required
               type="text"
               placeholder="Subject"
             />
@@ -64,8 +64,8 @@ const Form = () => {
               id="form_message"
               name="form_message"
               className="form-control required"
-              rows="8"
-              required="required"
+              rows={8}
+              required
               placeholder="Your Message"
             ></textarea>
           </div>

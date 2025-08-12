@@ -15,7 +15,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
     }),
     uploadImages: builder.mutation<
       { success: boolean; urls: string[] },
-      { propertyId: string; images: File[] }
+      { propertyId: number; images: File[] }
     >({
       query: ({ propertyId, images }) => {
         const formData = new FormData();
@@ -88,7 +88,7 @@ export const propertiesApi = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Properties" as const, id: "LIST" }],
     }),
     searchProperties: builder.query<
-      Property[],
+      { data: Property[]; totalPage: number },
       { [key: string]: string | number | boolean }
     >({
       query: (params) => ({

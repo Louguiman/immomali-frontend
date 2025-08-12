@@ -19,7 +19,7 @@ const SidebarListing = () => {
       <div className="terms_condition_widget">
         <h4 className="title">{t("featuredProperties")}</h4>
         <div className="sidebar_feature_property_slider">
-          <FeaturedProperties />
+          <FeaturedProperties properties={[]} />
         </div>
       </div>
       {/* End .Featured Properties */}

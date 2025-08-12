@@ -10,30 +10,29 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
 import LoadingState from "@/components/common/LoadingState";
+import ErrorState from "@/components/common/ErrorState";
 
 const ListingDynamicDetailsV2 = () => {
   const t = useTranslations("property");
   const format = useFormatter();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { data: property, isLoading, isError } = useFetchPropertyByIdQuery(id);
+  const {
+    data: property,
+    isLoading,
+    isError,
+  } = useFetchPropertyByIdQuery(id as string);
 
   useEffect(() => {
     if (!isLoading) dispatch(addToRecentlyViewed(id));
   }, [dispatch, id, isLoading]);
 
   if (isLoading) {
-    return (
-      <LoadingState />
-    );
+    return <LoadingState />;
   }
 
   if (isError || !property) {
-    return (
-      <div className="container text-center mt-5">
-        <h2 className="text-danger">{t("propertyNotFound")}</h2>
-      </div>
-    );
+    return <ErrorState message={t("propertyNotFound")} />;
   }
 
   return (
@@ -79,7 +78,23 @@ const ListingDynamicDetailsV2 = () => {
             {/* End details content .col-lg-8 */}
 
             <div className="col-lg-4 col-xl-4">
-              <Sidebar agent={property?.owner} propertyId={property.id} />
+              <Sidebar
+                agent={{
+                  ...property.owner,
+                  id: property.owner.id.toString(), // Convert number id to string
+                  noOfListings: "",
+                  type: "Agent",
+                  office: "",
+                  mobile: property.owner.phoneNumber || "",
+                  fax: "",
+                  socialList: [],
+                  img: property.owner.img || "/images/team/agent-1.jpg", // Use img instead of image
+                  agency: property.owner.agency || null,
+                  isActive: true,
+                }}
+                propertyId={property.id}
+                properties={[]}
+              />
             </div>
             {/* End sidebar content .col-lg-4 */}
           </div>

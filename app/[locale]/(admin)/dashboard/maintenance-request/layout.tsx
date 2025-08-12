@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import PropTypes from "prop-types";
 import { useTranslations } from "next-intl";
 
-const Layout = ({ children }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations("dashboard");
 
   return (
@@ -48,10 +47,6 @@ const Layout = ({ children }) => {
       </div>
     </section>
   );
-};
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

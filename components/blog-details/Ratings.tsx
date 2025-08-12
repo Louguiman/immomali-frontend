@@ -1,31 +1,22 @@
-const Ratings = () => {
+interface RatingsProps {
+  rating: number;
+}
+
+const Ratings = ({ rating }: RatingsProps) => {
+  // Create an array of 5 elements and map through them
+  // For each star, check if it should be filled (yellow) or not
   return (
     <>
-      <li className="list-inline-item">
-        <a href="#">
-          <i className="fa fa-star"></i>
-        </a>
-      </li>
-      <li className="list-inline-item">
-        <a href="#">
-          <i className="fa fa-star"></i>
-        </a>
-      </li>
-      <li className="list-inline-item">
-        <a href="#">
-          <i className="fa fa-star"></i>
-        </a>
-      </li>
-      <li className="list-inline-item">
-        <a href="#">
-          <i className="fa fa-star"></i>
-        </a>
-      </li>
-      <li className="list-inline-item">
-        <a href="#">
-          <i className="fa fa-star-o"></i>
-        </a>
-      </li>
+      {[...Array(5)].map((_, index) => (
+        <li key={index} className="list-inline-item">
+          <a href="#" aria-label={`${index + 1} star${index !== 0 ? "s" : ""}`}>
+            <i
+              className={`fa ${index < Math.round(rating) ? "fa-star text-warning" : "fa-star-o"}`}
+              aria-hidden="true"
+            ></i>
+          </a>
+        </li>
+      ))}
     </>
   );
 };

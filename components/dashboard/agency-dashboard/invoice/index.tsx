@@ -16,18 +16,19 @@ export const AgencyInvoicesPage = () => {
   const { user } = useAppSelector((state) => state.auth);
   const [status, setStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState<{
-    id?: string | number;
-    tenantId?: string | number;
-    amount?: string | number;
-    totalAmount?: string | number;
-    tax?: string | number;
-    discount?: string | number;
-    notes?: string;
-    status?: "unpaid" | "paid" | "overdue" | "pending";
-    type?: string;
-    dueDate?: string;
-  } | null>(null);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
+  // const [editingInvoice, setEditingInvoice] = useState<{
+  //   id?: string | number;
+  //   tenantId?: string | number;
+  //   amount?: string | number;
+  //   totalAmount?: string | number;
+  //   tax?: string | number;
+  //   discount?: string | number;
+  //   notes?: string;
+  //   status?: "unpaid" | "paid" | "overdue" | "pending";
+  //   type?: string;
+  //   dueDate?: string;
+  // } | null>(null);
 
   const { data, isLoading } = useGetInvoicesByAgencyQuery({
     agencyId: user?.agency?.id,
@@ -98,18 +99,18 @@ export const AgencyInvoicesPage = () => {
           invoices={data}
           onEdit={(invoice) => {
             // Create a properly typed invoice object
-            const editedInvoice = {
-              ...invoice,
-              id: invoice.id,
-              amount: invoice.amount,
-              totalAmount: invoice.totalAmount,
-              status:
-                (invoice.status as "unpaid" | "paid" | "overdue" | "pending") ||
-                "unpaid",
-              notes: invoice.notes || "",
-            };
+            // const editedInvoice = {
+            //   ...invoice,
+            //   id: invoice.id,
+            //   amount: invoice.amount,
+            //   totalAmount: invoice.totalAmount,
+            //   status:
+            //     (invoice.status as "unpaid" | "paid" | "overdue" | "pending") ||
+            //     "unpaid",
+            //   notes: invoice.notes || "",
+            // };
 
-            setEditingInvoice(editedInvoice);
+            setEditingInvoice(invoice);
             setShowModal(true);
           }}
           onDelete={handleDelete}
@@ -119,7 +120,7 @@ export const AgencyInvoicesPage = () => {
       {showModal && editingInvoice && (
         <InvoiceFormModal
           invoice={
-            editingInvoice as Partial<Invoice> & {
+            editingInvoice as Invoice & {
               id?: number | string;
               tenantId?: number | string;
               amount?: number | string;

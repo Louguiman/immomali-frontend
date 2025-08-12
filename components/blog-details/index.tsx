@@ -7,11 +7,9 @@ import MobileMenu from "../../components/common/header/MobileMenu";
 import PopupSignInUp from "../../components/common/PopupSignInUp";
 import Social from "../common/footer/Social";
 import BreadCrumb2 from "./BreadCrumb2";
-import Comments from "./Comments";
-import Pagination from "./Pagination";
-import Ratings from "./Ratings";
-import RelatedPost from "./RelatedPost";
-import ReviewBox from "./ReviewBox";
+// import Comments from "./Comments";
+// import Ratings from "./Ratings";
+// import ReviewBox from "./ReviewBox";
 
 const index = () => {
   return (
@@ -47,7 +45,7 @@ const index = () => {
                   </h3>
                   <ul className="blog_sp_post_meta">
                     <li className="list-inline-item">
-                      <a href="#">
+                      <a href="#" title="poster">
                         <Image
                           width={40}
                           height={40}
@@ -57,7 +55,9 @@ const index = () => {
                       </a>
                     </li>
                     <li className="list-inline-item">
-                      <a href="#">Ali Tufan</a>
+                      <a href="#" title="Ali Tufan">
+                        Ali Tufan
+                      </a>
                     </li>
                     <li className="list-inline-item">
                       <span className="flaticon-calendar"></span>
@@ -162,9 +162,7 @@ const index = () => {
                 </div>
                 {/* End .mbp_thumb_post */}
 
-                <div className="mbp_pagination_tab">
-                  <Pagination />
-                </div>
+                <div className="mbp_pagination_tab">{/* <Pagination /> */}</div>
                 {/* End mbp_pagination_tab */}
 
                 <div className="product_single_content mb30">
@@ -172,7 +170,7 @@ const index = () => {
                     <div className="total_review">
                       <h4>896 Reviews</h4>
                       <ul className="review_star_list mb0 pl10">
-                        <Ratings />
+                        {/* <Ratings /> */}
                       </ul>
                       <a className="tr_outoff pl10" href="#">
                         ( 4.5 out of 5 )
@@ -183,7 +181,7 @@ const index = () => {
                     </div>
                     {/* End .total_review */}
 
-                    <Comments />
+                    {/* <Comments /> */}
                     <div className="custom_hr"></div>
                   </div>
                 </div>
@@ -195,16 +193,14 @@ const index = () => {
                   <ul className="review_star">
                     <li className="list-inline-item">
                       <span className="sspd_review">
-                        <ul>
-                          <Ratings />
-                        </ul>
+                        <ul>{/* <Ratings /> */}</ul>
                       </span>
                     </li>
                     <li className="list-inline-item pr15">
                       <p>Your Rating & Review</p>
                     </li>
                   </ul>
-                  <ReviewBox />
+                  {/* <ReviewBox /> */}
                 </div>
                 {/* End .bsp_reveiw_wrt */}
               </div>
@@ -214,7 +210,7 @@ const index = () => {
                 <div className="col-lg-12 mb20">
                   <h4>Related Posts</h4>
                 </div>
-                <RelatedPost />
+                {/* <RelatedPost /> */}
               </div>
             </div>
             {/* End .col */}

@@ -25,6 +25,7 @@ export type PropertyFormData = {
   type: PropertyType;
   category: PropertyCategory;
   price: string; // Always use string for price in forms
+  userId: string | number;
 };
 
 export type CreateListProps = {
@@ -52,6 +53,7 @@ export type PropertiesState = {
 // Removed local placeholder interfaces for related entities
 
 export interface Property {
+  rating: number;
   id: number;
   title: string;
   description: string;
@@ -86,3 +88,4 @@ export interface Property {
   invoices?: Record<string, unknown>;
   ads?: Record<string, unknown>;
 }
+export type { PropertyImage };

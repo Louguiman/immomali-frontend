@@ -1,20 +1,28 @@
-import { ReactNode } from "react";
+export interface SocialLink {
+  name: string;
+  liveLink: string;
+  icon: string;
+}
 
 export interface Agent {
-  agency: any;
-  img: string;
-  noOfListings: ReactNode;
-  type: ReactNode;
-  office: ReactNode;
-  mobile: any;
-  fax: ReactNode;
-  socialList: any;
+  // Required properties
   id: string;
   name: string;
   email: string;
-  phoneNumber?: string;
   isActive: boolean;
+
+  // Optional properties
+  agency?: any;
+  img?: string;
+  noOfListings?: string;
+  type?: string;
+  office?: string;
+  mobile?: string;
+  fax?: string;
+  socialList?: SocialLink[];
+  phoneNumber?: string;
   agencyId?: string;
+
   // Add other agent properties as needed
 }
 

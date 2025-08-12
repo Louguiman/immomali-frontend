@@ -1,4 +1,4 @@
-const DescriptionsText = ({ description }) => {
+const DescriptionsText = ({ description }: { description: string }) => {
   return <p>{description}</p>;
 };
 

@@ -7,6 +7,12 @@ import Swal from "sweetalert2";
 import { useTranslations } from "next-intl";
 import { useChangePasswordMutation } from "@/features/api/user.api";
 
+interface ChangePasswordFormData {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 const ChangePassword = () => {
   const t = useTranslations("dashboard.profile.ChangePassword");
   const [changePassword, { isLoading }] = useChangePasswordMutation();
@@ -30,12 +36,12 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ChangePasswordFormData>({
     resolver: yupResolver(schema),
   });
 
   // Handle Submit
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: ChangePasswordFormData) => {
     try {
       await changePassword({
         oldPassword: data.oldPassword,
@@ -58,7 +64,7 @@ const ChangePassword = () => {
         text:
           t("alert.passwordUpdateFailed") +
           ": " +
-          error?.data?.message?.toString(),
+          ((error as any)?.data?.message?.toString() || ""),
       });
 
       console.log("Change Password Error:", error);

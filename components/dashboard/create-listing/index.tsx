@@ -20,66 +20,13 @@ import DetailedInfo from "./DetailedInfo";
 import LocationField from "./LocationField";
 import PropertyMediaUploader from "./PropertyMediaUploader";
 import Stepper from "./Stepper";
-
-// Define local types
-interface PropertyImage {
-  id: string;
-  url: string;
-  name?: string;
-  file?: File;
-  preview?: string;
-}
-
-interface PropertyAttachment {
-  id: string;
-  name: string;
-  url: string;
-  size: number;
-  type: string;
-  file?: File;
-}
+import { PropertyFormData } from "@/types/property";
+import { PropertyType, PropertyCategory } from "@/types/property-enums";
 
 // Types for API payloads
 interface UploadImagesPayload {
   propertyId: number;
-  images: Array<{
-    file: File;
-    name: string;
-    preview: string;
-  }>;
-}
-
-interface UploadAttachmentsPayload {
-  propertyId: number;
-  attachments: Array<{
-    file: File;
-    name: string;
-    type: string;
-    size: number;
-  }>;
-}
-
-interface Property {
-  id: string;
-  title: string;
-  description: string;
-  price?: number;
-  type?: string;
-  category?: string;
-  // Add other property fields as needed
-}
-
-interface User {
-  id: string;
-  email?: string;
-  name?: string;
-  // Add other user fields as needed
-}
-
-interface CreateListingState extends Omit<Property, "id"> {
-  propertyImages: PropertyImage[];
-  attachments: PropertyAttachment[];
-  // Add other create listing specific fields
+  images: File[];
 }
 
 interface Step {
@@ -160,10 +107,17 @@ const CreateListing = () => {
 
       // 1️⃣ Create property if we don't yet have an ID
       if (!propertyId) {
-        const created = await createProperty({
+        const propertyPayload: PropertyFormData = {
           ...propertyData,
+          type:
+            propertyData.type === "rent"
+              ? PropertyType.RENT
+              : PropertyType.SALE,
+          category: propertyData.category as PropertyCategory,
+          price: String(propertyData.price),
           userId: user.id,
-        }).unwrap();
+        };
+        const created = await createProperty(propertyPayload).unwrap();
 
         if (created?.id) {
           propertyId = created.id;
@@ -179,18 +133,18 @@ const CreateListing = () => {
       if (propertyImages.length > 0 && propertyId) {
         Swal.update({ title: t("uploadingImages") });
         try {
-          const imagesToUpload = propertyImages
-            .filter((img) => img.file)
-            .map((img) => ({
-              file: img.file!,
-              name: img.name || `image-${Date.now()}`,
-              preview: img.preview || img.url,
-            }));
+          // const imagesToUpload = propertyImages
+          //   .filter((img) => img.file)
+          //   .map((img) => ({
+          //     file: img.file!,
+          //     name: img.name || `image-${Date.now()}`,
+          //     preview: img.preview || img.url,
+          //   }));
 
-          if (imagesToUpload.length > 0) {
+          if (propertyImages.length > 0) {
             await uploadImages({
               propertyId,
-              images: imagesToUpload,
+              images: propertyImages,
             } as UploadImagesPayload).unwrap();
           }
           toast.success(t("imageUploadSuccess"), { autoClose: 2000 });
@@ -207,18 +161,13 @@ const CreateListing = () => {
         try {
           const attachmentsToUpload = attachments
             .filter((attachment) => attachment.file)
-            .map((attachment) => ({
-              file: attachment.file!,
-              name: attachment.name,
-              type: attachment.type,
-              size: attachment.size,
-            }));
+            .map((attachment) => attachment.file as File);
 
           if (attachmentsToUpload.length > 0) {
             await uploadAttachments({
-              propertyId,
+              propertyId: String(propertyId),
               attachments: attachmentsToUpload,
-            } as UploadAttachmentsPayload).unwrap();
+            }).unwrap();
           }
           toast.success(t("attachmentsUploadSuccess"), { autoClose: 2000 });
         } catch (error) {
@@ -308,7 +257,7 @@ const CreateListing = () => {
       <div className="dashboard_sidebar_menu">
         <div
           className="offcanvas offcanvas-dashboard offcanvas-start"
-          tabIndex="-1"
+          tabIndex={-1}
           id="DashboardOffcanvasMenu"
           data-bs-scroll="true"
         >
@@ -332,7 +281,7 @@ const CreateListing = () => {
                   onNext={handleNext}
                   onPrevious={handlePrevious}
                 >
-                  {steps[activeStep].component}
+                  {steps[activeStep]?.component}
                 </Stepper>
               </div>
 

@@ -1,13 +1,31 @@
 "use client";
 
+import { useGetAllUserReviewsQuery } from "@/features/api/reviews.api";
 import DescriptionsText from "../agency-details/DescriptionsText";
-import Team from "../agent-view/agent-v2/Team";
 import Comments from "../blog-details/Comments";
 import Ratings from "../blog-details/Ratings";
-import ReviewBox from "../blog-details/ReviewBox";
 import Listings from "./Listings";
+import { Agent } from "@/types/agent";
+// import { useTranslations } from "next-intl";
+import { useFetchPropertyByUserIdQuery } from "@/features/api/properties.api";
+import ReviewBox from "../blog-details/ReviewBox";
 
-const TabDetailsContent = ({ agent, isLoading, error }) => {
+const TabDetailsContent = ({
+  agent,
+  isLoading,
+  error,
+}: {
+  agent: Agent;
+  isLoading: boolean;
+  error: string | null;
+}) => {
+  // const t = useTranslations("agent.TabDetailsContent");
+  const { data: agentReviews, isLoading: agentReviewsLoading } =
+    useGetAllUserReviewsQuery(agent.id);
+
+  const { data: properties, isLoading: propertiesLoading } =
+    useFetchPropertyByUserIdQuery(agent.id);
+
   if (isLoading)
     return <p className="text-center mt-5">Loading agent details...</p>;
   if (error)
@@ -17,11 +35,14 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
       </p>
     );
 
+  if (agentReviewsLoading || propertiesLoading)
+    return <p className="text-center mt-5">Loading agent details...</p>;
+
   return (
     <>
       {/* Tab Navigation */}
       <ul className="nav nav-tabs" id="myTab" role="tablist">
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link active"
             data-bs-toggle="tab"
@@ -34,7 +55,7 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           </a>
         </li>
 
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -47,7 +68,7 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           </a>
         </li>
 
-        <li className="nav-item">
+        <li className="nav-item" role="presentation">
           <a
             className="nav-link"
             data-bs-toggle="tab"
@@ -73,7 +94,7 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
             <div className="mbp_pagination_comments">
               <div className="mbp_first media">
                 <div className="media-body agent-desc">
-                  <DescriptionsText description={agent?.description} />
+                  <DescriptionsText description={agent?.email} />
                 </div>
               </div>
             </div>
@@ -86,7 +107,7 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           id="listing"
           role="tabpanel"
         >
-          <Listings  properties={agent?.properties || []} />
+          <Listings properties={properties?.data || []} />
         </div>
 
         {/* Reviews Tab */}
@@ -94,18 +115,18 @@ const TabDetailsContent = ({ agent, isLoading, error }) => {
           <div className="product_single_content">
             <div className="mbp_pagination_comments">
               <div className="total_review">
-                <h4>{agent?.reviews?.length || 0} Reviews</h4>
+                <h4>{agentReviews?.length || 0} Reviews</h4>
                 <ul className="review_star_list mb0 pl10">
-                  <Ratings rating={agent?.averageRating || 0} />
+                  <Ratings rating={agentReviews?.averageRating || 0} />
                 </ul>
                 <a className="tr_outoff pl10" href="#">
-                  ( {agent?.averageRating || "0.0"} out of 5 )
+                  ( {agentReviews?.averageRating || "0.0"} out of 5 )
                 </a>
                 <a className="write_review float-end fn-xsd" href="#">
                   Write a Review
                 </a>
               </div>
-              <Comments reviews={agent?.reviews || []} />
+              <Comments reviews={agentReviews || []} />
               <div className="custom_hr"></div>
 
               <div className="mbp_comment_form style2">

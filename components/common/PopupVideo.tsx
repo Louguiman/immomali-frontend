@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import ModalVideo from "react-modal-video";
@@ -9,7 +9,6 @@ const PopupVideo = () => {
     <>
       <ModalVideo
         channel="youtube"
-        autoplay
         isOpen={isOpen}
         videoId="y9j-BL5ocW8"
         onClose={() => setOpen(false)}

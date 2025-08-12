@@ -3,15 +3,14 @@ import { useAppSelector } from "@/store/store";
 import Image from "next/image";
 import Link from "next/link";
 
-const PropertyCardWithQuery = ({ id }) => {
-  const { statusType, featured, isGridOrList } = useAppSelector(
-    (state) => state.filter
-  );
-  const { data: item, isLoading } = useFetchPropertyByIdQuery(id, {
+const PropertyCardWithQuery = ({ id }: { id: number }) => {
+  const { isGridOrList } = useAppSelector((state) => state.filter);
+  const { data: item, isLoading } = useFetchPropertyByIdQuery(id?.toString(), {
     skip: !id,
   });
 
-  if (isLoading) return <div>Loading tenants...</div>;
+  if (isLoading) return <div>Loading property details...</div>;
+  if (!item) return <div>No property data available</div>;
 
   return (
     <div
@@ -24,7 +23,7 @@ const PropertyCardWithQuery = ({ id }) => {
           width={342}
           height={220}
           className="img-whp w-100 h-100 cover"
-          src={item?.images[0]?.imageUrl}
+          src={item?.images[0]?.imageUrl || "/assets/images/team/1.jpg"}
           alt="fp1.jpg"
         />
         <div className="thmb_cntnt">
@@ -34,7 +33,7 @@ const PropertyCardWithQuery = ({ id }) => {
             </li>
             <li className="list-inline-item">
               <a href="#" className="text-capitalize">
-                {item.featured}
+                {item?.isFeatured}
               </a>
             </li>
           </ul>
@@ -51,21 +50,21 @@ const PropertyCardWithQuery = ({ id }) => {
             </li>
           </ul> */}
 
-          <Link href={`/listing-details-v2/${item.id}`} className="fp_price">
-            ${item.price}
+          <Link href={`/listing-details-v2/${item?.id}`} className="fp_price">
+            ${item?.price}
             <small>/mo</small>
           </Link>
         </div>
       </div>
       <div className="details">
         <div className="tc_content">
-          <p className="text-thm">{item.type}</p>
+          <p className="text-thm">{item?.type}</p>
           <h4>
-            <Link href={`/listing-details-v1/${item.id}`}>{item.title}</Link>
+            <Link href={`/listing-details-v1/${item?.id}`}>{item?.title}</Link>
           </h4>
           <p>
             <span className="flaticon-placeholder"></span>
-            {item.address} {item?.city}, {item?.state}, {item?.country} &nbsp;
+            {item?.address} {item?.city}, {item?.state}, {item?.country} &nbsp;
           </p>
 
           <ul className="prop_details mb0">
@@ -83,7 +82,7 @@ const PropertyCardWithQuery = ({ id }) => {
                 <Image
                   width={40}
                   height={40}
-                  src={item.posterAvatar}
+                  src={item?.owner?.img || "/assets/images/team/1.jpg"}
                   alt="pposter1.png"
                 />
               </Link>
@@ -92,7 +91,9 @@ const PropertyCardWithQuery = ({ id }) => {
               <Link href="/agent-v2">{item?.owner?.name || "Inconnu"}</Link>
             </li>
           </ul>
-          <div className="fp_pdate float-end">{item.postedYear}</div>
+          <div className="fp_pdate float-end">
+            {item?.createdAt.toLocaleDateString()}
+          </div>
         </div>
         {/* End .fp_footer */}
       </div>

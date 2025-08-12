@@ -44,8 +44,15 @@ export default function ListingTwo({ property }: ListingTwoProps) {
                             height={569}
                             priority
                             className="img w100 cover lds-2"
-                            src={property?.images?.[0]?.imageUrl ?? "/placeholder.jpg"}
-                            alt={property?.title ?? "Property image"}
+                            src={
+                              property?.images?.[0]?.imageUrl ??
+                              "/placeholder.jpg"
+                            }
+                            alt={
+                              property?.title
+                                ? property?.title
+                                : "Property image"
+                            }
                           />
                         </>
                       )}
@@ -73,8 +80,12 @@ export default function ListingTwo({ property }: ListingTwoProps) {
                               width={476}
                               height={285}
                               className="img w100 cover"
-                              src={img.imageUrl}
-                              alt={img.imageUrl}
+                              src={img.imageUrl ?? "/placeholder.jpg"}
+                              alt={
+                                img.imageUrl
+                                  ? "Property image"
+                                  : "Property image"
+                              }
                             />
                           </div>
                         )}
@@ -85,7 +96,7 @@ export default function ListingTwo({ property }: ListingTwoProps) {
               </div>
               {/* End .row */}
 
-              <div className="single_property_social_share">
+              {/* <div className="single_property_social_share">
                 <div className="spss style2 mt10 text-right tal-400">
                   <ul className="mb0">
                     <li className="list-inline-item">
@@ -110,7 +121,7 @@ export default function ListingTwo({ property }: ListingTwoProps) {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
               {/* End .single_property_social_share */}
             </div>
             {/* End .col */}
