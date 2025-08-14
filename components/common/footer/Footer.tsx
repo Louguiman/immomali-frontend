@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Social from "./Social";
 import { useTranslations } from "next-intl";
@@ -76,7 +77,7 @@ const Footer = () => {
               <div className="relative z-10 flex flex-col items-center">
                 <div className="p-4 bg-white/90 rounded-xl border border-gray-100 w-full flex justify-center items-center">
                   <Image
-                    width={400} 
+                    width={400}
                     height={400}
                     className="max-w-full h-auto object-contain mx-auto"
                     src="/assets/images/logo/logo-ikasow.webp"

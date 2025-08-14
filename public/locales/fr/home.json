@@ -1,5 +1,10 @@
 {
   "home": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Tableau de bord",
+      "navigation": "Navigation"
+    },
     "banner": {
       "title": "Votre futur commence ici",
       "description": "Des logements pour tous les styles et budgets. Trouvez le vôtre aujourd’hui."

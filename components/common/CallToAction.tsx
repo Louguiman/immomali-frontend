@@ -1,9 +1,10 @@
+"use client";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import React from "react";
-const CallToAction: React.FC =  () => {
-  const t =  useTranslations("home.cta");
+const CallToAction: React.FC = () => {
+  const t = useTranslations("home.cta");
   return (
     <div className="row">
       <div className="col-lg-8">

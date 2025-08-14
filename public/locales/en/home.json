@@ -1,5 +1,10 @@
 {
   "home": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Dashboard",
+      "navigation": "Navigation"
+    },
     "banner": {
       "title": "Your future starts here",
       "description": "Homes for every lifestyle and budget. Find yours today."

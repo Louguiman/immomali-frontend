@@ -281,7 +281,6 @@
         "actualCost": "Coût réel",
         "resolutionNotes": "Notes de résolution"
       },
-
       "button": {
         "back": "Retour à la liste",
         "edit": "Modifier",
@@ -333,11 +332,9 @@
       "updating": "Mise à jour...",
       "updateProfile": "Mettre à jour le profil",
       "edit": "Modifier le profil",
-
       "updatedSuccess": "Profil mis à jour avec succès",
       "updateFailed": "La mise à jour a échoué. Veuillez réessayer.",
       "noChanges": "Aucun changement à enregistrer",
-
       "alert": {
         "success": "Succès",
         "error": "Erreur",

@@ -1,4 +1,3 @@
-
 import GlobalHeroFilter from "../common/GlobalHeroFilter";
 import MobileMenu from "../common/header/MobileMenu";
 

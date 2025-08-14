@@ -7,11 +7,8 @@ import AuthProvider from "@/features/auth/AuthProvider";
 import I18nProvider from "@/providers/I18nProvider";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import BootstrapClientScript from "../../components/BootstrapClientScript";
 import TokenRehydrate from "./TokenRehydrate";
-if (typeof window !== "undefined") {
-  require("bootstrap/dist/js/bootstrap");
-}
+import { BootstrapClientNoSSR } from "@/components/BootstrapClient";
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "fr" }];
@@ -72,7 +69,7 @@ export default async function RootLayout({
           <ScrollToTop />
         </I18nProvider>
         {/* ✅ Dynamically load Bootstrap JS only on the client */}
-        <BootstrapClientScript />
+        <BootstrapClientNoSSR />
       </body>
     </html>
   );

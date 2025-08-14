@@ -9,7 +9,7 @@ Tag: advanced custom search, agency, agent, business, clean, corporate, director
 
 ********/
 /* CSS Document */
-@import "~bootstrap/scss/bootstrap";
+/* @import "~bootstrap/scss/bootstrap"; */
 @import url(../scss/font-awesome.min.css);
 @import url(../scss/font-awesome-animation.min.css);
 @import url(../scss/flaticon.css);
@@ -13315,17 +13315,8 @@ legend span {
 
 .header_user_notif .user_notif .simplebar-offset::-webkit-scrollbar {
   margin-top: 15px;
-  margin-right: 10px;
-  width: 6px;
-  z-index: 3;
-}
-
-.header_user_notif .user_notif .simplebar-offset::-webkit-scrollbar * {
   background: transparent;
-}
-
-.header_user_notif .user_notif .simplebar-offset::-webkit-scrollbar-track {
-  display: none;
+  width: 6px;
 }
 
 .header_user_notif .user_notif .simplebar-offset::-webkit-scrollbar-thumb {
@@ -14680,18 +14671,13 @@ legend span {
   z-index: 3;
 }
 
-.sidebar-menu::-webkit-scrollbar * {
-  background: transparent;
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background-color: #0c4836ff !important;
   border-radius: 6px;
 }
 
 .sidebar-menu::-webkit-scrollbar-track {
   background-color: #0c4836ff;
-  border-radius: 6px;
-}
-
-.sidebar-menu::-webkit-scrollbar-thumb {
-  background-color: #0c4836ff !important;
   border-radius: 6px;
 }
 
@@ -14917,18 +14903,13 @@ legend span {
   z-index: 3;
 }
 
-.cl_skill_checkbox .content.ui_kit_checkbox::-webkit-scrollbar * {
-  background: transparent;
+.cl_skill_checkbox .content.ui_kit_checkbox::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2 !important;
   border-radius: 6px;
 }
 
 .cl_skill_checkbox .content.ui_kit_checkbox::-webkit-scrollbar-track {
   background-color: #dfdfdf;
-  border-radius: 6px;
-}
-
-.cl_skill_checkbox .content.ui_kit_checkbox::-webkit-scrollbar-thumb {
-  background-color: #a2a2a2 !important;
   border-radius: 6px;
 }
 
@@ -18435,15 +18416,6 @@ canvas {
   margin-right: -10px;
   width: 5px;
   z-index: 3;
-}
-
-.sidebar_content_details::-webkit-scrollbar * {
-  background: transparent;
-  margin-right: -10px;
-}
-
-.sidebar_content_details::-webkit-scrollbar-track {
-  display: none;
 }
 
 .sidebar_content_details::-webkit-scrollbar-thumb {

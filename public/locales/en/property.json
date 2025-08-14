@@ -65,7 +65,6 @@
     "errorLoading": "Error loading property.",
     "editProperty": "Edit Property",
     "manageDetails": "Manage your property details",
-
     "validation": {
       "required": "This field is required",
       "number": "Must be a number",
